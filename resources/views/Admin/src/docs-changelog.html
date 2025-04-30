@@ -1,0 +1,55 @@
+@@include('./partials/main.html')
+
+<head>
+    @@include("partials/title-meta.html", {"title": "Dashboard"})
+
+    @@include('./partials/head-css.html')
+</head>
+
+<body>
+
+    <div class="flex wrapper">
+
+        @@include('./partials/menu.html')
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="page-content">
+
+            @@include('./partials/topbar.html')
+
+            <main class="flex-grow p-6">
+
+                @@include("./partials/page-title.html", {"subtitle":"Documentation","title":"Changelog"})
+
+                <div class="card">
+                    <div class="p-6">
+                        <h4 class="card-title mb-3">v1.0.0  <code class="text-primary text-sm"> - 3 June, 2023</code></h4>
+                       
+                        <ul class="list-inside">
+                            <li class="text-sm text-slate-700 dark:text-slate-400 list-disc">Initial released </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </main>
+
+            @@include('./partials/footer.html')
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+
+    @@include('./partials/customizer.html')
+
+    @@include('./partials/footer-scripts.html')
+
+</body>
+
+</html>
