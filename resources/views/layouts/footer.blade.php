@@ -428,19 +428,6 @@
     </div>
 </div>
 
-<!-- Plugin Js -->
-<script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
-<script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
-<script src="{{ asset('assets/libs/@frostui/tailwindcss/frostui.js') }}"></script>
-
-<!-- App Js -->
-<script src="{{ asset('assets/js/app.js') }}"></script>
-
-<!-- Apexcharts js -->
-<script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-
-<!-- Dashboard Project Page js -->
-<script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
 
 
 {{-- <script src="assets/libs/simplebar/simplebar.min.js"></script>

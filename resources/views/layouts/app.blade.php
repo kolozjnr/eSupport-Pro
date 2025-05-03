@@ -22,18 +22,27 @@
         <link rel="stylesheet" href="{{ asset('assets/libs/@simonwep/pickr/themes/monolith.min.css') }}"> <!-- 'monolith' theme -->
         <link rel="stylesheet" href="{{ asset('assets/libs/@simonwep/pickr/themes/nano.min.css') }}"> <!-- 'nano' theme -->
 
-        <!-- App css -->
-        <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
+   
 
-        <!-- Icons css -->
-        <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
+            {{-- @include('partials.head-css') --}}
+            <!-- Scripts -->
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <!-- Theme Config Js -->
-        <script src="{{ asset('assets/js/config.js') }}"></script>
+                
+            <!-- Gridjs Plugin css -->
+            <link href="{{ asset('assets/libs/gridjs/theme/mermaid.min.css') }}" rel="stylesheet" type="text/css" >
 
-        {{-- @include('partials.head-css') --}}
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+            {{-- Select2 --}}
+            <link href="{{ asset('assets/libs/nice-select2/css/nice-select2.css')}}" rel="stylesheet" type="text/css">
+
+             <!-- App css -->
+             <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
+
+             <!-- Icons css -->
+             <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
+     
+             <!-- Theme Config Js -->
+             <script src="{{ asset('assets/js/config.js') }}"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="flex wrapper">
@@ -60,8 +69,38 @@
                 </main>
             </div>
         </div>
-           <!-- Code Preview Plugin Js -->
        
-      
+
+            <!-- Code Preview Plugin Js -->
+            <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+            <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
+            <script src="{{ asset('assets/libs/@frostui/tailwindcss/frostui.js') }}"></script>
+        
+            <!-- App Js -->
+            <script src="{{ asset('assets/js/app.js') }}"></script>
+        >
+       
+            <!-- Apexcharts js -->
+            <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+
+         <!-- Gridjs Plugin js -->
+         <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}"></script>
+     
+         <!-- Gridjs Demo js -->
+         <script src="{{ asset('assets/js/pages/table-gridjs.js') }}"></script>
+         
+         <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
+
+         
+
+         <script src="{{ asset('assets/libs/nice-select2/js/nice-select2.js') }}"></script>
+
+         <!-- Choices Demo js -->
+         <script src="{{ asset('assets/js/pages/form-select.js') }}"></script>   
+
+         <!-- Apex Chart Demo Js -->
+        <script src="{{ asset('assets/js/pages/charts-apex.js') }}"></script>
+
+
     </body>
 </html>

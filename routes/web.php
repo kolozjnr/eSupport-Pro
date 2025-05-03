@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnivController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\TaskController;
+use App\Http\Controllers\User\DraftController;
+use App\Http\Controllers\User\InvoiceController;
+use App\Http\Controllers\User\TicketsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,17 +14,36 @@ Route::get('/', function () {
 
 Route::get('/univ', [UnivController::class, 'index']);
 
-Route::prefix('dashboard')->group(function () {
-    Route::prefix('tasks')->group(function () {
-        Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
-        Route::get('/create', [TaskController::class, 'create'])->name('tasks.create');
-        Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
+Route::middleware('auth')->group(function () {
+    Route::prefix('dashboard')->group(function () {
+        Route::controller(TicketsController::class)
+            ->prefix('tickets')
+            ->name('tickets.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/create', 'create')->name('create');
+                Route::post('/store', 'store')->name('store');
+                Route::get('/show', 'show')->name('show');
+                // Route::get('/{ticket}', 'show')->name('show');
+                Route::get('/{ticket}/edit', 'edit')->name('edit');
+                Route::put('/{ticket}', 'update')->name('update');
+                Route::delete('/{ticket}', 'destroy')->name('destroy');
+                Route::get('/draft', 'draft')->name('draft');
+            });
+
+        Route::controller(InvoiceController::class)
+            ->prefix('invoices')
+            ->name('invoices.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/report', 'financialReport')->name('report');
+                Route::get('/create', 'create')->name('create');
+            });
     });
-    
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('user.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

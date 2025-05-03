@@ -29,7 +29,7 @@
                     <li class="menu-title">Menu</li>
 
                     <li class="menu-item">
-                        <a href="index.html" class="menu-link">
+                        <a href="/dashboard" class="menu-link">
                             <span class="menu-icon"><i class="mgc_home_3_line"></i></span>
                             <span class="menu-text"> Dashboard </span>
                         </a>
@@ -40,42 +40,228 @@
                     <li class="menu-item">
                         <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
                             <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
-                            <span class="menu-text"> Tasks </span>
+                            <span class="menu-text"> Manage Tickets </span>
                             <span class="menu-arrow"></span>
                         </a>
 
                         <ul class="sub-menu hidden">
                             <li class="menu-item">
-                                <a href="{{ route('tasks.index')}}" class="menu-link">
-                                    <span class="menu-text">Task</span>
+                                <a href="{{ route('tickets.index')}}" class="menu-link">
+                                    <span class="menu-text">Tickets</span>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{ route('tasks.create')}}" class="menu-link">
+                                <a href="{{ route('tickets.create')}}" class="menu-link">
+                                    <span class="menu-text">Create Ticket</span>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="{{ route('tickets.draft')}}" class="menu-link">
+                                    <span class="menu-text">Draft</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+
+                    
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> QA </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
                                     <span class="menu-text">Create Task</span>
                                 </a>
                             </li>
                             <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">View Average Response Time</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
                                 <a href="apps-project-create.html" class="menu-link">
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">Review Ticket</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">View customer Feedback</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> Invoice </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="{{ route('invoices.index')}}" class="menu-link">
+                                    <span class="menu-text">View Invoice</span>
+                                </a>
+                            </li>
+                            {{-- <li class="menu-item">
+                                <a href="apps-project-create.html" class="menu-link">
+                                    <span class="menu-text">Process Payment</span>
+                                </a>
+                            </li> --}}
+                            <li class="menu-item">
+                                <a href="{{ route('invoices.report')}}" class="menu-link">
+                                    <span class="menu-text">Financial Report and Analytics</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
-                    
                     <li class="menu-item">
-                        <a href="apps-calendar.html" class="menu-link">
-                            <span class="menu-icon"><i class="mgc_calendar_line"></i></span>
-                            <span class="menu-text"> Calendar </span>
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> Business Management </span>
+                            <span class="menu-arrow"></span>
                         </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Customer Interaction History</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="apps-project-create.html" class="menu-link">
+                                    <span class="menu-text">Sales</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Marketing</span>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Customer Onboarding</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Sales Forecasting - BDS</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Customer Feddback Metrics - BDM</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Strategic Planning - BDM</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Business Performance - BDM</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Knowledge Base</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Knowledge Base</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Knowledge Base</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Knowledge Base</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> Settings and User Management </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">System Settings</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="apps-project-create.html" class="menu-link">
+                                    <span class="menu-text">Role Management</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Ticket Management</span>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Knowledge Base</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="menu-item">
-                        <a href="apps-tickets.html" class="menu-link">
-                            <span class="menu-icon"><i class="mgc_coupon_line"></i></span>
-                            <span class="menu-text"> Tickets </span>
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> Customer Management </span>
+                            <span class="menu-arrow"></span>
                         </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Manage Customers</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="apps-project-create.html" class="menu-link">
+                                    <span class="menu-text">Inetraction History</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Categorize Customers</span>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Customer Retention</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="menu-item">

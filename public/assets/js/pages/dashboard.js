@@ -7,19 +7,20 @@ if (dataColors) {
     colors = dataColors.split(",");
 }
 
+
 var options = {
     chart: {
         height: 350,
         type: 'bar',
         toolbar: {
-            show: false
+            show: false,
         }
     },
     plotOptions: {
         bar: {
             horizontal: false,
-            endingShape: 'rounded',
-            columnWidth: '25%',
+            columnWidth: '45%',
+            endingShape: 'rounded'
         },
     },
     dataLabels: {
@@ -27,38 +28,99 @@ var options = {
     },
     stroke: {
         show: true,
-        width: 3,
+        width: 2,
         colors: ['transparent']
     },
-    colors: colors,
     series: [{
-        name: 'Projects',
-        data: [56, 38, 85, 72, 28, 69, 55, 52, 69]
+        name: 'Net Profit',
+        data: [46, 57, 59, 54, 62, 58, 64, 60, 66]
     }, {
-        name: 'Working Hours',
-        data: [176, 185, 256, 240, 187, 205, 191, 114, 194]
+        name: 'Revenue',
+        data: [74, 83, 102, 97, 86, 106, 93, 114, 94]
+    }, {
+        name: 'Free Cash Flow',
+        data: [37, 42, 38, 26, 47, 50, 54, 55, 43]
     }],
+    colors: ['#34c38f', '#556ee6', '#f46a6a'],
     xaxis: {
         categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
     },
-    legend: {
-        offsetY: 7,
+    yaxis: {
+        title: {
+            text: '$ (thousands)',
+            style: {
+                fontWeight: '500',
+            },
+        }
+    },
+    grid: {
+        borderColor: '#9ca3af20',
     },
     fill: {
         opacity: 1
 
     },
-    grid: {
-        row: {
-            colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.2
-        },
-        borderColor: '#9ca3af20',
-        padding: {
-            bottom: 5,
+    tooltip: {
+        y: {
+            formatter: function (val) {
+                return "$ " + val + " thousands"
+            }
         }
     }
 }
+
+// var options = {
+//     chart: {
+//         height: 350,
+//         type: 'bar',
+//         toolbar: {
+//             show: false
+//         }
+//     },
+//     plotOptions: {
+//         bar: {
+//             horizontal: false,
+//             endingShape: 'rounded',
+//             columnWidth: '25%',
+//         },
+//     },
+//     dataLabels: {
+//         enabled: false
+//     },
+//     stroke: {
+//         show: true,
+//         width: 3,
+//         colors: ['transparent']
+//     },
+//     colors: colors,
+//     series: [{
+//         name: 'Projects',
+//         data: [56, 38, 85, 72, 28, 69, 55, 52, 69]
+//     }, {
+//         name: 'Working Hours',
+//         data: [176, 185, 256, 240, 187, 205, 191, 114, 194]
+//     }],
+//     xaxis: {
+//         categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+//     },
+//     legend: {
+//         offsetY: 7,
+//     },
+//     fill: {
+//         opacity: 1
+
+//     },
+//     grid: {
+//         row: {
+//             colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+//             opacity: 0.2
+//         },
+//         borderColor: '#9ca3af20',
+//         padding: {
+//             bottom: 5,
+//         }
+//     }
+// }
 
 var chart = new ApexCharts(
     document.querySelector("#crm-project-statistics"),

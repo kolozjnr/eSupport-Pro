@@ -14,7 +14,7 @@ class GridDatatable {
 
     basicTableInit() {
 
-        // Basic Table
+        // Tickets Table
         if (document.getElementById("table-gridjs"))
             new gridjs.Grid({
                 columns: [{
@@ -30,12 +30,12 @@ class GridDatatable {
                         return gridjs.html('<a href="">' + cell + '</a>');
                     })
                 },
-                    "Position", "Company", "Country",
+                    "Position", "Company", "Status",
                 {
                     name: 'Actions',
                     width: '120px',
                     formatter: (function (cell) {
-                        return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "Details" + "</a>");
+                        return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "<a href='tickets/show' class='me-0.5'> <i class='mgc_edit_line text-lg'></i> </a> " + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_delete_line text-xl'></i> </a>"  + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_view_line text-xl'></i> </a>" + "</a>");
                     })
                 },
                 ],
@@ -57,6 +57,74 @@ class GridDatatable {
                     ["10", "Tyrone", "tyrone@example.com", "Senior Response Liaison", "Raynor, Rolfson and Daugherty", "Qatar"],
                 ]
             }).render(document.getElementById("table-gridjs"));
+
+
+            //invoice Table
+            if (document.getElementById("table-viewInvoice"))
+                new gridjs.Grid({
+                    columns: [{
+                        name: 'ID',
+                        formatter: (function (cell) {
+                            return gridjs.html('<span class="fw-semibold">' + cell + '</span>');
+                        })
+                    },
+                        "Type",
+                    {
+                        name: 'Email',
+                        formatter: (function (cell) {
+                            return gridjs.html('<a href="">' + cell + '</a>');
+                        })
+                    },
+                        "Amount", "Company",
+                    {
+                        name: 'Status',
+                        formatter: function (cell) {
+                            let bgClass = '';
+                            let textClass = '';
+                    
+                            switch (cell.toLowerCase()) {
+                                case 'open':
+                                    bgClass = 'bg-primary-subtle';
+                                    textClass = 'text-primary';
+                                    break;
+                                case 'completed':
+                                    bgClass = 'bg-success-subtle';
+                                    textClass = 'text-success';
+                                    break;
+                                case 'pending':
+                                    bgClass = 'bg-warning-subtle';
+                                    textClass = 'text-warning';
+                                    break;
+                                default:
+                                    bgClass = 'bg-secondary-subtle';
+                                    textClass = 'text-secondary';
+                            }
+                    
+                            return gridjs.html(
+                                `<span class="badge ${bgClass} ${textClass}">${cell}</span>`
+                            );
+                        }
+                    },
+                        
+                    {
+                        name: 'Actions',
+                        width: '120px',
+                        formatter: (function (cell) {
+                            return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "<a href='#' onclick='updateInvoice()' class='me-0.5'> <i class='mgc_edit_line text-lg'></i> </a> " + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_delete_line text-xl'></i> </a>"  + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_view_line text-xl'></i> </a>" + "</a>");
+                        })
+                    },
+                    ],
+                    pagination: {
+                        limit: 5
+                    },
+                    sort: true,
+                    search: true,
+                    data: [
+                        ["01", "Charges", "jonathan@example.com", "50,000", "El Tech", "open", null],
+                        ["02", "Refund", "refund@example.com", "100,000", "El Tech", "pending", null],
+                        ["03", "Charges", "jonathan@example.com", "50,000", "El Tech", "completed", null],
+                    ]                    
+                }).render(document.getElementById("table-viewInvoice"));
 
         // card Table
         if (document.getElementById("table-card"))
