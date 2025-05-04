@@ -25,7 +25,7 @@
 
                         <div class="flex items-center gap-2">
                             <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Task</a>
+                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Feedbacks</a>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <div class="p-6">
                             {{-- <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">The most basic list group is an unordered list with list items and the proper classes. Build upon it with the options that follow, or with your own CSS as needed.</p> --}}
 
-                            <div id="table-gridjs"></div>
+                            <div id="table-feedback"></div>
                         </div>
                     </div>
 

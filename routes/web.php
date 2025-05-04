@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnivController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\TaskController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\DraftController;
 use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\TicketsController;
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function () {
                 Route::put('/{ticket}', 'update')->name('update');
                 Route::delete('/{ticket}', 'destroy')->name('destroy');
                 Route::get('/draft', 'draft')->name('draft');
+                Route::get('/view-feedback', 'viewFeedback')->name('view-feedback');
             });
 
         Route::controller(InvoiceController::class)
@@ -39,6 +41,15 @@ Route::middleware('auth')->group(function () {
                 Route::get('/report', 'financialReport')->name('report');
                 Route::get('/create', 'create')->name('create');
             });
+
+        Route::controller(UserController::class)
+        ->prefix('users')
+        ->name('users.')
+        ->group(function(){
+            Route::get('/create', 'createUser')->name('create');
+            Route::get('/manage-roles', 'manageRoles')->name('manage-roles');
+            Route::get('/knowledgebase', 'getKnowledgebase')->name('knowledgebase');
+        });
     });
 });
 

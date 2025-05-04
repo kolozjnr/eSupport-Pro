@@ -14,6 +14,16 @@
          <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
+        
+        <!-- quill css -->
+        <link href="{{ asset('assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" >
+        <link href="{{ asset('assets/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" >
+        <link href="{{ asset('assets/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" >
+
+        
+         <link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" >
+
+
         <!-- datepicker css -->
         <link rel="stylesheet" href="{{ asset('assets/libs/flatpickr/flatpickr.min.css') }}">
 
@@ -101,6 +111,17 @@
          <!-- Apex Chart Demo Js -->
         <script src="{{ asset('assets/js/pages/charts-apex.js') }}"></script>
 
+        
+        <!-- Sweet Alerts js -->
+        <script src="{{asset('assets/libs/sweetalert2/sweetalert2.min.js')}}"></script>
+
+        <!-- Sweet alert init js-->
+        <script src="{{ asset('assets/js/pages/extended-sweetalert.js') }}"></script>
+
+
+        <script src="{{asset('assets/libs/quill/quill.min.js')}}"></script>
+
+        <script src="{{asset('assets/js/pages/form-editor.js')}}"></script>
 
     </body>
 </html>

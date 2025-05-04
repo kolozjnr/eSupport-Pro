@@ -91,7 +91,7 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="" class="menu-link">
+                                <a href="{{ route('tickets.view-feedback')}}" class="menu-link">
                                     <span class="menu-text">View customer Feedback</span>
                                 </a>
                             </li>
@@ -175,26 +175,6 @@
                                     <span class="menu-text">Business Performance - BDM</span>
                                 </a>
                             </li>
-                            <li class="menu-item">
-                                <a href="" class="menu-link">
-                                    <span class="menu-text">Knowledge Base</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="" class="menu-link">
-                                    <span class="menu-text">Knowledge Base</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="" class="menu-link">
-                                    <span class="menu-text">Knowledge Base</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="" class="menu-link">
-                                    <span class="menu-text">Knowledge Base</span>
-                                </a>
-                            </li>
                         </ul>
                     </li>
 
@@ -214,7 +194,12 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="apps-project-create.html" class="menu-link">
+                                <a href="{{route('users.create')}}" class="menu-link">
+                                    <span class="menu-text">Create user</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{route('users.manage-roles')}}" class="menu-link">
                                     <span class="menu-text">Role Management</span>
                                 </a>
                             </li>
@@ -225,7 +210,7 @@
                             </li>
                             
                             <li class="menu-item">
-                                <a href="" class="menu-link">
+                                <a href="{{route('users.knowledgebase')}}" class="menu-link">
                                     <span class="menu-text">Knowledge Base</span>
                                 </a>
                             </li>

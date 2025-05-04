@@ -58,6 +58,156 @@ class GridDatatable {
                 ]
             }).render(document.getElementById("table-gridjs"));
 
+            // Customers Feedback Table
+            if (document.getElementById("table-feedback")) {
+                new gridjs.Grid({
+                    columns: [
+                        {
+                            name: 'ID',
+                            formatter: (cell) => {
+                                return gridjs.html('<span class="fw-semibold">' + cell + '</span>');
+                            }
+                        },
+                        "Assigned to",
+                        {
+                            name: 'Customer Name',
+                            formatter: (cell) => {
+                                return gridjs.html('<a href="">' + cell + '</a>');
+                            }
+                        },
+                        "Review",
+                        {
+                            name: 'Rating',
+                            formatter: (cell) => {
+                                // Convert number (1-10) to star rating (0.5-5 in 0.5 increments)
+                                const starRating = cell / 2;
+                                const fullStars = Math.floor(starRating);
+                                const hasHalfStar = starRating % 1 >= 0.5;
+                                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                                
+                                let starsHtml = '';
+                                
+                                // Add full stars
+                                for (let i = 0; i < fullStars; i++) {
+                                    starsHtml += '<i class="mgc_star_fill text-warning"></i>';
+                                }
+                                
+                                // Add half star if needed
+                                if (hasHalfStar) {
+                                    starsHtml += '<i class="mgc_star_half_fill text-warning"></i>';
+                                }
+                                
+                                // Add empty stars
+                                for (let i = 0; i < emptyStars; i++) {
+                                    starsHtml += '<i class="mgc_star_line text-warning"></i>';
+                                }
+                                
+                                return gridjs.html(`<div class="d-flex">${starsHtml}</div>`);
+                            }
+                        },
+                        "Status",
+                        {
+                            name: 'Actions',
+                            width: '120px',
+                            formatter: (cell) => {
+                                return gridjs.html(`
+                                    <a href='tickets/show' class='me-1'> 
+                                        <i class='mgc_edit_line text-lg'></i> 
+                                    </a>
+                                    <a href='javascript:void(0);' class='me-1'> 
+                                        <i class='mgc_delete_line text-lg'></i> 
+                                    </a>
+                                    <a href='javascript:void(0);'> 
+                                        <i class='mgc_eye_2_line text-lg'></i>  <!-- View Icon -->
+                                    </a>
+                                `);
+                            }
+                        }
+                    ],
+                    pagination: {
+                        limit: 5
+                    },
+                    sort: true,
+                    search: true,
+                    data: [
+                        ["01", "Jonathan", "jonathan@example.com", "Great service!", 10, "Completed"],
+                        ["02", "Harold", "harold@example.com", "Average experience", 6, "Pending"],
+                        ["03", "Shannon", "shannon@example.com", "Not satisfied", 2, "Completed"],
+                        ["04", "Robert", "robert@example.com", "Excellent work!", 9, "Completed"],
+                        ["05", "Noel", "noel@example.com", "Could be better", 5, "In Progress"],
+                    ]
+                }).render(document.getElementById("table-feedback"));
+            }
+
+            //Manage Roles
+
+            if (document.getElementById("table-manageRoles"))
+                new gridjs.Grid({
+                    columns: [{
+                        name: 'ID',
+                        formatter: (function (cell) {
+                            return gridjs.html('<span class="fw-semibold">' + cell + '</span>');
+                        })
+                    },
+                        "Full Name",
+                    {
+                        name: 'Email',
+                        formatter: (function (cell) {
+                            return gridjs.html('<a href="">' + cell + '</a>');
+                        })
+                    },
+                        "Role",
+                        {
+                            name: 'Status',
+                            formatter: function (cell) {
+                                let bgClass = '';
+                                let textClass = '';
+                        
+                                switch (cell.toLowerCase()) {
+                                    case 'open':
+                                        bgClass = 'bg-primary-subtle';
+                                        textClass = 'text-primary';
+                                        break;
+                                    case 'active':
+                                        bgClass = 'bg-success-subtle';
+                                        textClass = 'text-success';
+                                        break;
+                                    case 'pending':
+                                        bgClass = 'bg-warning-subtle';
+                                        textClass = 'text-warning';
+                                        break;
+                                    default:
+                                        bgClass = 'bg-secondary-subtle';
+                                        textClass = 'text-secondary';
+                                }
+                        
+                                return gridjs.html(
+                                    `<span class="badge ${bgClass} ${textClass}">${cell}</span>`
+                                );
+                            }
+                        },
+                    {
+                        name: 'Actions',
+                        width: '120px',
+                        formatter: (function (cell) {
+                            return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "<a href='tickets/show' class='me-0.5'> <i class='mgc_edit_line text-lg'></i> </a> " + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_delete_line text-xl' id='sweetalert-longcontent' ></i> </a>"  + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_eye_2_line text-xl'></i> </a>" + "</a>");
+                        })
+                    },
+                    ],
+                    pagination: {
+                        limit: 5
+                    },
+                    sort: true,
+                    search: true,
+                    data: [
+                        ["01", "Jonathan", "jonathan@example.com", "Support Assistant", "active"],
+                        ["02", "Harold", "harold@example.com", "QA", "active"],
+                        ["03", "Shannon", "shannon@example.com",  "User", "active"],
+                        ["04", "Robert", "robert@example.com", "SA", "active"],
+                        ["10", "Tyrone", "tyrone@example.com", "QA", "active"],
+                    ]
+                }).render(document.getElementById("table-manageRoles"));
+
 
             //invoice Table
             if (document.getElementById("table-viewInvoice"))
