@@ -151,7 +151,7 @@
                             </li>
                             
                             <li class="menu-item">
-                                <a href="" class="menu-link">
+                                <a href="{{ route('customers.onboard')}}" class="menu-link">
                                     <span class="menu-text">Customer Onboarding</span>
                                 </a>
                             </li>

@@ -8,6 +8,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\DraftController;
 use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\TicketsController;
+use App\Http\Controllers\User\CustomerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,6 +50,13 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', 'createUser')->name('create');
             Route::get('/manage-roles', 'manageRoles')->name('manage-roles');
             Route::get('/knowledgebase', 'getKnowledgebase')->name('knowledgebase');
+        });
+
+        Route::controller(CustomerController::class)
+        ->prefix('customers')
+        ->name('customers.')
+        ->group(function(){
+            Route::get('/onboard', 'getOnboarding')->name('onboard');
         });
     });
 });
