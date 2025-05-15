@@ -57,6 +57,9 @@ Route::middleware('auth')->group(function () {
         ->name('customers.')
         ->group(function(){
             Route::get('/onboard', 'getOnboarding')->name('onboard');
+            Route::get('/manage', 'manageCustomer')->name('manage');
+            Route::get('/edit/{id}', 'show')->name('edit');
+            Route::get('/pricing', 'pricing')->name('pricing');
         });
     });
 });

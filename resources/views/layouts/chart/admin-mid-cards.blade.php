@@ -9,7 +9,7 @@
                         </div>
                     </div>
                     <div class="flex-grow">
-                        <h5 class="mb-1">Active Projects</h5>
+                        <h5 class="mb-1">Active Tickets</h5>
                         <p>85</p>
                     </div>
                     <div>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="flex-grow">
-                        <h5 class="mb-1">Total Employees</h5>
+                        <h5 class="mb-1">Total SAs</h5>
                         <p>32</p>
                     </div>
                     <div>
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     <div class="flex-grow">
-                        <h5 class="mb-1">Project Reviews</h5>
+                        <h5 class="mb-1">Tickets Reviews</h5>
                         <p>40</p>
                     </div>
                     <div>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div class="flex-grow">
-                        <h5 class="mb-1">New Projects</h5>
+                        <h5 class="mb-1">Pending Tickets</h5>
                         <p>25</p>
                     </div>
                     <div>

@@ -30,12 +30,44 @@ class GridDatatable {
                         return gridjs.html('<a href="">' + cell + '</a>');
                     })
                 },
-                    "Position", "Company", "Status",
+                    "Phone Number", "Company",
+                    {
+                        name: 'Status',
+                        formatter: function (cell) {
+                            let bgClass = '';
+                            let textClass = '';
+                    
+                            switch (cell.toLowerCase()) {
+                                case 'open':
+                                    bgClass = 'bg-primary-subtle';
+                                    textClass = 'text-primary';
+                                    break;
+                                case 'active':
+                                    bgClass = 'bg-success-subtle';
+                                    textClass = 'text-success';
+                                    break;
+                                case 'pending':
+                                    bgClass = 'bg-warning-subtle';
+                                    textClass = 'text-warning';
+                                    break;
+                                    case 'completed':
+                                    bgClass = 'bg-success-subtle';
+                                    textClass = 'text-success';
+                                default:
+                                    bgClass = 'bg-secondary-subtle';
+                                    textClass = 'text-secondary';
+                            }
+                    
+                            return gridjs.html(
+                                `<span class="badge ${bgClass} ${textClass}">${cell}</span>`
+                            );
+                        }
+                    },
                 {
                     name: 'Actions',
                     width: '120px',
                     formatter: (function (cell) {
-                        return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "<a href='tickets/show' class='me-0.5'> <i class='mgc_edit_line text-lg'></i> </a> " + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_delete_line text-xl'></i> </a>"  + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_view_line text-xl'></i> </a>" + "</a>");
+                        return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "<a href='tickets/show' class='me-0.5'> <i class='mgc_edit_line text-lg'></i> </a> " + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_delete_line text-xl'></i> </a>"  + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_view_line text-xl'></i> </a>" + " <a href='#' class='ms-0.5'> <i class='mgc_comment_line text-xl' onclick='openModal()' id='openModal'></i> </a>"+ "</a>");
                     })
                 },
                 ],
@@ -45,18 +77,94 @@ class GridDatatable {
                 sort: true,
                 search: true,
                 data: [
-                    ["01", "Jonathan", "jonathan@example.com", "Senior Implementation Architect", "Hauck Inc", "Holy See"],
-                    ["02", "Harold", "harold@example.com", "Forward Creative Coordinator", "Metz Inc", "Iran"],
-                    ["03", "Shannon", "shannon@example.com", "Legacy Functionality Associate", "Zemlak Group", "South Georgia"],
-                    ["04", "Robert", "robert@example.com", "Product Accounts Technician", "Hoeger", "San Marino"],
-                    ["05", "Noel", "noel@example.com", "Customer Data Director", "Howell - Rippin", "Germany"],
-                    ["06", "Traci", "traci@example.com", "Corporate Identity Director", "Koelpin - Goldner", "Vanuatu"],
-                    ["07", "Kerry", "kerry@example.com", "Lead Applications Associate", "Feeney, Langworth and Tremblay", "Niger"],
-                    ["08", "Patsy", "patsy@example.com", "Dynamic Assurance Director", "Streich Group", "Niue"],
-                    ["09", "Cathy", "cathy@example.com", "Customer Data Director", "Ebert, Schamberger and Johnston", "Mexico"],
-                    ["10", "Tyrone", "tyrone@example.com", "Senior Response Liaison", "Raynor, Rolfson and Daugherty", "Qatar"],
+                    ["01", "Jonathan", "jonathan@example.com", "07067317819", "Hauck Inc", "completed"],
+                    ["02", "Harold", "harold@example.com", "07067317819", "Metz Inc", "pending"],
+                    ["03", "Shannon", "shannon@example.com", "07067317819", "Zemlak Group", "active"],
+                    ["04", "Robert", "robert@example.com", "07067317819", "Hoeger", "pending"],
+                    ["05", "Noel", "noel@example.com", "07067317819", "Howell - Rippin", "completed"],
+                    ["06", "Traci", "traci@example.com", "07067317819", "Koelpin - Goldner", "completed"],
+                    ["07", "Kerry", "kerry@example.com", "07067317819", "Feeney, Langworth and Tremblay", "active"],
+                    ["08", "Patsy", "patsy@example.com", "07067317819", "Streich Group", "Ongoing"],
+                    ["09", "Cathy", "cathy@example.com", "07067317819", "Ebert, Schamberger and Johnston", "pending"],
+                    ["10", "Tyrone", "tyrone@example.com", "07067317819", "Raynor, Rolfson and Daugherty", "active"],
                 ]
             }).render(document.getElementById("table-gridjs"));
+
+            //Customer list Table
+            if (document.getElementById("table-manage-customers"))
+            new gridjs.Grid({
+                columns: [{
+                    name: 'ID',
+                    formatter: (function (cell) {
+                        return gridjs.html('<span class="fw-semibold">' + cell + '</span>');
+                    })
+                },
+                    "Name",
+                {
+                    name: 'Email',
+                    formatter: (function (cell) {
+                        return gridjs.html('<a href="">' + cell + '</a>');
+                    })
+                },
+                    "Phone Number", "Company",
+                    {
+                        name: 'Status',
+                        formatter: function (cell) {
+                            let bgClass = '';
+                            let textClass = '';
+                    
+                            switch (cell.toLowerCase()) {
+                                case 'open':
+                                    bgClass = 'bg-primary-subtle';
+                                    textClass = 'text-primary';
+                                    break;
+                                case 'active':
+                                    bgClass = 'bg-success-subtle';
+                                    textClass = 'text-success';
+                                    break;
+                                case 'pending':
+                                    bgClass = 'bg-warning-subtle';
+                                    textClass = 'text-warning';
+                                    break;
+                                    case 'completed':
+                                    bgClass = 'bg-success-subtle';
+                                    textClass = 'text-success';
+                                default:
+                                    bgClass = 'bg-secondary-subtle';
+                                    textClass = 'text-secondary';
+                            }
+                    
+                            return gridjs.html(
+                                `<span class="badge ${bgClass} ${textClass}">${cell}</span>`
+                            );
+                        }
+                    },
+                {
+                    name: 'Actions',
+                    width: '120px',
+                    formatter: (function (cell) {
+                        return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "<a href='edit' class='me-0.5'> <i class='mgc_edit_line text-lg'></i> </a> " + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_delete_line text-xl'></i> </a>"  + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_view_line text-xl'></i> </a>" + "</a>");
+                    })
+                },
+                ],
+                pagination: {
+                    limit: 5
+                },
+                sort: true,
+                search: true,
+                data: [
+                    ["01", "Jonathan", "jonathan@example.com", "07067317819", "Hauck Inc", "completed"],
+                    ["02", "Harold", "harold@example.com", "07067317819", "Metz Inc", "pending"],
+                    ["03", "Shannon", "shannon@example.com", "07067317819", "Zemlak Group", "active"],
+                    ["04", "Robert", "robert@example.com", "07067317819", "Hoeger", "pending"],
+                    ["05", "Noel", "noel@example.com", "07067317819", "Howell - Rippin", "completed"],
+                    ["06", "Traci", "traci@example.com", "07067317819", "Koelpin - Goldner", "completed"],
+                    ["07", "Kerry", "kerry@example.com", "07067317819", "Feeney, Langworth and Tremblay", "active"],
+                    ["08", "Patsy", "patsy@example.com", "07067317819", "Streich Group", "Ongoing"],
+                    ["09", "Cathy", "cathy@example.com", "07067317819", "Ebert, Schamberger and Johnston", "pending"],
+                    ["10", "Tyrone", "tyrone@example.com", "07067317819", "Raynor, Rolfson and Daugherty", "active"],
+                ]
+            }).render(document.getElementById("table-manage-customers"));
 
             // Customers Feedback Table
             if (document.getElementById("table-feedback")) {
@@ -75,7 +183,9 @@ class GridDatatable {
                                 return gridjs.html('<a href="">' + cell + '</a>');
                             }
                         },
-                        "Review",
+
+                        "AVG Response Time", "Review",
+
                         {
                             name: 'Rating',
                             formatter: (cell) => {
@@ -130,11 +240,11 @@ class GridDatatable {
                     sort: true,
                     search: true,
                     data: [
-                        ["01", "Jonathan", "jonathan@example.com", "Great service!", 10, "Completed"],
-                        ["02", "Harold", "harold@example.com", "Average experience", 6, "Pending"],
-                        ["03", "Shannon", "shannon@example.com", "Not satisfied", 2, "Completed"],
-                        ["04", "Robert", "robert@example.com", "Excellent work!", 9, "Completed"],
-                        ["05", "Noel", "noel@example.com", "Could be better", 5, "In Progress"],
+                        ["01", "Jonathan", "jonathan@example.com", "6Minuites", "Great service!", 10, "Completed"],
+                        ["02", "Harold", "harold@example.com", "20Minuites", "Average experience", 6, "Pending"],
+                        ["03", "Shannon", "shannon@example.com", "4Minuites", "Not satisfied", 2, "Completed"],
+                        ["04", "Robert", "robert@example.com", "1Minuites", "Excellent work!", 9, "Completed"],
+                        ["05", "Noel", "noel@example.com", "6Minuites", "Could be better", 5, "In Progress"],
                     ]
                 }).render(document.getElementById("table-feedback"));
             }
@@ -469,3 +579,5 @@ class GridDatatable {
 document.addEventListener('DOMContentLoaded', function (e) {
     new GridDatatable().init();
 });
+
+

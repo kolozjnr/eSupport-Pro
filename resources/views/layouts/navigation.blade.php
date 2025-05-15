@@ -76,20 +76,15 @@
 
                         <ul class="sub-menu hidden">
                             <li class="menu-item">
-                                <a href="" class="menu-link">
+                                <a href="{{ route('tickets.create')}}" class="menu-link">
                                     <span class="menu-text">Create Task</span>
                                 </a>
                             </li>
-                            <li class="menu-item">
-                                <a href="" class="menu-link">
-                                    <span class="menu-text">View Average Response Time</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
+                            {{-- <li class="menu-item">
                                 <a href="apps-project-create.html" class="menu-link">
                                     <span class="menu-text">Review Ticket</span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="menu-item">
                                 <a href="{{ route('tickets.view-feedback')}}" class="menu-link">
                                     <span class="menu-text">View customer Feedback</span>
@@ -135,7 +130,7 @@
 
                         <ul class="sub-menu hidden">
                             <li class="menu-item">
-                                <a href="" class="menu-link">
+                                <a href="{{ route('tickets.view-feedback')}}" class="menu-link">
                                     <span class="menu-text">Customer Interaction History</span>
                                 </a>
                             </li>
@@ -162,7 +157,7 @@
                             </li>
                             <li class="menu-item">
                                 <a href="" class="menu-link">
-                                    <span class="menu-text">Customer Feddback Metrics - BDM</span>
+                                    <span class="menu-text">Customer Feedback Metrics - BDM</span>
                                 </a>
                             </li>
                             <li class="menu-item">
@@ -226,13 +221,13 @@
 
                         <ul class="sub-menu hidden">
                             <li class="menu-item">
-                                <a href="" class="menu-link">
+                                <a href="{{ route('customers.manage')}}" class="menu-link">
                                     <span class="menu-text">Manage Customers</span>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="apps-project-create.html" class="menu-link">
-                                    <span class="menu-text">Inetraction History</span>
+                                <a href="{{ route('customers.pricing')}}" class="menu-link">
+                                    <span class="menu-text">Pricing</span>
                                 </a>
                             </li>
                             <li class="menu-item">

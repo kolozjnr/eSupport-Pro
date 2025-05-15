@@ -44,8 +44,54 @@ var chart = new ApexCharts(
 chart.render();
 
 
+//Sales Performanace
+// Sales Performance
+var options = {
+    chart: {
+        height: 350,
+        type: 'area',
+        toolbar: {
+            show: false,
+        }
+    },
+    dataLabels: {
+        enabled: false
+    },
+    stroke: {
+        curve: 'smooth',
+        width: 3,
+    },
+    series: [{
+        name: 'series1',
+        data: [34, 40, 28, 52, 42, 109, 100, 90]
+    }, {
+        name: 'series2',
+        data: [32, 60, 34, 46, 34, 52, 41, 67]
+    }],
+    colors: ['#556ee6', '#34c38f'],
+    xaxis: {
+        type: 'category',
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Sep"],
+    },
+    grid: {
+        borderColor: '#9ca3af20',
+    },
+    tooltip: {
+        x: {
+            show: true,
+            formatter: function(val) {
+                return val;
+            }
+        }
+    }
+}
 
+var chart = new ApexCharts(
+    document.querySelector("#sales_performance_area"),
+    options
+)
 
+chart.render();
 
 
 

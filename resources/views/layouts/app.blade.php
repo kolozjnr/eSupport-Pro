@@ -82,46 +82,47 @@
        
 
             <!-- Code Preview Plugin Js -->
-            <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
-            <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
-            <script src="{{ asset('assets/libs/@frostui/tailwindcss/frostui.js') }}"></script>
+            
+            <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}" defer></script>
+            <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}" defer></script>
+            <script src="{{ asset('assets/libs/@frostui/tailwindcss/frostui.js') }}" defer></script>
         
             <!-- App Js -->
-            <script src="{{ asset('assets/js/app.js') }}"></script>
+            <script src="{{ asset('assets/js/app.js') }}" defer></script>
         >
        
             <!-- Apexcharts js -->
-            <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+            <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}" defer></script>
 
          <!-- Gridjs Plugin js -->
-         <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}"></script>
+         <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" defer></script>
      
          <!-- Gridjs Demo js -->
-         <script src="{{ asset('assets/js/pages/table-gridjs.js') }}"></script>
+         <script src="{{ asset('assets/js/pages/table-gridjs.js') }}" defer></script>
          
-         <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
+         <script src="{{ asset('assets/js/pages/dashboard.js') }}" defer></script>
 
          
 
-         <script src="{{ asset('assets/libs/nice-select2/js/nice-select2.js') }}"></script>
+         <script src="{{ asset('assets/libs/nice-select2/js/nice-select2.js') }}" defer></script>
 
          <!-- Choices Demo js -->
-         <script src="{{ asset('assets/js/pages/form-select.js') }}"></script>   
+         <script src="{{ asset('assets/js/pages/form-select.js') }}" defer></script>   
 
          <!-- Apex Chart Demo Js -->
-        <script src="{{ asset('assets/js/pages/charts-apex.js') }}"></script>
+        <script src="{{ asset('assets/js/pages/charts-apex.js') }}" defer></script>
 
         
         <!-- Sweet Alerts js -->
-        <script src="{{asset('assets/libs/sweetalert2/sweetalert2.min.js')}}"></script>
+        <script src="{{asset('assets/libs/sweetalert2/sweetalert2.min.js')}}" defer></script>
 
         <!-- Sweet alert init js-->
-        <script src="{{ asset('assets/js/pages/extended-sweetalert.js') }}"></script>
+        <script src="{{ asset('assets/js/pages/extended-sweetalert.js') }}" defer></script>
 
 
-        <script src="{{asset('assets/libs/quill/quill.min.js')}}"></script>
+        <script src="{{asset('assets/libs/quill/quill.min.js')}}" defer></script>
 
-        <script src="{{asset('assets/js/pages/form-editor.js')}}"></script>
+        <script src="{{asset('assets/js/pages/form-editor.js')}}" defer></script>
 
     </body>
 </html>

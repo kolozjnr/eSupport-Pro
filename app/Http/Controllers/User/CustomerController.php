@@ -11,4 +11,17 @@ class CustomerController extends Controller
     {
         return view('user.customers.onboardcustomers');
     }
+
+    public function manageCustomer()
+    {
+        return view('user.customers.managecustomers');
+    }
+    public function show($id)
+    {
+        return view('user.customers.edit');
+    }
+    public function pricing()
+    {
+        return view('user.customers.pricing');
+    }
 }

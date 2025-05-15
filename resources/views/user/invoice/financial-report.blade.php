@@ -39,7 +39,7 @@
                         @include('layouts.invoices.revenue-chart')	
                     </div>
 
-                    @include('layouts.admin-ticket-summary')
+                    @include('layouts.chart.admin-ticket-summary')
                 </div> <!-- Grid End -->
 
 

@@ -36,4 +36,6 @@ class TicketsController extends Controller
     {
         return view('user.tickets.view-feedback');
     }
+
+   
 }

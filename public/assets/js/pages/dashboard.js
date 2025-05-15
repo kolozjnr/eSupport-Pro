@@ -1,4 +1,4 @@
-
+document.addEventListener('DOMContentLoaded', function () {
 
 var colors = ["#3073F1", "#0acf97"];
 var dataColors = document.querySelector("#crm-project-statistics").dataset.colors;
@@ -203,3 +203,4 @@ var chart = new ApexCharts(
 );
 
 chart.render();
+});
