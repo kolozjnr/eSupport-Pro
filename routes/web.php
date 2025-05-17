@@ -9,6 +9,7 @@ use App\Http\Controllers\User\DraftController;
 use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\TicketsController;
 use App\Http\Controllers\User\CustomerController;
+use App\Http\Controllers\User\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,6 +18,7 @@ Route::get('/', function () {
 Route::get('/univ', [UnivController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::prefix('dashboard')->group(function () {
         Route::controller(TicketsController::class)
             ->prefix('tickets')

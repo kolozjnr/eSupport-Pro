@@ -135,7 +135,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="flex justify-between items-center">
-                                    <h4 class="card-title">Multiple Task</h4>
+                                    <h4 class="card-title">Multiple Upload</h4>
                                     <div class="flex items-center gap-2">
                                         {{-- <button type="button" class="btn-code" data-fc-type="collapse" data-fc-target="GridFormHtml">
                                             <i class="mgc_eye_line text-lg"></i>
@@ -151,14 +151,14 @@
                             </div>
                             
                             <div class="p-6">
-                                <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">Here you can upload multiple tasks using the provided template above.</p>
+                                <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">Here you can upload multiple contacts using the provided template above.</p>
 
                                 <form method="POST" enctype="multipart/form-data">
                                     <div class="grid grid-cols-1 md:grid-cols-2  gap-6">
-                                        <div>
+                                        {{-- <div>
                                             <label for="inputEmail4" class="text-gray-800 text-sm font-medium inline-block mb-2">Name</label>
                                             <input type="name" class="form-input" id="inputEmail4" placeholder="Email">
-                                        </div>
+                                        </div> --}}
                                         <div>
                                             <label for="inputPassword4" class="text-gray-800 text-sm font-medium inline-block mb-2">File</label>
                                             <input type="file" class="form-input" id="inputPassword4" placeholder="Password">

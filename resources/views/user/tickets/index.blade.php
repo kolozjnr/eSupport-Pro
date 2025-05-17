@@ -4,6 +4,7 @@
     <!-- Start Page Content here -->
     <!-- ============================================================== -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <div class="page-content">
         @include('../layouts.top-header')
         <style>
@@ -217,9 +218,9 @@ h2 {
 }
 
 .feedback-tags .tag {
-  border: 1px solid #ff5a49;
+  /* border: 1px solid #ff5a49; */
   border-radius: 5px;
-  color: #ff5a49;
+  /* color: #ff5a49; */
   cursor: pointer;
   margin-bottom: 10px;
   margin-left: 10px;
@@ -227,7 +228,7 @@ h2 {
 }
 
 .feedback-tags .tag.choosed {
-  background-color: #ff5a49;
+  background-color: #060606;
   color: #fff;
 }
 
@@ -315,8 +316,8 @@ h2 {
 }
 
 .button-box .done {
-  background-color: #ff5a49;
-  border: 1px solid #ff5a49;
+  background-color: #289b5a;
+  border: 1px solid #d4cdcd;
   border-radius: 3px;
   color: #fff;
   cursor: pointer;
@@ -327,8 +328,8 @@ h2 {
 
 .button-box .done:disabled,
 .button-box .done[disabled] {
-  border: 1px solid #ff9b95;
-  background-color: #ff9b95;
+  /* border: 1px solid #ff9b95;
+  background-color: #ff9b95; */
   color: #fff;
   cursor: initial;
 }
@@ -502,14 +503,14 @@ h2 {
                         </div>
                         
                         <div class="tags-box">
-                            <input type="text" class="tag form-control" name="comment" id="inlineFormInputName" placeholder="please enter your review">
+                            <input type="text" class="tag form-control" name="comment" id="inlineFormInputName" placeholder="Comment">
                             <input type="hidden" name="product_id" value="1" />
                         </div>
                         
                         </div>
 
                         <div class="button-box">
-                        <input type="submit" class=" done btn btn-warning" disabled="disabled" value="Add review" />
+                        <input type="submit" class=" done btn bg-blue-500 text-white flex items-center justify-center" disabled="disabled" value="Add review" />
                         </div>
 
                         <div class="submited-box">
@@ -605,100 +606,101 @@ h2 {
         // Raatings Js starts
 
         $(".rating-component .star").on("mouseover", function () {
-  var onStar = parseInt($(this).data("value"), 10); //
-  $(this).parent().children("i.star").each(function (e) {
-    if (e < onStar) {
-      $(this).addClass("hover");
-    } else {
+          //alert()
+    var onStar = parseInt($(this).data("value"), 10); //
+    $(this).parent().children("i.star").each(function (e) {
+      if (e < onStar) {
+        $(this).addClass("hover");
+      } else {
+        $(this).removeClass("hover");
+      }
+    });
+  }).on("mouseout", function () {
+    $(this).parent().children("i.star").each(function (e) {
       $(this).removeClass("hover");
+    });
+  });
+
+  $(".rating-component .stars-box .star").on("click", function () {
+    var onStar = parseInt($(this).data("value"), 10);
+    var stars = $(this).parent().children("i.star");
+    var ratingMessage = $(this).data("message");
+
+    var msg = "";
+    if (onStar > 1) {
+      msg = onStar;
+    } else {
+      msg = onStar;
+    }
+    $('.rating-component .starrate .ratevalue').val(msg);
+    
+
+  
+    $(".fa-smile-wink").show();
+    
+    $(".button-box .done").show();
+
+    if (onStar === 5) {
+      $(".button-box .done").removeAttr("disabled");
+    } else {
+      $(".button-box .done").attr("disabled", "true");
+    }
+
+    for (i = 0; i < stars.length; i++) {
+      $(stars[i]).removeClass("selected");
+    }
+
+    for (i = 0; i < onStar; i++) {
+      $(stars[i]).addClass("selected");
+    }
+
+    $(".status-msg .rating_msg").val(ratingMessage);
+    $(".status-msg").html(ratingMessage);
+    $("[data-tag-set]").hide();
+    $("[data-tag-set=" + onStar + "]").show();
+  });
+
+  $(".feedback-tags  ").on("click", function () {
+    var choosedTagsLength = $(this).parent("div.tags-box").find("input").length;
+    choosedTagsLength = choosedTagsLength + 1;
+
+    if ($(this).hasClass("choosed")) {
+      $(this).removeClass("choosed");
+      choosedTagsLength = choosedTagsLength - 2;
+    } else {
+      $(this).addClass("choosed");
+      $(".button-box .done").removeAttr("disabled");
+    }
+
+    console.log(choosedTagsLength);
+
+    if (choosedTagsLength <= 0) {
+      $(".button-box .done").attr("enabled", "false");
     }
   });
-}).on("mouseout", function () {
-  $(this).parent().children("i.star").each(function (e) {
-    $(this).removeClass("hover");
+
+
+
+  $(".compliment-container .fa-smile-wink").on("click", function () {
+    $(this).fadeOut("slow", function () {
+      $(".list-of-compliment").fadeIn();
+    });
   });
-});
-
-$(".rating-component .stars-box .star").on("click", function () {
-  var onStar = parseInt($(this).data("value"), 10);
-  var stars = $(this).parent().children("i.star");
-  var ratingMessage = $(this).data("message");
-
-  var msg = "";
-  if (onStar > 1) {
-    msg = onStar;
-  } else {
-    msg = onStar;
-  }
-  $('.rating-component .starrate .ratevalue').val(msg);
-  
-
- 
-  $(".fa-smile-wink").show();
-  
-  $(".button-box .done").show();
-
-  if (onStar === 5) {
-    $(".button-box .done").removeAttr("disabled");
-  } else {
-    $(".button-box .done").attr("disabled", "true");
-  }
-
-  for (i = 0; i < stars.length; i++) {
-    $(stars[i]).removeClass("selected");
-  }
-
-  for (i = 0; i < onStar; i++) {
-    $(stars[i]).addClass("selected");
-  }
-
-  $(".status-msg .rating_msg").val(ratingMessage);
-  $(".status-msg").html(ratingMessage);
-  $("[data-tag-set]").hide();
-  $("[data-tag-set=" + onStar + "]").show();
-});
-
-$(".feedback-tags  ").on("click", function () {
-  var choosedTagsLength = $(this).parent("div.tags-box").find("input").length;
-  choosedTagsLength = choosedTagsLength + 1;
-
-  if ($(this).hasClass("choosed")) {
-    $(this).removeClass("choosed");
-    choosedTagsLength = choosedTagsLength - 2;
-  } else {
-    $(this).addClass("choosed");
-    $(".button-box .done").removeAttr("disabled");
-  }
-
-  console.log(choosedTagsLength);
-
-  if (choosedTagsLength <= 0) {
-    $(".button-box .done").attr("enabled", "false");
-  }
-});
 
 
 
-$(".compliment-container .fa-smile-wink").on("click", function () {
-  $(this).fadeOut("slow", function () {
-    $(".list-of-compliment").fadeIn();
+  $(".done").on("click", function () {
+    $(".rating-component").hide();
+    $(".feedback-tags").hide();
+    $(".button-box").hide();
+    $(".submited-box").show();
+    $(".submited-box .loader").show();
+
+    setTimeout(function () {
+      $(".submited-box .loader").hide();
+      $(".submited-box .success-message").show();
+    }, 1500);
   });
-});
-
-
-
-$(".done").on("click", function () {
-  $(".rating-component").hide();
-  $(".feedback-tags").hide();
-  $(".button-box").hide();
-  $(".submited-box").show();
-  $(".submited-box .loader").show();
-
-  setTimeout(function () {
-    $(".submited-box .loader").hide();
-    $(".submited-box .success-message").show();
-  }, 1500);
-});
 
     </script>
 </x-app-layout>

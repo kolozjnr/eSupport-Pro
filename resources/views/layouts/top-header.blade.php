@@ -27,7 +27,7 @@
     <button type="button" data-fc-type="modal" data-fc-target="topbar-search-modal" class="nav-link p-2 me-auto">
         <span class="sr-only">Search</span>
         <span class="flex items-center justify-center h-6 w-6">
-            <i class="mgc_search_line text-2xl"></i>
+            {{-- <i class="mgc_search_line text-2xl"></i> --}}
         </span>
     </button>
 
@@ -222,7 +222,7 @@
 <!-- Topbar End -->
 
 <!-- Topbar Search Modal -->
-<div>
+{{-- <div>
     <div id="topbar-search-modal" class="fc-modal hidden w-full h-full fixed top-0 start-0 z-50">
         <div class="fc-modal-open:opacity-100 fc-modal-open:duration-500 opacity-0 transition-all sm:max-w-lg sm:w-full m-12 sm:mx-auto">
             <div class="mx-auto max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl transition-all dark:bg-slate-800">
@@ -235,4 +235,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

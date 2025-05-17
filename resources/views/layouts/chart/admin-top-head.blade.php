@@ -3,11 +3,11 @@
         <div class="p-6">
             <div class="flex justify-between items-start">
                 <div>
-                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Project Dashboard</h4>
-                    <p class="font-normal text-sm text-gray-400 truncate dark:text-gray-500">New Task Assign</p>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Suport Assistant</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">5</p>
                 </div>
 
-                <div>
+                {{-- <div>
                     <button class="text-gray-600 dark:text-gray-400" data-fc-type="dropdown" data-fc-placement="left-start" type="button">
                         <i class="mgc_more_1_fill text-xl"></i>
                     </button>
@@ -27,13 +27,34 @@
                             <i class="mgc_delete_line"></i> Delete
                         </a>
                     </div>
+                </div> --}}
+            </div>
+
+            <div class="flex items-end">
+                {{-- <div class="flex-grow">
+                    <p class="text-[13px] text-gray-400 dark:text-gray-500 font-semibold"><i class="mgc_alarm_2_line"></i> 4 Hrs ago</p>
+                </div> --}}
+                <div class="flex">
+                    <a href="javascript:void(0);">
+                        <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
+                    </a>
+                    <a href="javascript:void(0);" class="-ms-2">
+                        <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="card">
+        <div class="p-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">System Analyst</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">15</p>
                 </div>
             </div>
 
             <div class="flex items-end">
-                <div class="flex-grow">
-                    <p class="text-[13px] text-gray-400 dark:text-gray-500 font-semibold"><i class="mgc_alarm_2_line"></i> 4 Hrs ago</p>
-                </div>
                 <div class="flex">
                     <a href="javascript:void(0);">
                         <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
@@ -46,7 +67,59 @@
         </div>
     </div>
 
-    <div class="card">
+      <div class="card">
+        <div class="p-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Customers</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">1500</p>
+                </div>
+            </div>
+
+            <div class="flex items-end">
+                <div class="flex">
+                    <a href="javascript:void(0);">
+                        <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
+                    </a>
+                    <a href="javascript:void(0);">
+                        <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
+                    </a>
+                    <a href="javascript:void(0);">
+                        <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
+                    </a>
+                    <a href="javascript:void(0);" class="-ms-2">
+                        <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <div class="card">
+        <div class="p-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Business Analyst</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">2</p>
+                </div>
+            </div>
+
+            <div class="flex items-end">
+                <div class="flex">
+                    <a href="javascript:void(0);">
+                        <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
+                    </a>
+                    <a href="javascript:void(0);" class="-ms-2">
+                        <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    {{-- <div class="card">
         <div class="p-6">
             <div class="flex justify-between items-start">
                 <div>
@@ -136,9 +209,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="card">
+    {{-- <div class="card">
         <div class="p-6">
             <div class="flex justify-between items-start">
                 <div>
@@ -182,5 +255,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>

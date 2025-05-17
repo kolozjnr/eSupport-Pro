@@ -10,13 +10,13 @@
                     <div class="w-1/2 text-center">
                         <h5>Pending</h5>
                         <p class="fw-semibold text-muted">
-                            <i class="mgc_round_fill text-primary"></i> Projects
+                            <i class="mgc_round_fill text-primary"></i> Tasks
                         </p>
                     </div>
                     <div class="w-1/2 text-center">
                         <h5>Done</h5>
                         <p class="fw-semibold text-muted">
-                            <i class="mgc_round_fill text-success"></i> Projects
+                            <i class="mgc_round_fill text-success"></i> Tasks
                         </p>
                     </div>
                 </div>
@@ -27,8 +27,8 @@
         <div class="card">
             <div class="p-6">
                 <div class="flex justify-between items-center">
-                    <h4 class="card-title">Project Statistics</h4>
-                    <div class="flex gap-2">
+                    <h4 class="card-title">Revenue</h4>
+                    {{-- <div class="flex gap-2">
                         <button type="button" class="btn btn-sm bg-primary/25 text-primary hover:bg-primary hover:text-white">
                             All
                         </button>
@@ -38,7 +38,7 @@
                         <button type="button" class="btn btn-sm bg-gray-400/25 text-gray-400 hover:bg-gray-400 hover:text-white">
                             1Y
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
 
                 {{-- <div class="card">

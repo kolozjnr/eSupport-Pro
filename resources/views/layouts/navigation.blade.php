@@ -29,7 +29,7 @@
                     <li class="menu-title">Menu</li>
 
                     <li class="menu-item">
-                        <a href="/dashboard" class="menu-link">
+                        <a href="{{ route('dashboard')}}" class="menu-link">
                             <span class="menu-icon"><i class="mgc_home_3_line"></i></span>
                             <span class="menu-text"> Dashboard </span>
                         </a>
@@ -178,7 +178,7 @@
                     <li class="menu-item">
                         <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
                             <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
-                            <span class="menu-text"> Settings and User Management </span>
+                            <span class="menu-text"> User Management </span>
                             <span class="menu-arrow"></span>
                         </a>
 
@@ -244,7 +244,7 @@
                         </ul>
                     </li>
 
-                    <li class="menu-item">
+                    {{-- <li class="menu-item">
                         <a href="apps-file-manager.html" class="menu-link">
                             <span class="menu-icon"><i class="mgc_folder_2_line"></i></span>
                             <span class="menu-text"> File Manager </span>
@@ -761,10 +761,10 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
+                </ul> --}}
 
                 <!-- Help Box Widget -->
-                <div class="my-10 mx-5">
+                {{-- <div class="my-10 mx-5">
                     <div class="help-box p-6 bg-black/5 text-center rounded-md">
                         <div class="flex justify-center mb-4">
                             <svg width="30" height="18" aria-hidden="true">
@@ -775,7 +775,7 @@
                         <p class="mb-3">Upgrade to plan to get access to unlimited reports</p>
                         <a href="javascript: void(0);" class="btn btn-sm bg-secondary text-white">Upgrade</a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         <!-- Sidenav Menu End  -->
