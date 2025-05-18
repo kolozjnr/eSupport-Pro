@@ -98,9 +98,9 @@
                     <a href="mailto:support@dictacare.org" class="text-blue-600 underline">billing@eltechsolution.com</a>
                 </div>
 
-                <button id="confirmPayment" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+                <a href="{{route('invoices.create')}}" id="confirmPayment" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
                     I’ve Made the Payment
-                </button>
+                </a>
             </div>
         </div>
 
@@ -143,268 +143,271 @@
                     <div class="mt-12 relative before:absolute before:inset-0 before:-z-[1] before:bg-[radial-gradient(closest-side,#cbd5e1,transparent)] dark:before:bg-[radial-gradient(closest-side,#334155,transparent)]">
                         <div class="grid gap-px sm:grid-cols-2 lg:grid-cols-4 lg:items-center">
                             <!-- Card -->
-                            <div class="flex flex-col h-full text-center">
-                                <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                    <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Citizen Service Desk</h4>
-                                </div>
-
-                                <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
-                                    <span class="mt-7 font-bold text-5xl text-gray-800 dark:text-gray-200">
-                                        <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                        10,000
-                                    </span>
-                                </div>
-
-                                <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
-                                    <ul class="space-y-2.5 text-center text-sm">
-                                        {{-- <li class="text-gray-800 dark:text-gray-400">
-                                            1 user
-                                        </li> --}}
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Plan features
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Below 50 Tasks
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Call Centre Service 10,000 Points
-                                        </li>
-                                        
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Virtual Asistance 10,000 Points
-                                        </li>
-                                        
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            General Support, 10,000 Points
-                                        </li>
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Citizen Service Desk
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                    <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white" onclick="showModalWithPrice(10000)" href="#">
-                                        Proceed
-                                    </a>
-                                </div>
+                       <div class="flex flex-col h-full text-center">
+                            <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Citizen Service Desk</h4>
                             </div>
-                            <!-- End Card -->
 
-                            <!-- Card -->
-                            <div class="flex flex-col h-full text-center">
-                                <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                    <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Startup</h4>
+                            <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
+                                <!-- Price display with frequency selector -->
+                                <div class="mb-4">
+                                    <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly (Save 5%)</option>
+                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="annually">Annually (Save 15%)</option>
+                                    </select>
                                 </div>
-
-                                <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
-                                    <span class="mt-7 font-bold text-5xl text-gray-800 dark:text-gray-200">
-                                        <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                        30,000
-                                    </span>
-                                </div>
-
-                                <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
-                                    <ul class="space-y-2.5 text-center text-sm">
-                                        {{-- <li class="text-gray-800 dark:text-gray-400">
-                                            1 user
-                                        </li> --}}
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Plan features
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            50 - 100 Tasks
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Call Centre Service 20,000
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Virtual Asistance 20,000
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            General Support, 20,000
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Citizen Service Desk
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                    <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white" onclick="showModalWithPrice(30000)" href="#">
-                                        Proceed
-                                    </a>
-                                </div>
+                                
+                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                    <span class="font-bold text-2xl -me-2">&#8358;</span>
+                                    <span class="display-price">10,000</span>
+                                </span>
                             </div>
-                            <!-- End Card -->
 
-                            <!-- Card -->
-                            <div class="flex flex-col h-full text-center">
-                                <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                    <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Team</h4>
-                                </div>
-
-                                <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
-                                    <span class="mt-7 font-bold text-5xl text-gray-800 dark:text-gray-200">
-                                        <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                        40,000
-                                    </span>
-                                </div>
-
-                                <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
-                                    <ul class="space-y-2.5 text-center text-sm">
-                                        {{-- <li class="text-gray-800 dark:text-gray-400">
-                                            5 users
-                                        </li> --}}
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Plan features
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            101 - 500 Tasks
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Virtual Asistance 30,000
-                                        </li>
-                                        
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            General Support 30,000
-                                        </li>
-                                        
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                             Citizen Service Desk 
-                                        </li>
-                                        
-                                    </ul>
-                                </div>
-
-                                <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                    <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white" onclick="showModalWithPrice(40000)" href="#">
-                                        Proceed
-                                    </a>
-                                </div>
+                            <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
+                                <ul class="space-y-2.5 text-center text-sm">
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Plan features
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Below 50 Tasks
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Call Centre Service 10,000 Points
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Virtual Assistance 10,000 Points
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        General Support, 10,000 Points
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Citizen Service Desk
+                                    </li>
+                                </ul>
                             </div>
-                            <!-- End Card -->
 
-                            <!-- Card -->
-                            <div class="flex flex-col h-full text-center">
-                                <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                    <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Enterprise</h4>
-                                </div>
-
-                                <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
-                                    <span class="mt-7 font-bold text-5xl text-gray-800 dark:text-gray-200">
-                                        <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                        50,000
-                                    </span>
-                                </div>
-
-                                <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
-                                    <ul class="space-y-2.5 text-center text-sm">
-                                        {{-- <li class="text-gray-800 dark:text-gray-400">
-                                            10 users
-                                        </li> --}}
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Plan features
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            501 to 1,000 Tasks
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Product support
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                             Call Centre Service 50,000
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Virtual Asistance 50,000
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            General Support, 50,000
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Citizen Service Desk
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                    <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white" onclick="showModalWithPrice(50000)" href="#">
-                                        Proceed
-                                    </a>
-                                </div>
+                            <div class="bg-white py-8 px-8 dark:bg-gray-800">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="10000" href="#">
+                                    Proceed
+                                </a>
                             </div>
-                            <!-- End Card -->
                         </div>
-                    </div><!-- End Grid -->
 
-                        <!-- Grid -->
-                    <div class="mt-12 relative before:absolute before:inset-0 before:-z-[1] before:bg-[radial-gradient(closest-side,#cbd5e1,transparent)] dark:before:bg-[radial-gradient(closest-side,#334155,transparent)]">
-                        <div class="grid gap-px sm:grid-cols-2 lg:grid-cols-4 lg:items-center">
-                            <!-- Card -->
-                            <div class="flex flex-col h-full text-center">
-                                <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                    <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Premiun</h4>
-                                </div>
+                        <!-- End Card -->
 
-                                <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
-                                    <span class="mt-7 font-bold text-5xl text-gray-800 dark:text-gray-200">
-                                        <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                        100,000
-                                    </span>
-                                </div>
-
-                                <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
-                                    <ul class="space-y-2.5 text-center text-sm">
-                                        {{-- <li class="text-gray-800 dark:text-gray-400">
-                                            1 user
-                                        </li> --}}
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Plan features
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Call Centre Service 
-                                        </li>
-
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Virtual Asistance
-                                        </li>
-                                        
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            General Support
-                                        </li>
-                                        <li class="text-gray-800 dark:text-gray-400">
-                                            Citizen Service Desk
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                    <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white" onclick="showModalWithPrice(100000)" href="#">
-                                        Proceed
-                                    </a>
-                                </div>
+                        <!-- Card -->
+                        <div class="flex flex-col h-full text-center">
+                            <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Startup</h4>
                             </div>
+
+                            <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
+                                <!-- Price display with frequency selector -->
+                                <div class="mb-4">
+                                    <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly (Save 5%)</option>
+                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="annually">Annually (Save 15%)</option>
+                                    </select>
+                                </div>
+                                
+                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                    <span class="font-bold text-2xl -me-2">&#8358;</span>
+                                    <span class="display-price">30,000</span>
+                                </span>
+                            </div>
+
+                            <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
+                                <ul class="space-y-2.5 text-center text-sm">
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Plan features
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        50 - 100 Tasks
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Call Centre Service 20,000
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Virtual Assistance 20,000
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        General Support, 20,000
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Citizen Service Desk
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white py-8 px-8 dark:bg-gray-800">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="30000" href="#">
+                                    Proceed
+                                </a>
+                            </div>
+                        </div>
+                        <!-- End Card -->
+
+                        <!-- Card -->
+                        <div class="flex flex-col h-full text-center">
+                            <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Team</h4>
+                            </div>
+
+                            <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
+                                <!-- Price display with frequency selector -->
+                                <div class="mb-4">
+                                    <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly (Save 5%)</option>
+                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="annually">Annually (Save 15%)</option>
+                                    </select>
+                                </div>
+                                
+                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                    <span class="font-bold text-2xl -me-2">&#8358;</span>
+                                    <span class="display-price">40,000</span>
+                                </span>
+                            </div>
+
+                            <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
+                                <ul class="space-y-2.5 text-center text-sm">
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Plan features
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        101 - 500 Tasks
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Virtual Assistance 30,000
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        General Support 30,000
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Citizen Service Desk 
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white py-8 px-8 dark:bg-gray-800">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="40000" href="#">
+                                    Proceed
+                                </a>
+                            </div>
+                        </div>
+                        <!-- End Card -->
+
+                        <!-- Card -->
+                        <div class="flex flex-col h-full text-center">
+                            <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Enterprise</h4>
+                            </div>
+
+                            <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
+                                <!-- Price display with frequency selector -->
+                                <div class="mb-4">
+                                    <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly (Save 5%)</option>
+                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="annually">Annually (Save 15%)</option>
+                                    </select>
+                                </div>
+                                
+                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                    <span class="font-bold text-2xl -me-2">&#8358;</span>
+                                    <span class="display-price">50,000</span>
+                                </span>
+                            </div>
+
+                            <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
+                                <ul class="space-y-2.5 text-center text-sm">
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Plan features
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        501 to 1,000 Tasks
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Product support
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Call Centre Service 50,000
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Virtual Assistance 50,000
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        General Support, 50,000
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Citizen Service Desk
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white py-8 px-8 dark:bg-gray-800">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="50000" href="#">
+                                    Proceed
+                                </a>
+                            </div>
+                        </div>
+                        <!-- End Card -->
+
+                        <!-- Card -->
+                        <div class="flex flex-col h-full text-center">
+                            <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Premium</h4>
+                            </div>
+
+                            <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
+                                <!-- Price display with frequency selector -->
+                                <div class="mb-4">
+                                    <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly (Save 5%)</option>
+                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="annually">Annually (Save 15%)</option>
+                                    </select>
+                                </div>
+                                
+                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                    <span class="font-bold text-2xl -me-2">&#8358;</span>
+                                    <span class="display-price">100,000</span>
+                                </span>
+                            </div>
+
+                            <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
+                                <ul class="space-y-2.5 text-center text-sm">
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Plan features
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Call Centre Service 
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Virtual Assistance
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        General Support
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400">
+                                        Citizen Service Desk
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white py-8 px-8 dark:bg-gray-800">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="100000" href="#">
+                                    Proceed
+                                </a>
+                            </div>
+                        </div>
                             <!-- End Card -->
                         </div>
                     </div><!-- End Grid -->
@@ -440,7 +443,7 @@ New sub before the expiration of the previous one. The slots on the previous sub
     const modal = document.getElementById("modal");
     const planPriceSpan = document.getElementById("planPrice");
 
-    function showModalWithPrice(price) {
+    function showModalWithPrice(price, frequency) {
         planPriceSpan.textContent = `₦${price.toLocaleString()}`;
         modal.style.display = "flex";
         modal.querySelector(".modal-content").style.animation = "blowUp 0.3s ease-out forwards";
@@ -474,5 +477,56 @@ New sub before the expiration of the previous one. The slots on the previous sub
     // Make `showModalWithPrice` globally accessible
     window.showModalWithPrice = showModalWithPrice;
 });
+
+ // Price calculation based on frequency
+        document.addEventListener('DOMContentLoaded', function() {
+        // Get all frequency selectors
+        const frequencySelectors = document.querySelectorAll('.subscription-frequency');
+        
+        frequencySelectors.forEach(selector => {
+            // Get related elements for each card
+            const card = selector.closest('.flex.flex-col');
+            const displayPrice = card.querySelector('.display-price');
+            const proceedButton = card.querySelector('.proceed-button');
+            const basePrice = parseFloat(proceedButton.getAttribute('data-base-price'));
+            
+            // Initial calculation
+            updatePrice(selector, displayPrice, proceedButton, basePrice);
+            
+            // Add event listener for changes
+            selector.addEventListener('change', function() {
+                updatePrice(selector, displayPrice, proceedButton, basePrice);
+            });
+        });
+        
+        function updatePrice(selector, displayElement, buttonElement, basePrice) {
+            let price = basePrice;
+            let frequency = selector.value;
+            
+            // Calculate price based on frequency
+            switch(frequency) {
+                case 'monthly':
+                    price = basePrice;
+                    break;
+                case 'quarterly':
+                    price = basePrice * 3 * 0.95; // 5% discount
+                    break;
+                case 'bi-annually':
+                    price = basePrice * 6 * 0.90; // 10% discount
+                    break;
+                case 'annually':
+                    price = basePrice * 12 * 0.85; // 15% discount
+                    break;
+            }
+            
+            // Update displayed price (formatted with commas)
+            displayElement.textContent = Math.round(price).toLocaleString();
+            
+            // Update the proceed button
+            buttonElement.setAttribute('onclick', `showModalWithPrice(${Math.round(price)}, '${frequency}')`);
+        }
+    });
+
     </script>
 </x-app-layout>
+

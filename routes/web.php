@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
                 Route::put('/{ticket}', 'update')->name('update');
                 Route::delete('/{ticket}', 'destroy')->name('destroy');
                 Route::get('/draft', 'draft')->name('draft');
+                Route::get('/view-drafts', 'viewDrafts')->name('view-drafts');
                 Route::get('/view-feedback', 'viewFeedback')->name('view-feedback');
             });
 

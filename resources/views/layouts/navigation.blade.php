@@ -61,6 +61,12 @@
                                     <span class="menu-text">Draft</span>
                                 </a>
                             </li>
+                             <li class="menu-item">
+                                <a href="{{ route('tickets.view-drafts')}}" class="menu-link">
+                                    <span class="menu-text">View Draft</span>
+                                </a>
+                            </li>
+                            
                             
                         </ul>
                     </li>

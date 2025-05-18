@@ -90,6 +90,44 @@ class GridDatatable {
                 ]
             }).render(document.getElementById("table-gridjs"));
 
+            //draft list all-drafts-table
+             if (document.getElementById("all-drafts-table"))
+            new gridjs.Grid({
+                columns: [{
+                    name: 'ID',
+                    formatter: (function (cell) {
+                        return gridjs.html('<span class="fw-semibold">' + cell + '</span>');
+                    })
+                },
+                    "Name", "Phone Number",
+                   
+                {
+                    name: 'Actions',
+                    width: '120px',
+                    formatter: (function (cell) {
+                        return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "<a href='tickets/show' class='me-0.5'> <i class='mgc_edit_line text-lg'></i> </a> " + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_delete_line text-xl'></i> </a>"  + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_view_line text-xl'></i> </a>" + " <a href='#' class='ms-0.5'> <i class='mgc_send_line text-xl' onclick='openModal()' id='openModal'></i> </a>"+ "</a>");
+                    })
+                },
+                ],
+                pagination: {
+                    limit: 5
+                },
+                sort: true,
+                search: true,
+                data: [
+                    ["01", "Jonathan", "07067317819"],
+                    ["02", "Harold", "07067317819"],
+                    ["03", "Shannon", "07067317819"],
+                    ["04", "Robert", "07067317819"],
+                    ["05", "Noel", "07067317819"],
+                    ["06", "Traci",  "07067317819"],
+                    ["07", "Kerry", "07067317819"],
+                    ["08", "Patsy", "07067317819"],
+                    ["09", "Cathy", "07067317819"],
+                    ["10", "Tyrone", "07067317819"],
+                ]
+            }).render(document.getElementById("all-drafts-table"));
+
             //Customer list Table
             if (document.getElementById("table-manage-customers"))
             new gridjs.Grid({

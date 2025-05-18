@@ -57,6 +57,11 @@
                                                 <input type="text" class="form-input" :id="'name-' + index" 
                                                        x-model="ticket.name" placeholder="Ticket name">
                                             </div>
+                                             <div>
+                                                <label :for="'phone_number-' + index" class="sr-only">Phone Number</label>
+                                                <input type="text" class="form-input" :id="'phone_number-' + index" 
+                                                       x-model="ticket.phone_number" placeholder="Phone Number">
+                                            </div>
                                             <div>
                                                 <label :for="'description-' + index" class="sr-only">Description</label>
                                                 <input type="text" class="form-input" :id="'description-' + index" 
@@ -170,11 +175,11 @@
                 //     this.count++
                 // }
                 tickets: [
-                    { name: '', description: '' } // First row visible by default
+                    { name: '', description: '', phone_number: '' } // First row visible by default
                 ],
                 
                 createTicket() {
-                    this.tickets.push({ name: '', description: '' });
+                    this.tickets.push({ name: '', description: '', phone_number: '' });
                 },
                 
                 removeTicket(index) {

@@ -32,6 +32,11 @@ class TicketsController extends Controller
         return view('user.tickets.draft');
     }
 
+    public function viewDrafts()
+    {
+        return view('user.tickets.view-drafts');
+    }
+
     public function viewFeedback()
     {
         return view('user.tickets.view-feedback');
