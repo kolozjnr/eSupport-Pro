@@ -116,10 +116,10 @@
 
                                 <form method="POST" enctype="multipart/form-data">
                                     <div class="grid grid-cols-1 md:grid-cols-2  gap-6">
-                                        <div>
+                                        {{-- <div>
                                             <label for="inputEmail4" class="text-gray-800 text-sm font-medium inline-block mb-2">Name</label>
                                             <input type="name" class="form-input" id="inputEmail4" placeholder="Email">
-                                        </div>
+                                        </div> --}}
                                         <div>
                                             <label for="inputPassword4" class="text-gray-800 text-sm font-medium inline-block mb-2">File</label>
                                             <input type="file" class="form-input" id="inputPassword4" placeholder="Password">

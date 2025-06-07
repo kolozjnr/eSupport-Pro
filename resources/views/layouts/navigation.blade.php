@@ -6,7 +6,7 @@
             <a href="index." class="logo-box">
                 <!-- Light Brand Logo -->
                 <div class="logo-light">
-                    <img src="{{ asset('assets/images/eltech-logo-.png')}}" class="logo-lg h-10" alt="Light logo">
+                    <img src="{{ asset('assets/images/eltech-logo-light.png')}}" class="h-24 hover:h-10 w-40 hover:w-32" alt="Light logo">
                     <img src="{{ asset('assets/images/logo-sm.png')}}" class="logo-sm" alt="Small logo">
                 </div>
 

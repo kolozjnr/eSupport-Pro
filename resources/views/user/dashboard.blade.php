@@ -33,18 +33,20 @@
                 <div class="grid 2xl:grid-cols-4 gap-6 mb-6">
                     
                     <div class="2xl:col-span-3">
-                        @include('layouts.chart.admin-top-head')
+                        <x-admin-top-head />
+                        {{-- @include('layouts.chart.admin-top-head') --}}
 
-                        @include('layouts.chart.admin-revenue-chart')	
+                        <x-admin-revenue-chart />
+                        {{-- @include('layouts.chart.admin-revenue-chart')	 --}}
                     </div>
-
-                    @include('layouts.chart.admin-ticket-summary')
+                    <x-admin-ticket-summary />
+                    {{-- @include('layouts.chart.admin-ticket-summary') --}}
                 </div> <!-- Grid End -->
 
-               @include('layouts.chart.admin-mid-cards')
-
-               @include('layouts.chart.ticket-overview')
+                <x-admin-mid-cards />
+               {{-- @include('layouts.chart.admin-mid-cards') --}}
+                <x-ticket-overview />
+               {{-- @include('layouts.charts.ticket-overview') --}}
             </main>
-
            @include('layouts.footer')
     </x-app-layout>
