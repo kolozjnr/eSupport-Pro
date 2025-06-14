@@ -7,7 +7,7 @@
     <link href="{{ asset('assets/libs/gridjs/theme/mermaid.min.css')}}" rel="stylesheet" type="text/css" >
     <div class="page-content">
         @include('../layouts.top-header')
-        <main class="flex-grow p-6" x-data="draft()">
+        <main class="flex-grow p-6">
 
     
 
@@ -27,7 +27,7 @@
 
                         <div class="flex items-center gap-2">
                             <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Create drafts</a>
+                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Layout</a>
                         </div>
                     </div>
                 </div>
@@ -44,66 +44,89 @@
                                     
                                 </div>
                             </div>
-                            <div class="p-6">
-                                
-                            <form class="grid gap-4 mb-6" @submit.prevent="submitDraft">
-                                <!-- Ticket Information -->
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="draft-name" class="block text-sm font-medium mb-1">Name</label>
-                                        <input type="text" id="draft-name" class="form-input w-full" 
-                                               x-model="formData.name" placeholder="name" required>
-                                    </div>
-                                    {{-- <div>
-                                        <label for="ticket-description" class="block text-sm font-medium mb-1">Description</label>
-                                        <input type="text" id="ticket-description" class="form-input w-full" 
-                                               x-model="ticket.description" placeholder="Description" required>
-                                    </div> --}}
-                                </div>
-                                
-                                <!-- Phone Numbers Section -->
-                                <div class="mt-4">
-                                    <label class="block text-sm font-medium mb-2">Phone Numbers</label>
-                                    <template x-for="(phone, index) in formData.phone_numbers" :key="index">
-                                        <div class="grid grid-cols-4 gap-4 items-end mb-2">
-                                            <div class="col-span-2">
-                                                <input type="text" class="form-input w-full" 
-                                                       x-model="phone.number" 
-                                                       :placeholder="'Phone Number ' + (index + 1)" required>
+                            <div class="p-6" x-data="{
+                                rows: [{
+                                    name: 'John Doe',
+                                    phone: ''
+                                }],
+                                addRow() {
+                                    this.rows.push({
+                                        name: '',
+                                        phone: ''
+                                    });
+                                },
+                                removeRow(index) {
+                                    if (this.rows.length > 1) {
+                                        this.rows.splice(index, 1);
+                                    }
+                                }
+                            }">
+                                <form method="POST">
+                                    <!-- Default row (always visible) -->
+                                    <div class="grid grid-cols-2 gap-4 mb-6">
+                                        <div>
+                                            <label for="name-0" class="sr-only">Name</label>
+                                            <input type="text" 
+                                                   class="form-input" 
+                                                   id="name-0" 
+                                                   x-model="rows[0].name"
+                                                   placeholder="Full Name">
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="flex-1">
+                                                <label for="phone-0" class="sr-only">Phone Number</label>
+                                                <input type="number" 
+                                                       class="form-input" 
+                                                       id="phone-0" 
+                                                       x-model="rows[0].phone"
+                                                       placeholder="08012345678">
                                             </div>
+                                            <!-- Remove button hidden for first row -->
+                                            <button type="button" class="invisible w-10" aria-hidden="true"></button>
+                                        </div>
+                                    </div>
+                            
+                                    <!-- Additional rows -->
+                                    <template x-for="(row, index) in rows.slice(1)" :key="index + 1">
+                                        <div class="grid grid-cols-2 gap-4 mb-6">
                                             <div>
-                                                <button type="button" class="btn bg-red-500 text-white w-full" 
-                                                        @click="removePhoneNumber(index)" 
-                                                        x-show="formData.phone_numbers.length > 1">
+                                                <label :for="'name-'+(index+1)" class="sr-only">Name</label>
+                                                <input type="text" 
+                                                       class="form-input" 
+                                                       :id="'name-'+(index+1)" 
+                                                       x-model="rows[index+1].name"
+                                                       placeholder="Full Name">
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <div class="flex-1">
+                                                    <label :for="'phone-'+(index+1)" class="sr-only">Phone Number</label>
+                                                    <input type="number" 
+                                                           class="form-input" 
+                                                           :id="'phone-'+(index+1)" 
+                                                           x-model="rows[index+1].phone"
+                                                           placeholder="08012345678">
+                                                </div>
+                                                <button type="button" 
+                                                        @click="removeRow(index+1)"
+                                                        class="btn bg-red-500 text-white px-3 py-2">
                                                     Remove
                                                 </button>
                                             </div>
                                         </div>
                                     </template>
-                                    <button type="button" class="btn bg-gray-200 text-gray-700 mt-2" 
-                                            @click="addPhoneNumber">
-                                        + Add Phone Number
-                                    </button>
-                                </div>
-                
-                                <!-- Submit Button with Loader -->
-                                <div class="mt-6 flex items-center gap-3">
-                                    <button type="submit" class="btn bg-primary text-white" :disabled="isLoading">
-                                        <span x-show="!isLoading">Create Draft</span>
-                                        <span x-show="isLoading">Processing...</span>
-                                    </button>
-                                    
-                                    <svg x-show="isLoading" class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                </div>
-                                
-                                <!-- Success/Error Message -->
-                                <div x-show="message" x-text="message" 
-                                     :class="{'text-green-600': isSuccess, 'text-red-600': !isSuccess}" 
-                                     class="mt-2 text-sm"></div>
-                            </form>
+                            
+                                    <div class="flex gap-4 mt-4">
+                                        <button type="button" 
+                                                @click="addRow()"
+                                                class="btn bg-blue-500 text-white flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                                            </svg>
+                                            Add Row
+                                        </button>
+                                        <button type="submit" class="btn bg-primary text-white">Submit</button>
+                                    </div>
+                                </form>
                             </div>
                         </div> <!-- end card -->
                     </div> <!-- end col -->
@@ -118,16 +141,11 @@
                                             <i class="mgc_eye_line text-lg"></i>
                                             <span class="ms-2">Code</span>
                                         </button> --}}
-                                        
-                                    <a href="{{ route('tickets.draft-template') }}" class="btn-code">
-                                        <i class="mgc_download_line text-lg"></i>
-                                        <span class="ms-2">Download CSV Template</span>
-                                    </a>
 
-                                        {{-- <button class="btn-code" data-clipboard-action="copy">
+                                        <button class="btn-code" data-clipboard-action="copy">
                                             <i class="mgc_download_line text-lg"></i>
                                             <span class="ms-2">Download Template</span>
-                                        </button> --}}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -135,40 +153,53 @@
                             <div class="p-6">
                                 <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">Here you can upload multiple contacts using the provided template above.</p>
 
-                                <form method="POST" action="{{ route('tickets.bulk-draft-upload') }}" 
-                                  enctype="multipart/form-data" 
-                                  x-data="{ isUploading: false }" 
-                                  @submit.prevent="isUploading = true; $el.submit()">
-                                @csrf
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label for="csv-upload" class="block text-sm font-medium mb-1">CSV File</label>
-                                        <input type="file" name="draft_file" id="csv-upload" 
-                                               class="form-input" accept=".csv" required>
-                                        <p class="text-xs text-gray-500 mt-1">Max 5MB. CSV format only.</p>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <button type="submit" class="btn bg-primary text-white w-40" :disabled="isUploading">
-                                            <span x-show="!isUploading">Upload</span>
-                                            <span x-show="isUploading">Uploading...</span>
-                                        </button>
-                                        <svg x-show="isUploading" class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </form>
-                                {{-- <form method="POST" enctype="multipart/form-data">
+                                <form method="POST" enctype="multipart/form-data">
                                     <div class="grid grid-cols-1 md:grid-cols-2  gap-6">
+                                        {{-- <div>
+                                            <label for="inputEmail4" class="text-gray-800 text-sm font-medium inline-block mb-2">Name</label>
+                                            <input type="name" class="form-input" id="inputEmail4" placeholder="Email">
+                                        </div> --}}
                                         <div>
                                             <label for="inputPassword4" class="text-gray-800 text-sm font-medium inline-block mb-2">File</label>
                                             <input type="file" class="form-input" id="inputPassword4" placeholder="Password">
                                         </div>
+{{-- 
+                                        <div class="lg:col-span-2">
+                                            <label for="inputAddress" class="text-gray-800 text-sm font-medium inline-block mb-2 bg-dark:text-white">Address</label>
+                                            <input type="text" class="form-input" id="inputAddress" placeholder="1234 Main St">
+                                        </div>
+
+                                        <div>
+                                            <label for="inputAddress2" class="text-gray-800 text-sm font-medium inline-block mb-2">Address 2</label>
+                                            <input type="text" class="form-input" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                                        </div> --}}
+
+                                        {{-- <div>
+                                            <label for="inputCity" class="text-gray-800 text-sm font-medium inline-block mb-2">City</label>
+                                            <input type="text" class="form-input" id="inputCity">
+                                        </div>
+                                        <div>
+                                            <label for="inputState" class="text-gray-800 text-sm font-medium inline-block mb-2">State</label>
+                                            <select id="inputState" class="form-select">
+                                                <option>Choose</option>
+                                                <option>Option 1</option>
+                                                <option>Option 2</option>
+                                                <option>Option 3</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label for="inputZip" class="text-gray-800 text-sm font-medium inline-block mb-2">Zip</label>
+                                            <input type="text" class="form-input" id="inputZip">
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-2 my-3">
+                                        <input type="checkbox" class="form-checkbox rounded border border-gray-200" id="customCheck11">
+                                        <label class="text-gray-800 text-sm font-medium inline-block" for="customCheck11">Check this custom checkbox !</label>
+                                    </div> --}}
 
                                     <button type="submit" class="btn bg-primary text-white w-40">Upload</button>
-                                </form> --}}
+                                </form>
                                 <div id="GridFormHtml" class="hidden w-full overflow-hidden transition-[height] duration-300">
                                     <pre class="language-html h-56">
                                         <code>
@@ -232,66 +263,7 @@
 
             </main>
 
-          <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('draft', () => ({
-                formData: {
-                    name: '',
-                    phone_numbers: [{ number: '' }]
-                },
-                isLoading: false,
-                isUploading: false,
-                isSuccess: false,
-                message: '',
-                
-                addPhoneNumber() {
-                    this.formData.phone_numbers.push({ number: '' });
-                },
-                
-                removePhoneNumber(index) {
-                    this.formData.phone_numbers.splice(index, 1);
-                },
-                
-                async submitDraft() {
-                    this.isLoading = true;
-                    this.message = '';
-                    // console.log(this.formData);
-                    // return;
-                    
-                    try {
-                        const response = await fetch('{{ route("tickets.storeDraft") }}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                                'Accept': 'application/json'
-                            },
-                            body: JSON.stringify(this.formData )
-                        });
-                        
-                        const data = await response.json();
-                        
-                        if (response.ok) {
-                            this.isSuccess = true;
-                            this.message = data.message || 'Draft created successfully!';
-                            // Reset form after successful submission
-                            this.formData = {
-                                name: '',
-                                phone_numbers: [{ number: '' }]
-                            };
-                        } else {
-                            throw new Error(data.message || 'Failed to create Draft');
-                        }
-                    } catch (error) {
-                        this.isSuccess = false;
-                        this.message = error.message;
-                    } finally {
-                        this.isLoading = false;
-                    }
-                }
-            }));
-        });
-        </script>
+          
 
     @include('layouts.footer')
 </x-app-layout>

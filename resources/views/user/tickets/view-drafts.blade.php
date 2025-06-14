@@ -3,6 +3,9 @@
     <!-- ============================================================== -->
     <!-- Start Page Content here -->
     <!-- ============================================================== -->
+  <!-- Gridjs Plugin css -->
+{{-- <link href="{{ asset('assets/libs/gridjs/theme/mermaid.min.css') }}" rel="stylesheet" type="text/css" > --}}
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <div class="page-content">
@@ -131,10 +134,124 @@
             </main>
 
             
-
+   <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" defer></script>
+     
+         <!-- Gridjs Demo js -->
+         <script src="{{ asset('assets/js/pages/table-gridjs.js') }}" defer></script>
     @include('layouts.footer')
 
     <script>
+    //   document.addEventListener('alpine:init', () => {
+    //     Alpine.data('draftTable', () => ({
+    //         grid: null,
+    //         drafts: [],
+    //         isLoading: true,
+
+    //         async fetchDrafts() {
+    //             try {
+    //                 const response = await fetch('{{ route("tickets.data-drafts") }}', {
+    //                     method: 'GET',
+    //                     headers: {
+    //                         'Accept': 'application/json',
+    //                         'X-Requested-With': 'XMLHttpRequest'
+    //                     }
+    //                 });
+                    
+    //                 if (!response.ok) {
+    //                     throw new Error('Failed to fetch drafts');
+    //                 }
+                    
+    //                 this.drafts = await response.json();
+    //                 this.initializeGrid();
+    //             } catch (error) {
+    //                 console.error('Error fetching drafts:', error);
+    //                 // You might want to show an error message to the user
+    //             } finally {
+    //                 this.isLoading = false;
+    //             }
+    //         },
+
+    //         initializeGrid() {
+    //             if (this.grid) {
+    //                 this.grid.updateConfig({
+    //                     data: this.formatData(this.drafts)
+    //                 }).forceRender();
+    //                 return;
+    //             }
+
+    //             this.grid = new gridjs.Grid({
+    //                 columns: [
+    //                     {
+    //                         name: 'ID',
+    //                         formatter: (cell) => gridjs.html(`<span class="fw-semibold">${cell}</span>`)
+    //                     },
+    //                     "Name", 
+    //                     "Phone Number",
+    //                     {
+    //                         name: 'Actions',
+    //                         width: '120px',
+    //                         formatter: (cell, row) => gridjs.html(`
+    //                             <div class="flex items-center">
+    //                                 <a href="/tickets/${row.cells[0].data}/show" class="text-primary me-2">
+    //                                     <i class="mgc_view_line text-xl"></i>
+    //                                 </a>
+    //                                 <a href="/tickets/${row.cells[0].data}/edit" class="text-warning me-2">
+    //                                     <i class="mgc_edit_line text-lg"></i>
+    //                                 </a>
+    //                                 <a href="javascript:void(0);" @click="deleteDraft(${row.cells[0].data})" class="text-danger">
+    //                                     <i class="mgc_delete_line text-xl"></i>
+    //                                 </a>
+    //                             </div>
+    //                         `)
+    //                     }
+    //                 ],
+    //                 pagination: {
+    //                     limit: 5
+    //                 },
+    //                 sort: true,
+    //                 search: true,
+    //                 data: this.formatData(this.drafts)
+    //             }).render(document.getElementById("all-drafts-table"));
+    //         },
+
+    //         formatData(drafts) {
+    //             return drafts.map(draft => [
+    //                 draft.id,
+    //                 draft.name,
+    //                 draft.phone_numbers.map(pn => pn.number).join(', '),
+    //                 '' // Actions column will be handled by the formatter
+    //             ]);
+    //         },
+
+    //         async deleteDraft(id) {
+    //             if (!confirm('Are you sure you want to delete this draft?')) return;
+                
+    //             try {
+    //                 const response = await fetch(`/drafts/${id}`, {
+    //                     method: 'DELETE',
+    //                     headers: {
+    //                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+    //                         'Accept': 'application/json'
+    //                     }
+    //                 });
+                    
+    //                 if (response.ok) {
+    //                     this.drafts = this.drafts.filter(draft => draft.id !== id);
+    //                     this.grid.updateConfig({
+    //                         data: this.formatData(this.drafts)
+    //                     }).forceRender();
+    //                 } else {
+    //                     throw new Error('Failed to delete draft');
+    //                 }
+    //             } catch (error) {
+    //                 console.error('Error deleting draft:', error);
+    //                 alert('Error deleting draft');
+    //             }
+    //         }
+    //     }));
+    // });
+
+
         // script.js
         const openModalButton = document.getElementById("openModal");
         const closeModalButton = document.getElementById("closeModal");
@@ -267,4 +384,5 @@
   });
 
     </script>
+   
 </x-app-layout>

@@ -24,28 +24,35 @@
                         </div>
                         <div class="p-6">
                             <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">
-                                Create a ticket with multiple phone numbers
+                                Update a ticket 
                             </p>
                 
-                            <form class="grid gap-4 mb-6" @submit.prevent="submitTicket">
+                            <form action="{{ route('tickets.user.tickets.update', $ticket->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
                                 <!-- Ticket Information -->
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label for="ticket-name" class="block text-sm font-medium mb-1">Ticket Name</label>
-                                        <input type="text" id="ticket-name" class="form-input w-full" 
-                                               x-model="ticket.name" placeholder="Ticket name" required>
+                                        <input type="text" id="ticket-name" class="form-input w-full"  name="name" value="{{ $ticket->name }}" placeholder="Ticket name" required>
                                     </div>
                                     <div>
                                         <label for="ticket-description" class="block text-sm font-medium mb-1">Description</label>
-                                        <input type="text" id="ticket-description" class="form-input w-full" 
-                                               x-model="ticket.description" placeholder="Description" required>
+                                        <textarea type="text" id="ticket-description" class="form-input w-full" cols="1" rows="1" name="description" placeholder="Description" required> {{ $ticket->description }} </textarea>
                                     </div>
                                 </div>
                                 
                                 <!-- Phone Numbers Section -->
                                 <div class="mt-4">
                                     <label class="block text-sm font-medium mb-2">Phone Numbers</label>
-                                    <template x-for="(phone, index) in ticket.phone_numbers" :key="index">
+                                     @forelse ($ticket->phoneNumbers as $index => $phone)
+                                    <input type="text" 
+                                        name="phone_numbers[{{ $index }}][number]" 
+                                        value="{{ $phone->number }}" 
+                                        class="form-input w-full mb-2" 
+                                        placeholder="Enter phone number">
+                                @empty
+                                   <template x-for="(phone, index) in ticket.phone_numbers" :key="index">
                                         <div class="grid grid-cols-4 gap-4 items-end mb-2">
                                             <div class="col-span-3">
                                                 <input type="text" class="form-input w-full" 
@@ -65,32 +72,27 @@
                                             @click="addPhoneNumber">
                                         + Add Phone Number
                                     </button>
+                                @endforelse
                                 </div>
                 
                                 <!-- Submit Button with Loader -->
-                                <div class="mt-6 flex items-center gap-3">
-                                    <button type="submit" class="btn bg-primary text-white" :disabled="isLoading">
-                                        <span x-show="!isLoading">Create Ticket</span>
-                                        <span x-show="isLoading">Processing...</span>
-                                    </button>
-                                    
-                                    <svg x-show="isLoading" class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                </div>
-                                
-                                <!-- Success/Error Message -->
-                                <div x-show="message" x-text="message" 
-                                     :class="{'text-green-600': isSuccess, 'text-red-600': !isSuccess}" 
-                                     class="mt-2 text-sm"></div>
+                                <div class="flex items-center gap-3">
+                                        <button type="submit" class="btn bg-primary text-white w-40" :disabled="isUploading">
+                                            <span x-show="!isUploading">Update</span>
+                                            <span x-show="isUploading">Uploading...</span>
+                                        </button>
+                                        <svg x-show="isUploading" class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    </div>
                             </form>
                         </div>
                     </div>
                 </div>
 
                 <!-- Bulk Upload Section -->
-                <div class="col-span-2">
+                {{-- <div class="col-span-2">
                     <div class="card">
                         <div class="card-header">
                             <div class="flex justify-between items-center">
@@ -136,7 +138,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </main>
 

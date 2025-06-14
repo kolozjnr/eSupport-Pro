@@ -49,4 +49,12 @@
                {{-- @include('layouts.charts.ticket-overview') --}}
             </main>
            @include('layouts.footer')
+
+              <!-- Apexcharts js -->
+            <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}" defer></script>
+
+            
+            <!-- Apex Chart Demo Js -->
+            <script src="{{ asset('assets/js/pages/charts-apex.js') }}" defer></script> 
+            <script src="{{ asset('assets/js/pages/dashboard.js') }}" defer></script>
     </x-app-layout>

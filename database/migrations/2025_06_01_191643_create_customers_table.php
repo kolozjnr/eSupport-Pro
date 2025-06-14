@@ -31,8 +31,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->foreignId('support_id')->nullable()->constrained('supports')->nullOnDelete()->index();
-            $table->string('subject');
-            $table->text('description');
+            $table->string('subject')->nullable();
+            $table->text('description')->nullable();
             $table->string('status')->default('pending')->index();
             $table->timestamps();
         });

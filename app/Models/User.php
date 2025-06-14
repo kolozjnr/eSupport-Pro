@@ -51,4 +51,61 @@ class User extends Authenticatable implements LaratrustUser
             'password' => 'hashed',
         ];
     }
+
+    public function customer() {
+        return $this->hasOne(Customer::class);
+    }
+    public function support()
+    {
+        return $this->hasOne(Support::class);
+    }
+    public function qualityControl()
+    {
+        return $this->hasOne(QualityControl::class);
+    }
+
+    public function bussinesManager()
+    {
+        return $this->hasOne(BusinessManager::class);
+    }
+
+    public function bussinessSupervisor()
+    {
+        return $this->hasOne(BusinessSupervisor::class);
+    }
+    public function businessDeveloper()
+    {
+        return $this->hasOne(BusinessDeveloper::class);
+    }
+
+    public function customerManager()
+    {
+        return $this->hasOne(CustomerManager::class);
+    }
+    public function superviosr()
+    {
+        return $this->hasOne(Supervisor::class);
+    }
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+    public function account()
+    {
+        return $this->hasOne(Account::class);
+    }
+
+    public function review()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function getCustomerId()
+    {
+        if ($this->customer) {
+            return $this->customer->id;
+        }
+        
+        return null;
+    }
 }

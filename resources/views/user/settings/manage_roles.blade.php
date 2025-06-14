@@ -53,4 +53,9 @@
             
 
     @include('layouts.footer')
+  <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" defer></script>
+     
+    <!-- Gridjs Demo js -->
+    <script src="{{ asset('assets/js/pages/table-gridjs.js') }}" defer></script>
+    
 </x-app-layout>

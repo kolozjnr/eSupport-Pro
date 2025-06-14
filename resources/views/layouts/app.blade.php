@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'esupport Pro') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,9 +16,9 @@
 
         
         <!-- quill css -->
-        <link href="{{ asset('assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" >
+        {{-- <link href="{{ asset('assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" >
         <link href="{{ asset('assets/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" >
-        <link href="{{ asset('assets/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" >
+        <link href="{{ asset('assets/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" > --}}
 
         
          <link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" >
@@ -73,6 +73,21 @@
 
                 <!-- Page Content -->
                 <main class="flex-grow p-6">
+                    @if(session('success'))
+                        <x-flash-message type="success" :message="session('success')" />
+                    @endif
+
+                    @if(session('error'))
+                        <x-flash-message type="error" :message="session('error')" />
+                    @endif
+
+                    @if(session('warning'))
+                        <x-flash-message type="warning" :message="session('warning')" />
+                    @endif
+
+                    @if(session('message'))
+                        <x-flash-message type="info" :message="session('message')" />
+                    @endif
 
                     {{-- @@include("./partials/page-title.html", {"subtitle":"Menu","title":"Dashboard"}) --}}
                     {{ $slot }}
@@ -91,10 +106,14 @@
             <script src="{{ asset('assets/js/app.js') }}" defer></script>
         >
        
-            <!-- Apexcharts js -->
+            {{-- <!-- Apexcharts js -->
             <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}" defer></script>
 
-         <!-- Gridjs Plugin js -->
+            
+            <!-- Apex Chart Demo Js -->
+            <script src="{{ asset('assets/js/pages/charts-apex.js') }}" defer></script>  --}}
+
+         {{-- <!-- Gridjs Plugin js -->
          <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" defer></script>
      
          <!-- Gridjs Demo js -->
@@ -108,9 +127,7 @@
 
          <!-- Choices Demo js -->
          <script src="{{ asset('assets/js/pages/form-select.js') }}" defer></script>   
-
-         <!-- Apex Chart Demo Js -->
-        <script src="{{ asset('assets/js/pages/charts-apex.js') }}" defer></script>
+ --}}
 
         
         <!-- Sweet Alerts js -->
@@ -120,9 +137,10 @@
         <script src="{{ asset('assets/js/pages/extended-sweetalert.js') }}" defer></script>
 
 
-        <script src="{{asset('assets/libs/quill/quill.min.js')}}" defer></script>
+        {{-- <script src="{{asset('assets/libs/quill/quill.min.js')}}" defer></script>
 
-        <script src="{{asset('assets/js/pages/form-editor.js')}}" defer></script>
+        <script src="{{asset('assets/js/pages/form-editor.js')}}" defer></script> --}}
+      
 
     </body>
 </html>

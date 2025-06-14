@@ -2,8 +2,17 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Models\Draft;
+use App\Models\Rating;
+use App\Models\Ticket;
+use App\Models\Support;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Notifications\TaskAssignedNotification;
 
 class TicketsController extends Controller
 {
@@ -22,10 +31,66 @@ class TicketsController extends Controller
         return view('user.tickets.assign-single');
     }
 
-    public function edit()
+    public function editTicket($id)
     {
-        return view('user.tickets.edit');
+        $ticket = Ticket::with('phoneNumbers')->findOrFail($id);
+        //dd($ticket);
+        //send dude back to his home if he doesn't own the ticket
+        if ($ticket->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to this ticket.');
+        }
+        return view('user.tickets.edit-ticket', compact('ticket'));
     }
+
+    public function updateTicket(Request $request, $id)
+    {
+        $userId = auth()->user()->id;
+        $customerId = auth()->user()->getCustomerId();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'phone_numbers' => 'required|array|min:1',
+            'phone_numbers.*.number' => 'required|string|max:20',
+        ]);
+
+        try {
+            $ticket = Ticket::where('id', $id)
+                ->where('user_id', $userId)
+                ->firstOrFail();
+
+            DB::beginTransaction();
+
+            $ticket->update([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+            ]);
+
+            // Delete old phone numbers
+            $ticket->phoneNumbers()->delete();
+
+            // Add updated phone numbers
+            foreach ($validated['phone_numbers'] as $phone) {
+                $ticket->phoneNumbers()->create([
+                    'number' => $phone['number'],
+                    'user_id' => $userId,
+                    'customer_id' => $customerId,
+                ]);
+            }
+
+            DB::commit();
+
+             return back()->with('success', ' tickets updated successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update ticket: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
 
     public function draft()
     {
@@ -34,12 +99,416 @@ class TicketsController extends Controller
 
     public function viewDrafts()
     {
+        //dd(auth()->user()->id);
         return view('user.tickets.view-drafts');
     }
 
     public function viewFeedback()
     {
         return view('user.tickets.view-feedback');
+    }
+    // public function getCustomerTickets()
+    // {
+    //     try {
+    //         $drafts = Ticket::with('user', 'phoneNumbers')
+    //             ->where('user_id', auth()->id())
+    //             ->where('customer_id', auth()->user()->getCustomerId())
+    //             ->get();
+                
+    //         return response()->json($drafts);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'message' => 'Failed to fetch drafts',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
+    public function getCustomerTickets()
+    {
+        try {
+            $query = Ticket::with('user', 'phoneNumbers')
+                ->where('user_id', auth()->id())
+                ->where('customer_id', auth()->user()->getCustomerId());
+                
+            // Add status filter if provided
+            if (request()->has('status')) {
+                $query->where('status', request('status'));
+            }
+            
+            // Add search filter if provided
+            if (request()->has('search')) {
+                $query->where(function($q) {
+                    $q->where('subject', 'like', '%'.request('search').'%')
+                    ->orWhere('description', 'like', '%'.request('search').'%');
+                });
+            }
+            
+            // Add sorting if provided
+            if (request()->has('sort')) {
+                $query->orderBy(request('sort'), request('order', 'asc'));
+            }
+            
+            $tickets = $query->get();
+                
+            return response()->json($tickets);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch tickets',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getQualityControlTickets()
+    {
+        try {
+            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user' )
+            ->latest()
+            ->get();
+                
+            return response()->json($tickets);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch drafts',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function assignTicketByQualityControl(Request $request)
+{
+    $validate = Validator::make($request->all(), [
+        'ticket_ids' => 'required|array',
+        'ticket_ids.*' => 'required|exists:tickets,id',
+        'staff_id' => 'required|exists:supports,id',
+        'notes' => 'nullable|string',
+    ]);
+
+    if ($validate->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => $validate->errors()->first()
+        ], 422);
+    }
+
+    try {
+        DB::beginTransaction();
+
+        foreach ($request->ticket_ids as $ticketId) {
+           $ticket = Ticket::where('id', $ticketId)->update([
+                'status' => 'assign',
+                'support_id' => $request->staff_id,
+                'notes' => $request->notes,
+            ]);
+        }
+
+          $support = Support::with('user')->findOrFail($request->staff_id);
+
+          //dd($support);
+
+        // if ($support->user) {
+        //     $support->user->notify(new TaskAssignedNotification($request->ticket_ids));
+        // }
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tickets successfully assigned.'
+        ]);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Error: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+public function viewSingleTicket($id)
+{
+    $ticket = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user' )->findOrFail($id);
+    return view('user.tickets.view-single-ticket', compact('ticket'));
+}
+
+
+
+    public function store(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $customerId = auth()->user()->getCustomerId();
+        //dd(auth()->user()->id);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'phone_numbers' => 'required|array|min:1',
+            'phone_numbers.*.number' => 'required|string|max:20',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            
+            $ticket = Ticket::create([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'subject' => 'New Ticket',
+                'user_id' => $userId,
+                'customer_id' => $customerId
+            ]);
+
+            foreach ($validated['phone_numbers'] as $phone) {
+                $ticket->phoneNumbers()->create([
+                    'number' => $phone['number'],
+                    'user_id' => $userId,
+                    'customer_id' => $customerId
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Ticket created successfully',
+                'ticket' => $ticket
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create ticket: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function downloadTemplate()
+    {
+        $filename = "tickets_template.csv";
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=$filename",
+        ];
+
+        $handle = fopen('php://output', 'w');
+        fputcsv($handle, ['name', 'description', 'phone_numbers']);
+        fputcsv($handle, ['Sample Ticket', 'Sample description', '1234567890,9876543210']);
+        fclose($handle);
+
+        return response()->streamDownload(
+            function () {
+                $handle = fopen('php://output', 'w');
+                fputcsv($handle, ['name', 'description', 'phone_numbers']);
+                fputcsv($handle, ['Sample Ticket', 'Sample description', '1234567890,9876543210']);
+                fclose($handle);
+            },
+            $filename,
+            $headers
+        );
+    }
+
+    public function bulkUpload(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $customerId = auth()->user()->getCustomerId();
+        $request->validate([
+            'tickets_file' => 'required|file|mimes:csv,txt|max:5120',
+        ]);
+
+        try {
+            $path = $request->file('tickets_file')->getRealPath();
+            $data = array_map('str_getcsv', file($path));
+            
+            // Remove header if exists
+            if (count($data) > 0 && $data[0][0] === 'name') {
+                array_shift($data);
+            }
+
+            DB::beginTransaction();
+            
+            foreach ($data as $row) {
+                if (count($row) < 3) continue;
+                
+                $ticket = Ticket::create([
+                    'name' => $row[0],
+                    'description' => $row[1],
+                    'subject' => 'New Ticket',
+                    'user_id' => $userId,
+                    'customer_id' => $customerId
+                ]);
+
+                $phoneNumbers = explode(',', $row[2]);
+                foreach ($phoneNumbers as $number) {
+                    $ticket->phoneNumbers()->create([
+                        'number' => trim($number),
+                        'user_id' => $userId,
+                        'customer_id' => $customerId
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return back()->with('success', count($data) . ' tickets imported successfully!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Failed to import tickets: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        Ticket::find($id)->delete();
+        return redirect()->route('user.tickets.index')->with('success', 'Ticket deleted successfully!');
+    }
+
+    //Dratfs begins here
+
+    public function getDraft()
+    {
+        try {
+            $drafts = Draft::with('phoneNumbers')
+                ->where('user_id', auth()->id())
+                ->where('customer_id', auth()->user()->getCustomerId())
+                ->get();
+                
+            return response()->json($drafts);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch drafts',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function destroyDraft(Draft $draft)
+    {
+        $draft->delete();
+        
+        return response()->json(['message' => 'Draft deleted successfully']);
+    }
+
+    public function storeDraft(Request $request)
+    {
+        //dd($request->all());
+         $userId = auth()->user()->id;
+        $customerId = auth()->user()->getCustomerId();
+        //dd(auth()->user()->id);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone_numbers' => 'required|array|min:1',
+            'phone_numbers.*.number' => 'required|string|max:20',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            
+            $draft = Draft::create([
+                'fname' => $validated['name'],
+                'user_id' => $userId,
+                'customer_id' => $customerId
+            ]);
+
+            foreach ($validated['phone_numbers'] as $phone) {
+                $draft->phoneNumbers()->create([
+                    'number' => $phone['number'],
+                    'user_id' => $userId,
+                    'customer_id' => $customerId
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Ticket created successfully',
+                'draft' => $draft
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create draft: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+     public function draftTemplate()
+    {
+        $filename = "drafts_template.csv";
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=$filename",
+        ];
+
+        $handle = fopen('php://output', 'w');
+        fputcsv($handle, ['name', 'phone_numbers']);
+        fputcsv($handle, ['Sample Draft', '1234567890,9876543210']);
+        fclose($handle);
+
+        return response()->streamDownload(
+            function () {
+                $handle = fopen('php://output', 'w');
+                fputcsv($handle, ['name', 'phone_numbers']);
+                fputcsv($handle, ['Sample Ticket', '1234567890,9876543210']);
+                fclose($handle);
+            },
+            $filename,
+            $headers
+        );
+    }
+    public function bulkDraftUpload(Request $request)
+    {
+        //dd($request->all());
+        $userId = auth()->user()->id;
+        $customerId = auth()->user()->getCustomerId();
+        $request->validate([
+            'draft_file' => 'required|file|mimes:csv,txt|max:5120',
+        ]);
+
+        try {
+            $path = $request->file('draft_file')->getRealPath();
+            $data = array_map('str_getcsv', file($path));
+            
+            // Remove header if exists
+            if (count($data) > 0 && $data[0][0] === 'name') {
+                array_shift($data);
+            }
+            //dd($data);
+
+            DB::beginTransaction();
+            
+            foreach ($data as $row) {
+                if (count($row) < 2) continue;
+                
+                $draft = Draft::create([
+                    'fname' => $row[0],
+                    'user_id' => $userId,
+                    'customer_id' => $customerId
+                ]);
+
+                $phoneNumbers = explode(',', $row[1]);
+                foreach ($phoneNumbers as $number) {
+                    $draft->phoneNumbers()->create([
+                        'number' => trim($number),
+                        'user_id' => $userId,
+                        'customer_id' => $customerId
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return back()->with('success', count($data) . ' draft imported successfully!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Failed to import draft: ' . $e->getMessage());
+        }
     }
 
    

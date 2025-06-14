@@ -3,528 +3,11 @@
     <!-- ============================================================== -->
     <!-- Start Page Content here -->
     <!-- ============================================================== -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare./ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <div class="page-content">
         @include('../layouts.top-header')
-        <style>
-            /* Modal Styles */
-            .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            }
-
-            .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 300px;
-            text-align: center;
-            position: relative;
-            transform: scale(0); /* Start small */
-            animation: blowUp 0.3s ease-out forwards; /* Animation for opening */
-            }
-
-            /* Close Button */
-            .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
-            cursor: pointer;
-            }
-
-            /* Keyframes for Blow Up Animation */
-            @keyframes blowUp {
-            from {
-                transform: scale(0);
-            }
-            to {
-                transform: scale(1);
-            }
-            }
-
-            /* Keyframes for Go Back Animation */
-            @keyframes goBack {
-            from {
-                transform: scale(1);
-            }
-            to {
-                transform: scale(0);
-            }
-            }
-
-            /*Ratings css start here  */
-            /* .wrapper {
-  margin: 0 auto;
-  max-width: 960px;
-  width: 100%;
-} */
-
-.master {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-}
-
-h1 {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-h2 {
-  line-height: 160%;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.rating-component {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.rating-component .status-msg {
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.rating-component .status-msg strong {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.rating-component .stars-box {
-  -ms-flex-item-align: center;
-  align-self: center;
-  margin-bottom: 15px;
-}
-
-.rating-component .stars-box .star {
-  color: #ccc;
-  cursor: pointer;
-}
-
-.rating-component .stars-box .star.hover {
-  color: #ff5a49;
-}
-
-.rating-component .stars-box .star.selected {
-  color: #ff5a49;
-}
-
-.feedback-tags {
-  min-height: 119px;
-}
-
-.feedback-tags .tags-container {
-  display: none;
-}
-
-.feedback-tags .tags-container .question-tag {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.feedback-tags .tags-box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  text-align: center;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
-.feedback-tags .tags-container .make-compliment {
-  padding-bottom: 20px;
-}
-
-.feedback-tags .tags-container .make-compliment .compliment-container {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: #000;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.feedback-tags
-  .tags-container
-  .make-compliment
-  .compliment-container
-  .fa-smile-wink {
-  color: #ff5a49;
-  cursor: pointer;
-  font-size: 40px;
-  margin-top: 15px;
-  -webkit-animation-name: compliment;
-  animation-name: compliment;
-  -webkit-animation-duration: 2s;
-  animation-duration: 2s;
-  -webkit-animation-iteration-count: 1;
-  animation-iteration-count: 1;
-}
-
-.feedback-tags
-  .tags-container
-  .make-compliment
-  .compliment-container
-  .list-of-compliment {
-  display: none;
-  margin-top: 15px;
-}
-
-.feedback-tags .tag {
-  /* border: 1px solid #ff5a49; */
-  border-radius: 5px;
-  /* color: #ff5a49; */
-  cursor: pointer;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  padding: 10px;
-}
-
-.feedback-tags .tag.choosed {
-  background-color: #060606;
-  color: #fff;
-}
-
-.list-of-compliment ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.list-of-compliment ul li {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  margin-left: 20px;
-  min-width: 90px;
-}
-
-.list-of-compliment ul li:first-child {
-  margin-left: 0;
-}
-
-.list-of-compliment ul li .icon-compliment {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  border: 2px solid #ff5a49;
-  border-radius: 50%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 70px;
-  margin-bottom: 15px;
-  overflow: hidden;
-  padding: 0 10px;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-  width: 70px;
-}
-
-.list-of-compliment ul li .icon-compliment i {
-  color: #ff5a49;
-  font-size: 30px;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
-
-.list-of-compliment ul li.actived .icon-compliment {
-  background-color: #ff5a49;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
-
-.list-of-compliment ul li.actived .icon-compliment i {
-  color: #fff;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
-
-.button-box .done {
-  background-color: #289b5a;
-  border: 1px solid #d4cdcd;
-  border-radius: 3px;
-  color: #fff;
-  cursor: pointer;
-  display: none;
-  min-width: 100px;
-  padding: 10px;
-}
-
-.button-box .done:disabled,
-.button-box .done[disabled] {
-  /* border: 1px solid #ff9b95;
-  background-color: #ff9b95; */
-  color: #fff;
-  cursor: initial;
-}
-
-.submited-box {
-  display: none;
-  padding: 20px;
-}
-
-.submited-box .loader,
-.submited-box .success-message {
-  display: none;
-}
-
-.submited-box .loader {
-  border: 5px solid transparent;
-  border-top: 5px solid #4dc7b7;
-  border-bottom: 5px solid #ff5a49;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  -webkit-animation: spin 0.8s linear infinite;
-  animation: spin 0.8s linear infinite;
-}
-
-@-webkit-keyframes compliment {
-  1% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  25% {
-    -webkit-transform: rotate(-30deg);
-    transform: rotate(-30deg);
-  }
-
-  50% {
-    -webkit-transform: rotate(30deg);
-    transform: rotate(30deg);
-  }
-
-  75% {
-    -webkit-transform: rotate(-30deg);
-    transform: rotate(-30deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes compliment {
-  1% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  25% {
-    -webkit-transform: rotate(-30deg);
-    transform: rotate(-30deg);
-  }
-
-  50% {
-    -webkit-transform: rotate(30deg);
-    transform: rotate(30deg);
-  }
-
-  75% {
-    -webkit-transform: rotate(-30deg);
-    transform: rotate(-30deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-}
-
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-        </style>
-
-   
-                   
-
-
+     
             <main class="flex-grow p-6"> 
-                 <!-- Modal -->
-                <div id="modal" class="modal">
-                    <div class="modal-content">
-                    <span id="closeModal" class="close">&times;</span>
-                    <div class="wrapper">
-                    <div class="master">
-                        <h1>Review And rating</h1>
-                        <h2>How was your experience with this customer?</h2>
-
-                        <div class="rating-component">
-                        <div class="status-msg">
-                            <label>
-                                            <input  class="rating_msg" type="hidden" name="rating_msg" value=""/>
-                                        </label>
-                        </div>
-                        <div class="stars-box">
-                            <i class="star fa fa-star" title="1 star" data-message="Poor" data-value="1"></i>
-                            <i class="star fa fa-star" title="2 stars" data-message="Too bad" data-value="2"></i>
-                            <i class="star fa fa-star" title="3 stars" data-message="Average quality" data-value="3"></i>
-                            <i class="star fa fa-star" title="4 stars" data-message="Nice" data-value="4"></i>
-                            <i class="star fa fa-star" title="5 stars" data-message="very good qality" data-value="5"></i>
-                        </div>
-                        <div class="starrate">
-                            <label>
-                                            <input  class="ratevalue" type="hidden" name="rate_value" value=""/>
-                                        </label>
-                        </div>
-                        </div>
-
-                        <div class="feedback-tags">
-                        <div class="tags-container" data-tag-set="1">
-                            <div class="question-tag">
-                            Why was your experience so bad?
-                            </div>
-                        </div>
-                        <div class="tags-container" data-tag-set="2">
-                            <div class="question-tag">
-                            Why was your experience so bad?
-                            </div>
-
-                        </div>
-
-                        <div class="tags-container" data-tag-set="3">
-                            <div class="question-tag">
-                            Why was your average rating experience ?
-                            </div>
-                        </div>
-                        <div class="tags-container" data-tag-set="4">
-                            <div class="question-tag">
-                            Why was your experience good?
-                            </div>
-                        </div>
-
-                        <div class="tags-container" data-tag-set="5">
-                            <div class="make-compliment">
-                            <div class="compliment-container">
-                                Give a compliment
-                                <i class="far fa-smile-wink"></i>
-                            </div>
-                            </div>
-                        </div>
-                        
-                        <div class="tags-box">
-                            <input type="text" class="tag form-control" name="comment" id="inlineFormInputName" placeholder="Comment">
-                            <input type="hidden" name="product_id" value="1" />
-                        </div>
-                        
-                        </div>
-
-                        <div class="button-box">
-                        <input type="submit" class=" done btn bg-blue-500 text-white flex items-center justify-center" disabled="disabled" value="Add review" />
-                        </div>
-
-                        <div class="submited-box">
-                        <div class="loader"></div>
-                        <div class="success-message">
-                            Thank you!
-                        </div>
-                        </div>
-                    </div>
-
-                    </div>
-                    </div>
-                </div>
-
                 <!-- Page Title Start -->
                 <div class="flex justify-between items-center mb-6">
                     <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Data Table</h4>
@@ -555,9 +38,19 @@ h2 {
                             </div>
                         </div>
                         <div class="p-6">
+                          <div id="loading-indicator" class="hidden fixed inset-0 bg-white dark:bg-slate-900 bg-opacity-75 flex items-center justify-center z-50">
+                            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                          </div>
+                            <div id="bulk-actions-container" class="mb-3"></div>
                             {{-- <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">The most basic list group is an unordered list with list items and the proper classes. Build upon it with the options that follow, or with your own CSS as needed.</p> --}}
-
-                            <div id="table-gridjs"></div>
+                            @if(auth()->user()->hasRole('customer'))
+                            <div id="customer-tickets-table"></div>
+                            @elseif(auth()->user()->hasRole('qualitycontrol'))
+                            <div id="quality-control-tickets"></div>
+                            @elseif(auth()->user()->role == 'support')
+                            <div id="support-tickets-table"></div>
+                            
+                            @endif
                         </div>
                     </div>
 
@@ -566,141 +59,594 @@ h2 {
 
             </main>
 
+
             
+    <!-- Review Modal -->
+<div x-data="reviewModal" x-show="isOpen" @keydown.escape="close" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+    <!-- Overlay -->
+    <div x-show="isOpen" 
+         x-transition:enter="ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 transition-opacity"></div>
 
-    @include('layouts.footer')
+    <!-- Modal Container -->
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <!-- Modal Content -->
+        <div x-show="isOpen"
+             x-transition:enter="ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+             x-transition:leave="ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+             class="inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+             role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+            
+            <!-- Header -->
+            <div class="bg-gray-50 dark:bg-slate-700 px-4 py-3 sm:px-6 sm:flex sm:items-center sm:justify-between">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-headline">
+                    Write a Review
+                </h3>
+                <button @click="close" type="button" class="text-gray-400 hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-200">
+                    <span class="sr-only">Close</span>
+                    <i class="mgc_close_line text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Body -->
+            <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <form @submit.prevent="submitReview">
+                    <!-- Rating -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Your Rating
+                        </label>
+                        <div class="flex items-center">
+                            <template x-for="i in 5" :key="i">
+                                <button type="button" @click="rating = i" class="focus:outline-none">
+                                    <i class="text-2xl" 
+                                       :class="{
+                                           'mgc_star_fill text-yellow-400': i <= rating,
+                                           'mgc_star_line text-gray-300 dark:text-gray-500': i > rating
+                                       }"></i>
+                                </button>
+                            </template>
+                            <span x-text="rating" class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"></span>
+                        </div>
+                        <p x-show="errors.rating" x-text="errors.rating" class="mt-1 text-sm text-red-600 dark:text-red-500"></p>
+                    </div>
+                    
+                    <!-- Review Text -->
+                    <div class="mb-6">
+                        <label for="review" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Your Review
+                        </label>
+                        <textarea id="review" x-model="review" rows="4"
+                                  class="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-slate-700 dark:text-white rounded-md"></textarea>
+                        <p x-show="errors.review" x-text="errors.review" class="mt-1 text-sm text-red-600 dark:text-red-500"></p>
+                    </div>
+                    
+                    <!-- Loading Indicator -->
+                    <div x-show="isLoading" class="flex justify-center mb-4">
+                        <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+                    </div>
+                    
+                    <!-- Success Message -->
+                    <div x-show="isSuccess" class="mb-4 p-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 rounded-md">
+                        <div class="flex items-center">
+                            <i class="mgc_check_line text-lg mr-2"></i>
+                            <span>Review submitted successfully!</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Error Message -->
+                    <div x-show="errorMessage" class="mb-4 p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200 rounded-md">
+                        <div class="flex items-center">
+                            <i class="mgc_error_warning_line text-lg mr-2"></i>
+                            <span x-text="errorMessage"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Footer -->
+            <div class="bg-gray-50 dark:bg-slate-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="button" @click="submitReview"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:ml-3 sm:w-auto sm:text-sm">
+                    Submit Review
+                </button>
+                <button type="button" @click="close"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-600 text-base font-medium text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+            
+            
+   <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" defer></script>
+     
+         <!-- Gridjs Demo js -->
+         <script src="{{ asset('assets/js/pages/table-gridjs.js') }}" defer></script>
 
-    <script>
-        // script.js
-        const openModalButton = document.getElementById("openModal");
-        const closeModalButton = document.getElementById("closeModal");
-        const modal = document.getElementById("modal");
 
-        // Open Modal
-        // openModalButton.addEventListener("click", () => {
-        // modal.style.display = "flex"; // Show the modal
-        // const modalContent = modal.querySelector(".modal-content");
-        // modalContent.style.animation = "blowUp 0.3s ease-out forwards"; // Blow up animation
-        // });
+         
+<script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+<script src="https://unpkg.com/gridjs-plugins/dist/gridjs-plugins.umd.js"></script>
 
-        // Close Modal
-        closeModalButton.addEventListener("click", () => {
-        const modalContent = modal.querySelector(".modal-content");
-        modalContent.style.animation = "goBack 0.3s ease-out forwards"; // Go back animation
-
-        // Hide the modal after the animation completes
-        setTimeout(() => {
-            modal.style.display = "none";
-        }, 300); // Match the duration of the animation
-        });
-
+         <script>
+    document.addEventListener('alpine:init', () => {
+    Alpine.data('reviewModal', () => ({
+        isOpen: false,
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: '',
+        ticketId: null,
+        rating: 0,
+        review: '',
+        errors: {
+            rating: '',
+            review: ''
+        },
         
-        function openModal() {
-            //alert("Modal opened!");
-            modal.style.display = "flex";
-            const modalContent = modal.querySelector(".modal-content");
-            modalContent.style.animation = "blowUp 0.3s ease-out forwards"; 
+        selectedTickets: new Set(),
+        
+        open(ticketId) {
+            this.resetState();
+            this.ticketId = ticketId;
+            this.isOpen = true;
+            setTimeout(() => {
+                const firstStar = document.querySelector('[aria-label="Rating"] button');
+                if (firstStar) firstStar.focus();
+            }, 100);
+        },
+        
+        close() {
+            this.isOpen = false;
+            setTimeout(() => {
+                if (!this.isOpen) {
+                    this.resetState();
+                }
+            }, 300);
+        },
+        
+        resetState() {
+            this.rating = 0;
+            this.review = '';
+            this.isLoading = false;
+            this.isSuccess = false;
+            this.errorMessage = '';
+            this.errors = { rating: '', review: '' };
+        },
+        
+        validate() {
+            let valid = true;
+            this.errors = { rating: '', review: '' };
+            
+            if (this.rating <= 0) {
+                this.errors.rating = 'Please select a rating';
+                valid = false;
+            }
+            
+            if (!this.review.trim()) {
+                this.errors.review = 'Please write your review';
+                valid = false;
+            } else if (this.review.length < 10) {
+                this.errors.review = 'Review must be at least 10 characters';
+                valid = false;
+            }
+            
+            return valid;
+        },
+        
+        async submitReview() {
+            if (!this.validate()) return;
+            
+            this.isLoading = true;
+            this.isSuccess = false;
+            this.errorMessage = '';
+            
+            try {
+                const response = await fetch('/dashboard/tickets/post-review', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ticket_id: this.ticketId,
+                        rating: this.rating,
+                        review: this.review
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to submit review');
+                }
+                
+                this.isSuccess = true;
+                this.rating = 0;
+                this.review = '';
+                
+                setTimeout(() => {
+                    this.close();
+                    if (typeof initializeCustomerTicketsTable === 'function') {
+                        initializeCustomerTicketsTable();
+                    }
+                }, 2000);
+            } catch (error) {
+                console.error('Error submitting review:', error);
+                this.errorMessage = error.message || 'An error occurred while submitting your review. Please try again.';
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
+         selectedTickets: new Set(),
+        
+        toggleTicketSelection(ticketId) {
+            if (this.selectedTickets.has(ticketId)) {
+                this.selectedTickets.delete(ticketId);
+            } else {
+                this.selectedTickets.add(ticketId);
+            }
+            this.updateBulkActionButton();
+        },
+        
+        updateBulkActionButton() {
+            const bulkActionBtn = document.getElementById('bulk-action-btn');
+            if (bulkActionBtn) {
+                if (this.selectedTickets.size >= 2) {
+                    bulkActionBtn.classList.remove('hidden');
+                    bulkActionBtn.innerHTML = `
+                        <i class="mgc_check_line me-1"></i> Update Selected (${this.selectedTickets.size})
+                    `;
+                } else {
+                    bulkActionBtn.classList.add('hidden');
+                }
+            }
+        },
+        
+        async updateSelectedTickets() {
+            if (this.selectedTickets.size === 0) {
+                alert('Please select at least one ticket');
+                return;
+            }
+            
+            if (!confirm(`Are you sure you want to update ${this.selectedTickets.size} selected tickets?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/tickets/bulk-update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                    },
+                    body: JSON.stringify({
+                        ticket_ids: Array.from(this.selectedTickets),
+                        status: 'completed'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to update tickets');
+                }
+                
+                alert('Tickets updated successfully!');
+                this.selectedTickets.clear();
+                initializeQualityControlTicketsTable(); // Refresh table
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to update tickets: ' + error.message);
+            }
+        },
+        
+    }));
+    
+
+
+
+    // Global functions for ticket selection// Global functions for ticket selection
+window.selectedTickets = new Set();
+
+window.toggleTicketSelection = function(ticketId) {
+    if (window.selectedTickets.has(ticketId)) {
+        window.selectedTickets.delete(ticketId);
+    } else {
+        window.selectedTickets.add(ticketId);
+    }
+    window.updateBulkActionButton();
+}
+
+window.updateBulkActionButton = function() {
+    const bulkActionBtn = document.getElementById('bulk-action-btn');
+    if (bulkActionBtn) {
+        if (window.selectedTickets.size >= 1) {
+            bulkActionBtn.classList.remove('hidden');
+            bulkActionBtn.innerHTML = `
+                <i class="mgc_check_line me-1"></i> 
+                Assign Tickets (${window.selectedTickets.size})
+            `;
+        } else {
+            bulkActionBtn.classList.add('hidden');
+        }
+    }
+}
+
+window.fetchSupportStaff = async function() {
+    try {
+        const response = await fetch('users/support', {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch support staff');
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching support staff:', error);
+        return [];
+    }
+}
+
+window.showTailwindModal = function(modalHTML) {
+    // Remove existing modal if any
+    const existingModal = document.getElementById('bulkAssignModal');
+    if (existingModal) existingModal.remove();
+    
+    // Create backdrop
+    const backdrop = document.createElement('div');
+    backdrop.id = 'bulkAssignBackdrop';
+    backdrop.className = 'fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity';
+    
+    // Add modal to body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    document.body.appendChild(backdrop);
+    
+    // Show modal with animation
+    setTimeout(() => {
+        const modal = document.getElementById('bulkAssignModal');
+        if (modal) {
+            modal.classList.remove('opacity-0', 'translate-y-4');
+            modal.classList.add('opacity-100', 'translate-y-0');
+        }
+        backdrop.classList.remove('opacity-0');
+        backdrop.classList.add('opacity-50');
+    }, 10);
+    
+    // Close modal when clicking backdrop
+    backdrop.addEventListener('click', () => {
+        window.hideTailwindModal();
+    });
+}
+
+window.hideTailwindModal = function() {
+    const modal = document.getElementById('bulkAssignModal');
+    const backdrop = document.getElementById('bulkAssignBackdrop');
+    
+    if (modal) {
+        modal.classList.remove('opacity-100', 'translate-y-0');
+        modal.classList.add('opacity-0', 'translate-y-4');
+    }
+    
+    if (backdrop) {
+        backdrop.classList.remove('opacity-50');
+        backdrop.classList.add('opacity-0');
+    }
+    
+    // Remove elements after animation
+    setTimeout(() => {
+        if (modal) modal.remove();
+        if (backdrop) backdrop.remove();
+    }, 200);
+}
+
+window.updateSelectedTickets = async function() {
+    const selectedIds = Array.from(window.selectedTickets);
+    if (selectedIds.length === 0) {
+        alert('Please select at least one ticket');
+        return;
+    }
+
+    try {
+        // Show loading state
+        const bulkActionBtn = document.getElementById('bulk-action-btn');
+        if (bulkActionBtn) {
+            bulkActionBtn.disabled = true;
+            bulkActionBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
         }
 
+        // Fetch support staff before showing modal
+        const supportStaff = await window.fetchSupportStaff();
+        
+        if (supportStaff.length === 0) {
+            throw new Error('No support staff available');
+        }
 
-        // Raatings Js starts
+        console.log("support staffs", supportStaff)
 
-        $(".rating-component .star").on("mouseover", function () {
-          //alert()
-    var onStar = parseInt($(this).data("value"), 10); //
-    $(this).parent().children("i.star").each(function (e) {
-      if (e < onStar) {
-        $(this).addClass("hover");
-      } else {
-        $(this).removeClass("hover");
-      }
-    });
-  }).on("mouseout", function () {
-    $(this).parent().children("i.star").each(function (e) {
-      $(this).removeClass("hover");
-    });
-  });
-
-  $(".rating-component .stars-box .star").on("click", function () {
-    var onStar = parseInt($(this).data("value"), 10);
-    var stars = $(this).parent().children("i.star");
-    var ratingMessage = $(this).data("message");
-
-    var msg = "";
-    if (onStar > 1) {
-      msg = onStar;
-    } else {
-      msg = onStar;
+        // Create modal HTML with Tailwind classes
+        const modalHTML = `
+            <div id="bulkAssignModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 translate-y-4 transition-all duration-200">
+                <div class="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                            Assign ${selectedIds.length} Ticket(s)
+                        </h3>
+                        <button type="button" onclick="hideTailwindModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                            <span class="sr-only">Close</span>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="p-4">
+                        <form id="bulkUpdateForm">
+                            <input type="hidden" name="ticket_ids" value="${selectedIds.join(',')}">
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Support Staff</label>
+                                <select name="staff_id" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                                    <option value="">Select Support Staff</option>
+                                    ${supportStaff.map(staff => `
+                                        <option value="${staff.id}" class="dark:bg-gray-700">${staff.user.fname + ' '  + staff.user.lname}   (${staff.assigned_tickets_count})</option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Assignment Notes</label>
+                                <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Optional notes about this assignment"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="flex items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700">
+                        <button type="button" onclick="hideTailwindModal()" class="mr-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
+                            Cancel
+                        </button>
+                        <button type="button" onclick="submitBulkUpdate()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
+                            Assign Tickets
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Show the modal
+        window.showTailwindModal(modalHTML);
+        
+    } catch (error) {
+        alert('Error: ' + error.message);
+    } finally {
+        // Reset button state
+        const bulkActionBtn = document.getElementById('bulk-action-btn');
+        if (bulkActionBtn) {
+            bulkActionBtn.disabled = false;
+            bulkActionBtn.innerHTML = `
+                <i class="mgc_check_line me-1"></i> 
+                Assign Tickets (${window.selectedTickets.size})
+            `;
+        }
     }
-    $('.rating-component .starrate .ratevalue').val(msg);
+}
+
+window.submitBulkUpdate = async function() {
+    const form = document.getElementById('bulkUpdateForm');
+    if (!form) {
+        alert('Form not found');
+        return;
+    }
+
+    const formData = new FormData(form);
+    const staffId = formData.get('staff_id');
+    if (!staffId) {
+        alert('Please select a support staff member');
+        return;
+    }
+
+    // Convert FormData to JSON
+    const jsonData = {
+        ticket_ids: formData.get('ticket_ids').split(',').map(id => parseInt(id)),
+        staff_id: parseInt(staffId),
+        notes: formData.get('notes') || ''
+    };
+
+    // Show loading state
+    const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-r-transparent"></span>
+            Assigning...
+        `;
+    }
+
+    try {
+        // Send request to server
+        const response = await fetch('tickets/bulk-assign-ticket', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify(jsonData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(await response.text() || 'Failed to assign tickets');
+        }
+
+        // Close modal
+        window.hideTailwindModal();
+
+        // Show success message
+        alert('Tickets assigned successfully!');
+        
+        // Refresh the table
+        if (typeof initializeQualityControlTicketsTable === 'function') {
+            initializeQualityControlTicketsTable();
+        }
+
+        // Clear selections
+        window.selectedTickets.clear();
+        window.updateBulkActionButton();
+
+    } catch (error) {
+        console.error(error.message);
+        alert('Error: ' + error.message);
+    } finally {
+        // Reset button state
+        const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Assign Tickets';
+        }
+    }
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof initializeQualityControlTicketsTable === 'function') {
+        initializeQualityControlTicketsTable();
+    }
+});
     
-
-  
-    $(".fa-smile-wink").show();
-    
-    $(".button-box .done").show();
-
-    if (onStar === 5) {
-      $(".button-box .done").removeAttr("disabled");
-    } else {
-      $(".button-box .done").attr("disabled", "true");
-    }
-
-    for (i = 0; i < stars.length; i++) {
-      $(stars[i]).removeClass("selected");
-    }
-
-    for (i = 0; i < onStar; i++) {
-      $(stars[i]).addClass("selected");
-    }
-
-    $(".status-msg .rating_msg").val(ratingMessage);
-    $(".status-msg").html(ratingMessage);
-    $("[data-tag-set]").hide();
-    $("[data-tag-set=" + onStar + "]").show();
-  });
-
-  $(".feedback-tags  ").on("click", function () {
-    var choosedTagsLength = $(this).parent("div.tags-box").find("input").length;
-    choosedTagsLength = choosedTagsLength + 1;
-
-    if ($(this).hasClass("choosed")) {
-      $(this).removeClass("choosed");
-      choosedTagsLength = choosedTagsLength - 2;
-    } else {
-      $(this).addClass("choosed");
-      $(".button-box .done").removeAttr("disabled");
-    }
-
-    console.log(choosedTagsLength);
-
-    if (choosedTagsLength <= 0) {
-      $(".button-box .done").attr("enabled", "false");
-    }
-  });
+    // Make the open function globally available
+    window.openReviewModal = function(ticketId) {
+        const modalElement = document.querySelector('[x-data="reviewModal"]');
+        if (modalElement) {
+            const modal = Alpine.$data(modalElement);
+            modal.open(ticketId);
+        }
+    };
+});
 
 
 
-  $(".compliment-container .fa-smile-wink").on("click", function () {
-    $(this).fadeOut("slow", function () {
-      $(".list-of-compliment").fadeIn();
-    });
-  });
 
 
+         </script>
+    @include('layouts.footer')
 
-  $(".done").on("click", function () {
-    $(".rating-component").hide();
-    $(".feedback-tags").hide();
-    $(".button-box").hide();
-    $(".submited-box").show();
-    $(".submited-box .loader").show();
-
-    setTimeout(function () {
-      $(".submited-box .loader").hide();
-      $(".submited-box .success-message").show();
-    }, 1500);
-  });
-
-    </script>
 </x-app-layout>

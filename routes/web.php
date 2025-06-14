@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\TaskController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\DraftController;
+use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\TicketsController;
 use App\Http\Controllers\User\CustomerController;
@@ -19,6 +20,14 @@ Route::get('/univ', [UnivController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::prefix('/dashboard')->group(function () {
+        Route::controller(UnivController::class)
+            ->prefix('users')
+            ->name('users.')
+            ->group(function () {
+                Route::get('/support', 'fetchSupport')->name('support');
+            });
+    });
     Route::prefix('dashboard')->group(function () {
         Route::controller(TicketsController::class)
             ->prefix('tickets')
@@ -27,14 +36,41 @@ Route::middleware('auth')->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/create', 'create')->name('create');
                 Route::post('/store', 'store')->name('store');
+                Route::post('/bulk-upload', 'bulkUpload')->name('bulk-upload');
+                Route::get('/template', 'downloadTemplate')->name('download-template');
                 Route::get('/show', 'show')->name('show');
                 // Route::get('/{ticket}', 'show')->name('show');
-                Route::get('/{ticket}/edit', 'edit')->name('edit');
-                Route::put('/{ticket}', 'update')->name('update');
+                Route::get('/customer-tickets', 'getCustomerTickets')->name('CustomerTickets');
+                Route::get('/quality-control-tickets', 'getQualityControlTickets')->name('QualityControlTickets');
+                //Assign Ticket QA
+                Route::post('/bulk-assign-ticket', 'assignTicketByQualityControl')->name('bulk-assign-ticket');
+                
+                Route::get('/{ticket}/edit-ticket', 'editTicket')->name('edit-ticket');
+                Route::put('/tickets/{ticket}', 'updateTicket')->name('user.tickets.update');
+                Route::get('/view-single-ticket/{ticket}', 'viewSingleTicket')->name('viewSingleTicket');
                 Route::delete('/{ticket}', 'destroy')->name('destroy');
                 Route::get('/draft', 'draft')->name('draft');
+                //Review
+
+                Route::get('/template', 'draftTemplate')->name('draft-template');
                 Route::get('/view-drafts', 'viewDrafts')->name('view-drafts');
+                Route::get('data-drafts', 'getDraft')->name('data-drafts');
+                Route::post('/store-draft', 'storeDraft')->name('storeDraft');
+                Route::post('/bulk-draft-upload', 'bulkDraftUpload')->name('bulk-draft-upload');
+                // Route::delete('/{draft}', [DraftController::class, 'destroy'])->name('drafts.destroy');
                 Route::get('/view-feedback', 'viewFeedback')->name('view-feedback');
+            });
+            Route::controller(ReviewController::class)
+            ->prefix('reviews')
+            ->name('reviews.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/create', 'create')->name('create');
+                Route::post('/post-review', 'reviewTicket')->name('store');
+                Route::get('/{review}', 'show')->name('show');
+                Route::get('/{review}/edit', 'edit')->name('edit');
+                Route::put('/{review}', 'update')->name('update');
+                Route::delete('/{review}', 'destroy')->name('destroy');
             });
 
         Route::controller(InvoiceController::class)

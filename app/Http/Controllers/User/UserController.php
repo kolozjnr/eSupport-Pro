@@ -21,4 +21,16 @@ class UserController extends Controller
     {
         return view('user.settings.create-knowledgebase');
     }
+
+    public function getSupport()
+    {
+        $support = Support::with('users')->get();
+    }
+
+    public function getRoles()
+    {
+        $roles = Role::with('users')->get();
+
+        dd($roles);
+    }
 }
