@@ -13,6 +13,15 @@ class UnivController extends Controller
         return view('user.index');
     }
 
+     public function getUserRole()
+    {
+        $user = auth()->user();
+        return response()->json([
+            'success' => true,
+            'role' => $user->roles->pluck('name')->first()      
+          ]);
+    }
+
     public function fetchSupport()
     {
         $supports = Support::with('user')

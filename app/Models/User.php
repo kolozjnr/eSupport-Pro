@@ -100,10 +100,21 @@ class User extends Authenticatable implements LaratrustUser
         return $this->hasMany(Rating::class);
     }
 
+    
+
     public function getCustomerId()
     {
         if ($this->customer) {
             return $this->customer->id;
+        }
+        
+        return null;
+    }
+
+    public function getSupportId()
+    {
+        if ($this->support) {
+            return $this->support->id;
         }
         
         return null;

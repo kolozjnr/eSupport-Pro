@@ -1,37 +1,5 @@
 @if(auth()->user()->hasRole('customer'))
-<div class="grid xl:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
-    <div class="card">
-        <div class="p-6">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Subscription </h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">5</p>
-                </div>
-            </div>
-        </div>
-    </div>
-     <div class="card">
-        <div class="p-6">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Total Resolved</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">15</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-      <div class="card">
-        <div class="p-6">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Total Tickets</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">1500</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 @elseif(auth()->user()->hasRole('support'))
 <div class="grid xl:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
@@ -39,8 +7,8 @@
         <div class="p-6">
             <div class="flex justify-between items-start">
                 <div>
-                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400"> Total Assigned</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">5</p>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400"> Total Tickets</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="total_tickets">0</p>
                 </div>
             </div>
         </div>
@@ -49,8 +17,8 @@
         <div class="p-6">
             <div class="flex justify-between items-start">
                 <div>
-                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Total Resolved</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">15</p>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Total Rejected</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="total_rejected"></p>
                 </div>
             </div>
         </div>
@@ -60,8 +28,8 @@
         <div class="p-6">
             <div class="flex justify-between items-start">
                 <div>
-                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Total Tickets</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">1500</p>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Total Customers</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="total_customers">0</p>
                 </div>
             </div>
         </div>

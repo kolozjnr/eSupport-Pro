@@ -47,7 +47,7 @@
                             <div id="customer-tickets-table"></div>
                             @elseif(auth()->user()->hasRole('qualitycontrol'))
                             <div id="quality-control-tickets"></div>
-                            @elseif(auth()->user()->role == 'support')
+                            @elseif(auth()->user()->hasRole('support'))
                             <div id="support-tickets-table"></div>
                             
                             @endif
@@ -167,7 +167,8 @@
         </div>
     </div>
 </div>
-            
+
+   
             
    <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" defer></script>
      
@@ -189,6 +190,7 @@
         ticketId: null,
         rating: 0,
         review: '',
+        status: '',
         errors: {
             rating: '',
             review: ''
@@ -290,6 +292,72 @@
             }
         },
 
+        
+        openModal(ticketId, currentStatus = '') {
+            this.ticketId = ticketId;
+            this.status = currentStatus.toLowerCase();
+            this.isOpen = true;
+        },
+        
+        closeModal() {
+            this.isOpen = false;
+            this.resetForm();
+        },
+        
+        resetForm() {
+            this.ticketId = null;
+            this.status = '';
+            this.isLoading = false;
+        },
+        
+        async updateStatus() {
+            if (!this.status) {
+                alert('Please select a status');
+                return;
+            }
+            
+            this.isLoading = true;
+            
+            try {
+                const response = await fetch(`/tickets/${this.ticketId}/update-status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                    },
+                    body: JSON.stringify({
+                        status: this.status
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to update status');
+                }
+                
+                const data = await response.json();
+                
+                // Show success message
+                alert(data.message || 'Status updated successfully');
+                
+                // Close modal and refresh table
+                this.closeModal();
+                initializeSupportTicketsTable();
+                
+            } catch (error) {
+                console.error('Error updating status:', error);
+                alert(error.message || 'An error occurred while updating status');
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
+
+
+
+        ///QA
+
          selectedTickets: new Set(),
         
         toggleTicketSelection(ticketId) {
@@ -357,8 +425,7 @@
 
 
 
-    // Global functions for ticket selection// Global functions for ticket selection
-window.selectedTickets = new Set();
+    // Global functions for ticket selection
 
 window.toggleTicketSelection = function(ticketId) {
     if (window.selectedTickets.has(ticketId)) {
@@ -505,7 +572,7 @@ window.updateSelectedTickets = async function() {
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Support Staff</label>
                                 <select name="staff_id" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
-                                    <option value="">Select Support Staff</option>
+                                    <option value="" disabled selected>Select Support Staff</option>
                                     ${supportStaff.map(staff => `
                                         <option value="${staff.id}" class="dark:bg-gray-700">${staff.user.fname + ' '  + staff.user.lname}   (${staff.assigned_tickets_count})</option>
                                     `).join('')}
@@ -641,6 +708,186 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 });
+
+
+// support ticket update modal
+
+// Status Update Modal Functions
+window.showStatusUpdateModal = async function(ticketId, currentStatus = '') {
+    // Remove existing modal if any
+    const existingModal = document.getElementById('statusUpdateModal');
+    if (existingModal) existingModal.remove();
+    
+    // Create backdrop
+    const backdrop = document.createElement('div');
+    backdrop.id = 'statusUpdateBackdrop';
+    backdrop.className = 'fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity';
+    
+    // Create modal HTML
+    const modalHTML = `
+        <div id="statusUpdateModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 translate-y-4 transition-all duration-200">
+            <div class="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Update Ticket Status
+                    </h3>
+                    <button type="button" onclick="hideStatusUpdateModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="p-4">
+                    <form id="statusUpdateForm">
+                        <input type="hidden" name="ticket_id" value="${ticketId}">
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                            <select name="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="assigned" ${currentStatus === 'assigned' ? 'selected' : ''}>Accept</option>
+                                <option value="rejected" ${currentStatus === 'rejected' ? 'selected' : ''}>Reject</option>
+                                <option value="resolved" ${currentStatus === 'resolved' ? 'selected' : ''}>Resolved</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Update Notes</label>
+                            <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Optional notes about this status change"></textarea>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="flex items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700">
+                    <button type="button" onclick="hideStatusUpdateModal()" class="mr-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="submitStatusUpdate()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
+                        Update Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add modal to body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    document.body.appendChild(backdrop);
+    
+    // Show modal with animation
+    setTimeout(() => {
+        const modal = document.getElementById('statusUpdateModal');
+        if (modal) {
+            modal.classList.remove('opacity-0', 'translate-y-4');
+            modal.classList.add('opacity-100', 'translate-y-0');
+        }
+        backdrop.classList.remove('opacity-0');
+        backdrop.classList.add('opacity-50');
+    }, 10);
+    
+    // Close modal when clicking backdrop
+    backdrop.addEventListener('click', () => {
+        window.hideStatusUpdateModal();
+    });
+}
+
+window.hideStatusUpdateModal = function() {
+    const modal = document.getElementById('statusUpdateModal');
+    const backdrop = document.getElementById('statusUpdateBackdrop');
+    
+    if (modal) {
+        modal.classList.remove('opacity-100', 'translate-y-0');
+        modal.classList.add('opacity-0', 'translate-y-4');
+    }
+    
+    if (backdrop) {
+        backdrop.classList.remove('opacity-50');
+        backdrop.classList.add('opacity-0');
+    }
+    
+    // Remove elements after animation
+    setTimeout(() => {
+        if (modal) modal.remove();
+        if (backdrop) backdrop.remove();
+    }, 200);
+}
+
+window.submitStatusUpdate = async function() {
+    const form = document.getElementById('statusUpdateForm');
+    if (!form) {
+        alert('Form not found');
+        return;
+    }
+
+    const formData = new FormData(form);
+    const status = formData.get('status');
+    if (!status) {
+        alert('Please select a status');
+        return;
+    }
+
+    // Convert FormData to JSON
+    const jsonData = {
+        ticket_id: formData.get('ticket_id'),
+        status: status,
+        notes: formData.get('notes') || ''
+    };
+
+    // Show loading state
+    const submitBtn = document.querySelector('#statusUpdateModal button[onclick="submitStatusUpdate()"]');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-r-transparent"></span>
+            Updating...
+        `;
+    }
+
+    try {
+        // Send request to server
+        const response = await fetch('tickets/tickets/update-status/' + jsonData.ticket_id + '', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: JSON.stringify(jsonData)
+        });
+        //console.log(jsonData);
+        
+        if (!response.ok) {
+            throw new Error(await response.text() || 'Failed to update status');
+        }
+
+        // Close modal
+        window.hideStatusUpdateModal();
+
+        // Show success message
+        alert('Status updated successfully!');
+        
+        // Refresh the table
+        if (typeof initializeSupportTicketsTable === 'function') {
+            initializeSupportTicketsTable();
+        }
+
+    } catch (error) {
+        console.error(error.message);
+        alert('Error: ' + error.message);
+    } finally {
+        // Reset button state
+        const submitBtn = document.querySelector('#statusUpdateModal button[onclick="submitStatusUpdate()"]');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Update Status';
+        }
+    }
+}
 
 
 

@@ -2,20 +2,31 @@
 
 namespace App\Http\Controllers\User;
 
+use Carbon\Carbon;
 use App\Models\Draft;
 use App\Models\Rating;
 use App\Models\Ticket;
 use App\Models\Support;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Services\SupportPerformanceService;
 use App\Notifications\TaskAssignedNotification;
+use App\Notifications\CustomerTicketUpdateNotification;
 
 class TicketsController extends Controller
 {
+    private SupportPerformanceService $performanceService;
+    
+    public function __construct(SupportPerformanceService $performanceService)
+    {
+        $this->performanceService = $performanceService;
+    }
+    
     public function index()
     {
         return view('user.tickets.index');
@@ -197,9 +208,10 @@ class TicketsController extends Controller
 
         foreach ($request->ticket_ids as $ticketId) {
            $ticket = Ticket::where('id', $ticketId)->update([
-                'status' => 'assign',
+                'status' => 'assigned',
                 'support_id' => $request->staff_id,
                 'notes' => $request->notes,
+                'assigned_at' => now()->addHour(),
             ]);
         }
 
@@ -207,9 +219,9 @@ class TicketsController extends Controller
 
           //dd($support);
 
-        // if ($support->user) {
-        //     $support->user->notify(new TaskAssignedNotification($request->ticket_ids));
-        // }
+        if ($support->user) {
+           // $support->user->notify(new TaskAssignedNotification($request->ticket_ids));
+        }
 
         DB::commit();
 
@@ -234,6 +246,111 @@ public function viewSingleTicket($id)
     return view('user.tickets.view-single-ticket', compact('ticket'));
 }
 
+//view support ticket
+public function getSupportTicket()
+{
+    $supportId = auth()->user()->getSupportId();
+    try {
+            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user' )
+            ->where('support_id', $supportId)
+            ->latest()
+            ->get();
+                
+            return response()->json($tickets);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch drafts',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+}
+public function updateSupportTicket(Request $request, $id)
+{
+    $validated = $request->validate([
+        'status' => 'required|in:open,assigned,pending,resolved,rejected'
+    ]);
+    
+    if(auth()->user()->hasRole('support'))
+    {
+        try {
+            DB::beginTransaction();
+
+            $ticket = Ticket::findOrFail($id);
+
+            $updates = ['status' => $validated['status']];
+            
+            if($validated['status'] == 'rejected')
+            {
+                $ticket->update([
+                    'status' => 'rejected',
+                    'support_id' => null,
+                    'notes' => null,
+                ]);
+            }
+            else if($validated['status'] === 'resolved')
+            {
+                $updates['resolved_at'] = now()->addHour();
+                $updates['resolution_time'] = $ticket->assigned_at->diffInMinutes(now()->addHour());
+                //$updates['resolution_time'] = now()->addHour()->diffInMinutes($ticket->assigned_at, false);
+
+                $ticket->update($updates);
+                
+                // Fixed: Changed $performanceService to $this->performanceService
+                $this->performanceService->updateSupportPerformance($ticket->support_id, $ticket->id);
+            }
+            else
+            {
+               $updatedTicket = $ticket->update([
+                    'status' => $validated['status'],
+                    'first_response_at' => $validated['status'] === 'assigned' ? now()->addHour() : $ticket->first_response_at,
+                    'response_time' => Carbon::parse($ticket->assigned_at)->diffInMinutes(now()->addHour()),
+                ]);
+
+                if (!$updatedTicket) {
+                    throw new \Exception('Failed to update ticket status');
+                }
+            }
+
+            $customer = Customer::with('user')->findOrFail($ticket->customer_id);
+
+            if ($customer->user) {
+                //$customer->user->notify(new CustomerTicketUpdateNotification($validated['status'], $id));
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Ticket status updated successfully to '. $validated['status'],
+                'ticket' => $ticket
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            return response()->json([
+                'message' => 'Failed to update ticket',
+                'error' => $e->getMessage()
+            ], 500); // Changed from 404 to 500 for server errors
+        }
+    }
+    else {
+        return response()->json([
+            'message' => 'You are not authorized to update this ticket',
+        ], 403);
+    }
+}
+
+    public function getPerformanceMetrics(int $supportId)
+    {
+        $score = $this->performanceService->calculatePerformanceScore($supportId);
+        
+        return response()->json([
+            'performance_score' => $score,
+            'metrics' => SupportPerformanceMetric::where('support_id', $supportId)->first()
+        ]);
+    }
+
 
 
     public function store(Request $request)
@@ -255,6 +372,7 @@ public function viewSingleTicket($id)
                 'name' => $validated['name'],
                 'description' => $validated['description'],
                 'subject' => 'New Ticket',
+                'status' => 'open',
                 'user_id' => $userId,
                 'customer_id' => $customerId
             ]);
@@ -335,6 +453,7 @@ public function viewSingleTicket($id)
                     'name' => $row[0],
                     'description' => $row[1],
                     'subject' => 'New Ticket',
+                    'status' => 'open',
                     'user_id' => $userId,
                     'customer_id' => $customerId
                 ]);

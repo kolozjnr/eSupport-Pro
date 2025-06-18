@@ -3,7 +3,7 @@
         <div class="app-menu">
 
             <!-- Sidenav Brand Logo -->
-            <a href="index." class="logo-box">
+            <a href="/dashboard" class="logo-box">
                 <!-- Light Brand Logo -->
                 <div class="logo-light">
                     <img src="{{ asset('assets/images/eltech-logo-light.png')}}" class="h-24 hover:h-10 w-40 hover:w-32" alt="Light logo">

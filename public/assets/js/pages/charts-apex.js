@@ -1,761 +1,137 @@
-//invoice financial Report
-var options = {
-    chart: {
-        height: 350,
-        type: 'area',
-        toolbar: {
-            show: false,
-        }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        curve: 'smooth',
-        width: 3,
-    },
-    series: [{
-        name: 'Processed',
-        data: [34, 40, 28, 52, 42, 109, 100]
-    }, {
-        name: 'Pending',
-        data: [32, 60, 34, 46, 34, 52, 41]
-    }],
-    colors: ['#556ee6', '#34c38f'],
-    xaxis: {
-        type: 'datetime',
-        categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00", "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"],
-    },
-    grid: {
-        borderColor: '#9ca3af20',
-    },
-    tooltip: {
-        x: {
-            format: 'dd/MM/yy HH:mm'
-        },
-    }
-}
 
-var chart = new ApexCharts(
-    document.querySelector("#invoiceFinancialReport"),
-    options
-);
 
-chart.render();
 
 
 //Sales Performanace
-// Sales Performance
-var options = {
-    chart: {
-        height: 350,
-        type: 'area',
-        toolbar: {
-            show: false,
-        }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        curve: 'smooth',
-        width: 3,
-    },
-    series: [{
-        name: 'series1',
-        data: [34, 40, 28, 52, 42, 109, 100, 90]
-    }, {
-        name: 'series2',
-        data: [32, 60, 34, 46, 34, 52, 41, 67]
-    }],
-    colors: ['#556ee6', '#34c38f'],
-    xaxis: {
-        type: 'category',
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Sep"],
-    },
-    grid: {
-        borderColor: '#9ca3af20',
-    },
-    tooltip: {
-        x: {
-            show: true,
-            formatter: function(val) {
-                return val;
-            }
-        }
-    }
-}
-
-var chart = new ApexCharts(
-    document.querySelector("#sales_performance_area"),
-    options
-)
-
-chart.render();
 
 
 
 
 
 
-
-//  line chart datalabel
-
-var options = {
-    chart: {
-        height: 380,
-        type: 'line',
-        zoom: {
-            enabled: false
-        },
-        toolbar: {
-            show: false
-        }
-    },
-    colors: ['#556ee6', '#34c38f'],
-    dataLabels: {
-        enabled: false,
-    },
-    stroke: {
-        width: [3, 3],
-        curve: 'straight'
-    },
-    series: [{
-        name: "High - 2018",
-        data: [26, 24, 32, 36, 33, 31, 33]
-    },
-    {
-        name: "Low - 2018",
-        data: [14, 11, 16, 12, 17, 13, 12]
-    }
-    ],
-    title: {
-        text: 'Average High & Low Temperature',
-        align: 'left',
-        style: {
-            fontWeight: '500',
-        },
-    },
-    grid: {
-        row: {
-            colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.2
-        },
-        borderColor: '#9ca3af20'
-    },
-    markers: {
-        style: 'inverted',
-        size: 6
-    },
-    xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        title: {
-            text: 'Month'
-        }
-    },
-    yaxis: {
-        title: {
-            text: 'Temperature'
-        },
-        min: 5,
-        max: 40
-    },
-    legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        floating: true,
-        offsetY: -25,
-        offsetX: -5
-    },
-    responsive: [{
-        breakpoint: 600,
-        options: {
-            chart: {
-                toolbar: {
-                    show: false
-                }
-            },
-            legend: {
-                show: false
-            },
-        }
-    }]
-}
-
-var chart = new ApexCharts(
-    document.querySelector("#line_chart_datalabel"),
-    options
-);
-
-chart.render();
-
-
-//  line chart datalabel
-
-var options = {
-    chart: {
-        height: 380,
-        type: 'line',
-        zoom: {
-            enabled: false
-        },
-        toolbar: {
-            show: false,
-        }
-    },
-    colors: ['#556ee6', '#f46a6a', '#34c38f'],
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        width: [3, 4, 3],
-        curve: 'straight',
-        dashArray: [0, 8, 5]
-    },
-    series: [{
-        name: "Session Duration",
-        data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
-    },
-    {
-        name: "Page Views",
-        data: [36, 42, 60, 42, 13, 18, 29, 37, 36, 51, 32, 35]
-    },
-    {
-        name: 'Total Visits',
-        data: [89, 56, 74, 98, 72, 38, 64, 46, 84, 58, 46, 49]
-    }
-    ],
-    title: {
-        text: 'Page Statistics',
-        align: 'left',
-        style: {
-            fontWeight: '500',
-        },
-    },
-    markers: {
-        size: 0,
-
-        hover: {
-            sizeOffset: 6
-        }
-    },
-    xaxis: {
-        categories: ['01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan',
-            '10 Jan', '11 Jan', '12 Jan'
-        ],
-    },
-    tooltip: {
-        y: [{
-            title: {
-                formatter: function (val) {
-                    return val + " (mins)"
-                }
-            }
-        }, {
-            title: {
-                formatter: function (val) {
-                    return val + " per session"
-                }
-            }
-        }, {
-            title: {
-                formatter: function (val) {
-                    return val;
-                }
-            }
-        }]
-    },
-    grid: {
-        borderColor: '#9ca3af20',
-    }
-}
-
-var chart = new ApexCharts(
-    document.querySelector("#line_chart_dashed"),
-    options
-);
-
-chart.render();
-
-
-//   customer_activities 
-
-var options = {
-    chart: {
-        height: 350,
-        type: 'area',
-        toolbar: {
-            show: false,
-        }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        curve: 'smooth',
-        width: 3,
-    },
-    series: [{
-        name: 'series1',
-        data: [34, 40, 28, 52, 42, 109, 100]
-    }, {
-        name: 'series2',
-        data: [32, 60, 34, 46, 34, 52, 41]
-    }],
-    colors: ['#556ee6', '#34c38f'],
-    xaxis: {
-        type: 'datetime',
-        categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00", "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"],
-    },
-    grid: {
-        borderColor: '#9ca3af20',
-    },
-    tooltip: {
-        x: {
-            format: 'dd/MM/yy HH:mm'
-        },
-    }
-}
-
-var chart = new ApexCharts(
-    document.querySelector("#customer_activities"),
-    options
-);
-
-chart.render();
-
-//   support_activities 
-// Generate the past 12 months in datetime format
-const months = [...Array(12)].map((_, i) => {
-    const date = new Date();
-    date.setMonth(date.getMonth() - (11 - i)); // oldest to newest
-    return date.toISOString().split('T')[0] + "T00:00:00";
-});
-
-var options = {
-    chart: {
-        height: 350,
-        type: 'area',
-        toolbar: {
-            show: false,
-        }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        curve: 'smooth',
-        width: 3,
-    },
-    series: [{
-        name: 'Support Requests',
-        data: [34, 40, 28, 52, 42, 109, 100, 94, 88, 75, 61, 80] // 12 values
-    }, {
-        name: 'Resolved',
-        data: [32, 60, 34, 46, 34, 52, 41, 60, 70, 66, 59, 75] // 12 values
-    }],
-    colors: ['#556ee6', '#34c38f'],
-    xaxis: {
-        type: 'datetime',
-        categories: months, // dynamically generated 12 months
-    },
-    grid: {
-        borderColor: '#9ca3af20',
-    },
-    tooltip: {
-        x: {
-            format: 'MMM yyyy' // show Month Year format
-        },
-    }
-}
-
-var chart = new ApexCharts(
-    document.querySelector("#support_activities"),
-    options
-);
-
-chart.render();
 
 
 //   support_activities 
 // Generate the past 12 months in datetime format
-const customer_manager_months = [...Array(12)].map((_, i) => {
-    const date = new Date();
-    date.setMonth(date.getMonth() - (11 - i)); // oldest to newest
-    return date.toISOString().split('T')[0] + "T00:00:00";
-});
+// const months = [...Array(12)].map((_, i) => {
+//     const date = new Date();
+//     date.setMonth(date.getMonth() - (11 - i)); // oldest to newest
+//     return date.toISOString().split('T')[0] + "T00:00:00";
+// });
 
-var options = {
-    chart: {
-        height: 350,
-        type: 'area',
-        toolbar: {
-            show: false,
-        }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        curve: 'smooth',
-        width: 3,
-    },
-    series: [{
-        name: 'Support Requests',
-        data: [34, 40, 28, 52, 42, 109, 100, 94, 88, 75, 61, 80] // 12 values
-    }, {
-        name: 'Resolved',
-        data: [32, 60, 34, 46, 34, 52, 41, 60, 70, 66, 59, 75] // 12 values
-    }],
-    colors: ['#556ee6', '#34c38f'],
-    xaxis: {
-        type: 'datetime',
-        categories: customer_manager_months, // dynamically generated 12 months
-    },
-    grid: {
-        borderColor: '#9ca3af20',
-    },
-    tooltip: {
-        x: {
-            format: 'MMM yyyy' // show Month Year format
-        },
-    }
-}
+// var options = {
+//     chart: {
+//         height: 350,
+//         type: 'area',
+//         toolbar: {
+//             show: false,
+//         }
+//     },
+//     dataLabels: {
+//         enabled: false
+//     },
+//     stroke: {
+//         curve: 'smooth',
+//         width: 3,
+//     },
+//     series: [{
+//         name: 'Support Requests',
+//         data: [34, 40, 28, 52, 42, 109, 100, 94, 88, 75, 61, 80] // 12 values
+//     }, {
+//         name: 'Resolved',
+//         data: [32, 60, 34, 46, 34, 52, 41, 60, 70, 66, 59, 75] // 12 values
+//     }],
+//     colors: ['#556ee6', '#34c38f'],
+//     xaxis: {
+//         type: 'datetime',
+//         categories: months, // dynamically generated 12 months
+//     },
+//     grid: {
+//         borderColor: '#9ca3af20',
+//     },
+//     tooltip: {
+//         x: {
+//             format: 'MMM yyyy' // show Month Year format
+//         },
+//     }
+// }
 
-var chart = new ApexCharts(
-    document.querySelector("#customer_manager_metric"),
-    options
-);
+// var chart = new ApexCharts(
+//     document.querySelector("#support_activities"),
+//     options
+// );
 
-chart.render();
+// chart.render();
+
+// // Generate month labels (matches your existing code)
+// const months = [...Array(12)].map((_, i) => {
+//     const date = new Date();
+//     date.setMonth(date.getMonth() - (11 - i));
+//     return date.toISOString().split('T')[0] + "T00:00:00";
+// });
+
+
+
+
+//   support_activities 
+
+
 
 //   Account invoice 
 // Generate the past 12 months in datetime format
-const invoice_months = [...Array(12)].map((_, i) => {
-    const invoice_date = new Date();
-    invoice_date.setMonth(invoice_date.getMonth() - (11 - i)); // oldest to newest
-    return invoice_date.toISOString().split('T')[0] + "T00:00:00";
-});
+// const invoice_months = [...Array(12)].map((_, i) => {
+//     const invoice_date = new Date();
+//     invoice_date.setMonth(invoice_date.getMonth() - (11 - i)); // oldest to newest
+//     return invoice_date.toISOString().split('T')[0] + "T00:00:00";
+// });
 
-var options = {
-    chart: {
-        height: 350,
-        type: 'area',
-        toolbar: {
-            show: false,
-        }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        curve: 'smooth',
-        width: 3,
-    },
-    series: [{
-        name: 'Support Requests',
-        data: [34, 40, 28, 52, 42, 109, 100, 94, 88, 75, 61, 80] // 12 values
-    }, {
-        name: 'Resolved',
-        data: [32, 60, 34, 46, 34, 52, 41, 60, 70, 66, 59, 75] // 12 values
-    }],
-    colors: ['#556ee6', '#34c38f'],
-    xaxis: {
-        type: 'datetime',
-        categories: invoice_months, // dynamically generated 12 months
-    },
-    grid: {
-        borderColor: '#9ca3af20',
-    },
-    tooltip: {
-        x: {
-            format: 'MMM yyyy' // show Month Year format
-        },
-    }
-}
+// var options = {
+//     chart: {
+//         height: 350,
+//         type: 'area',
+//         toolbar: {
+//             show: false,
+//         }
+//     },
+//     dataLabels: {
+//         enabled: false
+//     },
+//     stroke: {
+//         curve: 'smooth',
+//         width: 3,
+//     },
+//     series: [{
+//         name: 'Support Requests',
+//         data: [34, 40, 28, 52, 42, 109, 100, 94, 88, 75, 61, 80] // 12 values
+//     }, {
+//         name: 'Resolved',
+//         data: [32, 60, 34, 46, 34, 52, 41, 60, 70, 66, 59, 75] // 12 values
+//     }],
+//     colors: ['#556ee6', '#34c38f'],
+//     xaxis: {
+//         type: 'datetime',
+//         categories: invoice_months, // dynamically generated 12 months
+//     },
+//     grid: {
+//         borderColor: '#9ca3af20',
+//     },
+//     tooltip: {
+//         x: {
+//             format: 'MMM yyyy' // show Month Year format
+//         },
+//     }
+// }
 
-var chart = new ApexCharts(
-    document.querySelector("#account_invoice"),
-    options
-);
+// var chart = new ApexCharts(
+//     document.querySelector("#account_invoice"),
+//     options
+// );
 
-chart.render();
+// chart.render();
 
 
 
-// Support performance metrics
 
-var options = {
-    chart: {
-        height: 500,  // Increased from 320 to 450
-        type: 'pie',
-        animations: {
-            enabled: true,
-            easing: 'easeinout',
-            speed: 800
-        }
-    },
-    series: [44, 55, 41, 17, 15],
-    labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
-    colors: ["#34c38f", "#556ee6", "#f46a6a", "#50a5f1", "#f1b44c"],
-    legend: {
-        show: true,
-        position: 'bottom',
-        horizontalAlign: 'center',
-        verticalAlign: 'middle',
-        floating: false,
-        fontSize: '14px',
-        offsetX: 0,
-        itemMargin: {
-            horizontal: 8,
-            vertical: 5
-        }
-    },
-    plotOptions: {
-        pie: {
-            expandOnClick: true,
-            donut: {
-                labels: {
-                    show: false,
-                    total: {
-                        show: false,
-                        label: 'Total',
-                        color: '#373d3f',
-                        fontSize: '16px'
-                    }
-                }
-            },
-            customScale: 1,  // Adjust if needed (0.8-1.2)
-            offsetY: 20       // Gives more space for legend
-        }
-    },
-    stroke: {
-        colors: ['transparent'],
-        width: 1
-    },
-    dataLabels: {
-        enabled: true,
-        style: {
-            fontSize: '12px',
-            fontWeight: 'bold'
-        },
-        dropShadow: {
-            enabled: false
-        }
-    },
-    responsive: [{
-        breakpoint: 992,
-        options: {
-            chart: {
-                height: 380
-            }
-        }
-    }, {
-        breakpoint: 768,
-        options: {
-            chart: {
-                height: 320
-            },
-            legend: {
-                position: 'bottom',
-                fontSize: '12px'
-            }
-        }
-    }, {
-        breakpoint: 600,
-        options: {
-            chart: {
-                height: 280
-            },
-            legend: {
-                show: true,
-                fontSize: '10px'
-            },
-            dataLabels: {
-                enabled: false
-            }
-        }
-    }]
-};
-
-var chart = new ApexCharts(
-    document.querySelector("#support_performance_pie_chart"),
-    options
-);
-
-chart.render();
-
-// Quality Control performance metrics
-
-var options = {
-    chart: {
-        height: 500,  // Increased from 320 to 450
-        type: 'pie',
-        animations: {
-            enabled: true,
-            easing: 'easeinout',
-            speed: 800
-        }
-    },
-    series: [44, 55, 41, 17, 15],
-    labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
-    colors: ["#34c38f", "#556ee6", "#f46a6a", "#50a5f1", "#f1b44c"],
-    legend: {
-        show: true,
-        position: 'bottom',
-        horizontalAlign: 'center',
-        verticalAlign: 'middle',
-        floating: false,
-        fontSize: '14px',
-        offsetX: 0,
-        itemMargin: {
-            horizontal: 8,
-            vertical: 5
-        }
-    },
-    plotOptions: {
-        pie: {
-            expandOnClick: true,
-            donut: {
-                labels: {
-                    show: false,
-                    total: {
-                        show: false,
-                        label: 'Total',
-                        color: '#373d3f',
-                        fontSize: '16px'
-                    }
-                }
-            },
-            customScale: 1,  // Adjust if needed (0.8-1.2)
-            offsetY: 20       // Gives more space for legend
-        }
-    },
-    stroke: {
-        colors: ['transparent'],
-        width: 1
-    },
-    dataLabels: {
-        enabled: true,
-        style: {
-            fontSize: '12px',
-            fontWeight: 'bold'
-        },
-        dropShadow: {
-            enabled: false
-        }
-    },
-    responsive: [{
-        breakpoint: 992,
-        options: {
-            chart: {
-                height: 380
-            }
-        }
-    }, {
-        breakpoint: 768,
-        options: {
-            chart: {
-                height: 320
-            },
-            legend: {
-                position: 'bottom',
-                fontSize: '12px'
-            }
-        }
-    }, {
-        breakpoint: 600,
-        options: {
-            chart: {
-                height: 280
-            },
-            legend: {
-                show: true,
-                fontSize: '10px'
-            },
-            dataLabels: {
-                enabled: false
-            }
-        }
-    }]
-};
-
-var chart = new ApexCharts(
-    document.querySelector("#quality_control_pie_chart"),
-    options
-);
-
-chart.render();
-
-// business_developer chart
-
-var options = {
-    chart: {
-        height: 350,
-        type: 'bar',
-        toolbar: {
-            show: false,
-        }
-    },
-    plotOptions: {
-        bar: {
-            horizontal: false,
-            columnWidth: '45%',
-            endingShape: 'rounded'
-        },
-    },
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent']
-    },
-    series: [{
-        name: 'Net Profit',
-        data: [46, 57, 59, 54, 62, 58, 64, 60, 66]
-    }, {
-        name: 'Revenue',
-        data: [74, 83, 102, 97, 86, 106, 93, 114, 94]
-    }, {
-        name: 'Free Cash Flow',
-        data: [37, 42, 38, 26, 47, 50, 54, 55, 43]
-    }],
-    colors: ['#34c38f', '#556ee6', '#f46a6a'],
-    xaxis: {
-        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-    },
-    yaxis: {
-        title: {
-            text: '$ (thousands)',
-            style: {
-                fontWeight: '500',
-            },
-        }
-    },
-    grid: {
-        borderColor: '#9ca3af20',
-    },
-    fill: {
-        opacity: 1
-
-    },
-    tooltip: {
-        y: {
-            formatter: function (val) {
-                return "$ " + val + " thousands"
-            }
-        }
-    }
-}
-
-var chart = new ApexCharts(
-    document.querySelector("#business_developer"),
-    options
-);
-
-chart.render();
 
 
 //   spline_area 

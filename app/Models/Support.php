@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Support extends Model
 {
-    protected $quarded = [];
+    protected $guarded = [];
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+    public function performanceMetrics()
+    {
+        return $this->hasOne(SupportPerformanceMetric::class, 'support_id');
+    }
+    
     public function tickets()
     {
         return $this->hasMany(Ticket::class, 'support_id');
@@ -18,6 +23,6 @@ class Support extends Model
 
     public function assignedTickets()
     {
-        return $this->hasMany(Ticket::class, 'support_id')->where('status', 'assign');
+        return $this->hasMany(Ticket::class, 'support_id')->where('status', 'assigned');
     }
 }

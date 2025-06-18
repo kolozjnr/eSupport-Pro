@@ -97,10 +97,21 @@
                     After successful payment, please send your proof of payment (screenshot or receipt) to:  
                     <a href="mailto:support@dictacare.org" class="text-blue-600 underline">billing@eltechsolution.com</a>
                 </div>
+                <form action="{{ route('monnify.pay') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="amount" value="" id="amount">
+                    <input type="hidden" name="email" value="{{ auth()->user()->email}}" id="email">
+                    <input type="hidden" name="plan" value="" id="plan">
+                    <input type="hidden" name="frequency" value="" id="frequency">
+                    <input type="hidden" name="virtual_assistance_points" value="" id="virtual_assistance_points">
+                    <input type="hidden" name="call_service_points" value="" id="call_service_points">
+                    <input type="hidden" name="general_support_points" value="" id="general_support_points">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">Pay with Monnify</button>
+                </form>
 
-                <a href="{{route('invoices.create')}}" id="confirmPayment" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+                {{-- <a href="{{route('invoices.create')}}" id="confirmPayment" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
                     I’ve Made the Payment
-                </a>
+                </a> --}}
             </div>
         </div>
 
@@ -159,7 +170,7 @@
                                     </select>
                                 </div>
                                 
-                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
                                     <span class="display-price">10,000</span>
                                 </span>
@@ -214,7 +225,7 @@
                                     </select>
                                 </div>
                                 
-                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
                                     <span class="display-price">30,000</span>
                                 </span>
@@ -228,7 +239,7 @@
                                     <li class="text-gray-800 dark:text-gray-400">
                                         50 - 100 Tasks
                                     </li>
-                                    <li class="text-gray-800 dark:text-gray-400">
+                                    <li class="text-gray-800 dark:text-gray-400" >
                                         Call Centre Service 20,000
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
@@ -244,7 +255,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="30000" href="#">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="30000" href="#" data-general-support="20000" data-call-center="20000" data-virtual-assistance="20000" data-call-center="20000">
                                     Proceed
                                 </a>
                             </div>
@@ -268,7 +279,7 @@
                                     </select>
                                 </div>
                                 
-                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
                                     <span class="display-price">40,000</span>
                                 </span>
@@ -282,20 +293,20 @@
                                     <li class="text-gray-800 dark:text-gray-400">
                                         101 - 500 Tasks
                                     </li>
-                                    <li class="text-gray-800 dark:text-gray-400">
+                                    <li class="text-gray-800 dark:text-gray-400" data-virtual-assistance="30,000">
                                         Virtual Assistance 30,000
                                     </li>
-                                    <li class="text-gray-800 dark:text-gray-400">
+                                    <li class="text-gray-800 dark:text-gray-400" data-general-support="30,000">
                                         General Support 30,000
                                     </li>
-                                    <li class="text-gray-800 dark:text-gray-400">
+                                    <li class="text-gray-800 dark:text-gray-400" data-citizen-service-desk="30,000">
                                         Citizen Service Desk 
                                     </li>
                                 </ul>
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="40000" href="#">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="40000" href="#" data-general-support="20000" data-call-center="20000" data-virtual-assistance="20000" data-call-center="20000">
                                     Proceed
                                 </a>
                             </div>
@@ -319,7 +330,7 @@
                                     </select>
                                 </div>
                                 
-                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
                                     <span class="display-price">50,000</span>
                                 </span>
@@ -352,7 +363,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="50000" href="#">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="50000" href="#" data-general-support="50000" data-call-center="50000" data-virtual-assistance="20000">
                                     Proceed
                                 </a>
                             </div>
@@ -376,7 +387,7 @@
                                     </select>
                                 </div>
                                 
-                                <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                                <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
                                     <span class="display-price">100,000</span>
                                 </span>
@@ -442,9 +453,14 @@ New sub before the expiration of the previous one. The slots on the previous sub
     const closeModalButton = document.getElementById("closeModal");
     const modal = document.getElementById("modal");
     const planPriceSpan = document.getElementById("planPrice");
+    var payableAmount = document.getElementById("amount");
+    var frequencyInput = document.getElementById("frequency");
 
-    function showModalWithPrice(price, frequency) {
+    function showModalWithPrice(price, frequency, virtualA) {
         planPriceSpan.textContent = `₦${price.toLocaleString()}`;
+        payableAmount.value = price;
+        frequencyInput.value = frequency;
+        //console.log("virtualA", virtualA);
         modal.style.display = "flex";
         modal.querySelector(".modal-content").style.animation = "blowUp 0.3s ease-out forwards";
     }
@@ -489,19 +505,21 @@ New sub before the expiration of the previous one. The slots on the previous sub
             const displayPrice = card.querySelector('.display-price');
             const proceedButton = card.querySelector('.proceed-button');
             const basePrice = parseFloat(proceedButton.getAttribute('data-base-price'));
+            const virtualA = proceedButton.getAttribute('data-virtual-assistance');
             
             // Initial calculation
-            updatePrice(selector, displayPrice, proceedButton, basePrice);
+            updatePrice(selector, displayPrice, proceedButton, basePrice, virtualA);
             
             // Add event listener for changes
             selector.addEventListener('change', function() {
-                updatePrice(selector, displayPrice, proceedButton, basePrice);
+                updatePrice(selector, displayPrice, proceedButton, basePrice, virtualA);
             });
         });
         
-        function updatePrice(selector, displayElement, buttonElement, basePrice) {
+        function updatePrice(selector, displayElement, buttonElement, basePrice, virtualA) {
             let price = basePrice;
             let frequency = selector.value;
+            
             
             // Calculate price based on frequency
             switch(frequency) {
@@ -523,7 +541,7 @@ New sub before the expiration of the previous one. The slots on the previous sub
             displayElement.textContent = Math.round(price).toLocaleString();
             
             // Update the proceed button
-            buttonElement.setAttribute('onclick', `showModalWithPrice(${Math.round(price)}, '${frequency}')`);
+            buttonElement.setAttribute('onclick', `showModalWithPrice(${Math.round(price)}, '${frequency}', '${virtualA}')`);
         }
     });
 

@@ -30,16 +30,18 @@
                 </div>
                 <!-- Page Title End -->
 
-                <div class="grid 2xl:grid-cols-4 gap-6 mb-6">
+                <div class="grid 2xl:grid-cols-2 gap-6 mb-6">
                     
                     <div class="2xl:col-span-3">
                         <x-admin-top-head />
                         {{-- @include('layouts.chart.admin-top-head') --}}
-
+                        <div class="grid lg:grid-cols-3 gap-6">
                         <x-admin-revenue-chart />
                         {{-- @include('layouts.chart.admin-revenue-chart')	 --}}
-                    </div>
+                    
                     <x-admin-ticket-summary />
+                    </div>
+                    </div>
                     {{-- @include('layouts.chart.admin-ticket-summary') --}}
                 </div> <!-- Grid End -->
 
@@ -55,6 +57,6 @@
 
             
             <!-- Apex Chart Demo Js -->
-            <script src="{{ asset('assets/js/pages/charts-apex.js') }}" defer></script> 
+            {{-- <script src="{{ asset('assets/js/pages/charts-apex.js') }}" defer></script>  --}}
             <script src="{{ asset('assets/js/pages/dashboard.js') }}" defer></script>
     </x-app-layout>

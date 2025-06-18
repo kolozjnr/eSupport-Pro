@@ -14,7 +14,7 @@ class TaskAssignedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-   protected array $ticketIds;
+   public array $ticketIds;
 
     public function __construct(array $ticketIds)
     {
@@ -32,10 +32,10 @@ class TaskAssignedNotification extends Notification
     {
         return (new MailMessage)
             ->subject('New Tickets Assigned to You')
-            ->greeting('Hello ' . $notifiable->name . ',')
+            ->greeting('Hello ' . $notifiable->lname . ',')
             ->line('You have been assigned new tickets.')
-            ->line('Ticket IDs: ' . implode(', ', $this->ticketIds))
-            ->action('View Tickets', url('/tickets')) // Update to actual ticket list URL
+            //->line('Ticket IDs: ' . implode(', ', $this->ticketIds))
+            ->action('View Tickets', url('/tickets'))
             ->line('Thank you for your attention.');
     }
 

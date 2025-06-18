@@ -16,9 +16,9 @@
 
         
         <!-- quill css -->
-        {{-- <link href="{{ asset('assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" >
+        <link href="{{ asset('assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" >
         <link href="{{ asset('assets/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" >
-        <link href="{{ asset('assets/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" > --}}
+        <link href="{{ asset('assets/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" >
 
         
          <link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" >
@@ -47,6 +47,7 @@
 
              <!-- App css -->
              <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
+             
 
              <!-- Icons css -->
              <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
@@ -104,7 +105,7 @@
         
             <!-- App Js -->
             <script src="{{ asset('assets/js/app.js') }}" defer></script>
-        >
+        
        
             {{-- <!-- Apexcharts js -->
             <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}" defer></script>

@@ -11,21 +11,46 @@ use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\TicketsController;
 use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\MonnifyPaymentController;
+use App\Http\Controllers\User\SupportPerfomanceController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/univ', [UnivController::class, 'index']);
+Route::get('/dashboard/roles', [UnivController::class, 'getUserRole']);
+
+Route::post('/pay/monnify', [MonnifyPaymentController::class, 'pay'])->name('monnify.pay');
+Route::get('/monnify/callback', [MonnifyPaymentController::class, 'callback'])->name('monnify.callback');
+Route::post('/monnify/webhook', [MonnifyPaymentController::class, 'webhook']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/test', [DashboardController::class, 'dashboard1'])->name('dashboards');
+    Route::prefix('/dashboard')->group(function () {
+        Route::controller(DashboardController::class)
+            ->prefix('users')
+            ->name('users.')
+            ->group(function () {
+                Route::get('/support-chart', 'supportChart')->name('supportChart');
+            });
+    });
     Route::prefix('/dashboard')->group(function () {
         Route::controller(UnivController::class)
             ->prefix('users')
             ->name('users.')
             ->group(function () {
                 Route::get('/support', 'fetchSupport')->name('support');
+            });
+    });
+    Route::prefix('/dashboard')->group(function () {
+        Route::controller(SupportPerfomanceController::class)
+            ->prefix('users')
+            ->name('users.')
+            ->group(function () {
+                Route::get('/support-metrics-pie', 'getSupportPerformanceMetrics')->name('support');
             });
     });
     Route::prefix('dashboard')->group(function () {
@@ -52,9 +77,13 @@ Route::middleware('auth')->group(function () {
                 Route::get('/draft', 'draft')->name('draft');
                 //Review
 
+                //support ticket
+                Route::get('/support-tickets', 'getSupportTicket')->name('support-tickets');
+                Route::post('/tickets/update-status/{id}', 'updateSupportTicket')->name('updateSupportTicket');
+
                 Route::get('/template', 'draftTemplate')->name('draft-template');
                 Route::get('/view-drafts', 'viewDrafts')->name('view-drafts');
-                Route::get('data-drafts', 'getDraft')->name('data-drafts');
+                Route::get('/data-drafts', 'getDraft')->name('data-drafts');
                 Route::post('/store-draft', 'storeDraft')->name('storeDraft');
                 Route::post('/bulk-draft-upload', 'bulkDraftUpload')->name('bulk-draft-upload');
                 // Route::delete('/{draft}', [DraftController::class, 'destroy'])->name('drafts.destroy');

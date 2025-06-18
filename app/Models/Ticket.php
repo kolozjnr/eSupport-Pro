@@ -32,6 +32,11 @@ class Ticket extends Model
         return $this->hasMany(Rating::class);
     }
 
+    protected $casts = [
+    'assigned_at' => 'datetime',
+    'first_response_at' => 'datetime',
+    'resolved_at' => 'datetime'
+];
     // protected $casts = [
     // 'phone_numbers' => 'array',
     // ];

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supervisor extends Model
 {
-    protected $quarded = [];
+    protected $guarded = [];
     public function user()
     {
         return $this->belongsTo(User::class);
