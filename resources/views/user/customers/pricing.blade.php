@@ -104,7 +104,7 @@
                     <input type="hidden" name="plan" value="" id="plan">
                     <input type="hidden" name="frequency" value="" id="frequency">
                     <input type="hidden" name="virtual_assistance_points" value="" id="virtual_assistance_points">
-                    <input type="hidden" name="call_service_points" value="" id="call_service_points">
+                    <input type="hidden" name="call_center_points" value="" id="call_center_points">
                     <input type="hidden" name="general_support_points" value="" id="general_support_points">
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">Pay with Monnify</button>
                 </form>
@@ -200,7 +200,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="10000" href="#">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="10000" href="#" data-general-support="10000" data-call-center="10000" data-virtual-assistance="10000">
                                     Proceed
                                 </a>
                             </div>
@@ -255,7 +255,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="30000" href="#" data-general-support="20000" data-call-center="20000" data-virtual-assistance="20000" data-call-center="20000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="30000" href="#" data-general-support="20000" data-call-center="20000" data-virtual-assistance="20000">
                                     Proceed
                                 </a>
                             </div>
@@ -306,7 +306,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="40000" href="#" data-general-support="20000" data-call-center="20000" data-virtual-assistance="20000" data-call-center="20000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="40000" href="#" data-general-support="40000" data-call-center="40000" data-virtual-assistance="40000">
                                     Proceed
                                 </a>
                             </div>
@@ -363,7 +363,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="50000" href="#" data-general-support="50000" data-call-center="50000" data-virtual-assistance="20000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="50000" href="#" data-general-support="50000" data-call-center="50000" data-virtual-assistance="50000">
                                     Proceed
                                 </a>
                             </div>
@@ -414,7 +414,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="100000" href="#">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="100000" href="#" data-general-support="100000" data-call-center="100000" data-virtual-assistance="100000">
                                     Proceed
                                 </a>
                             </div>
@@ -449,21 +449,27 @@ New sub before the expiration of the previous one. The slots on the previous sub
                 });
 
            document.addEventListener("DOMContentLoaded", () => {
-    const openModalButton = document.getElementById("openModal");
-    const closeModalButton = document.getElementById("closeModal");
-    const modal = document.getElementById("modal");
-    const planPriceSpan = document.getElementById("planPrice");
-    var payableAmount = document.getElementById("amount");
-    var frequencyInput = document.getElementById("frequency");
+            const openModalButton = document.getElementById("openModal");
+            const closeModalButton = document.getElementById("closeModal");
+            const modal = document.getElementById("modal");
+            const planPriceSpan = document.getElementById("planPrice");
+            var payableAmount = document.getElementById("amount");
+            var frequencyInput = document.getElementById("frequency");
+            var virtualAInput = document.getElementById("virtual_assistance_points");
+            var callCenterInput = document.getElementById("call_center_points");
+            var generalSupportInput = document.getElementById("general_support_points");
 
-    function showModalWithPrice(price, frequency, virtualA) {
-        planPriceSpan.textContent = `₦${price.toLocaleString()}`;
-        payableAmount.value = price;
-        frequencyInput.value = frequency;
-        //console.log("virtualA", virtualA);
-        modal.style.display = "flex";
-        modal.querySelector(".modal-content").style.animation = "blowUp 0.3s ease-out forwards";
-    }
+            function showModalWithPrice(price, frequency, virtualA, callCenter, generalSupport) {
+                planPriceSpan.textContent = `₦${price.toLocaleString()}`;
+                payableAmount.value = price;
+                frequencyInput.value = frequency;
+                callCenterInput.value = callCenter;
+                generalSupportInput.value = generalSupport;
+                virtualAInput.value = virtualA;
+                //console.log("virtualA", virtualA);
+                modal.style.display = "flex";
+                modal.querySelector(".modal-content").style.animation = "blowUp 0.3s ease-out forwards";
+            }
 
     // Attach to open button if it exists
     if (openModalButton) {
@@ -506,17 +512,19 @@ New sub before the expiration of the previous one. The slots on the previous sub
             const proceedButton = card.querySelector('.proceed-button');
             const basePrice = parseFloat(proceedButton.getAttribute('data-base-price'));
             const virtualA = proceedButton.getAttribute('data-virtual-assistance');
+            const callCenter = proceedButton.getAttribute('data-call-center');
+            const generalSupport = proceedButton.getAttribute('data-general-support');
             
             // Initial calculation
-            updatePrice(selector, displayPrice, proceedButton, basePrice, virtualA);
+            updatePrice(selector, displayPrice, proceedButton, basePrice, virtualA, callCenter, generalSupport);
             
             // Add event listener for changes
             selector.addEventListener('change', function() {
-                updatePrice(selector, displayPrice, proceedButton, basePrice, virtualA);
+                updatePrice(selector, displayPrice, proceedButton, basePrice, virtualA, callCenter, generalSupport);
             });
         });
         
-        function updatePrice(selector, displayElement, buttonElement, basePrice, virtualA) {
+        function updatePrice(selector, displayElement, buttonElement, basePrice, virtualA, callCenter, generalSupport) {
             let price = basePrice;
             let frequency = selector.value;
             
@@ -541,7 +549,7 @@ New sub before the expiration of the previous one. The slots on the previous sub
             displayElement.textContent = Math.round(price).toLocaleString();
             
             // Update the proceed button
-            buttonElement.setAttribute('onclick', `showModalWithPrice(${Math.round(price)}, '${frequency}', '${virtualA}')`);
+            buttonElement.setAttribute('onclick', `showModalWithPrice(${Math.round(price)}, '${frequency}', '${virtualA}', '${callCenter}', '${generalSupport}')`);
         }
     });
 

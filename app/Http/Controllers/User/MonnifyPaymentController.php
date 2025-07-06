@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use Exception;
+use App\Models\Customer;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Services\MonnifyService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class MonnifyPaymentController extends Controller
 {
@@ -32,7 +35,7 @@ class MonnifyPaymentController extends Controller
             'redirect_url' => route('monnify.callback')
         ]);
         //dd($response);
-        //Payment failed to initialize. Array to string conversion (Connection: mysql, SQL: insert into `subscriptions` (`user_id`, `customer_id`, `payment_gateway_ref`, `paymentReference`, `reference`, `amount`, `status`, `updated_at`, `created_at`) values (7, ?, MNFY|10|20250618220042|000102, vYX8QqhUiM, ?, 10000, pending, 2025-06-18 21:00:40, 2025-06-18 21:00:40))
+        
 
 
 
@@ -41,8 +44,12 @@ class MonnifyPaymentController extends Controller
                 'customer_id' => $customerId,
                 'payment_gateway_ref' => $response['responseBody']['transactionReference'],
                 'paymentReference' => $response['responseBody']['paymentReference'],
-                'reference' => $response,
+                'reference' => $reference,
                 'amount' => $request->amount,
+                'payment_method' => 'Monnify',
+                'virtual_assistance_points' => $request->virtual_assistance_points,
+                'call_service_points' => $request->call_center_points,
+                'general_support_points' => $request->general_support_points,
                 'status' => 'pending',
                 //'reference' => InitializeDeposit::generateTrx(10),
             ]);
@@ -61,20 +68,58 @@ class MonnifyPaymentController extends Controller
 
     public function callback(Request $request)
     {
-        $transactionReference = $request->get('paymentReference');
+        $paymentReference = $request->get('paymentReference'); // YOUR reference
+        $subscription = Subscription::where('paymentReference', $paymentReference)->first();
+        $customerId = auth()->user()->getCustomerId();
+        $customer = Customer::find($subscription->customer_id);
 
-        $response = $this->monnify->verifyTransaction($transactionReference);
+        if (!$subscription) {
+            return response()->json(['error' => 'Payment reference not found.'], 404);
+        }
 
-        if (isset($response['responseBody']['paymentStatus']) && $response['responseBody']['paymentStatus'] === 'PAID') {
-            // ✅ Mark order as paid
-            // For example: Order::where('reference', $transactionReference)->update(['status' => 'paid']);
+        $transactionReference = $subscription->payment_gateway_ref; // MONNIFY's reference
 
-            return view('monnify.success', ['data' => $response['responseBody']]);
-        } else {
-            // ❌ Payment not successful
-            return view('monnify.failed', ['message' => 'Payment not verified']);
+        try {
+            if ($subscription->status === 'successful') {
+                throw new \Exception("Transaction already processed.");
+            }
+
+            $response = $this->monnify->verifyTransaction($transactionReference);
+
+            if (
+                isset($response['responseBody']['paymentStatus']) &&
+                $response['responseBody']['paymentStatus'] === 'PAID'
+            ) {
+                //dd($response);
+                $subscription->update([
+                    'status' => 'successful',
+                    'reference' => $response['responseBody']['paymentReference'],
+                    //'payment_method' => $response['responseBody']['channel'],
+                    'currency' => $response['responseBody']['currency'],
+                    'amount' => $response['responseBody']['amountPaid'],
+                ]);
+
+               // dd($response);
+
+                $customer->update([
+                    'virtual_assistance_points' => ($customer->virtual_assistance_points ?? 0) + ($subscription->virtual_assistance_points ?? 0),
+                    'call_service_points' => ($customer->call_service_points ?? 0) + ($subscription->call_service_points ?? 0),
+                    'general_support_points' => ($customer->general_support_points ?? 0) + ($subscription->general_support_points ?? 0),
+                ]);
+
+
+                return view('user.customers.payment-success', ['data' => $response['responseBody']]);
+            } else {
+                return view('user.customers.payment-failed', ['data' =>  $response['responseBody']]);
+            }
+        } catch (\Exception $e) {
+            $subscription->update(['status' => 'failed']);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
     }
+
+        
+    
 
 
     

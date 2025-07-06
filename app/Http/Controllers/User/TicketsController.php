@@ -8,6 +8,7 @@ use App\Models\Rating;
 use App\Models\Ticket;
 use App\Models\Support;
 use App\Models\Customer;
+use App\Models\Identity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -205,14 +206,32 @@ class TicketsController extends Controller
 
     try {
         DB::beginTransaction();
-
+        
         foreach ($request->ticket_ids as $ticketId) {
-           $ticket = Ticket::where('id', $ticketId)->update([
+
+            $identity = Identity::where('support_id', $request->staff_id)
+            ->whereNotNull('fname')
+            ->inRandomOrder()
+            ->first();
+
+            if (!$identity) {
+                $ticket = Ticket::where('id', $ticketId)->update([
                 'status' => 'assigned',
                 'support_id' => $request->staff_id,
                 'notes' => $request->notes,
                 'assigned_at' => now()->addHour(),
-            ]);
+                ]);
+            }
+            else {
+                $ticket = Ticket::where('id', $ticketId)->update([
+                    'status' => 'assigned',
+                    'support_id' => $request->staff_id,
+                    'identity_id' => $identity->id,
+                    'notes' => $request->notes,
+                    'assigned_at' => now()->addHour(),
+                ]);
+            }
+           
         }
 
           $support = Support::with('user')->findOrFail($request->staff_id);
@@ -251,7 +270,7 @@ public function getSupportTicket()
 {
     $supportId = auth()->user()->getSupportId();
     try {
-            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user' )
+            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity' )
             ->where('support_id', $supportId)
             ->latest()
             ->get();

@@ -119,8 +119,8 @@ async function loadUserRole() {
             speed: 800
         }
     },
-    series: [], // Will be populated with average_resolution_time in minutes
-    labels: [], // Will be populated with support names
+    series: [],
+    labels: [],
     colors: ["#34c38f", "#556ee6", "#f46a6a", "#50a5f1", "#f1b44c"],
     legend: {
         show: true,
@@ -257,9 +257,9 @@ function loadChartData() {
                 });
                 
                 // Update stats display 
-                document.getElementById('total_tickets').textContent = data.totalTicketCount || 0;
-                document.getElementById('total_customers').textContent = data.totalCustomerCount || 0;
-                document.getElementById('total_supports').textContent = data.totalSupportCount || 0;
+                // document.getElementById('total_tickets').textContent = data.totalTicketCount || 0;
+                // document.getElementById('total_customers').textContent = data.totalCustomerCount || 0;
+                // document.getElementById('total_supports').textContent = data.totalSupportCount || 0;
             }
         })
         .catch(error => {
@@ -271,111 +271,6 @@ function loadChartData() {
 loadChartData();
 
 
-// Optional: Refresh data periodically (e.g., every 30 seconds)
-// setInterval(loadChartData, 30000);
-
-        
-        // // Support performance metrics
-
-        // var options = {
-        //     chart: {
-        //         height: 500,  // Increased from 320 to 450
-        //         type: 'pie',
-        //         animations: {
-        //             enabled: true,
-        //             easing: 'easeinout',
-        //             speed: 800
-        //         }
-        //     },
-        //     series: [44, 55, 41, 17, 15],
-        //     labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
-        //     colors: ["#34c38f", "#556ee6", "#f46a6a", "#50a5f1", "#f1b44c"],
-        //     legend: {
-        //         show: true,
-        //         position: 'bottom',
-        //         horizontalAlign: 'center',
-        //         verticalAlign: 'middle',
-        //         floating: false,
-        //         fontSize: '14px',
-        //         offsetX: 0,
-        //         itemMargin: {
-        //             horizontal: 8,
-        //             vertical: 5
-        //         }
-        //     },
-        //     plotOptions: {
-        //         pie: {
-        //             expandOnClick: true,
-        //             donut: {
-        //                 labels: {
-        //                     show: false,
-        //                     total: {
-        //                         show: false,
-        //                         label: 'Total',
-        //                         color: '#373d3f',
-        //                         fontSize: '16px'
-        //                     }
-        //                 }
-        //             },
-        //             customScale: 1,  // Adjust if needed (0.8-1.2)
-        //             offsetY: 20       // Gives more space for legend
-        //         }
-        //     },
-        //     stroke: {
-        //         colors: ['transparent'],
-        //         width: 1
-        //     },
-        //     dataLabels: {
-        //         enabled: true,
-        //         style: {
-        //             fontSize: '12px',
-        //             fontWeight: 'bold'
-        //         },
-        //         dropShadow: {
-        //             enabled: false
-        //         }
-        //     },
-        //     responsive: [{
-        //         breakpoint: 992,
-        //         options: {
-        //             chart: {
-        //                 height: 380
-        //             }
-        //         }
-        //     }, {
-        //         breakpoint: 768,
-        //         options: {
-        //             chart: {
-        //                 height: 320
-        //             },
-        //             legend: {
-        //                 position: 'bottom',
-        //                 fontSize: '12px'
-        //             }
-        //         }
-        //     }, {
-        //         breakpoint: 600,
-        //         options: {
-        //             chart: {
-        //                 height: 280
-        //             },
-        //             legend: {
-        //                 show: true,
-        //                 fontSize: '10px'
-        //             },
-        //             dataLabels: {
-        //                 enabled: false
-        //             }
-        //         }
-        //     }]
-        // };
-
-        // var chart = new ApexCharts(
-        //     document.querySelector("#support_performance_pie_chart"),
-        //     options
-        // );
-
-        // chart.render();
     }
     else if (role === 'supervisor') {
         
@@ -384,52 +279,99 @@ loadChartData();
         
     }
     else if (role === 'account') {
-        
-    //invoice financial Report
-    var options = {
-        chart: {
-            height: 350,
-            type: 'area',
-            toolbar: {
-                show: false,
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'smooth',
-            width: 3,
-        },
-        series: [{
-            name: 'Processed',
-            data: [34, 40, 28, 52, 42, 109, 100]
-        }, {
-            name: 'Pending',
-            data: [32, 60, 34, 46, 34, 52, 41]
-        }],
-        colors: ['#556ee6', '#34c38f'],
-        xaxis: {
-            type: 'datetime',
-            categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00", "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"],
-        },
-        grid: {
-            borderColor: '#9ca3af20',
-        },
-        tooltip: {
-            x: {
-                format: 'dd/MM/yy HH:mm'
-            },
-        }
+        // Initialize the chart with empty data first
+var options = {
+    chart: {
+        height: 350,
+        type: 'area',
+        toolbar: { show: false }
+    },
+    dataLabels: { enabled: false },
+    stroke: { curve: 'smooth', width: 3 },
+    series: [
+        { name: 'Total Revenue', data: [] },
+        { name: 'Total Subscribers', data: [] }
+    ],
+    colors: ['#556ee6', '#34c38f'],
+    xaxis: {
+        type: 'datetime',
+        categories: []
+    },
+    grid: { borderColor: '#9ca3af20' },
+    tooltip: {
+        x: { format: 'MMM yyyy' } // Changed to show month/year only
     }
+};
 
-    var chart = new ApexCharts(
-        document.querySelector("#invoiceFinancialReport"),
-        options
-    );
+// Create chart instance
+var chart = new ApexCharts(
+    document.querySelector("#invoiceFinancialReport"),
+    options
+);
+chart.render();
 
-    chart.render();
+// Function to fetch and update chart data
+function updateChartData() {
+    fetch('dashboard/users/subscription-metrics')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Process the metrics data
+                const metrics = data.metrics;
+                
+                // Prepare data arrays
+                const revenueData = [];
+                const subscriberData = [];
+                const categories = [];
+                
+                // Get current date and calculate start date (12 months ago)
+                const currentDate = new Date();
+                const startDate = new Date();
+                startDate.setMonth(currentDate.getMonth() - 12);
+                
+                // Generate all months in the range
+                const monthYearMap = {};
+                let date = new Date(startDate);
+                while (date <= currentDate) {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const monthYear = `${year}-${month}`;
+                    monthYearMap[monthYear] = true;
+                    date.setMonth(date.getMonth() + 1);
+                }
+                
+                // Fill data for all months (including zeros for missing months)
+                Object.keys(monthYearMap).sort().forEach(monthYear => {
+                    const metric = metrics.find(m => m.month === monthYear);
+                    
+                    categories.push(`${monthYear}-01`); // Add first day for proper date format
+                    revenueData.push(metric ? metric.total_amount : 0);
+                    subscriberData.push(metric ? metric.total_subscribers : 0);
+                });
+                
+                // Update the chart
+                chart.updateOptions({
+                    xaxis: { categories: categories }
+                });
+                
+                chart.updateSeries([
+                    { name: 'Total Revenue', data: revenueData },
+                    { name: 'Total Subscribers', data: subscriberData }
+                ]);
 
+                document.getElementById('pending_invoices').textContent = data.total_pending || 0;
+                document.getElementById('successful_transactions').textContent = data.total_success || 0;
+                document.getElementById('failed_transactions').textContent = data.total_failed || 0;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+// Load data when page is ready
+updateChartData();
+    
     }
     else if (role === 'businessdeveloper') {
         
@@ -615,50 +557,102 @@ loadChartData();
     }
     else if (role === 'customer') {
         //   customer_activities 
+        // Fetch the data
+async function loadCustomerDashboard() {
+    try {
+        const response = await fetch('/dashboard/customers/customer-dashboard'); // Adjust your endpoint
+        const data = await response.json();
+        
+        if (data.success) {
+            renderChart(data.monthlyTickets);
 
-        var options = {
-            chart: {
-                height: 350,
-                type: 'area',
-                toolbar: {
-                    show: false,
+               function shortNumber(num) {
+                    num = Number(num);
+                    if (num >= 1_000_000_000) {
+                        return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
+                    } else if (num >= 1_000_000) {
+                        return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+                    } else if (num >= 1_000) {
+                        return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
+                    } else {
+                        return num;
+                    }
                 }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: 'smooth',
-                width: 3,
-            },
-            series: [{
-                name: 'series1',
-                data: [34, 40, 28, 52, 42, 109, 100]
-            }, {
-                name: 'series2',
-                data: [32, 60, 34, 46, 34, 52, 41]
-            }],
-            colors: ['#556ee6', '#34c38f'],
-            xaxis: {
-                type: 'datetime',
-                categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00", "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"],
-            },
-            grid: {
-                borderColor: '#9ca3af20',
-            },
-            tooltip: {
-                x: {
-                    format: 'dd/MM/yy HH:mm'
-                },
+
+                // Example usage after fetching data
+
+            document.getElementById('total_pending').textContent = shortNumber(data.total_pending_tickets)
+            document.getElementById('total_resolved').textContent = shortNumber(data.total_resolved_tickets)
+            document.getElementById('total_tickets').textContent = shortNumber(data.total_tickets)
+
+            document.getElementById('total_tickets_this_month').textContent = shortNumber(data.total_tickets_this_month) || 0;
+            document.getElementById('total_resolved_this_month').textContent = shortNumber(data.total_resolved_this_month) || 0;
+            document.getElementById('total_pending_this_month').textContent = shortNumber(data.total_pending_this_month) || 0;
+        }
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+    }
+}
+
+// Render the chart
+function renderChart(monthlyTickets) {
+    // Prepare data for chart
+    const categories = monthlyTickets.map(item => item.name);
+    const seriesData = monthlyTickets.map(item => item.count);
+    
+    var options = {
+        chart: {
+            height: 350,
+            type: 'area',
+            toolbar: {
+                show: false,
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth',
+            width: 3,
+        },
+        series: [{
+            name: 'Tickets',
+            data: seriesData
+        }],
+        colors: ['#556ee6'],
+        xaxis: {
+            categories: categories,
+            labels: {
+                formatter: function(value) {
+                    return value || '';
+                }
+            }
+        },
+        grid: {
+            borderColor: '#9ca3af20',
+        },
+        tooltip: {
+            y: {
+                formatter: function(value) {
+                    return value + ' tickets';
+                }
             }
         }
+    }
 
-        var chart = new ApexCharts(
-            document.querySelector("#customer_activities"),
-            options
-        );
+    var chart = new ApexCharts(
+        document.querySelector("#customer_activities"),
+        options
+    );
 
-        chart.render();
+
+    chart.render();
+}
+
+
+// Load the data when page loads
+loadCustomerDashboard();
+//document.addEventListener('DOMContentLoaded', loadCustomerDashboard);
     }
     else{
 

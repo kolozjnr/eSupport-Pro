@@ -11,6 +11,10 @@ class Support extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function identity()
+    {
+        return $this->hasMany(Identity::class);
+    }
     public function performanceMetrics()
     {
         return $this->hasOne(SupportPerformanceMetric::class, 'support_id');

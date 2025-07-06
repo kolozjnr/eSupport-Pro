@@ -99,7 +99,20 @@
                                            
                                         </div>
                                     </div>
-                                    
+
+                                    <div id="snow-editor" style="height: 300px;">
+                                        <h3><span class="ql-size-large">Hello World!</span></h3>
+                                        <p><br></p>
+                                        <h3>This is a simple editable area.</h3>
+                                        <p><br></p>
+                                        <ul>
+                                            <li>Select a text to reveal the toolbar.</li>
+                                            <li>Edit rich document on-the-fly, so elastic!</li>
+                                        </ul>
+                                        <p><br></p>
+                                        <p>End of simple area</p>
+                                    </div>
+                                            
                                     <div class="flex gap-4 mt-4">
                                         <button type="submit" class="btn bg-primary text-white">Submit</button>
                                     </div>
@@ -110,9 +123,17 @@
                 </div>
             </main>
 
+         <script src="{{ asset('assets/libs/nice-select2/js/nice-select2.js') }}" defer></script>
+
+         <!-- Choices Demo js -->
+         <script src="{{ asset('assets/js/pages/form-select.js') }}" defer></script>   
+
+
+        <script src="{{ asset('assets/js/pages/form-editor.js') }}" defer></script>
+
             <script>
                  document.addEventListener('alpine:init', () => {
-                    Alpine.data('createUser', () => ({
+                    Alpine.data('createKnowledgebase', () => ({
                         formData: {
                             fname: '',
                             mname: '',

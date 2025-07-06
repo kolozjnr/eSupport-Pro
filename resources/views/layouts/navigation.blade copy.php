@@ -37,7 +37,270 @@
 
                     <li class="menu-title">Apps</li>
 
-                   
+                    <li class="menu-item">
+                        {{-- <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{ request()->is('create*') || request()->is('draft*') ? 'open' : '' }}"> --}}
+                            <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{ request()->is('tickets') || request()->is('tickets/create') || request()->is('tickets/draft') || request()->is('tickets/view-drafts') ? 'open' : '' }}">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> Manage Tickets </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="{{ route('tickets.index')}}" class="menu-link active">
+                                    <span class="menu-text">Tickets</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('tickets.create')}}" class="menu-link">
+                                    <span class="menu-text">Create Ticket</span>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="{{ route('tickets.draft')}}" class="menu-link">
+                                    <span class="menu-text">Draft</span>
+                                </a>
+                            </li>
+                             <li class="menu-item">
+                                <a href="{{ route('tickets.view-drafts')}}" class="menu-link">
+                                    <span class="menu-text">View Draft</span>
+                                </a>
+                            </li>
+                            
+                            
+                        </ul>
+                    </li>
+
+                    
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> QA </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="{{ route('tickets.create')}}" class="menu-link">
+                                    <span class="menu-text">Create Task</span>
+                                </a>
+                            </li>
+                            {{-- <li class="menu-item">
+                                <a href="apps-project-create.html" class="menu-link">
+                                    <span class="menu-text">Review Ticket</span>
+                                </a>
+                            </li> --}}
+                            <li class="menu-item">
+                                <a href="{{ route('tickets.view-feedback')}}" class="menu-link">
+                                    <span class="menu-text">View customer Feedback</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> Invoice </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="{{ route('invoices.index')}}" class="menu-link">
+                                    <span class="menu-text">View Invoice</span>
+                                </a>
+                            </li>
+                            {{-- <li class="menu-item">
+                                <a href="apps-project-create.html" class="menu-link">
+                                    <span class="menu-text">Process Payment</span>
+                                </a>
+                            </li> --}}
+                            <li class="menu-item">
+                                <a href="{{ route('invoices.report')}}" class="menu-link">
+                                    <span class="menu-text">Financial Report and Analytics</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> Business Management </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="{{ route('tickets.view-feedback')}}" class="menu-link">
+                                    <span class="menu-text">Customer Interaction History</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="apps-project-create.html" class="menu-link">
+                                    <span class="menu-text">Sales</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Marketing</span>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="{{ route('customers.onboard')}}" class="menu-link">
+                                    <span class="menu-text">Customer Onboarding</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Sales Forecasting - BDS</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Customer Feedback Metrics - BDM</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Strategic Planning - BDM</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Business Performance - BDM</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> User Management </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">System Settings</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{route('users.create')}}" class="menu-link">
+                                    <span class="menu-text">Create user</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{route('users.manage-roles')}}" class="menu-link">
+                                    <span class="menu-text">Role Management</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Ticket Management</span>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="{{route('users.knowledgebase')}}" class="menu-link">
+                                    <span class="menu-text">Knowledge Base</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> Customer Management </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                            <li class="menu-item">
+                                <a href="{{ route('customers.manage')}}" class="menu-link">
+                                    <span class="menu-text">Manage Customers</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('customers.pricing')}}" class="menu-link">
+                                    <span class="menu-text">Pricing</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Categorize Customers</span>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="" class="menu-link">
+                                    <span class="menu-text">Customer Retention</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     <li class="menu-item">
                         {{-- <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{ request()->is('create*') || request()->is('draft*') ? 'open' : '' }}"> --}}
                             <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{ request()->is('tickets') || request()->is('tickets/create') || request()->is('tickets/draft') || request()->is('tickets/view-drafts') ? 'open' : '' }}">
@@ -146,9 +409,31 @@
                         </ul>
                     </li>
 
-                    
-                    
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    
 
                     {{-- <li class="menu-item">
                         <a href="apps-file-manager.html" class="menu-link">

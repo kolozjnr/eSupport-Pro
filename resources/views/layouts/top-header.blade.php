@@ -196,22 +196,46 @@
     <!-- Profile Dropdown Button -->
     <div class="relative">
         <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link">
-           <img src="{{ asset('assets/images/users/display_picture.PNG') }}" alt="user-image" class="rounded-full h-10">
-        </button>
+          @php
+            use Illuminate\Support\Facades\Storage;
+
+            $user = auth()->user();
+            $picture = $user->display_picture ?? null;
+        @endphp
+
+        @if($picture)
+            <img src="{{ asset('storage/' . $picture) }}" alt="user-image" class="rounded-full h-10">
+        @else
+            <img src="{{ asset('assets/images/users/display_picture.PNG') }}" alt="default-user" class="rounded-full h-10">
+        @endif
+                </button>
         <div class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-44 z-50 transition-[margin,opacity] duration-300 mt-2 bg-white shadow-lg border rounded-lg p-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
-            {{-- <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="pages-gallery.html">
+            @if(auth()->user()->hasRole('customer'))
+            <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#">
                 <i class="mgc_pic_2_line  me-2"></i> 
-                <span>Gallery</span>
+                <span>Plan: </span>
             </a>
-            <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="apps-kanban.html">
-                <i class="mgc_task_2_line  me-2"></i> 
-                <span>Kanban</span>
+            <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="">
+                <i class="mgc_service_line  me-2"></i> 
+                <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">VP: {{ auth()->user()->customer->virtual_assistance_points}}</span>
             </a>
-            <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="auth-login.html">
-                <i class="mgc_lock_line  me-2"></i> 
-                <span>Lock Screen</span>
-            </a> --}}
+            <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#">
+                <i class="mgc_phone_line  me-2"></i> 
+                <span>SP: {{ auth()->user()->customer->general_support_points}} </span>
+            </a>
+            
+            <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#">
+                <i class="mgc_service_line  me-2"></i> 
+                <span>CP: {{ auth()->user()->customer->call_service_points}}</span>
+            </a>
             <hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700">
+
+             <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="{{ route('customers.edit', auth()->user()->customer->id) }}">
+                <i class="mgc_settings_1_line  me-2"></i> 
+                <span>Update Profile</span>
+            </a>
+            @endif
+
             <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="w-full text-left flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">

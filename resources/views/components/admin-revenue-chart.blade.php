@@ -1,10 +1,10 @@
 @if(auth()->user()->hasRole('customer'))
-<div class="grid lg:grid-cols-2 gap-6">
-    <div class="lg:col-span-2">
+
+  <div class="lg:col-span-2">
         <div class="card">
             <div class="p-6">
                 <div class="flex justify-between items-center">
-                    <h4 class="card-title">Activities</h4>
+                    <h4 class="card-title">Monthly Performance</h4>
                     {{-- <div class="flex gap-2">
                         <button type="button" class="btn btn-sm bg-primary/25 text-primary hover:bg-primary hover:text-white">
                             All
@@ -30,7 +30,6 @@
             </div>
         </div>
     </div>
-</div>
 @elseif(auth()->user()->hasRole('support'))
   <!-- First Column (takes 2/3 of the row) -->
     <div class="lg:col-span-2">
@@ -84,20 +83,40 @@
 
 @elseif(auth()->user()->hasRole('account'))
 
-<div class="grid lg:grid-cols-2 gap-6">
-    <div class="lg:col-span-2">
+
+
+
+  <div class="lg:col-span-2">
         <div class="card">
-            <div class="p-6 flex flex-col h-full">
+            <div class="p-6">
                 <div class="flex justify-between items-center">
-                    <h4 class="card-title">Subscription metrics</h4>
+                    <h4 class="card-title">Subscription Metrics</h4>
+                    {{-- <div class="flex gap-2">
+                        <button type="button" class="btn btn-sm bg-primary/25 text-primary hover:bg-primary hover:text-white">
+                            All
+                        </button>
+                        <button type="button" class="btn btn-sm bg-gray-400/25 text-gray-400 hover:bg-gray-400 hover:text-white">
+                            6M
+                        </button>
+                        <button type="button" class="btn btn-sm bg-gray-400/25 text-gray-400 hover:bg-gray-400 hover:text-white">
+                            1Y
+                        </button>
+                    </div> --}}
                 </div>
+
+                {{-- <div class="card">
+                    <div class="p-6">
+                        <div id="column_chart" class="apex-charts" dir="ltr"></div>
+                    </div>
+                </div> --}}
+
                 <div dir="ltr" class="mt-2">
-                  <div id="account_invoice" class="apex-charts h-full" dir="ltr"></div>
+                   <div id="invoiceFinancialReport" class="apex-charts" dir="ltr"></div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
 @elseif(auth()->user()->hasRole('businessdeveloper'))
 
 <div class="grid lg:grid-cols-2 gap-6">

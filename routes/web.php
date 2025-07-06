@@ -26,6 +26,7 @@ Route::get('/monnify/callback', [MonnifyPaymentController::class, 'callback'])->
 Route::post('/monnify/webhook', [MonnifyPaymentController::class, 'webhook']);
 
 
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/test', [DashboardController::class, 'dashboard1'])->name('dashboards');
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
             ->name('users.')
             ->group(function () {
                 Route::get('/support-chart', 'supportChart')->name('supportChart');
+
+                Route::get('/subscription-metrics', 'subscriptionMetrics')->name('subscriptionMetrics');
             });
     });
     Route::prefix('/dashboard')->group(function () {
@@ -89,6 +92,12 @@ Route::middleware('auth')->group(function () {
                 // Route::delete('/{draft}', [DraftController::class, 'destroy'])->name('drafts.destroy');
                 Route::get('/view-feedback', 'viewFeedback')->name('view-feedback');
             });
+            Route::controller(DraftController::class)
+            ->prefix('support')
+            ->name('support.')
+            ->group(function () {
+                Route::get('/identity', 'index')->name('index');
+            });
             Route::controller(ReviewController::class)
             ->prefix('reviews')
             ->name('reviews.')
@@ -128,6 +137,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/manage', 'manageCustomer')->name('manage');
             Route::get('/edit/{id}', 'show')->name('edit');
             Route::get('/pricing', 'pricing')->name('pricing');
+            Route::get('/customer-dashboard', 'customerDashboard');
+            Route::put('/update/{id}', 'updateCustomer')->name('update');
         });
     });
 });

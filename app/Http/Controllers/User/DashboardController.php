@@ -5,7 +5,9 @@ namespace App\Http\Controllers\User;
 use Carbon\Carbon;
 use App\Models\Ticket;
 use App\Models\Customer;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
@@ -148,9 +150,78 @@ class DashboardController extends Controller
     }
 
 
-    public function getQualityControlChart()
+    public function getCustomerChart()
     {
         $now = Carbon::now();
         
     }
+
+   public function subscriptionMetrics()
+    {
+        if(auth()->user()->hasRole('account')){
+            // Get current date and calculate start date (13 months ago)
+            $endDate = now();
+            $startDate = now()->subMonths(12)->startOfMonth();
+            
+            // Generate all months in the range
+            $months = [];
+            $current = clone $startDate;
+            while ($current <= $endDate) {
+                $months[$current->format('Y-m')] = [
+                    'total_amount' => 0,
+                    'total_subscribers' => 0
+                ];
+                $current->addMonth();
+            }
+            
+            // Get actual data from database
+            $results = Subscription::where('status', 'successful')
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->select(
+                    DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+                    DB::raw('SUM(amount) as total_amount'),
+                    DB::raw('COUNT(DISTINCT customer_id) as total_subscribers')
+                )
+                ->groupBy('month')
+                ->get()
+                ->keyBy('month');
+            
+            // Merge actual data with all months
+            foreach ($results as $month => $data) {
+                $months[$month] = [
+                    'total_amount' => $data->total_amount,
+                    'total_subscribers' => $data->total_subscribers
+                ];
+            }
+            
+            // Format for response
+            $metrics = array_map(function($month, $data) {
+                return [
+                    'month' => $month,
+                    'total_amount' => $data['total_amount'],
+                    'total_subscribers' => $data['total_subscribers']
+                ];
+            }, array_keys($months), $months);
+
+            $total_failed = Subscription::where('status', 'failed')->count();
+            $total_success = Subscription::where('status', 'successful')->count();
+            $total_pending = Subscription::where('status', 'pending')->count();
+            
+            return response()->json([
+                'success' => true,
+                'metrics' => array_values($metrics),
+                'total_failed' => $total_failed,
+                'total_success' => $total_success,
+                'total_pending' => $total_pending
+            ]);
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Unauthorized'
+        ], 403);
+    }
+
+
+   
 }
