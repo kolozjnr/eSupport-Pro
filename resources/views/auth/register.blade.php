@@ -1,85 +1,101 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
 
-        <!-- Fname -->
-        <div>
-            <x-input-label for="fname" :value="__('First Name')" />
-            <x-text-input id="fname" class="block mt-1 w-full" type="text" name="fname" :value="old('fname')" required autofocus autocomplete="fname" />
-            <x-input-error :messages="$errors->get('fname')" class="mt-2" />
+    <div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="h-screen w-screen flex justify-center items-center">
+
+            <div class="2xl:w-1/4 lg:w-1/3 md:w-1/2 w-full">
+                <div class="card overflow-hidden sm:rounded-md rounded-none">
+                    <div class="p-6">
+                        
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
+                        <a href="index.html" class="block mb-8">
+                            <img class="h-6 block dark:hidden" src="assets/images/logo-dark.png" alt="">
+                            <img class="h-6 hidden dark:block" src="assets/images/logo-light.png" alt="">
+                        </a>
+
+                        <div class="mb-4">
+                            <input type="hidden" id="user_type" name="user_type" value="customer" />
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="fname">Full Name</label>
+                            <input id="fname" class="form-input" type="text"  name="fname" :value="old('fname')" required autofocus autocomplete="fname" placeholder="Enter your Name" >
+                            <x-input-error :messages="$errors->get('fname')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="LoggingEmailAddress">Email Address</label>
+                            <input id="LoggingEmailAddress" class="form-input" type="email"  name="email" :value="old('email')" required autocomplete="email" placeholder="Enter your email" >
+                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="loggingPassword">Password</label>
+                             <input id="password" class="form-input" type="password"
+                            name="password" required autocomplete="new-password" placeholder="Enter your password" >
+                            
+                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="password">Comfirm Password</label>
+                            <input id="password" class="form-input" type="password"
+                             name="password_confirmation" required autocomplete="new-password" placeholder="Enter your password" >
+                            
+                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                        </div>
+                        
+                        
+
+                        <div class="mb-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded" id="checkbox-signup" required>
+                                <label class="ms-2 text-slate-900 dark:text-slate-200" for="checkbox-signup">I accept <a href="#" class="text-gray-400 underline">Terms and Conditions</a></label>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center mb-6">
+                            <button class="btn w-full text-white bg-primary"> Register </button>
+                        </div>
+
+                        <div class="flex items-center my-6">
+                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
+                            <div class="mx-4 text-secondary">Or</div>
+                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
+                        </div>
+
+                        {{-- <div class="flex gap-4 justify-center mb-6">
+                            <a href="javascript:void(0)" class="btn border-light text-gray-400 dark:border-slate-700">
+                                <span class="flex justify-center items-center gap-2">
+                                    <i class="mgc_github_line text-info text-xl"></i>
+                                    <span class="lg:block hidden">Github</span>
+                                </span>
+                            </a>
+                            <a href="javascript:void(0)" class="btn border-light text-gray-400 dark:border-slate-700">
+                                <span class="flex justify-center items-center gap-2">
+                                    <i class="mgc_google_line text-danger text-xl"></i>
+                                    <span class="lg:block hidden">Google</span>
+                                </span>
+                            </a>
+                            <a href="javascript:void(0)" class="btn border-light text-gray-400 dark:border-slate-700">
+                                <span class="flex justify-center items-center gap-2">
+                                    <i class="mgc_facebook_line text-primary text-xl"></i>
+                                    <span class="lg:block hidden">Facebook</span>
+                                </span>
+                            </a>
+                        </div> --}}
+
+                        <p class="text-gray-500 dark:text-gray-400 text-center">Already have account ?<a href="{{ route('login') }}" class="text-primary ms-1"><b>Log In</b></a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
 
-         <!-- Mname -->
-        <div class="mt-4">
-            <x-input-label for="mname" :value="__('Middle Name')" />
-            <x-text-input id="mname" class="block mt-1 w-full" type="text" name="mname" :value="old('mname')" required autofocus autocomplete="mname" />
-            <x-input-error :messages="$errors->get('mname')" class="mt-2" />
-        </div>
-
-         <!-- Lname -->
-        <div class="mt-4">
-            <x-input-label for="lname" :value="__('Last Name')" />
-            <x-text-input id="lname" class="block mt-1 w-full" type="text" name="lname" :value="old('lname')" required autofocus autocomplete="lname" />
-            <x-input-error :messages="$errors->get('lname')" class="mt-2" />
-        </div>
-
-         <!-- UserName -->
-        <div class="mt-4">
-            <x-input-label for="username" :value="__('Username')" />
-            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('username')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="email" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        {{-- User Type --}}
-        <div class="mt-4">
-            <x-input-label for="user_type" :value="__('User Type')" />
-            
-            <x-select id="user_type" name="user_type" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
-               
-            </x-select>
-
-            <x-input-error :messages="$errors->get('user_type')" class="mt-2" />
-        </div>
-
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
 </x-guest-layout>

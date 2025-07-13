@@ -316,7 +316,7 @@ function openSendModal(draftId) {
               // Base actions (edit, delete, view)
               let actionsHTML = `
                 <div class="flex items-center">
-                  <a href="/dashboard/tickets/view-single-ticket/${ticketId}/edit-ticket" class="text-warning me-2" title="Edit">
+                  <a href="/dashboard/tickets/${ticketId}/edit-ticket" class="text-warning me-2" title="Edit">
                     <i class="mgc_edit_line text-lg"></i>
                   </a>
                   <a href="javascript:void(0);" onclick="deleteTicket('${ticketId}')" class="text-danger me-2" title="Delete">

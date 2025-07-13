@@ -43,6 +43,18 @@ class TicketsController extends Controller
         return view('user.tickets.assign-single');
     }
 
+    public function dashboard(){
+        $user = auth()->user();
+        $customerId = $user->customer->id;
+
+        $recentTickets = Ticket::where('customer_id', $customerId)
+            ->latest()
+            ->take(20)
+            ->get();
+
+        return view('user.dashboard', compact('recentTickets'));
+    }
+
     public function editTicket($id)
     {
         $ticket = Ticket::with('phoneNumbers')->findOrFail($id);
@@ -139,7 +151,7 @@ class TicketsController extends Controller
     public function getCustomerTickets()
     {
         try {
-            $query = Ticket::with('user', 'phoneNumbers')
+            $query = Ticket::with('user', 'phoneNumbers', 'support.identity')
                 ->where('user_id', auth()->id())
                 ->where('customer_id', auth()->user()->getCustomerId());
                 
@@ -239,7 +251,7 @@ class TicketsController extends Controller
           //dd($support);
 
         if ($support->user) {
-           // $support->user->notify(new TaskAssignedNotification($request->ticket_ids));
+           $support->user->notify(new TaskAssignedNotification($request->ticket_ids));
         }
 
         DB::commit();
@@ -297,6 +309,8 @@ public function updateSupportTicket(Request $request, $id)
 
             $ticket = Ticket::findOrFail($id);
 
+           
+
             $updates = ['status' => $validated['status']];
             
             if($validated['status'] == 'rejected')
@@ -314,7 +328,7 @@ public function updateSupportTicket(Request $request, $id)
                 //$updates['resolution_time'] = now()->addHour()->diffInMinutes($ticket->assigned_at, false);
 
                 $ticket->update($updates);
-                
+                $ticket->customer->decrement('call_service_points', 1);
                 // Fixed: Changed $performanceService to $this->performanceService
                 $this->performanceService->updateSupportPerformance($ticket->support_id, $ticket->id);
             }
@@ -324,19 +338,21 @@ public function updateSupportTicket(Request $request, $id)
                     'status' => $validated['status'],
                     'first_response_at' => $validated['status'] === 'assigned' ? now()->addHour() : $ticket->first_response_at,
                     'response_time' => Carbon::parse($ticket->assigned_at)->diffInMinutes(now()->addHour()),
+                    
                 ]);
-
+                $ticket->customer->decrement('call_service_points', 1);
                 if (!$updatedTicket) {
                     throw new \Exception('Failed to update ticket status');
                 }
             }
 
             $customer = Customer::with('user')->findOrFail($ticket->customer_id);
+            //dd($customer);
 
             if ($customer->user) {
-                //$customer->user->notify(new CustomerTicketUpdateNotification($validated['status'], $id));
+                $customer->user->notify(new CustomerTicketUpdateNotification($validated['status'], $id));
             }
-
+             
             DB::commit();
 
             return response()->json([
@@ -376,6 +392,8 @@ public function updateSupportTicket(Request $request, $id)
     {
         $userId = auth()->user()->id;
         $customerId = auth()->user()->getCustomerId();
+        $citizenBal = auth()->user()->customer->call_service_points;
+        //dd($userId);
         //dd(auth()->user()->id);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -385,6 +403,14 @@ public function updateSupportTicket(Request $request, $id)
         ]);
 
         try {
+
+            if ($citizenBal < 5) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Insufficient service points to create ticket.'
+                ], 400);
+            }
+
             DB::beginTransaction();
             
             $ticket = Ticket::create([
@@ -404,6 +430,8 @@ public function updateSupportTicket(Request $request, $id)
                 ]);
             }
 
+            //$citizenBal - 5;
+            auth()->user()->customer->decrement('general_support_points', 5);
             DB::commit();
 
             return response()->json([
@@ -448,8 +476,10 @@ public function updateSupportTicket(Request $request, $id)
 
     public function bulkUpload(Request $request)
     {
+        $cost = 5;
         $userId = auth()->user()->id;
         $customerId = auth()->user()->getCustomerId();
+
         $request->validate([
             'tickets_file' => 'required|file|mimes:csv,txt|max:5120',
         ]);
@@ -463,8 +493,19 @@ public function updateSupportTicket(Request $request, $id)
                 array_shift($data);
             }
 
+            $ticketCount = count($data);
+            $citizenBal = auth()->user()->customer->call_service_points;
+
+            if ($ticketCount === 0) {
+                return back()->with('error', 'No data found in file.');
+            }
+
+            if ($citizenBal < $cost * $ticketCount) {
+                return back()->with('error', 'Insufficient service points to create tickets.');
+            }
+
             DB::beginTransaction();
-            
+
             foreach ($data as $row) {
                 if (count($row) < 3) continue;
                 
@@ -487,15 +528,19 @@ public function updateSupportTicket(Request $request, $id)
                 }
             }
 
+            // Deduct total cost at once
+            auth()->user()->customer->decrement('general_support_points', $cost * $ticketCount);
+
             DB::commit();
 
-            return back()->with('success', count($data) . ' tickets imported successfully!');
+            return back()->with('success', $ticketCount . ' tickets imported successfully!');
 
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Failed to import tickets: ' . $e->getMessage());
         }
     }
+
 
     public function destroy($id)
     {

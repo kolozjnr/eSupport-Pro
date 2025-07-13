@@ -95,7 +95,7 @@
         </div>
     </div>
 
-    <div class="card p-6">
+    {{-- <div class="card p-6">
         <h4 class="text-gray-600 dark:text-gray-300 mb-2.5">On Time Completed Rate <span class="px-2 py-0.5 rounded bg-success/25 text-success ms-2"><i class="mgc_arrow_up_line text-sm align-baseline me-1"></i>59%</span></h4>
         <div class="flex justify-between items-center mb-2">
             <h5 class="text-base font-semibold">Completed Projects</h5>
@@ -104,7 +104,7 @@
         <div class="flex w-full h-1 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700 ">
             <div class="flex flex-col justify-center overflow-hidden bg-primary w-1/4" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-    </div>
+    </div> --}}
 </div>
 
 

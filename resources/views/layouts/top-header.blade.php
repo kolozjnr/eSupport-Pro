@@ -76,112 +76,112 @@
     </div>
 
     <!-- Notification Bell Button -->
-    <div class="relative md:flex hidden">
-        <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2">
-            <span class="sr-only">View notifications</span>
-            <span class="flex items-center justify-center h-6 w-6">
-                <i class="mgc_notification_line text-2xl"></i>
-            </span>
-        </button>
-        <div class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-80 z-50 mt-2 transition-[margin,opacity] duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg">
-
-            <div class="p-2 border-b border-dashed border-gray-200 dark:border-gray-700">
-                <div class="flex items-center justify-between">
-                    <h6 class="text-sm"> Notification</h6>
-                    <a href="javascript: void(0);" class="text-gray-500 underline">
-                        <small>Clear All</small>
-                    </a>
-                </div>
-            </div>
-
-            <div class="p-4 h-80" data-simplebar>
-
-                <h5 class="text-xs text-gray-500 mb-2">Today</h5>
-
-                <a href="javascript:void(0);" class="block mb-4">
-                    <div class="card-body">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="flex justify-center items-center h-9 w-9 rounded-full bg text-white bg-primary">
-                                    <i class="mgc_message_3_line text-lg"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow truncate ms-2">
-                                <h5 class="text-sm font-semibold mb-1">Datacorp <small class="font-normal text-gray-500 ms-1">1 min ago</small></h5>
-                                <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on Admin</small>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="javascript:void(0);" class="block mb-4">
-                    <div class="card-body">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="flex justify-center items-center h-9 w-9 rounded-full bg-info text-white">
-                                    <i class="mgc_user_add_line text-lg"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow truncate ms-2">
-                                <h5 class="text-sm font-semibold mb-1">Admin <small class="font-normal text-gray-500 ms-1">1 hr ago</small></h5>
-                                <small class="noti-item-subtitle text-muted">New user registered</small>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="javascript:void(0);" class="block mb-4">
-                    <div class="card-body">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                {{-- <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-9 w-9" alt=""> --}}
-                            </div>
-                            <div class="flex-grow truncate ms-2">
-                                <h5 class="text-sm font-semibold mb-1">Cristina Pride <small class="font-normal text-gray-500 ms-1">1 day ago</small></h5>
-                                <small class="noti-item-subtitle text-muted">Hi, How are you? What about our next meeting</small>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <h5 class="text-xs text-gray-500 mb-2">Yesterday</h5>
-
-                <a href="javascript:void(0);" class="block mb-4">
-                    <div class="card-body">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="flex justify-center items-center h-9 w-9 rounded-full bg-primary text-white">
-                                    <i class="mgc_message_1_line text-lg"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow truncate ms-2">
-                                <h5 class="text-sm font-semibold mb-1">Datacorp</h5>
-                                <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on Admin</small>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="javascript:void(0);" class="block">
-                    <div class="card-body">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                {{-- <img src="assets/images/users/avatar-4.jpg" class="rounded-full h-9 w-9" alt=""> --}}
-                            </div>
-                            <div class="flex-grow truncate ms-2">
-                                <h5 class="text-sm font-semibold mb-1">Karen Robinson</h5>
-                                <small class="noti-item-subtitle text-muted">Wow ! this admin looks good and awesome design</small>
-                            </div>
-                        </div>
-                    </div>
+ <div class="relative md:flex hidden" x-data="notificationSystem()" x-init="init()">
+    <button @click="toggleDropdown()" type="button" class="nav-link p-2 relative">
+        <span class="sr-only">View notifications</span>
+        <span class="flex items-center justify-center h-6 w-6">
+            <i class="mgc_notification_line text-2xl"></i>
+        </span>
+        <span 
+            x-show="unreadCount > 0"
+            class="absolute top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"
+            x-text="unreadCount"
+        ></span>
+    </button>
+    
+<div 
+        x-show="isOpen" 
+        @click.away="isOpen = false"
+        class="absolute right-0 mt-2 w-80 origin-top-right z-50 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none"
+        x-transition:enter="transition ease-out duration-100"
+        x-transition:enter-start="transform opacity-0 scale-95"
+        x-transition:enter-end="transform opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-75"
+        x-transition:leave-start="transform opacity-100 scale-100"
+        x-transition:leave-end="transform opacity-0 scale-95"
+    >
+        <div class="p-2 border-b border-dashed border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <h6 class="text-sm">Notification</h6>
+                <a 
+                    href="javascript: void(0);" 
+                    class="text-gray-500 underline"
+                    @click="markAllAsRead()"
+                >
+                    <small>Clear All</small>
                 </a>
             </div>
-
-            <a href="javascript:void(0);" class="p-2 border-t border-dashed border-gray-200 dark:border-gray-700 block text-center text-primary underline font-semibold">
-                View All
-            </a>
         </div>
+
+        <div class="p-4 h-80 overflow-y-auto" data-simplebar>
+            <template x-if="loading">
+                <div class="flex justify-center items-center h-full">
+                    <svg class="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+            </template>
+            
+            <template x-if="!loading && notifications.length === 0">
+                <div class="flex justify-center items-center h-full text-gray-500">
+                    No notifications
+                </div>
+            </template>
+            
+            <template x-if="!loading && notifications.length > 0">
+                <div>
+                    <template x-for="(group, date) in groupedNotifications" :key="date">
+                        <div>
+                            <h5 class="text-xs text-gray-500 mb-2" x-text="date"></h5>
+                            <template x-for="notification in group" :key="notification.id">
+                                <a 
+                                    href="javascript:void(0);" 
+                                    class="block mb-4"
+                                    :class="{'opacity-70': notification.read_at}"
+                                    @click="markAsRead(notification)"
+                                >
+                                    <div class="card-body">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                <div 
+                                                    class="flex justify-center items-center h-9 w-9 rounded-full text-white"
+                                                    :class="{
+                                                        'bg-primary': !notification.read_at,
+                                                        'bg-gray-400': notification.read_at
+                                                    }"
+                                                >
+                                                    <i class="mgc_message_3_line text-lg"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow truncate ms-2">
+                                                <h5 class="text-sm font-semibold mb-1">
+                                                    <span x-text="notification.data.title"></span>
+                                                    <small class="font-normal text-gray-500 ms-1" x-text="formatTime(notification.created_at)"></small>
+                                                </h5>
+                                                <small class="noti-item-subtitle text-muted" x-text="notification.data.message"></small>
+                                            </div>
+                                            <template x-if="!notification.read_at">
+                                                <div class="ml-2 w-2 h-2 rounded-full bg-blue-500"></div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </a>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+
+        <a 
+            href="javascript:void(0);" 
+            class="p-2 border-t border-dashed border-gray-200 dark:border-gray-700 block text-center text-primary underline font-semibold"
+        >
+            View All
+        </a>
     </div>
+</div>
 
     <!-- Light/Dark Toggle Button -->
     <div class="flex">
@@ -264,3 +264,140 @@
         </div>
     </div>
 </div> --}}
+<script>
+function notificationSystem() {
+    return {
+        isOpen: false,
+        notifications: [],
+        loading: true,
+        unreadCount: 0,
+        
+        // Group notifications by date
+        get groupedNotifications() {
+            const groups = {};
+            
+            this.notifications.forEach(notification => {
+                const date = new Date(notification.created_at).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                if (!groups[date]) {
+                    groups[date] = [];
+                }
+                
+                groups[date].push(notification);
+            });
+            
+            return groups;
+        },
+        
+        init() {
+            this.fetchNotifications();
+            // Poll for new notifications every 60 seconds
+            this.polling = setInterval(() => this.fetchNotifications(), 60000);
+        },
+        
+        toggleDropdown() {
+            this.isOpen = !this.isOpen;
+            if (this.isOpen) {
+                this.fetchNotifications();
+            }
+        },
+        
+        async fetchNotifications() {
+            try {
+                const response = await fetch('/dashboard/notifications/notifications');
+                const data = await response.json();
+                console.log("Notification", data)
+                if (data.status) {
+                    this.notifications = [...data.data.unread, ...data.data.read];
+                    this.unreadCount = data.data.unread.length;
+                }
+            } catch (error) {
+                console.error('Error fetching notifications:', error);
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        async markAsRead(notification) {
+            if (!notification.read_at) {
+                try {
+                    const response = await fetch(`/dashboard/notifications/notifications/read/${notification.id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.status) {
+                        // Update the notification locally
+                        const index = this.notifications.findIndex(n => n.id === notification.id);
+                        if (index !== -1) {
+                            this.notifications[index].read_at = new Date().toISOString();
+                            this.unreadCount = Math.max(0, this.unreadCount - 1);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error marking notification as read:', error);
+                }
+            }
+            
+            // You can add navigation logic here if needed
+            // window.location.href = notification.data.url;
+        },
+        
+        async markAllAsRead() {
+            try {
+                const unreadIds = this.notifications
+                    .filter(n => !n.read_at)
+                    .map(n => n.id);
+                
+                if (unreadIds.length > 0) {
+                    const response = await fetch('/dashboard/notifications/notifications/mark-all-read', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({ ids: unreadIds })
+                    });
+                    
+                    const data = await response.json();
+                    console.log(data)
+                    
+                    if (data.status) {
+                        // Update all notifications locally
+                        this.notifications = this.notifications.map(n => {
+                            if (!n.read_at) {
+                                return { ...n, read_at: new Date().toISOString() };
+                            }
+                            return n;
+                        });
+                        this.unreadCount = 0;
+                    }
+                }
+            } catch (error) {
+                console.error('Error marking all notifications as read:', error);
+            }
+        },
+        
+        formatTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+            
+            if (diffInSeconds < 60) return 'just now';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min ago`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hr ago`;
+            return `${Math.floor(diffInSeconds / 86400)} day ago`;
+        }
+    }
+}
+</script>

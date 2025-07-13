@@ -10,13 +10,24 @@ use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\TicketsController;
 use App\Http\Controllers\User\CustomerController;
+use App\Http\Controllers\User\SettingsController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\MonnifyPaymentController;
 use App\Http\Controllers\User\SupportPerfomanceController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+
+
+// Route::get('/dashboard', function () {
+//     return view('user.dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 Route::get('/univ', [UnivController::class, 'index']);
 Route::get('/dashboard/roles', [UnivController::class, 'getUserRole']);
@@ -28,8 +39,8 @@ Route::post('/monnify/webhook', [MonnifyPaymentController::class, 'webhook']);
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/test', [DashboardController::class, 'dashboard1'])->name('dashboards');
+    
     Route::prefix('/dashboard')->group(function () {
         Route::controller(DashboardController::class)
             ->prefix('users')
@@ -38,6 +49,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/support-chart', 'supportChart')->name('supportChart');
 
                 Route::get('/subscription-metrics', 'subscriptionMetrics')->name('subscriptionMetrics');
+                
             });
     });
     Route::prefix('/dashboard')->group(function () {
@@ -61,6 +73,7 @@ Route::middleware('auth')->group(function () {
             ->prefix('tickets')
             ->name('tickets.')
             ->group(function () {
+                
                 Route::get('/', 'index')->name('index');
                 Route::get('/create', 'create')->name('create');
                 Route::post('/store', 'store')->name('store');
@@ -111,6 +124,15 @@ Route::middleware('auth')->group(function () {
                 Route::delete('/{review}', 'destroy')->name('destroy');
             });
 
+            // Administrator settings
+            Route::controller(SettingsController::class)
+            ->prefix('settings')
+            ->name('settings.')
+            ->group(function(){
+                Route::get('/', 'viewSettings')->name('index');
+                Route::post('/post-settings', 'postSettings')->name('store');
+            });
+
         Route::controller(InvoiceController::class)
             ->prefix('invoices')
             ->name('invoices.')
@@ -127,6 +149,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', 'createUser')->name('create');
             Route::get('/manage-roles', 'manageRoles')->name('manage-roles');
             Route::get('/knowledgebase', 'getKnowledgebase')->name('knowledgebase');
+            Route::post('/post-user', 'postUserCreation')->name('store');
         });
 
         Route::controller(CustomerController::class)
@@ -140,12 +163,19 @@ Route::middleware('auth')->group(function () {
             Route::get('/customer-dashboard', 'customerDashboard');
             Route::put('/update/{id}', 'updateCustomer')->name('update');
         });
+
+        Route::controller(NotificationController::class)
+        ->prefix('notifications')
+        ->name('notifications.')
+        ->group(function(){
+            Route::get('/notifications', 'index');
+            Route::get('/notifications/{id}', 'show');
+            Route::post('/notifications/read/{id}', 'viewNotification');
+        });
     });
 });
 
-Route::get('/dashboard', function () {
-    return view('user.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

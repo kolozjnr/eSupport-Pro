@@ -7,18 +7,21 @@
                                     <h4 class="card-title">Recent Tickets Uploaded</h4>
                                     
                                 </div>
+                              
 
                                 <div class="grid md:grid-cols-2 items-center gap-4">
                                     <div class="md:order-1 order-2">
                                         <div class="flex flex-col gap-6">
+                                              @foreach ($recentTickets as $item)
+                                   
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0">
                                                     <i class="mgc_round_fill h-10 w-10 flex justify-center items-center rounded-full bg-primary/25 text-lg text-primary"></i>
                                                 </div>
                                                 <div class="flex-grow ms-3">
-                                                    <h5 class="fw-semibold mb-1">Description</h5>
+                                                    <h5 class="fw-semibold mb-1">{{$item->status}}</h5>
                                                     <ul class="flex items-center gap-2">
-                                                        <li class="list-inline-item"><b>26</b> Total Tickets</li>
+                                                        <li class="list-inline-item">{{ \Illuminate\Support\Str::limit($item->description, 80, '...') }}</li>
                                                         <li class="list-inline-item">
                                                             <div class="w-1 h-1 rounded bg-gray-400"></div>
                                                         </li>
@@ -26,54 +29,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
-
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0">
-                                                    <i class="mgc_round_fill h-10 w-10 flex justify-center items-center rounded-full bg-primary/25 text-lg text-primary"></i>
-                                                </div>
-                                                <div class="flex-grow ms-3">
-                                                    <h5 class="fw-semibold mb-1">John Doe</h5>
-                                                    <ul class="flex items-center gap-2">
-                                                        <li class="list-inline-item"><b>26</b> Total Tickets</li>
-                                                        <li class="list-inline-item">
-                                                            <div class="w-1 h-1 rounded bg-gray-400"></div>
-                                                        </li>
-                                                        {{-- <li class="list-inline-item"><b>4</b> Employees</li> --}}
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0">
-                                                    <i class="mgc_round_fill h-10 w-10 flex justify-center items-center rounded-full bg-primary/25 text-lg text-primary"></i>
-                                                </div>
-                                                <div class="flex-grow ms-3">
-                                                    <h5 class="fw-semibold mb-1">Jane Long</h5>
-                                                    <ul class="flex items-center gap-2">
-                                                        <li class="list-inline-item"><b>56</b> Total Tickets</li>
-                                                        <li class="list-inline-item">
-                                                            <div class="w-1 h-1 rounded bg-gray-400"></div>
-                                                        </li>
-                                                        {{-- <li class="list-inline-item"><b>4</b> Employees</li> --}}
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0">
-                                                    <i class="mgc_round_fill h-10 w-10 flex justify-center items-center rounded-full bg-primary/25 text-lg text-primary"></i>
-                                                </div>
-                                                <div class="flex-grow ms-3">
-                                                    <h5 class="fw-semibold mb-1">Barnabas Doe</h5>
-                                                    <ul class="flex items-center gap-2">
-                                                        <li class="list-inline-item"><b>6</b> Total Tickets</li>
-                                                        <li class="list-inline-item">
-                                                            <div class="w-1 h-1 rounded bg-gray-400"></div>
-                                                        </li>
-                                                        {{-- <li class="list-inline-item"><b>4</b> Employees</li> --}}
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
 {{-- 

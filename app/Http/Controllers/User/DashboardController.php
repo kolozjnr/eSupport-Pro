@@ -13,7 +13,15 @@ use App\Http\Controllers\Controller;
 class DashboardController extends Controller
 {
     public function dashboard(){
-        return view('user.dashboard');
+        $user = auth()->user();
+        $customerId = $user->customer->id;
+
+        $recentTickets = Ticket::where('customer_id', $customerId)
+            ->latest()
+            ->take(20)
+            ->get();
+
+        return view('user.dashboard', compact('recentTickets'));
     }
 
     public function dashboard1(){

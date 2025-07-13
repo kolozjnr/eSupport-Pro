@@ -47,7 +47,7 @@
 
                 <x-admin-mid-cards />
                {{-- @include('layouts.chart.admin-mid-cards') --}}
-                <x-ticket-overview />
+                <x-ticket-overview :recentTickets="$recentTickets" />
                {{-- @include('layouts.charts.ticket-overview') --}}
             </main>
            @include('layouts.footer')

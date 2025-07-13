@@ -17,7 +17,8 @@ class CustomerController extends Controller
      
 public function customerDashboard()
 {
-    $customerId = auth()->user()->id;
+    $customerId = auth()->user()->customer->id;
+    //dd($customerId);
     
     // Get the current date and calculate the start date (6 months ago)
     $now = now();

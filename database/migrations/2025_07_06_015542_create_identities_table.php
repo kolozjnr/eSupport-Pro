@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('support_id')->constrained('supports')->cascadeOnDelete();
             $table->string('public_id')->nullable();
-            $table->string('fname')->nullable();
+            $table->string('name')->nullable();
             $table->string('lname')->nullable();
             $table->string('mname')->nullable();
             $table->string('display_picture')->nullable();
