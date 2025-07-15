@@ -21,7 +21,12 @@ return new class extends Migration
             $table->string('phone_number', 20)->nullable();
             $table->string('dark_logo')->nullable();
             $table->string('light_logo')->nullable();
-            $table->string('favicon', 100)->nullable();
+            $table->string('dark_logo_sm')->nullable();
+            $table->string('light_logo_sm')->nullable();
+            $table->string('favicon')->nullable();
+            $table->decimal('general_support_charge', 15, 2)->nullable();
+            $table->decimal('call_center_charge', 15, 2)->nullable();
+            $table->decimal('virtual_support_charge', 15, 2)->nullable();
             $table->decimal('citizen_desk_plan_amount', 15, 2)->nullable();
             $table->decimal('startup_up_amount', 15, 2)->nullable();
             $table->decimal('team_amount', 15, 2)->nullable();

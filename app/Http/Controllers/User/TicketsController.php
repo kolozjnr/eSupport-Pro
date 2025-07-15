@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Draft;
 use App\Models\Rating;
 use App\Models\Ticket;
+use App\Models\Setting;
 use App\Models\Support;
 use App\Models\Customer;
 use App\Models\Identity;
@@ -14,6 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use App\Services\SupportPerformanceService;
 use App\Notifications\TaskAssignedNotification;
@@ -301,6 +303,12 @@ public function updateSupportTicket(Request $request, $id)
     $validated = $request->validate([
         'status' => 'required|in:open,assigned,pending,resolved,rejected'
     ]);
+
+    $deduction = Cache::rememberForever('deduction', function () {
+        return Setting::first();
+    });
+
+    //dd($deduction);
     
     if(auth()->user()->hasRole('support'))
     {
@@ -328,7 +336,7 @@ public function updateSupportTicket(Request $request, $id)
                 //$updates['resolution_time'] = now()->addHour()->diffInMinutes($ticket->assigned_at, false);
 
                 $ticket->update($updates);
-                $ticket->customer->decrement('call_service_points', 1);
+                $ticket->customer->decrement('call_service_points', $deduction->call_center_charge);
                 // Fixed: Changed $performanceService to $this->performanceService
                 $this->performanceService->updateSupportPerformance($ticket->support_id, $ticket->id);
             }
@@ -390,21 +398,25 @@ public function updateSupportTicket(Request $request, $id)
 
     public function store(Request $request)
     {
+        $deduction = Cache::rememberForever('deduction', function(){
+            return Setting::first();
+        });
+        $deduction = $deduction->general_support_charge;
         $userId = auth()->user()->id;
         $customerId = auth()->user()->getCustomerId();
-        $citizenBal = auth()->user()->customer->call_service_points;
+        $citizenBal = auth()->user()->customer->general_support_points;
         //dd($userId);
         //dd(auth()->user()->id);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:500',
-            'phone_numbers' => 'required|array|min:1',
-            'phone_numbers.*.number' => 'required|string|max:20',
+            'phone_numbers' => 'required|array|numeric|min:1',
+            'phone_numbers.*.number' => 'required|numeric|max:20',
         ]);
 
         try {
 
-            if ($citizenBal < 5) {
+            if ($citizenBal < $deduction) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Insufficient service points to create ticket.'
@@ -431,7 +443,7 @@ public function updateSupportTicket(Request $request, $id)
             }
 
             //$citizenBal - 5;
-            auth()->user()->customer->decrement('general_support_points', 5);
+            auth()->user()->customer->decrement('general_support_points', $deduction);
             DB::commit();
 
             return response()->json([
@@ -476,7 +488,11 @@ public function updateSupportTicket(Request $request, $id)
 
     public function bulkUpload(Request $request)
     {
-        $cost = 5;
+         $deduction = Cache::rememberForever('deduction', function(){
+            return Setting::first();
+        });
+        $cost = $deduction->general_support_charge;
+        
         $userId = auth()->user()->id;
         $customerId = auth()->user()->getCustomerId();
 
@@ -494,7 +510,7 @@ public function updateSupportTicket(Request $request, $id)
             }
 
             $ticketCount = count($data);
-            $citizenBal = auth()->user()->customer->call_service_points;
+            $citizenBal = auth()->user()->customer->general_support_points;
 
             if ($ticketCount === 0) {
                 return back()->with('error', 'No data found in file.');

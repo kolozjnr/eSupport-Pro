@@ -12,7 +12,7 @@
     <meta content="Tecknow" name="author">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{asset('storage/'. $settings->favicon)}}">
 
    
 

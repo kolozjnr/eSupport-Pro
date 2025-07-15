@@ -12,14 +12,14 @@
     <a href="index.html" class="logo-box">
         <!-- Light Brand Logo -->
         <div class="logo-light">
-            <img src="assets/images/eltech-logo.png" class="logo-lg h-6" alt="Light logo">
-            <img src="assets/images/logo-sm.png" class="logo-sm" alt="Small logo">
+            <img src="{{ asset('storage/'. $settings->light_logo) }}" class="logo-lg h-6" alt="Light logo">
+            <img src="{{ asset('storage/'. $settings->light_logo_sm) }}" alt="Small logo">
         </div>
 
         <!-- Dark Brand Logo -->
         <div class="logo-dark">
-            <img src="assets/images/logo-dark.png" class="logo-lg h-6" alt="Dark logo">
-            <img src="assets/images/logo-sm.png" class="logo-sm" alt="Small logo">
+            <img src="{{ asset('storage/'. $settings->dark_logo) }}" class="logo-lg h-6" alt="Dark logo">
+            <img src="{{ asset('storage/'. $settings->dark_logo_sm) }}" class="logo-sm" alt="Small logo">
         </div>
     </a>
 

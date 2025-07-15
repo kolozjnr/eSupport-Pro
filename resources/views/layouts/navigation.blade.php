@@ -6,14 +6,14 @@
             <a href="/dashboard" class="logo-box">
                 <!-- Light Brand Logo -->
                 <div class="logo-light">
-                    <img src="{{ asset('assets/images/eltech-logo-light.png')}}" class="h-24 hover:h-10 w-40 hover:w-32" alt="Light logo">
-                    <img src="{{ asset('assets/images/logo-sm.png')}}" class="logo-sm" alt="Small logo">
+                    <img src="{{ asset('storage/'. $settings->light_logo)}}" class="h-24 hover:h-10 w-40 hover:w-32" alt="Light logo">
+                    <img src="{{ asset('storage/'. $settings->light_logo_sm)}}" class="logo-sm" alt="Small logo">
                 </div>
 
                 <!-- Dark Brand Logo -->
                 <div class="logo-dark">
-                    <img src="{{ asset('assets/images/eltech-logo-dark.png')}}" class="h-32 hover:h-10 w-40 hover:w-32" alt="Dark logo">
-                    <img src="{{ asset('assets/images/logo-sm.png')}}" class="logo-sm" alt="Small logo">
+                    <img src="{{ asset('storage/' . $settings->dark_logo) }}" class="h-32 hover:h-10 w-40 hover:w-32" alt="Dark logo">
+                    <img src="{{ asset('storage/'. $settings->dark_logo_sm)}}" class="logo-sm" alt="Small logo">
                 </div>
             </a>
 
@@ -35,7 +35,7 @@
                         </a>
                     </li>
 
-                    <li class="menu-title">Apps</li>
+                    <li class="menu-title">{{$settings->short_name}}</li>
 
                    
                     <li class="menu-item">

@@ -5,13 +5,15 @@ namespace App\Http\Controllers\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
     public function viewSettings()
     {
-        return view('user.settings.settings');
+        $settings = Setting::first();
+        return view('user.settings.settings', compact('settings'));
     }
 
     public function postSettings(Request $request)
@@ -25,6 +27,9 @@ class SettingsController extends Controller
             'dark_logo' => 'nullable|image|max:2048',     // max 2MB
             'light_logo' => 'nullable|image|max:2048',
             'favicon' => 'nullable|image|max:2048',
+            'general_support_charge' => 'nullable|numeric',
+            'call_center_charge' => 'nullable|numeric',
+            'virtual_support_charge' => 'nullable|numeric',
             'citizen_desk_plan_amount' => 'nullable|numeric',
             'startup_up_amount' => 'nullable|numeric',
             'team_amount' => 'nullable|numeric',
@@ -38,9 +43,17 @@ class SettingsController extends Controller
         if ($request->hasFile('dark_logo')) {
             $validated['dark_logo'] = $request->file('dark_logo')->store('logos', 'public');
         }
-
+        
         if ($request->hasFile('light_logo')) {
             $validated['light_logo'] = $request->file('light_logo')->store('logos', 'public');
+        }
+
+        if ($request->hasFile('light_logo_sm')) {
+            $validated['light_logo_sm'] = $request->file('light_logo_sm')->store('logos', 'public');
+        }
+
+        if ($request->hasFile('dark_logo_sm')) {
+            $validated['dark_logo_sm'] = $request->file('dark_logo_sm')->store('logos', 'public');
         }
 
         if ($request->hasFile('favicon')) {
@@ -49,14 +62,17 @@ class SettingsController extends Controller
 
         if ($settings) {
             $settings->update($validated);
+            Cache::forget('site_settings');
         } else {
-            Settings::create($validated);
+            Setting::create($validated);
+            Cache::forget('site_settings');
         }
+        return back()->with('success', 'Settings updated successfully.');
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Settings saved successfully',
-        ]);
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Settings saved successfully',
+        // ]);
     }
 
 }
