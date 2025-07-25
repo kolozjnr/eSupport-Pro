@@ -1,24 +1,70 @@
-name: 🚀 FTP Deploy to Namecheap
+name: Deploy to Shared Hosting
 
 on:
   push:
-    branches:
-      - main  # change if your branch is different
+    branches: [ main, master ]
 
 jobs:
-  ftp-deploy:
-    name: 📂 Upload via FTP
+  deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: 🧾 Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: 📤 Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_TARGET }}
-          protocol: ftp
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, dom, filter, gd, iconv, json, mbstring, pdo
+
+    - name: Install Composer dependencies
+      run: composer install --optimize-autoloader --no-dev --no-interaction
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install NPM dependencies and build
+      run: |
+        npm install
+        npm run build
+
+    - name: Create deployment artifacts
+      run: |
+        mkdir deployment
+        cp -R app deployment/
+        cp -R bootstrap deployment/
+        cp -R config deployment/
+        cp -R database deployment/
+        cp -R public deployment/
+        cp -R resources deployment/
+        cp -R routes deployment/
+        cp -R storage deployment/
+        cp -R vendor deployment/
+        cp artisan deployment/
+        cp composer.json deployment/
+        cp composer.lock deployment/
+        cp .env.example deployment/
+        
+        # Create production .htaccess
+        echo '<IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteRule ^(.*)$ public/$1 [L]
+        </IfModule>' > deployment/.htaccess
+
+    - name: Deploy to server
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./deployment/
+        server-dir: ${{ secrets.FTP_TARGET }}
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          tests/**
+          .env

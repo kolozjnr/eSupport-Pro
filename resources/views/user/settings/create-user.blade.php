@@ -84,16 +84,20 @@
                                             <label for="staticEmail2" x-model="formData.display_picture" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Display Picture</label>
                                             <input type="file" class="form-input" name="display_picture" id="staticEmail2" value="">
                                         </div>
+                                        <div x-show="isCustomer()">
+                                            <label for="referral_code" x-model="formData.referral_code" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Referal Code</label>
+                                            <input type="number" class="form-input" name="referral_code" id="referral_code" value="" autocomplete="on">
+                                        </div>
                                         <div class="">
                                             <label for="user_type" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
                                             <select id="search-select" x-model="formData.user_type" name="user_type" id="user_type" class="search-select">
                                                 <option selected>Choose</option>
                                                 <option value="support">Support Staff</option>
                                                 <option value="qualitycontrol">QA</option>
-                                                @if(auth()->user()->hasRole('support'))
+                                                {{-- @if(auth()->user()->hasRole('businessdeveloper')) --}}
                                                 <option value="customer">Customer</option>
-                                                @endif
-                                                <option value="bussinessdeveloper">Business Developer</option>
+                                                {{-- @endif --}}
+                                                <option value="businessdeveloper">Business Developer</option>
                                             </select>
                                         </div>
                                     </div>
@@ -174,6 +178,7 @@
                             mname: '',
                             lname: '',
                             user_type: '',
+                            referral_code: '',
                             display_picture: ''
                         },
                         identities: [{ name: '' }], // First identity field available by default
@@ -189,6 +194,9 @@
                         },
                          isSupportStaff() {
                             return this.formData.user_type === 'support';
+                        },
+                        isCustomer(){
+                            return this.formData.user_type === 'customer';
                         }
                     }));
                 });

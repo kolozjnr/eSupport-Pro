@@ -78,13 +78,23 @@ class UserController extends Controller
 
             //dd($user->id);
 
-            if($validated['user_type'] == 'customer')
+            if($request->user_type == 'customer')
             {
+                $refId = null;
+                if (isset($request->referral_code) && !empty($request->referral_code)) {
+                    $referrer = BusinessDeveloper::where('referral_code', $request->referral_code)->first();
+                    if ($referrer) {
+                        //dd($referrer);
+                        $refId = $referrer->id;
+                    }
+                }
+                //dd($referrer);
+
                 $customer = Customer::create([
                     'user_id' => $user->id,
-                    'support_id' => auth()->user()->id
+                    'business_developer_id' => $refId
+
                 ]);
-               // dd($customer);
             }
             elseif($validated['user_type'] == 'support')
             {
