@@ -10,7 +10,7 @@
             <main class="flex-grow p-6"> 
                 <!-- Page Title Start -->
                 <div class="flex justify-between items-center mb-6">
-                    <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Data Table</h4>
+                    {{-- <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Data Table</h4> --}}
 
                     <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
                         <div class="flex items-center gap-2">
@@ -24,7 +24,7 @@
 
                         <div class="flex items-center gap-2">
                             <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Task</a>
+                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Ticket</a>
                         </div>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="flex justify-between items-center">
-                                <h4 class="card-title">Basic</h4>
+                                <h4 class="card-title">Tickets</h4>
                             </div>
                         </div>
                         <div class="p-6">
@@ -254,7 +254,7 @@
             this.errorMessage = '';
             
             try {
-                const response = await fetch('/dashboard/tickets/post-review', {
+                const response = await fetch('/dashboard/reviews/post-review', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

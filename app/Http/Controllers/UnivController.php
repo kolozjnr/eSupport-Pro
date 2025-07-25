@@ -22,6 +22,11 @@ class UnivController extends Controller
           ]);
     }
 
+    public function testEmail()
+    {
+        return view('emails.new_user_email');
+    }
+
     public function fetchSupport()
     {
         $supports = Support::with('user')

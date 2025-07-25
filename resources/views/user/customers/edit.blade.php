@@ -77,7 +77,7 @@
                                                 <label for="staticEmail2" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Display Picture</label>
                                                 <input type="file" class="form-input" x-model="formData.display_picture" name="display_picture" id="staticEmail2">
                                             </div>
-                                            <div class="">
+                                            {{-- <div class="">
                                                 <label for="user_type" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
                                                 <select id="user_type" x-model="formData.user_type" name="user_type" class="search-select">
                                                     <option selected disabled hidden>Choose</option>
@@ -85,7 +85,7 @@
                                                     <option value="2">QA</option>
                                                     <option value="3">User</option>
                                                 </select>
-                                            </div>
+                                            </div> --}}
                                         </div>
 
                                            <button type="submit" class="btn bg-primary text-white" x-bind:disabled="isSubmitting">
@@ -114,7 +114,7 @@
                     mname: @json($customer->mname),
                     lname: @json($customer->lname),
                     email: @json($customer->email),
-                    role: @json($customer->user_type),
+                    // role: @json($customer->user_type),
                     display_picture: ''
                 },
             }));

@@ -34,19 +34,6 @@
                 <!-- Page Title End -->
 
                 <div class="grid lg:grid-cols-2 grid-cols-1 gap-6">
-                    {{-- <div x-show="isSubmitting"
-                        x-cloak
-                        class="fixed inset-0 bg-white/60 dark:bg-gray-800/60 z-50 flex items-center justify-center">
-                        <div class="flex items-center space-x-2 text-gray-700 dark:text-white">
-                            <svg class="animate-spin h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor"
-                                    d="M4 12a8 8 0 018-8v8H4z">
-                                </path>
-                            </svg>
-                            <span class="text-sm font-medium">Submitting...</span>
-                        </div>
-                    </div> --}}
 
 
                     <div class="col-span-2">
@@ -57,49 +44,36 @@
                                     
                                 </div>
                             </div>
-                            <div x-data="createUser()" class="p-6">
-                                <form method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data"
+                            <div x-data="updateIdentity()" class="p-6">
+                                <form method="POST" action="{{ route('support.update-identity') }}"
                                          x-on:submit="isSubmitting = true">
                                          @csrf
-                                    <div class="grid grid-cols-4 gap-4 mb-6">
-                                        <div>
-                                            <label for="fname" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">First name</label>
-                                            <input type="text" class="form-input" x-model="formData.fname" name="fname" id="fname" value="">
-                                        </div>
-                                        <div>
-                                            <label for="mname" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Middle name</label>
-                                            <input type="text" class="form-input" x-model="formData.mname" name="mname" id="mname" placeholder="">
-                                        </div>
-                                        <div>
-                                            <label for="lname" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Last name</label>
-                                            <input type="text" class="form-input" x-model="formData.lname" name="lname" id="lname" placeholder="">
-                                        </div>
-                                        <div>
-                                            <label for="inputEmail" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                                            <input type="email" class="form-input" id="inputEmail" name="email" placeholder="">
+                                         
+                                    <div class="grid grid-cols-4 gap-2 mb-6">
+                                        <div class="">
+                                            <label for="support_staff" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Support Staffs</label>
+                                            <select id="search-select" x-model="formData.support_staff" @change="getSupportStaff(formData.support_staff)" name="support_staff" id="support_staff" class="search-select">
+                                                <option selected>Choose</option>
+                                                @foreach ($supports as $support)
+                                                <option value="{{ $support->id }}">{{ $support->user->fname }} {{ $support->user->lname }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-4 gap-2 mb-6">
+
+                                    <div class="grid grid-cols-4 gap-4 mb-6" x-show="showSupportStaff">
                                         <div>
-                                            <label for="staticEmail2" x-model="formData.display_picture" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Display Picture</label>
-                                            <input type="file" class="form-input" name="display_picture" id="staticEmail2" value="">
-                                        </div>
-                                        <div class="">
-                                            <label for="user_type" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
-                                            <select id="search-select" x-model="formData.user_type" name="user_type" id="user_type" class="search-select">
-                                                <option selected>Choose</option>
-                                                <option value="support">Support Staff</option>
-                                                <option value="qualitycontrol">QA</option>
-                                                @if(auth()->user()->hasRole('support'))
-                                                <option value="customer">Customer</option>
-                                                @endif
-                                                <option value="bussinessdeveloper">Business Developer</option>
-                                            </select>
+                                            <label for="mname" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Current Identities</label>
+                                            <input type="text" class="form-input" x-model="formData.current_identities" name="current_identities" id="current_identities" readonly>
+                                            <p class="text-sm text-gray-500 mt-1" x-text="'Current identities: ' + formData.current_identity_count + '/' + maxIdentities"></p>
+                                            <p class="text-sm text-red-500 mt-1" x-show="formData.current_identity_count >= maxIdentities">
+                                                Maximum identities reached. Please update existing identities.
+                                            </p>
                                         </div>
                                     </div>
                                     
                                     <!-- Identity Fields Section -->
-                                    <div class="mb-6" x-show="isSupportStaff()">
+                                    <div class="mb-6">
                                         <template x-for="(identity, index) in identities" :key="index">
                                             <div class="grid grid-cols-4 gap-2 mb-2 items-end">
                                                 <div>
@@ -121,10 +95,12 @@
                                     </div>
                                     
                                     <div class="flex gap-4 mt-4">
-                                        <span  x-show="isSupportStaff()">
+                                        <span>
                                             <button type="button" 
                                                 @click="addIdentity()"
-                                                class="btn bg-blue-500 text-white flex items-center">
+                                                class="btn bg-blue-500 text-white flex items-center"
+                                                :disabled="!canAddMoreIdentities()"
+                                                :class="{ 'opacity-50 cursor-not-allowed': !canAddMoreIdentities() }">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                             </svg>
@@ -166,20 +142,65 @@
          <script src="{{ asset('assets/js/pages/form-select.js') }}" defer></script> 
 
             <script>
-                 document.addEventListener('alpine:init', () => {
-                    Alpine.data('createUser', () => ({
-                    isSubmitting: false,
+                document.addEventListener('alpine:init', () => {
+                    Alpine.data('updateIdentity', () => ({
+                        isSubmitting: false,
                         formData: {
-                            fname: '',
-                            mname: '',
-                            lname: '',
-                            user_type: '',
-                            display_picture: ''
+                            support_staff: '',
+                            current_identities: '',
+                            current_identity_count: 0
                         },
-                        identities: [{ name: '' }], // First identity field available by default
+                        identities: [],
+                        showSupportStaff: false,
+                        maxIdentities: 3,
+                        
+                        init() {
+                            // Initialize with one empty identity field if needed
+                            if (this.identities.length === 0) {
+                                this.identities.push({ name: '' });
+                            }
+                        },
+                        
+                        async getSupportStaff(supportId) {
+                            if (!supportId) return;
+                            
+                            try {
+                                const response = await fetch(`/dashboard/support/get-support-identity/${supportId}`);
+                                const data = await response.json();
+                                console.log('Identities:', data);
+                                
+                                this.formData.current_identities = data.map(i => i.name).join(', ');
+                                this.formData.current_identity_count = data.length;
+                                this.showSupportStaff = true;
+                                
+                                // Reset identities array
+                                this.identities = [];
+                                
+                                // If we have less than 3 identities, allow adding more
+                                if (data.length < this.maxIdentities) {
+                                    // Add existing identities to the form
+                                    data.forEach(identity => {
+                                        this.identities.push({ name: identity.name });
+                                    });
+                                    
+                                    // Add one empty field if we have space
+                                    if (data.length < this.maxIdentities) {
+                                        this.identities.push({ name: '' });
+                                    }
+                                }
+                            } catch (error) {
+                                console.error('Error fetching identities:', error);
+                            }
+                        },
                         
                         addIdentity() {
-                            this.identities.push({ name: '' });
+                            // Only allow adding if we're under the limit and have space left
+                            const totalIdentities = this.formData.current_identity_count + this.identities.length;
+                            if (totalIdentities < this.maxIdentities) {
+                                this.identities.push({ name: '' });
+                            } else {
+                                alert(`Maximum of ${this.maxIdentities} identities allowed. Please update existing ones.`);
+                            }
                         },
                         
                         removeIdentity(index) {
@@ -187,11 +208,14 @@
                                 this.identities.splice(index, 1);
                             }
                         },
-                         isSupportStaff() {
-                            return this.formData.user_type === 'support';
+                        
+                        canAddMoreIdentities() {
+                            const totalIdentities = this.formData.current_identity_count + this.identities.length;
+                            return totalIdentities < this.maxIdentities;
                         }
                     }));
                 });
+                
             </script>
     @include('layouts.footer')
 </x-app-layout>

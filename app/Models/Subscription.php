@@ -18,6 +18,10 @@ class Subscription extends Model
     {
         return $this->belongsTo(Plan::class);
     }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 
     public static function generateTrx($len = 10)
     {

@@ -466,7 +466,7 @@
 
 @elseif(auth()->user()->hasRole('qualitycontrol'))
 <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-6 mb-6">
-    <div class="col-span-1">
+    {{-- <div class="col-span-1">
         <div class="card">
             <div class="p-6">
                 <div class="flex items-center">
@@ -502,7 +502,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-span-1">
         <div class="card">
@@ -515,9 +515,9 @@
                     </div>
                     <div class="flex-grow">
                         <h5 class="mb-1">Total SAs</h5>
-                        <p>32</p>
+                        <p id="total_sas"></p>
                     </div>
-                    <div>
+                    {{-- <div>
                         <button class="text-gray-600 dark:text-gray-400" data-fc-type="dropdown" data-fc-placement="left-start" type="button">
                             <i class="mgc_more_2_fill text-xl"></i>
                         </button>
@@ -536,7 +536,7 @@
                                 Last Month
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -553,9 +553,9 @@
                     </div>
                     <div class="flex-grow">
                         <h5 class="mb-1">Tickets Reviews</h5>
-                        <p>40</p>
+                        <p id="ticket_reviews"></p>
                     </div>
-                    <div>
+                    {{-- <div>
                         <button class="text-gray-600 dark:text-gray-400" data-fc-type="dropdown" data-fc-placement="left-start" type="button">
                             <i class="mgc_more_2_fill text-xl"></i>
                         </button>
@@ -574,7 +574,7 @@
                                 Last Month
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -591,9 +591,9 @@
                     </div>
                     <div class="flex-grow">
                         <h5 class="mb-1">Pending Tickets</h5>
-                        <p>25</p>
+                        <p id="pending_tickets_mid"></p>
                     </div>
-                    <div>
+                    {{-- <div>
                         <button class="text-gray-600 dark:text-gray-400" data-fc-type="dropdown" data-fc-placement="left-start" type="button">
                             <i class="mgc_more_2_fill text-xl"></i>
                         </button>
@@ -612,7 +612,7 @@
                                 Last Month
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

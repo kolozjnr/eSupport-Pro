@@ -47,7 +47,10 @@
 
                 <x-admin-mid-cards />
                {{-- @include('layouts.chart.admin-mid-cards') --}}
+               @if(auth()->user()->hasRole('businessmanager'))
+
                 <x-ticket-overview :recentTickets="$recentTickets" />
+               @endif
                {{-- @include('layouts.charts.ticket-overview') --}}
             </main>
            @include('layouts.footer')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\Customer;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
@@ -48,6 +49,7 @@ class MonnifyPaymentController extends Controller
                 'amount' => $request->amount,
                 'payment_method' => 'Monnify',
                 'virtual_assistance_points' => $request->virtual_assistance_points,
+                'frequency'=> $request->frequency,
                 'call_service_points' => $request->call_center_points,
                 'general_support_points' => $request->general_support_points,
                 'status' => 'pending',
@@ -100,11 +102,55 @@ class MonnifyPaymentController extends Controller
                 ]);
 
                // dd($response);
+                $frequency = $subscription->frequency;
+                $subEnddate = Carbon::parse($customer->subscription_date);
+                $now = Carbon::now();
+                $newEndDate  = $now->copy();
 
+                switch ($frequency) {
+                    case 'monthly':
+                        $newEndDate->addMonth();
+                        break;
+                    case 'yearly':
+                        $newEndDate->addYear();
+                        break;
+                    default:
+                        $newEndDate  = $now->copy();
+                        break;
+                }
+                // $customer->update([
+                //     'subscription_date' => $now,
+                //     'subscription_due_date' => $newEndDate,
+                // ]);
+
+
+               $baseVirtualPoints = $subscription->virtual_assistance_points ?? 0;
+                $baseCallPoints = $subscription->call_service_points ?? 0;
+                $baseGeneralPoints = $subscription->general_support_points ?? 0;
+
+                // Check if renewal is within 48 hours of current subscription end date
+                $subEndDate = Carbon::parse($customer->subscription_due_date);
+                $shouldApplyBonus = $now->diffInHours($subEndDate) <= 48;
+
+                // Calculate points with 30% bonus if applicable
+                $virtualPoints = $baseVirtualPoints;
+                $callPoints = $baseCallPoints;
+                $generalPoints = $baseGeneralPoints;
+
+                if ($shouldApplyBonus) {
+                    $virtualPoints += $baseVirtualPoints * 0.3;
+                    $callPoints += $baseCallPoints * 0.3;
+                    $generalPoints += $baseGeneralPoints * 0.3;
+                }
+
+                // Update customer subscription and points
                 $customer->update([
-                    'virtual_assistance_points' => ($customer->virtual_assistance_points ?? 0) + ($subscription->virtual_assistance_points ?? 0),
-                    'call_service_points' => ($customer->call_service_points ?? 0) + ($subscription->call_service_points ?? 0),
-                    'general_support_points' => ($customer->general_support_points ?? 0) + ($subscription->general_support_points ?? 0),
+                    'is_subscribed' => 1,
+                    'subscription_date' => $now,
+                    'subscription_due_date' => $newEndDate,
+                    'virtual_assistance_points' => ($customer->virtual_assistance_points ?? 0) + $virtualPoints,
+                    'call_service_points' => ($customer->call_service_points ?? 0) + $callPoints,
+                    'general_support_points' => ($customer->general_support_points ?? 0) + $generalPoints,
                 ]);
 
 

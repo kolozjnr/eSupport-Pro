@@ -123,7 +123,7 @@ public function updateCustomer(Request $request, $id)
     $validator = Validator::make($request->all(), [
         'fname' => 'required|string|max:255',
         'email' => 'required|email',
-        'role' => 'nullable',
+        // 'role' => 'nullable',
         'display_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
     ]);
 

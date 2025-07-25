@@ -124,7 +124,7 @@
                                         </div> --}}
 
                                         <h4 class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Ticket Charges settings</h4>
-                                        <div class="grid grid-cols-4 gap-4 mb-6">
+                                        <div class="grid grid-cols-4 gap-4 mb-8">
                                             <div>
                                                 <label for="general_support_charge" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">General support charge</label>
                                                 <input type="number" class="form-input" x-model="formData.general_support_charge" name="general_support_charge" id="general_support_charge" value="">
@@ -141,6 +141,31 @@
                                                 <label for="inputEmail" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"></label>
                                                 <input type="email" class="form-input" id="inputEmail" name="email" placeholder="">
                                             </div> --}}
+                                        </div>
+
+                                        <h4 class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Pricing settings</h4>
+                                        <div class="grid grid-cols-5 gap-4 mb-6">
+                                            <div>
+                                                <label for="citizen_desk_plan_amount" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Citizen Desk</label>
+                                                <input type="number" class="form-input" x-model="formData.citizen_desk_plan_amount" name="citizen_desk_plan_amount" id="citizen_desk_plan_amount" value="">
+                                            </div>
+                                            <div>
+                                                <label for="startup_up_amount" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Start up</label>
+                                                <input type="text" class="form-input" x-model="formData.startup_up_amount" name="startup_up_amount" id="startup_up_amount" placeholder="">
+                                            </div>
+                                            <div>
+                                                <label for="team_amount" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Team</label>
+                                                <input type="text" class="form-input" x-model="formData.team_amount" name="team_amount" id="team_amount" placeholder="">
+                                            </div>
+                                            
+                                            <div>
+                                                <label for="enterprise_amount" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Enterprise</label>
+                                                <input type="text" class="form-input" x-model="formData.enterprise_amount" name="enterprise_amount" id="enterprise_amount" placeholder="">
+                                            </div>
+                                             <div>
+                                                <label for="premium_amount" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Premium</label>
+                                                <input type="text" class="form-input" x-model="formData.premium_amount" name="premium_amount" id="premium_amount" placeholder="">
+                                            </div>
                                         </div>
                                     
                                         
@@ -177,6 +202,11 @@
                             general_support_charge: @json($settings->general_support_charge ?? ''),
                             call_center_charge: @json($settings->call_center_charge ?? ''),
                             virtual_support_charge: @json($settings->virtual_support_charge ?? ''),
+                            citizen_desk_plan_amount: @json($settings->citizen_desk_plan_amount ?? ''),
+                            startup_up_amount: @json($settings->startup_up_amount ?? ''),
+                            team_amount: @json($settings->team_amount ?? ''),
+                            enterprise_amount: @json($settings->enterprise_amount ?? ''),
+                            premium_amount: @json($settings->premium_amount ?? ''),
 
                         },
                        

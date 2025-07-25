@@ -16,6 +16,7 @@ use App\Models\CustomerManager;
 use Illuminate\Validation\Rules;
 use App\Models\BusinessDeveloper;
 use App\Models\BusinessSupervisor;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -43,12 +44,14 @@ class RegisteredUserController extends Controller
             'fname' => ['required', 'string', 'max:255'],
             'mname' => ['string', 'max:255'],
             'lname' => ['string', 'max:255'],
-            'username' => ['string', 'max:255'],	
+            'username' => ['string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         //dd($request->fname);
+
+        DB::beginTransaction();
 
         $user = User::create([
             'fname' => $request->fname,
@@ -62,8 +65,20 @@ class RegisteredUserController extends Controller
 
         if($request->user_type == 'customer')
         {
+            $refId = null;
+            if (isset($request->referral_code) && !empty($request->referral_code)) {
+                $referrer = BusinessDeveloper::where('referral_code', $request->referral_code)->first();
+                if ($referrer) {
+                    //dd($referrer);
+                    $refId = $referrer->id;
+                }
+            }
+            //dd($referrer);
+
             $customer = Customer::create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'business_developer_id' => $refId
+
             ]);
         }
         elseif($request->user_type == 'support')
@@ -98,8 +113,11 @@ class RegisteredUserController extends Controller
         }
         elseif($request->user_type == 'businessdeveloper')
         {
+            $refCode = BusinessDeveloper::generateRefCode();
+            //dd($refCode);
             BusinessDeveloper::create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'referral_code' => $refCode
             ]);
         }
         elseif($request->user_type == 'businessmanager')
@@ -126,6 +144,8 @@ class RegisteredUserController extends Controller
                 'user_id' => $user->id
             ]);
         }
+
+        DB::commit();
 
         event(new Registered($user));
         $user->addRole($user->user_type);

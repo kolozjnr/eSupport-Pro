@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
@@ -22,4 +23,21 @@ class Customer extends Model
     {
         return $this->hasMany(Rating::class);
     }
+
+    public function subscription()
+    {
+        return $this->hasMany(subscription::class);
+    }
+
+   protected static function booted()
+    {
+        static::creating(function ($customer) {
+            do {
+                $uniqueId = 'customer-' . strtoupper(Str::random(8));
+            } while (Customer::where('unique_id', $uniqueId)->exists());
+
+            $customer->unique_id = $uniqueId;
+        });
+    }
+
 }

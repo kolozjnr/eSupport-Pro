@@ -153,7 +153,7 @@ class TicketsController extends Controller
     public function getCustomerTickets()
     {
         try {
-            $query = Ticket::with('user', 'phoneNumbers', 'support.identity')
+            $query = Ticket::with('user', 'phoneNumbers', 'support.identity', 'support.user')
                 ->where('user_id', auth()->id())
                 ->where('customer_id', auth()->user()->getCustomerId());
                 
@@ -189,7 +189,7 @@ class TicketsController extends Controller
     public function getQualityControlTickets()
     {
         try {
-            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user' )
+            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity' )
             ->latest()
             ->get();
                 
@@ -224,7 +224,7 @@ class TicketsController extends Controller
         foreach ($request->ticket_ids as $ticketId) {
 
             $identity = Identity::where('support_id', $request->staff_id)
-            ->whereNotNull('fname')
+            ->whereNotNull('name')
             ->inRandomOrder()
             ->first();
 
@@ -326,6 +326,7 @@ public function updateSupportTicket(Request $request, $id)
                 $ticket->update([
                     'status' => 'rejected',
                     'support_id' => null,
+                    'identity_id' => null,
                     'notes' => null,
                 ]);
             }
@@ -348,7 +349,7 @@ public function updateSupportTicket(Request $request, $id)
                     'response_time' => Carbon::parse($ticket->assigned_at)->diffInMinutes(now()->addHour()),
                     
                 ]);
-                $ticket->customer->decrement('call_service_points', 1);
+                $ticket->customer->decrement('call_service_points', $deduction->call_center_charge);
                 if (!$updatedTicket) {
                     throw new \Exception('Failed to update ticket status');
                 }
@@ -410,8 +411,8 @@ public function updateSupportTicket(Request $request, $id)
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:500',
-            'phone_numbers' => 'required|array|numeric|min:1',
-            'phone_numbers.*.number' => 'required|numeric|max:20',
+            'phone_numbers' => 'required|array|min:1',
+            'phone_numbers.*.number' => 'required|max:20',
         ]);
 
         try {

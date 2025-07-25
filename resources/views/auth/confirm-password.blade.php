@@ -18,8 +18,8 @@
                             @csrf
 
                         <a href="index.html" class="block mb-8">
-                            <img class="h-6 block dark:hidden" src="assets/images/logo-dark.png" alt="">
-                            <img class="h-6 hidden dark:block" src="assets/images/logo-light.png" alt="">
+                            <img class="h-6 block dark:hidden" src="{{asset('storage/'. $settings->dark_logo_sm)}}" alt="">
+                            <img class="h-6 hidden dark:block" src="{{asset('storage/' . $settings->light_logo_sm)}}" alt="">
                         </a>
 
                         <div class="mb-4">

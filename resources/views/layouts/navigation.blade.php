@@ -19,7 +19,7 @@
 
             <!-- Sidenav Menu Toggle Button -->
             <button id="button-hover-toggle" class="absolute top-5 end-2 rounded-full p-1.5">
-                <span class="sr-only">Menu Toggle Button</span>
+                <span class="sr-only">Menu Toggle Button </span>
                 <i class="mgc_round_line text-xl"></i>
             </button>
 
@@ -86,14 +86,14 @@
                                     <span class="menu-text">Starter</span>
                                 </a> --}}
                                 <a href="{{ route('invoices.index')}}" class="menu-link">
-                                    <span class="menu-text">View Invoice</span>
+                                    <span class="menu-text">View Subscriptions</span>
                                 </a>
                             </li>
-                            <li class="menu-item">
+                            {{-- <li class="menu-item">
                                  <a href="{{ route('invoices.report')}}" class="menu-link">
                                     <span class="menu-text">Financial Report and Analytics</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
 
@@ -132,11 +132,11 @@
                                     <span class="menu-text">Create user</span>
                                 </a>
                             </li>
-                            <li class="menu-item">
+                            {{-- <li class="menu-item">
                                 <a href="{{route('users.manage-roles')}}" class="menu-link">
                                     <span class="menu-text">Role Management</span>
                                 </a>
-                            </li>
+                            </li> --}}
                             
                             <li class="menu-item">
                                 <a href="{{route('users.knowledgebase')}}" class="menu-link">
@@ -144,6 +144,13 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+
+                     <li class="menu-item">
+                        <a href="{{route('customers.pricing')}}" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_box_2_line"></i></span>
+                            <span class="menu-text"> Pricing </span>
+                        </a>
                     </li>
 
                     

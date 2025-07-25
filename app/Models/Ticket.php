@@ -31,6 +31,7 @@ class Ticket extends Model
     {
         return $this->hasMany(Rating::class);
     }
+    
 
     protected $casts = [
     'assigned_at' => 'datetime',

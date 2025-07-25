@@ -110,7 +110,7 @@
 
                         <div class="flex items-center gap-2">
                             <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">All Invoice</a>
+                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">All Subscriptions</a>
                         </div>
                     </div>
                 </div>
@@ -120,11 +120,13 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="flex justify-between items-center">
-                                <h4 class="card-title">Invoices</h4>
+                                <h4 class="card-title">Subscriptions</h4>
                             </div>
                         </div>
                         <div class="p-6">
-                            {{-- <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">The most basic list group is an unordered list with list items and the proper classes. Build upon it with the options that follow, or with your own CSS as needed.</p> --}}
+                            <div id="loading-indicator" class="hidden fixed inset-0 bg-white dark:bg-slate-900 bg-opacity-75 flex items-center justify-center z-50">
+                            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                            </div>
 
                             <div id="table-viewInvoice"></div>
                         </div>
@@ -150,7 +152,17 @@
 
             </script>
 
+                        
+    <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" defer></script>
+        
+            <!-- Gridjs Demo js -->
+            <script src="{{ asset('assets/js/pages/table-gridjs.js') }}" defer></script>
+
+
             
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script src="https://unpkg.com/gridjs-plugins/dist/gridjs-plugins.umd.js"></script>
 
     @include('layouts.footer')
+    
 </x-app-layout>

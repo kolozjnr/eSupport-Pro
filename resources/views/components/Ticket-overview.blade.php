@@ -42,17 +42,17 @@
                     </div>
 
             
-
+{{-- 
                     <div class="col-span-1">
                         <div class="card">
                             <div class="card-header flex justify-between items-center">
                                 <h4 class="card-title">Drafts</h4>
-                                {{-- <div>
+                                <div>
                                     <select class="form-select form-select-sm">
                                         <option selected>Active</option>
                                         <option value="1">Offline</option>
                                     </select>
-                                </div> --}}
+                                </div>
                             </div>
 
                             <div class="py-6">
@@ -94,29 +94,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="flex items-center">
-                                            <img class="me-3 rounded-full" src="assets/images/users/avatar-4.jpg" width="40" alt="Generic placeholder image">
-                                            <div class="w-full overflow-hidden">
-                                                <h5 class="font-semibold"><a href="javascript:void(0);" class="text-gray-600 dark:text-gray-400">Kathryn S. Collier</a></h5>
-                                                <div class="flex items-center gap-2">
-                                                    <div>Support Agent</div>
-                                                    <i class="mgc_round_fill text-[5px]"></i>
-                                                    <div>3 Year Experience</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex items-center">
-                                            <img class="me-3 rounded-full" src="assets/images/users/avatar-5.jpg" width="40" alt="Generic placeholder image">
-                                            <div class="w-full overflow-hidden">
-                                                <h5 class="font-semibold"><a href="javascript:void(0);" class="text-gray-600 dark:text-gray-400">Timothy Kauper</a></h5>
-                                                <div class="flex items-center gap-2">
-                                                    <div>Business Analyst</div>
-                                                    <i class="mgc_round_fill text-[5px]"></i>
-                                                    <div>2 Year Experience</div>
-                                                </div>
-                                            </div>
-                                        </div>
 
                                         <div class="flex items-center">
                                             <img class="me-3 rounded-full" src="assets/images/users/avatar-6.jpg" width="40" alt="Generic placeholder image">
@@ -133,7 +110,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div> <!-- Grid End -->
 @elseif(auth()->user()->hasRole('qualitycontrol'))
 <div class="grid 2xl:grid-cols-4 md:grid-cols-2 gap-6">

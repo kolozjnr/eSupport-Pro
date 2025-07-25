@@ -257,9 +257,21 @@ function loadChartData() {
                 });
                 
                 // Update stats display 
-                // document.getElementById('total_tickets').textContent = data.totalTicketCount || 0;
-                // document.getElementById('total_customers').textContent = data.totalCustomerCount || 0;
-                // document.getElementById('total_supports').textContent = data.totalSupportCount || 0;
+                document.getElementById('total_tickets').textContent = data.totalTicketCount || 0;
+                document.getElementById('active_customers').textContent = data.totalActiveCustomerCount || 0;
+                document.getElementById('total_customers').textContent = data.totalCustomerCount || 0;
+                document.getElementById('total_supports').textContent = data.totalSupportCount || 0;
+                document.getElementById('total_sas').textContent = data.totalSupportCount || 0;
+                document.getElementById('ticket_reviews').textContent = data.reviewedTicketCount || 0;
+                document.getElementById('pending_tickets_mid').textContent = data.totalPendingTickets || 0;
+                
+                document.getElementById("open_tickets_this_month").textContent = data.openTicketCount || 0;;
+                document.getElementById("resolved_tickets_this_month").textContent = data.resolvedTicketCount || 0;;
+                document.getElementById("total_tickets_this_month").textContent = data.totalTicketThisMonth || 0;
+
+            //console.log('tickets', data.totalTicketThisMonth)
+
+                
             }
         })
         .catch(error => {

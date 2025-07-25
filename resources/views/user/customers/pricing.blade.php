@@ -172,7 +172,7 @@
                                 
                                 <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                    <span class="display-price">10,000</span>
+                                    <span class="display-price">{{$settings->citizen_desk_plan_amount}}</span>
                                 </span>
                             </div>
 
@@ -200,7 +200,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="10000" href="#" data-general-support="10000" data-call-center="10000" data-virtual-assistance="10000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->citizen_desk_plan_amount}}" href="#" data-general-support="10000" data-call-center="10000" data-virtual-assistance="10000">
                                     Proceed
                                 </a>
                             </div>
@@ -227,7 +227,7 @@
                                 
                                 <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                    <span class="display-price">30,000</span>
+                                    <span class="display-price">{{$settings->startup_up_amount}}</span>
                                 </span>
                             </div>
 
@@ -255,7 +255,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="30000" href="#" data-general-support="20000" data-call-center="20000" data-virtual-assistance="20000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->startup_up_amount}}" href="#" data-general-support="20000" data-call-center="20000" data-virtual-assistance="20000">
                                     Proceed
                                 </a>
                             </div>
@@ -281,7 +281,7 @@
                                 
                                 <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                    <span class="display-price">40,000</span>
+                                    <span class="display-price">{{$settings->team_amount}}</span>
                                 </span>
                             </div>
 
@@ -306,7 +306,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="40000" href="#" data-general-support="40000" data-call-center="40000" data-virtual-assistance="40000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->team_amount}}" href="#" data-general-support="40000" data-call-center="40000" data-virtual-assistance="40000">
                                     Proceed
                                 </a>
                             </div>
@@ -332,7 +332,7 @@
                                 
                                 <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                    <span class="display-price">50,000</span>
+                                    <span class="display-price">{{$settings->enterprise_amount}}</span>
                                 </span>
                             </div>
 
@@ -363,7 +363,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="50000" href="#" data-general-support="50000" data-call-center="50000" data-virtual-assistance="50000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->enterprise_amount}}" href="#" data-general-support="50000" data-call-center="50000" data-virtual-assistance="50000">
                                     Proceed
                                 </a>
                             </div>
@@ -389,7 +389,7 @@
                                 
                                 <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                    <span class="display-price">100,000</span>
+                                    <span class="display-price">{{$settings->premium_amount}}</span>
                                 </span>
                             </div>
 
@@ -414,7 +414,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="100000" href="#" data-general-support="100000" data-call-center="100000" data-virtual-assistance="100000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->premium_amount}}" href="#" data-general-support="100000" data-call-center="100000" data-virtual-assistance="100000">
                                     Proceed
                                 </a>
                             </div>

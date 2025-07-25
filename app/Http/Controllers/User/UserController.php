@@ -13,11 +13,14 @@ use Illuminate\Http\Request;
 use App\Models\QualityControl;
 use App\Models\BusinessManager;
 use App\Models\CustomerManager;
+use App\Mail\UserRegisteredMail;
 use App\Models\BusinessDeveloper;
 use App\Models\BusinessSupervisor;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Storage;
 
@@ -40,6 +43,8 @@ class UserController extends Controller
             'identities' => 'nullable|array',
             'identities.*' => 'nullable|string',
         ]);
+
+        //dd($validated);
 
 
         // Handle file upload
@@ -71,11 +76,15 @@ class UserController extends Controller
                 'password' => Hash::make('123456789'),
             ]);
 
+            //dd($user->id);
+
             if($validated['user_type'] == 'customer')
             {
                 $customer = Customer::create([
-                    'user_id' => $user->id
+                    'user_id' => $user->id,
+                    'support_id' => auth()->user()->id
                 ]);
+               // dd($customer);
             }
             elseif($validated['user_type'] == 'support')
             {
@@ -123,8 +132,11 @@ class UserController extends Controller
             }
             elseif($validated['user_type'] == 'businessdeveloper')
             {
+                $refCode = BusinessDeveloper::generateRefCode();
+
                 BusinessDeveloper::create([
-                    'user_id' => $user->id
+                    'user_id' => $user->id,
+                    'referral_code' => $refCode
                 ]);
             }
             elseif($validated['user_type'] == 'businessmanager')
@@ -148,8 +160,11 @@ class UserController extends Controller
 
             event(new Registered($user));
             $user->addRole($validated['user_type']);
+            // if($validated['user_type'] == 'customer')
+            // {
+                Mail::to($user->email)->send(new UserRegisteredMail($user));
+            //}
 
-        
             DB::commit();
 
             if($user)

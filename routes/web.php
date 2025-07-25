@@ -8,6 +8,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\DraftController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\InvoiceController;
+use App\Http\Controllers\User\SupportController;
 use App\Http\Controllers\User\TicketsController;
 use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\SettingsController;
@@ -28,9 +29,9 @@ Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashb
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
 Route::get('/univ', [UnivController::class, 'index']);
 Route::get('/dashboard/roles', [UnivController::class, 'getUserRole']);
+Route::get('/dashboard/email', [UnivController::class, 'testEmail']);
 
 Route::post('/pay/monnify', [MonnifyPaymentController::class, 'pay'])->name('monnify.pay');
 Route::get('/monnify/callback', [MonnifyPaymentController::class, 'callback'])->name('monnify.callback');
@@ -140,6 +141,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/report', 'financialReport')->name('report');
                 Route::get('/create', 'create')->name('create');
+                Route::get('/subscriptions', 'getSubscription')->name('subscriptions');
             });
 
         Route::controller(UserController::class)
@@ -162,6 +164,15 @@ Route::middleware('auth')->group(function () {
             Route::get('/pricing', 'pricing')->name('pricing');
             Route::get('/customer-dashboard', 'customerDashboard');
             Route::put('/update/{id}', 'updateCustomer')->name('update');
+        });
+
+        Route::controller(SupportController::class)
+        ->prefix('support')
+        ->name('support.')
+        ->group(function(){
+            Route::get('/manage-identity', 'getSupports')->name('manage-identity');
+            Route::get('/get-support-identity/{support_id}', 'getIdentity')->name('get-identity');
+            Route::post('/update-identity', 'updateIdentity')->name('update-identity');
         });
 
         Route::controller(NotificationController::class)

@@ -25,7 +25,7 @@ class ReviewController extends Controller
         // Verify the ticket belongs to the user and is completed
         $ticket = Ticket::where('id', $validated['ticket_id'])
             ->where('user_id', Auth::id())
-            ->where('status', 'completed')
+            ->where('status', 'resolved')
             ->firstOrFail();
 
         // Check if review already exists

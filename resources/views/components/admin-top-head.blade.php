@@ -517,7 +517,7 @@
                 </div>
             </div>
 
-            <div class="flex items-end">
+            {{-- <div class="flex items-end">
                 <div class="flex">
                     <a href="javascript:void(0);">
                         <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
@@ -526,7 +526,7 @@
                         <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>
@@ -538,14 +538,14 @@
             <div class="flex justify-between items-start">
                 <div>
                     <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Support </h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">5</p>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="total_supports"></p>
                 </div>
             </div>
 
-            <div class="flex items-end">
-                {{-- <div class="flex-grow">
+            {{-- <div class="flex items-end">
+                <div class="flex-grow">
                     <p class="text-[13px] text-gray-400 dark:text-gray-500 font-semibold"><i class="mgc_alarm_2_line"></i> 4 Hrs ago</p>
-                </div> --}}
+                </div>
                 <div class="flex">
                     <a href="javascript:void(0);">
                         <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
@@ -554,7 +554,7 @@
                         <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
      <div class="card">
@@ -562,11 +562,11 @@
             <div class="flex justify-between items-start">
                 <div>
                     <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Customers</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">15</p>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="total_customers"></p>
                 </div>
             </div>
 
-            <div class="flex items-end">
+            {{-- <div class="flex items-end">
                 <div class="flex">
                     <a href="javascript:void(0);">
                         <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
@@ -575,7 +575,7 @@
                         <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -584,10 +584,10 @@
             <div class="flex justify-between items-start">
                 <div>
                     <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Active Customers</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">1500</p>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="active_customers"></p>
                 </div>
             </div>
-
+{{-- 
             <div class="flex items-end">
                 <div class="flex">
                     <a href="javascript:void(0);">
@@ -603,7 +603,7 @@
                         <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -612,11 +612,11 @@
             <div class="flex justify-between items-start">
                 <div>
                     <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Tickets</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">2</p>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="total_tickets"></p>
                 </div>
             </div>
 
-            <div class="flex items-end">
+            {{-- <div class="flex items-end">
                 <div class="flex">
                     <a href="javascript:void(0);">
                         <img src="assets/images/users/avatar-1.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
@@ -625,7 +625,7 @@
                         <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-700" alt="friend">
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 

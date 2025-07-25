@@ -14,14 +14,18 @@ class DashboardController extends Controller
 {
     public function dashboard(){
         $user = auth()->user();
-        $customerId = $user->customer->id;
+        if($user->hasRole('customer')){
+             $customerId = $user->customer->id;
 
-        $recentTickets = Ticket::where('customer_id', $customerId)
-            ->latest()
-            ->take(20)
-            ->get();
+            $recentTickets = Ticket::where('customer_id', $customerId)
+                ->latest()
+                ->take(5)
+                ->get();
 
-        return view('user.dashboard', compact('recentTickets'));
+            return view('user.dashboard', compact('recentTickets'));
+        }else{
+            return view('user.dashboard');
+        }
     }
 
     public function dashboard1(){

@@ -15,8 +15,8 @@
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
                         <a href="index.html" class="block mb-8">
-                            <img class="h-6 block dark:hidden" src="assets/images/logo-dark.png" alt="">
-                            <img class="h-6 hidden dark:block" src="assets/images/logo-light.png" alt="">
+                            <img class="h-6 block dark:hidden" src="{{asset('storage/'. $settings->dark_logo_sm)}}" alt="">
+                            <img class="h-6 hidden dark:block" src="{{asset('storage/' . $settings->light_logo_sm)}}" alt="">
                         </a>
 
                         <div class="mb-4">
@@ -30,6 +30,12 @@
                             <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="LoggingEmailAddress">Email Address</label>
                             <input id="LoggingEmailAddress" class="form-input" type="email"  name="email" :value="old('email')" required autocomplete="email" placeholder="Enter your email" >
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="fname">Referal Code (Optional)</label>
+                            <input id="referral_code" class="form-input" type="text"  name="referral_code" :value="old('referral_code')" autofocus autocomplete="referral_code" placeholder="Enter your Code (Optional)" >
+                            <x-input-error :messages="$errors->get('referral_code')" class="mt-2" />
                         </div>
 
                         <div class="mb-4">

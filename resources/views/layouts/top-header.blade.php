@@ -92,7 +92,7 @@
 <div 
         x-show="isOpen" 
         @click.away="isOpen = false"
-        class="absolute right-0 mt-2 w-80 origin-top-right z-50 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none"
+        class="absolute right-0 mt-8 w-80 origin-top-right z-50 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none"
         x-transition:enter="transition ease-out duration-100"
         x-transition:enter-start="transform opacity-0 scale-95"
         x-transition:enter-end="transform opacity-100 scale-100"
@@ -217,16 +217,16 @@
             </a>
             <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="">
                 <i class="mgc_service_line  me-2"></i> 
-                <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">VP: {{ auth()->user()->customer->virtual_assistance_points}}</span>
+                <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">VP: {{ auth()->user()->customer->virtual_assistance_points ?? 0 }}</span>
             </a>
             <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#">
                 <i class="mgc_phone_line  me-2"></i> 
-                <span>SP: {{ auth()->user()->customer->general_support_points}} </span>
+                <span>SP: {{ auth()->user()->customer->general_support_points ?? 0}} </span>
             </a>
             
             <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#">
                 <i class="mgc_service_line  me-2"></i> 
-                <span>CP: {{ auth()->user()->customer->call_service_points}}</span>
+                <span>CP: {{ auth()->user()->customer->call_service_points ?? 0}}</span>
             </a>
             <hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700">
 

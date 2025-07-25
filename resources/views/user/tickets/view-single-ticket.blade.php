@@ -67,12 +67,12 @@
                                                         <div class="h-10 w-10 flex-shrink-0">
                                                            {{-- <p class="text-sm text-gray-500 dark:text-gray-400"></p> --}}
                                                         </div>
-                                                        <div class="font-medium text-gray-900 dark:text-gray-200 ms-4">{{$ticket->customer->user->fname .' ' . $ticket->customer->user->lname ?? ''}}</div>
+                                                        {{-- <div class="font-medium text-gray-900 dark:text-gray-200 ms-4">{{$ticket->customer->user->fname .' ' . $ticket->customer->user->lname ?? ''}}</div> --}}
                                                     </div>
                                                 </td>
                                                 <td class="whitespace-nowrap py-4 pe-3 text-sm font-medium text-gray-900 dark:text-gray-200">{{$ticket->description ?? ''}}</td>
                                                 
-                                                <td class="whitespace-nowrap py-4 pe-3 text-sm font-medium text-gray-900 dark:text-gray-200">{{$ticket->support->user->fname .' ' . $ticket->support->user->lname ?? ''}}</td>
+                                                {{-- <td class="whitespace-nowrap py-4 pe-3 text-sm font-medium text-gray-900 dark:text-gray-200">{{$ticket->support->user->fname .' ' . $ticket->support->user->lname ?? ''}}</td> --}}
                                                 {{-- <td class="whitespace-nowrap py-4 px-3 text-sm">
                                                     <img class="h-10 w-10 rounded-full" src="assets/images/users/avatar-9.jpg" alt="">
                                                 </td> --}}
@@ -80,10 +80,10 @@
                                                     <div class="whitespace-nowrap py-4 pe-3 text-sm font-medium text-gray-900 dark:text-gray-200">{{$ticket->comments}}</div>
                                                 </td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    <div class="inline-flex items-center gap-1.5 py-1 px-3 rounded text-xs font-medium bg-dark/80 text-white">Closed</div>
+                                                    <div class="inline-flex items-center gap-1.5 py-1 px-3 rounded text-xs font-medium bg-dark/80 text-white"></div>
                                                 </td>
-                                                <td class="whitespace-nowrap py-4 pe-3 text-sm font-medium text-gray-900 dark:text-gray-200">{{ $ticket->created_at }}</td>
-                                                <td class="whitespace-nowrap py-4 pe-3 text-sm font-medium text-gray-900 dark:text-gray-200">30/08/2013</td>
+                                                <td class="whitespace-nowrap py-4 pe-3 text-sm font-medium text-gray-900 dark:text-gray-200">{{ $ticket->status }}</td>
+                                                <td class="whitespace-nowrap py-4 pe-3 text-sm font-medium text-gray-900 dark:text-gray-200">{{$ticket->created_at}}</td>
                                             </tr>
 
                                         </tbody>

@@ -6,6 +6,7 @@ Contact: support@coderthemes.com
 File: datatable js
 */
 
+
 class GridDatatable {
 
     init() {
@@ -220,16 +221,25 @@ function openSendModal(draftId) {
             sort: true
           },
           {
-            name: 'Customer',
+            name: 'Support Agent',
             formatter: (cell) => {
-              // Use the user object from the ticket data
-              const customerName = cell?.fname 
-                ? `${cell.fname} ${cell.lname}` 
-                : cell?.name || 'N/A';
-              return gridjs.html(`<span>${customerName}</span>`);
+                // Check if identity exists and has at least one name
+                const hasIdentity = cell?.identity && cell.identity.length > 0 && cell.identity[0].name;
+                
+                // If identity exists, use the first identity name
+                if (hasIdentity) {
+                    return gridjs.html(`<span>${cell.identity[0].name}</span>`);
+                }
+                // Otherwise use the support agent's first and last name
+                else {
+                    const supportName = cell?.fname || cell?.user?.fname || '';
+                    const supportLName = cell?.lname || cell?.user?.lname || '';
+                    const fullName = `${supportName} ${supportLName}`.trim();
+                    return gridjs.html(`<span>${fullName || 'N/A'}</span>`);
+                }
             },
             sort: true
-          },
+        },
         //   {
         //     name: 'Subject',
         //     formatter: (cell) => gridjs.html(`<span>${cell || 'N/A'}</span>`),
@@ -345,7 +355,11 @@ function openSendModal(draftId) {
         search: true,
         data: tickets.map(ticket => [
           ticket.id,
-          ticket.user || ticket.customer_id,
+          {
+            ...ticket.support,  // Spread the support object
+            identity: ticket.support?.identity || [], // Include identities if they exist
+            user: ticket.support?.user || {} // Include user details
+            },
           ticket.description,
           ticket.phone_numbers || [],
           ticket.status,
@@ -376,7 +390,7 @@ function openSendModal(draftId) {
   async function initializeQualityControlTicketsTable() {
     const tableContainer = document.getElementById("quality-control-tickets");
     const loadingIndicator = document.getElementById("loading-indicator");
-    const bulkActionBtn = document.getElementById("bulk-action-btn");
+    const bulkActionBtn = document.getElementById("bulk-action-btn");;
     
     try {
         // Show loading indicator
@@ -573,7 +587,7 @@ function openSendModal(draftId) {
                         formatter: (cell, row) => {
                             const ticketId = row.cells[9].data; // First column has the ID
                             const status = row.cells[6].data?.toLowerCase();
-                            if (status === 'open') {
+                            if (status === 'open' || status === 'rejected') {
                             return gridjs.html(`
                                 <input type="checkbox" 
                                     class="ticket-checkbox" 
@@ -613,25 +627,25 @@ function openSendModal(draftId) {
             }).render(tableContainer);
             
             // Add event listener for checkboxes
-            // document.addEventListener('click', function(e) {
-            //     if (e.target.classList.contains('ticket-checkbox')) {
-            //         const ticketId = e.target.dataset.id;
-            //         if (e.target.checked) {
-            //             selectedTickets.add(ticketId);
-            //         } else {
-            //             selectedTickets.delete(ticketId);
-            //         }
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('ticket-checkbox')) {
+                    const ticketId = e.target.dataset.id;
+                    if (e.target.checked) {
+                        selectedTickets.add(ticketId);
+                    } else {
+                        selectedTickets.delete(ticketId);
+                    }
                     
-            //         // Show/hide bulk action button based on selection count
-            //         if (bulkActionBtn) {
-            //             if (selectedTickets.size >= 2) {
-            //                 bulkActionBtn.classList.remove('hidden');
-            //             } else {
-            //                 bulkActionBtn.classList.add('hidden');
-            //             }
-            //         }
-            //     }
-            // });
+                    // Show/hide bulk action button based on selection count
+                    if (bulkActionBtn) {
+                        if (selectedTickets.size >= 2) {
+                            bulkActionBtn.classList.remove('hidden');
+                        } else {
+                            bulkActionBtn.classList.add('hidden');
+                        }
+                    }
+                }
+            });
             
             // Add custom export buttons
             const exportButtons = document.createElement('div');
@@ -649,8 +663,10 @@ function openSendModal(draftId) {
                 </button>
             `;
             tableContainer.prepend(exportButtons);
+
+           
             
-            // Export functionality
+            // // Export functionality
             document.querySelector('.export-csv').addEventListener('click', () => {
                 grid.plugins.export.csv();
             });
@@ -970,6 +986,8 @@ async function initializeSupportTicketsTable() {
             tableContainer.prepend(exportButtons);
             
             document.querySelector('.export-csv').addEventListener('click', () => {
+                console.log('grrrr', grid);
+
                 grid.plugins.export.csv();
             });
             
@@ -992,6 +1010,184 @@ async function initializeSupportTicketsTable() {
         }
     } finally {
         if (loadingIndicator) loadingIndicator.classList.add('hidden');
+    }
+}
+
+  //invoice Table
+
+  async function subscription() {
+    const tableContainer = document.getElementById("table-viewInvoice");
+    const loadingIndicator = document.getElementById("loading-indicator");
+    
+    try {
+        // Show loading indicator
+        if (loadingIndicator) loadingIndicator.classList.remove('hidden');
+        if (tableContainer) tableContainer.innerHTML = '';
+        
+        // Fetch subscriptions from your Laravel endpoint
+        const response = await fetch('/dashboard/invoices/subscriptions', {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch subscriptions: ' + response.statusText);
+        }
+        
+        const data = await response.json();
+        
+        if (!data.success || !data.subscriptions) {
+            throw new Error('Invalid data format from server');
+        }
+        
+        const subscriptions = data.subscriptions;
+        console.log('Subscription data:', subscriptions);
+        
+        // Initialize GridJS table if element exists
+        if (tableContainer) {
+            new gridjs.Grid({
+                columns: [
+                    {
+                        name: 'ID',
+                        formatter: (cell) => gridjs.html(`<span class="fw-semibold">${cell}</span>`)
+                    },
+                    // {
+                    //     name: 'Type',
+                    //     formatter: (cell) => cell || 'N/A'
+                    // },
+                    {
+                        name: 'Email',
+                        formatter: (cell, row) => {
+                            // Assuming customer data is included in the relationship
+                            const email = row.cells[2]?.data?.customer?.email || 'N/A';
+                            return gridjs.html(`<a href="mailto:${email}">${email}</a>`);
+                        }
+                    },
+                        {
+                        name: 'Amount',
+                        formatter: (cell) => {
+                            // Format amount as Nigerian Naira (NGN)
+                            // Handle null/undefined values by defaulting to 0
+                            const amount = cell || 0;
+                            return new Intl.NumberFormat('en-NG', {
+                                style: 'currency',
+                                currency: 'NGN',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }).format(amount);
+                        }
+                    },
+                    {
+                        name: 'Company',
+                        formatter: (cell, row) => {
+                            // Assuming customer data is included in the relationship
+                            const company = row.cells[2]?.data?.customer?.company || 'N/A';
+                            return company;
+                        }
+                    },
+                    {
+                        name: 'Status',
+                        formatter: (cell) => {
+                            let bgClass = '';
+                            let textClass = '';
+                    
+                            switch (cell?.toLowerCase()) {
+                                case 'open':
+                                    bgClass = 'bg-primary-subtle';
+                                    textClass = 'text-primary';
+                                    break;
+                                case 'completed':
+                                    bgClass = 'bg-success-subtle';
+                                    textClass = 'text-success';
+                                    break;
+                                case 'pending':
+                                    bgClass = 'bg-warning-subtle';
+                                    textClass = 'text-warning';
+                                    break;
+                                case 'rejected':
+                                    bgClass = 'bg-warning-subtle';
+                                    textClass = 'text-danger';
+                                    break;
+                                default:
+                                    bgClass = 'bg-secondary-subtle';
+                                    textClass = 'text-secondary';
+                            }
+                    
+                            return gridjs.html(
+                                `<span class="badge ${bgClass} ${textClass}">${cell || 'N/A'}</span>`
+                            );
+                        }
+                    },
+                    {
+                        name: 'Actions',
+                        width: '120px',
+                        formatter: (cell, row) => {
+                            const subscriptionId = row.cells[0].data;
+                            return gridjs.html(`
+                                <div class="flex items-center">
+                                    <a href="#" onclick="updateInvoice('${subscriptionId}')" class="text-warning me-2">
+                                        <i class="mgc_edit_line text-lg"></i>
+                                    </a>
+                                    <a href="javascript:void(0);" onclick="deleteSubscription('${subscriptionId}')" class="text-danger me-2">
+                                        <i class="mgc_delete_line text-xl"></i>
+                                    </a>
+                                    <a href="/dashboard/invoices/view/${subscriptionId}" class="text-primary">
+                                        <i class="mgc_view_line text-xl"></i>
+                                    </a>
+                                </div>
+                            `);
+                        }
+                    }
+                ],
+                pagination: {
+                    limit: 5
+                },
+                sort: true,
+                search: true,
+                data: subscriptions.map(sub => [
+                    sub.reference || 'N/A',          // ID (using reference)
+                    //'Subscription',                  // Type (hardcoded as all are subscriptions)
+                    sub.customer?.user?.email || 'N/A',                             // Email (will be extracted from customer in formatter)
+                    sub.amount || 0,                 // Amount
+                    sub,                             // Company (will be extracted from customer in formatter)
+                    sub.status || 'N/A',            // Status
+                    null                            // Actions (handled by formatter)
+                ])
+            }).render(tableContainer);
+        }
+    } catch (error) {
+        console.error('Error loading subscriptions:', error);
+        if (tableContainer) {
+            tableContainer.innerHTML = `
+                <div class="alert alert-danger p-4">
+                    <h4 class="alert-heading">Failed to load subscriptions</h4>
+                    <p>${error.message}</p>
+                    <button onclick="subscription()" class="btn btn-sm btn-primary mt-2">
+                        Retry
+                    </button>
+                </div>
+            `;
+        }
+    } finally {
+        if (loadingIndicator) loadingIndicator.classList.add('hidden');
+    }
+}
+
+// Call the function when the page loads
+subscription();
+
+// Example action functions
+function updateInvoice(id) {
+    console.log('Update invoice:', id);
+    // Implement your update logic here
+}
+
+function deleteSubscription(id) {
+    if (confirm('Are you sure you want to delete this subscription?')) {
+        console.log('Delete subscription:', id);
+        // Implement your delete logic here
     }
 }
 
@@ -1362,76 +1558,7 @@ function deleteTicket(ticketId) {
                 }).render(document.getElementById("table-manageRoles"));
 
 
-            //invoice Table
-            if (document.getElementById("table-viewInvoice"))
-                new gridjs.Grid({
-                    columns: [{
-                        name: 'ID',
-                        formatter: (function (cell) {
-                            return gridjs.html('<span class="fw-semibold">' + cell + '</span>');
-                        })
-                    },
-                        "Type",
-                    {
-                        name: 'Email',
-                        formatter: (function (cell) {
-                            return gridjs.html('<a href="">' + cell + '</a>');
-                        })
-                    },
-                        "Amount", "Company",
-                    {
-                        name: 'Status',
-                        formatter: function (cell) {
-                            let bgClass = '';
-                            let textClass = '';
-                    
-                            switch (cell.toLowerCase()) {
-                                case 'open':
-                                    bgClass = 'bg-primary-subtle';
-                                    textClass = 'text-primary';
-                                    break;
-                                case 'completed':
-                                    bgClass = 'bg-success-subtle';
-                                    textClass = 'text-success';
-                                    break;
-                                case 'pending':
-                                    bgClass = 'bg-warning-subtle';
-                                    textClass = 'text-warning';
-                                    break;
-                                case 'rejected':
-                                    bgClass = 'bg-warning-subtle';
-                                    textClass = 'text-danger';
-                                    break;
-                                default:
-                                    bgClass = 'bg-secondary-subtle';
-                                    textClass = 'text-secondary';
-                            }
-                    
-                            return gridjs.html(
-                                `<span class="badge ${bgClass} ${textClass}">${cell}</span>`
-                            );
-                        }
-                    },
-                        
-                    {
-                        name: 'Actions',
-                        width: '120px',
-                        formatter: (function (cell) {
-                            return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "<a href='#' onclick='updateInvoice()' class='me-0.5'> <i class='mgc_edit_line text-lg'></i> </a> " + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_delete_line text-xl'></i> </a>"  + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_view_line text-xl'></i> </a>" + "</a>");
-                        })
-                    },
-                    ],
-                    pagination: {
-                        limit: 5
-                    },
-                    sort: true,
-                    search: true,
-                    data: [
-                        ["01", "Charges", "jonathan@example.com", "50,000", "El Tech", "open", null],
-                        ["02", "Refund", "refund@example.com", "100,000", "El Tech", "pending", null],
-                        ["03", "Charges", "jonathan@example.com", "50,000", "El Tech", "completed", null],
-                    ]                    
-                }).render(document.getElementById("table-viewInvoice"));
+          
 
         // card Table
         if (document.getElementById("table-card"))
