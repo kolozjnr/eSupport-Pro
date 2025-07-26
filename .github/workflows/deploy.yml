@@ -54,7 +54,7 @@ jobs:
             RewriteRule ^(.*)$ public/$1 [L]
         </IfModule>' > deployment/.htaccess
 
-
+ 
     - name: Deploy to server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
