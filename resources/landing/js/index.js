@@ -6,7 +6,9 @@ import '../css/style.css';
 import '../js/typewriter';
 import { tns } from 'tiny-slider';
 import Isotope from 'isotope-layout';
-import WOW from 'wowjs';
+//import WOW from 'wowjs';
+import { WOW } from 'wowjs';
+
 
 document.addEventListener('DOMContentLoaded', function () {
   const wow = new WOW({
