@@ -93,7 +93,7 @@
                           placeholder="Referral Code (Optional)"
                           class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
                         />
-                        <x-input-error :messages="$errors->get('referral_code')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('referral_code')" class="mt-2" /> 
                       </div>
                     </div>
 
