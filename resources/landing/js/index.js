@@ -6,17 +6,15 @@ import '../css/style.css';
 import '../js/typewriter';
 import { tns } from 'tiny-slider';
 import Isotope from 'isotope-layout';
-//import WOW from 'wowjs';
-import { WOW } from 'wowjs';
-
+import WOW from 'wowjs'; // Fixed import
 
 document.addEventListener('DOMContentLoaded', function () {
   const wow = new WOW({
-    boxClass: 'wow',      // default
-    animateClass: 'animated', // default
-    offset: 50,           // custom offset
-    mobile: true,         // default
-    live: false           // disable mutation observer
+    boxClass: 'wow',
+    animateClass: 'animated',
+    offset: 50,
+    mobile: true,
+    live: false
   });
   wow.init();
 });
