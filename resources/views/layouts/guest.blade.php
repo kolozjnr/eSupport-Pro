@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Eltech support pro built to ease access to support from our customers." name="description">
     <meta content="Tecknow" name="author">
+    <!-- Add this to your HTML head -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('storage/'. $settings->favicon)}}">
