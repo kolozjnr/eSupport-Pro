@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
   wow.init();
 });
 
+
 // window.wow = new WOW.WOW({
 //   live: false,
 // });
