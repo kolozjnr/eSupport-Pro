@@ -22,7 +22,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        {{-- @include('partials.head-css') --}}
+        {{-- @include('partials.head-css') --}}  
   
 
       @vite(['resources/landing/css/style.css', 'resources/landing/css/animate.css', 'resources/landing/js/index.js', 'resources/landing/js/typewriter.js'])
