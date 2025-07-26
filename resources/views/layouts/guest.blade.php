@@ -20,20 +20,14 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        @include('partials.head-css')
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        {{-- @include('partials.head-css') --}}
+  
 
-         <!-- App css -->
-    <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css">
-
-    <!-- Icons css -->
-    <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css">
-
-    <!-- Theme Config Js -->
-    <script src="{{asset('assets/js/config.js')}}"></script>
+      @vite(['resources/landing/css/style.css', 'resources/landing/css/animate.css', 'resources/landing/js/index.js', 'resources/landing/js/typewriter.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased">
+    {{-- <body class="font-sans text-gray-900 antialiased"> --}}
+          <body class="dark:bg-dark">
+            @include("landing.partials.header")
          {{ $slot }}
         {{-- <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
 

@@ -1,55 +1,77 @@
 <x-guest-layout>
-      <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
-    </div>
-    <div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+      <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <!-- ============================================================== -->
-        <!-- Start Page Content here -->
-        <!-- ============================================================== -->
-
-        <div class="h-screen w-screen flex justify-center items-center">
-
-            <div class="2xl:w-1/4 lg:w-1/3 md:w-1/2 w-full">
-                <div class="card overflow-hidden sm:rounded-md rounded-none">
-                    <div class="p-6">
-                          
-                        <form method="POST" action="{{ route('password.confirm') }}">
-                            @csrf
-
-                        <a href="index.html" class="block mb-8">
-                            <img class="h-6 block dark:hidden" src="{{asset('storage/'. $settings->dark_logo_sm)}}" alt="">
-                            <img class="h-6 hidden dark:block" src="{{asset('storage/' . $settings->light_logo_sm)}}" alt="">
-                        </a>
-
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="password">Password</label>
-                            <input id="password" class="form-input" type="password" name="password"
-                            required autocomplete="current-password" >
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                        </div>
-
-                        <div class="flex justify-center mb-6">
-                            <button class="btn w-full text-white bg-primary"> Confirm </button>
-                        </div>
-
-                        {{-- <div class="flex items-center my-6">
-                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
-                            <div class="mx-4 text-secondary">Or</div>
-                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
-                        </div>
-                    
-                        <p class="text-gray-500 dark:text-gray-400 text-center">Back to<a href="/login" class="text-primary ms-1"><b>Log In</b></a></p> --}}
-                        </form>
-                    </div>
+    <!-- ====== Sign In Section Start -->
+    <section
+      class="wow fadeInUp pt-[120px] lg:pt-[240px]"
+      data-wow-delay=".2s"
+    >
+      <div class="px-4 xl:container">
+        <div
+          class="border-b pb-20 dark:border-[#2E333D] lg:pb-[130px]"
+        >
+          <div class="-mx-4 flex flex-wrap">
+            <div class="w-full px-4">
+              <div
+                class="mx-auto max-w-[920px] rounded border bg-white py-10 px-6 dark:border-transparent dark:bg-[#1D232D] sm:p-[70px]"
+              >
+                <h3
+                  class="mb-3 font-heading text-2xl font-medium text-black dark:text-white sm:text-3xl lg:text-2xl xl:text-[40px] xl:leading-tight"
+                >
+                  Confirm Password
+                </h3>
+            
+                <div
+                  class="relative z-10 mb-8 flex items-center justify-center"
+                >
+                  <span
+                    class="absolute top-1/2 left-0 -z-10 hidden h-[1px] w-full -translate-y-1/2 bg-slate-300 dark:bg-[#2E333D] sm:block"
+                  ></span>
+                  <p
+                    class="bg-white text-base font-medium text-dark-text dark:bg-[#1D232D] sm:px-4"
+                  >
+                    Password confirmation
+                  </p>
                 </div>
+
+                
+                <form method="POST" action="{{ route('password.confirm') }}">
+                  @csrf
+                  <div class="-mx-4 flex flex-wrap">
+                    <div class="w-full px-4 sm:w-1/2">
+                      <div class="mb-10">
+                        <label
+                          for="password"
+                          class="mb-3 block font-heading text-base text-dark dark:text-white"
+                        >
+                          Password
+                        </label>
+                        <input
+                          type="password"
+                          name="password"
+                          placeholder="**********"
+                          class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
+                        />
+                        <x-input-error :messages="$errors->get('password')" class="mt-2" style="color: crimson;" />
+                      </div>
+                    </div>
+                    <div class="w-full px-4">
+                      <button
+                        class="flex items-center justify-center rounded bg-primary py-[14px] px-14 text-sm font-semibold text-white"
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+    </section>
+    <!-- ====== Sign In Section End -->
 
-    </div>
-
-    <!-- ============================================================== -->
-    <!-- End Page content -->
-    <!-- ============================================================== -->
-
-</x-guest-layout>
+    
+    @include('landing.partials.footer') 
+  </x-guest-layout>

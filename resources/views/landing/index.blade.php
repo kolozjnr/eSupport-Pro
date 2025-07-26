@@ -1,0 +1,3224 @@
+<x-guest-layout>
+    
+    <!-- ===== Hero Section Start ===== -->
+    <section
+      id="home"
+      class="relative z-40 overflow-hidden pt-28 pb-24 sm:pt-36 lg:pt-[170px] lg:pb-[120px]"
+    >
+      <div class="px-4 xl:container">
+        <div class="-mx-4 flex flex-wrap items-center">
+          <div class="w-full px-3 lg:w-1/2">
+            <div
+              class="mx-auto mb-12 max-w-[530px] text-center lg:ml-0 lg:mb-0 lg:text-left"
+            >
+              <span
+                class="wow fadeInUp mb-8 inline-block rounded-full bg-primary bg-opacity-5 py-[10px] px-5 font-heading text-base text-primary dark:bg-white dark:bg-opacity-10 dark:text-white"
+                data-wow-delay=".2s"
+              >
+                <span
+                  class="mr-2 inline-block h-2 w-2 rounded-full bg-primary"
+                ></span>
+                Driven by Service, Backed by Expertise
+              </span>
+              <h1
+                class="wow 
+                fadeInUp mb-5 font-heading text-2xl font-semibold dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+                data-wow-delay=".3s"
+              >
+                Digital Solutions for Your
+                <!-- <span class="underline"> Business </span> -->
+                <span
+                  class="txt-type underline"
+                  data-wait="3000"
+                  data-words='["E-commerce & Logistics", "Fintechs & Banking", "Health & Insurance", "Real Estate", "EdTech", "Public Sector / NGOs", "Schools"]'
+                ></span>
+              </h1>
+              <p
+                class="wow fadeInUp mb-12 text-base text-dark-text"
+                data-wow-delay=".4s"
+              >
+              **Eltch Support** is a dedicated service company committed to delivering reliable, efficient, and professional support solutions. We specialize in helping individuals, businesses, and organizations resolve technical challenges, streamline operations, and maintain system stability. With a team of experienced support professionals and a client-focused approach, Eltch Support ensures every issue is handled promptly and effectively. Whether it's IT troubleshooting, software guidance, or general customer care, we’re here to support you—anytime, every step of the way.
+              </p>
+              <div
+                class="wow fadeInUp flex flex-wrap items-center justify-center lg:justify-start"
+                data-wow-delay=".5s"
+              >
+                <a
+                  href="#features"
+                  class="inline-flex items-center rounded bg-primary py-[10px] px-6 font-heading text-base text-white hover:bg-opacity-90 md:py-[14px] md:px-8"
+                >
+                  Get Started
+                  <span class="pl-3">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.172 7L6.808 1.636L8.222 0.222L16 8L8.222 15.778L6.808 14.364L12.172 9H0V7H12.172Z"
+                        fill="white"
+                      />
+                    </svg>
+                  </span>
+                </a>
+                <a
+                  href="/#about"
+                  class="inline-flex items-center rounded py-[14px] px-8 font-heading text-base text-dark hover:text-primary dark:text-white dark:hover:text-primary"
+                >
+                  <span class="pr-3">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M19.376 12.416L8.777 19.482C8.70171 19.5321 8.61423 19.5608 8.52389 19.5652C8.43355 19.5695 8.34373 19.5492 8.264 19.5065C8.18427 19.4639 8.1176 19.4003 8.07111 19.3228C8.02462 19.2452 8.00005 19.1564 8 19.066V4.934C8.00005 4.84356 8.02462 4.75482 8.07111 4.67724C8.1176 4.59966 8.18427 4.53615 8.264 4.49346C8.34373 4.45077 8.43355 4.43051 8.52389 4.43483C8.61423 4.43915 8.70171 4.46789 8.777 4.518L19.376 11.584C19.4445 11.6297 19.5006 11.6915 19.5395 11.7641C19.5783 11.8367 19.5986 11.9177 19.5986 12C19.5986 12.0823 19.5783 12.1633 19.5395 12.2359C19.5006 12.3085 19.4445 12.3703 19.376 12.416Z"
+                      />
+                    </svg>
+                  </span>
+                  How it Work
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 lg:w-1/2">
+            <div
+              class="wow fadeInRight relative z-30 mx-auto h-[560px] w-full max-w-[700px] lg:ml-0"
+              data-wow-delay=".3s"
+            >
+              <div class="absolute top-0 right-0 lg:w-11/12">
+                <img src="{{ asset('landing/images/hero/image-2.jpg')}}" alt="hero-image" />
+              </div>
+              <div class="absolute left-0 bottom-0 z-10">
+                <img src="{{ asset('landing/images/hero/image-1.jpg')}}" alt="hero-image" />
+                <div
+                  class="absolute -top-6 -right-6 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"
+                ></div>
+              </div>
+              <div class="absolute left-0 bottom-0">
+                <svg
+                  width="72"
+                  height="38"
+                  viewBox="0 0 72 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M62.0035 2.04985C59.6808 1.76671 57.4524 2.70929 55.1508 4.68209C51.3631 7.92863 44.7908 9.54366 38.8668 4.69678C36.329 2.6204 34.117 2.29213 32.2894 2.59672C30.3972 2.91209 28.8057 3.92088 27.5547 4.75487C25.5734 6.07577 23.3915 7.46379 20.8786 7.78953C18.2847 8.12577 15.515 7.32034 12.3598 4.69105C9.71804 2.48955 7.45748 2.0661 5.72104 2.33325C3.94436 2.6066 2.56003 3.6273 1.76341 4.56877C1.40666 4.99037 0.775686 5.04295 0.354079 4.68621C-0.0675277 4.32946 -0.120109 3.69849 0.236635 3.27688C1.27334 2.05168 3.0643 0.71846 5.41692 0.356509C7.80979 -0.0116349 10.6326 0.648246 13.6402 3.1546C16.485 5.52529 18.7154 6.05321 20.6215 5.80612C22.6086 5.54854 24.4266 4.43657 26.4453 3.09078L27 3.92282L26.4453 3.09078C27.6943 2.25809 29.6028 1.0169 31.9606 0.623935C34.383 0.220203 37.1711 0.725274 40.1333 3.14886C45.1548 7.25733 50.6369 5.9169 53.8492 3.16356C56.3795 0.994798 59.1512 -0.312658 62.2455 0.0645503C65.3089 0.43799 68.4333 2.43425 71.7557 6.26783C72.1174 6.68518 72.0723 7.31674 71.655 7.67845C71.2376 8.04015 70.606 7.99504 70.2443 7.57769C67.0668 3.91125 64.3571 2.33677 62.0035 2.04985Z"
+                    fill="#4A6CF7"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M62.0035 11.9726C59.6808 11.6895 57.4524 12.6321 55.1508 14.6049C51.3631 17.8514 44.7908 19.4664 38.8668 14.6196C36.329 12.5432 34.117 12.2149 32.2894 12.5195C30.3972 12.8349 28.8057 13.8437 27.5547 14.6776C25.5734 15.9985 23.3915 17.3866 20.8786 17.7123C18.2847 18.0485 15.515 17.2431 12.3598 14.6138C9.71804 12.4123 7.45748 11.9889 5.72104 12.256C3.94436 12.5294 2.56003 13.5501 1.76341 14.4915C1.40666 14.9131 0.775686 14.9657 0.354079 14.609C-0.0675277 14.2522 -0.120109 13.6213 0.236635 13.1997C1.27334 11.9745 3.0643 10.6412 5.41692 10.2793C7.80979 9.91114 10.6326 10.571 13.6402 13.0774C16.485 15.4481 18.7154 15.976 20.6215 15.7289C22.6086 15.4713 24.4266 14.3594 26.4453 13.0136L27 13.8456L26.4453 13.0136C27.6943 12.1809 29.6028 10.9397 31.9606 10.5467C34.383 10.143 37.1711 10.648 40.1333 13.0716C45.1548 17.1801 50.6369 15.8397 53.8492 13.0863C56.3795 10.9176 59.1512 9.61012 62.2455 9.98733C65.3089 10.3608 68.4333 12.357 71.7557 16.1906C72.1174 16.608 72.0723 17.2395 71.655 17.6012C71.2376 17.9629 70.606 17.9178 70.2443 17.5005C67.0668 13.834 64.3571 12.2595 62.0035 11.9726Z"
+                    fill="#4A6CF7"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M62.0035 21.8954C59.6808 21.6123 57.4524 22.5548 55.1508 24.5276C51.3631 27.7742 44.7908 29.3892 38.8668 24.5423C36.329 22.4659 34.117 22.1377 32.2894 22.4423C30.3972 22.7576 28.8057 23.7664 27.5547 24.6004C25.5734 25.9213 23.3915 27.3093 20.8786 27.6351C18.2847 27.9713 15.515 27.1659 12.3598 24.5366C9.71804 22.3351 7.45748 21.9117 5.72104 22.1788C3.94436 22.4521 2.56003 23.4728 1.76341 24.4143C1.40666 24.8359 0.775686 24.8885 0.354079 24.5318C-0.0675277 24.175 -0.120109 23.544 0.236635 23.1224C1.27334 21.8972 3.0643 20.564 5.41692 20.2021C7.80979 19.8339 10.6326 20.4938 13.6402 23.0002C16.485 25.3708 18.7154 25.8988 20.6215 25.6517C22.6086 25.3941 24.4266 24.2821 26.4453 22.9363L27 23.7684L26.4453 22.9363C27.6943 22.1036 29.6028 20.8624 31.9606 20.4695C34.383 20.0658 37.1711 20.5708 40.1333 22.9944C45.1548 27.1029 50.6369 25.7624 53.8492 23.0091C56.3795 20.8403 59.1512 19.5329 62.2455 19.9101C65.3089 20.2835 68.4333 22.2798 71.7557 26.1134C72.1174 26.5307 72.0723 27.1623 71.655 27.524C71.2376 27.8857 70.606 27.8406 70.2443 27.4232C67.0668 23.7568 64.3571 22.1823 62.0035 21.8954Z"
+                    fill="#4A6CF7"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M62.0035 31.8182C59.6808 31.535 57.4524 32.4776 55.1508 34.4504C51.3631 37.697 44.7908 39.312 38.8668 34.4651C36.329 32.3887 34.117 32.0605 32.2894 32.365C30.3972 32.6804 28.8057 33.6892 27.5547 34.5232C25.5734 35.8441 23.3915 37.2321 20.8786 37.5579C18.2847 37.8941 15.515 37.0887 12.3598 34.4594C9.71804 32.2579 7.45748 31.8344 5.72104 32.1016C3.94436 32.3749 2.56003 33.3956 1.76341 34.3371C1.40666 34.7587 0.775686 34.8113 0.354079 34.4545C-0.0675277 34.0978 -0.120109 33.4668 0.236635 33.0452C1.27334 31.82 3.0643 30.4868 5.41692 30.1248C7.80979 29.7567 10.6326 30.4166 13.6402 32.9229C16.485 35.2936 18.7154 35.8215 20.6215 35.5745C22.6086 35.3169 24.4266 34.2049 26.4453 32.8591L27 33.6911L26.4453 32.8591C27.6943 32.0264 29.6028 30.7852 31.9606 30.3923C34.383 29.9885 37.1711 30.4936 40.1333 32.9172C45.1548 37.0257 50.6369 35.6852 53.8492 32.9319C56.3795 30.7631 59.1512 29.4557 62.2455 29.8329C65.3089 30.2063 68.4333 32.2026 71.7557 36.0362C72.1174 36.4535 72.0723 37.0851 71.655 37.4468C71.2376 37.8085 70.606 37.7634 70.2443 37.346C67.0668 33.6796 64.3571 32.1051 62.0035 31.8182Z"
+                    fill="#4A6CF7"
+                  />
+                </svg>
+              </div>
+              <div class="absolute left-1/2 bottom-0">
+                <svg
+                  width="120"
+                  height="120"
+                  viewBox="0 0 120 120"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    opacity="0.9"
+                    d="M120 60C120 93.1371 93.1371 120 60 120C26.8629 120 0 93.1371 0 60C0 26.8629 26.8629 0 60 0C93.1371 0 120 26.8629 120 60Z"
+                    fill="url(#paint0_angular_300_926)"
+                  />
+                  <defs>
+                    <radialGradient
+                      id="paint0_angular_300_926"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(60 60) rotate(90) scale(60)"
+                    >
+                      <stop stop-color="#4A6CF7" />
+                      <stop offset="1" stop-color="#111722" />
+                    </radialGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute bottom-0 left-0 -z-10 h-full w-full bg-cover bg-center opacity-10 dark:opacity-40 bg-noise-pattern"
+      ></div>
+      <div class="absolute top-0 right-0 -z-10">
+        <svg
+          width="1356"
+          height="860"
+          viewBox="0 0 1356 860"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g opacity="0.5" filter="url(#filter0_f_201_2181)">
+            <rect
+              x="450.088"
+              y="-126.709"
+              width="351.515"
+              height="944.108"
+              transform="rotate(-34.6784 450.088 -126.709)"
+              fill="url(#paint0_linear_201_2181)"
+            />
+          </g>
+          <defs>
+            <filter
+              id="filter0_f_201_2181"
+              x="0.0878906"
+              y="-776.711"
+              width="1726.24"
+              height="1876.4"
+              filterUnits="userSpaceOnUse"
+              color-interpolation-filters="sRGB"
+            >
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feBlend
+                mode="normal"
+                in="SourceGraphic"
+                in2="BackgroundImageFix"
+                result="shape"
+              />
+              <feGaussianBlur
+                stdDeviation="225"
+                result="effect1_foregroundBlur_201_2181"
+              />
+            </filter>
+            <linearGradient
+              id="paint0_linear_201_2181"
+              x1="417.412"
+              y1="59.4717"
+              x2="966.334"
+              y2="603.857"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#ABBCFF" />
+              <stop offset="0.859375" stop-color="#4A6CF7" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="absolute bottom-0 left-0 -z-10">
+        <svg
+          width="1469"
+          height="498"
+          viewBox="0 0 1469 498"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g opacity="0.3" filter="url(#filter0_f_201_2182)">
+            <rect
+              y="450"
+              width="1019"
+              height="261"
+              fill="url(#paint0_linear_201_2182)"
+            />
+          </g>
+          <defs>
+            <filter
+              id="filter0_f_201_2182"
+              x="-450"
+              y="0"
+              width="1919"
+              height="1161"
+              filterUnits="userSpaceOnUse"
+              color-interpolation-filters="sRGB"
+            >
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feBlend
+                mode="normal"
+                in="SourceGraphic"
+                in2="BackgroundImageFix"
+                result="shape"
+              />
+              <feGaussianBlur
+                stdDeviation="225"
+                result="effect1_foregroundBlur_201_2182"
+              />
+            </filter>
+            <linearGradient
+              id="paint0_linear_201_2182"
+              x1="-94.7239"
+              y1="501.47"
+              x2="-65.8058"
+              y2="802.2"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#ABBCFF" />
+              <stop offset="0.859375" stop-color="#4A6CF7" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </section>
+    <!-- ===== Hero Section End ===== -->
+
+    <!-- ===== Features Section Start ===== -->
+    <section id="features" class="pt-14 sm:pt-20 lg:pt-[130px]">
+      <div class="px-4 xl:container">
+        <!-- Section Title -->
+        <div
+          class="wow fadeInUp relative mx-auto mb-12 max-w-[620px] pt-6 text-center md:mb-20 lg:pt-16"
+          data-wow-delay=".2s"
+        >
+          <span class="title"> FEATURES </span>
+          <h2
+            class="mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+          >
+            Our Core Services
+          </h2>
+          <p class="text-base text-dark-text">
+            Helping you stay focused by handling your technical challenges with fast, reliable, and professional support services.
+          </p>
+        </div>
+
+        <div class="-mx-4 flex flex-wrap justify-center">
+          <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[380px] text-center md:mb-16"
+              data-wow-delay=".2s"
+            >
+              <div
+                class="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-primary bg-opacity-5 text-primary transition group-hover:bg-primary group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]"
+              >
+                <svg
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  class="fill-current"
+                >
+                  <path
+                    d="M3.66663 23.8333H14.6666V38.5H3.66663V23.8333ZM16.5 5.5H27.5V38.5H16.5V5.5Z"
+                  />
+                  <path
+                    opacity="0.5"
+                    d="M29.3333 14.6667H40.3333V38.5H29.3333V14.6667Z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5"
+                >
+                  Call Centre Service 
+                </h3>
+                <p class="text-base text-dark-text">
+                   Handles customer inquiries, issues, and feedback via phone, email, or chat.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[380px] text-center md:mb-16"
+              data-wow-delay=".25s"
+            >
+              <div
+                class="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-primary bg-opacity-5 text-primary transition group-hover:bg-primary group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]"
+              >
+                <svg
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  class="fill-current"
+                >
+                  <path
+                    d="M22.9424 2.39982L39.0226 12.0468C39.1585 12.1282 39.271 12.2434 39.3492 12.3813C39.4273 12.5191 39.4684 12.6749 39.4684 12.8333C39.4684 12.9918 39.4273 13.1475 39.3492 13.2854C39.271 13.4232 39.1585 13.5384 39.0226 13.6198L22.0001 23.8333L4.97756 13.6198C4.84161 13.5384 4.72908 13.4232 4.65094 13.2854C4.57281 13.1475 4.53174 12.9918 4.53174 12.8333C4.53174 12.6749 4.57281 12.5191 4.65094 12.3813C4.72908 12.2434 4.84161 12.1282 4.97756 12.0468L21.0559 2.39982C21.341 2.22851 21.6674 2.138 22.0001 2.138C22.3327 2.138 22.6591 2.22851 22.9442 2.39982H22.9424Z"
+                  />
+                  <path
+                    opacity="0.5"
+                    d="M36.8189 19.2501L39.0226 20.5719C39.1585 20.6533 39.271 20.7685 39.3492 20.9064C39.4273 21.0442 39.4684 21.1999 39.4684 21.3584C39.4684 21.5168 39.4273 21.6726 39.3492 21.8104C39.271 21.9483 39.1585 22.0635 39.0226 22.1449L22.0001 32.3584L4.97756 22.1449C4.84161 22.0635 4.72908 21.9483 4.65094 21.8104C4.57281 21.6726 4.53174 21.5168 4.53174 21.3584C4.53174 21.1999 4.57281 21.0442 4.65094 20.9064C4.72908 20.7685 4.84161 20.6533 4.97756 20.5719L7.18123 19.2501L22.0001 28.1417L36.8189 19.2501ZM36.8189 27.8667L39.0226 29.1886C39.1585 29.2699 39.271 29.3852 39.3492 29.523C39.4273 29.6609 39.4684 29.8166 39.4684 29.9751C39.4684 30.1335 39.4273 30.2893 39.3492 30.4271C39.271 30.5649 39.1585 30.6802 39.0226 30.7616L22.9442 40.4086C22.6591 40.5799 22.3327 40.6704 22.0001 40.6704C21.6674 40.6704 21.341 40.5799 21.0559 40.4086L4.97756 30.7616C4.84161 30.6802 4.72908 30.5649 4.65094 30.4271C4.57281 30.2893 4.53174 30.1335 4.53174 29.9751C4.53174 29.8166 4.57281 29.6609 4.65094 29.523C4.72908 29.3852 4.84161 29.2699 4.97756 29.1886L7.18123 27.8667L22.0001 36.7584L36.8189 27.8667Z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5"
+                >
+                  General Support
+                </h3>
+                <p class="text-base text-dark-text">
+                 Provides assistance with various topics, such as product info, troubleshooting, or account management.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[380px] text-center md:mb-16"
+              data-wow-delay=".3s"
+            >
+              <div
+                class="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-primary bg-opacity-5 text-primary transition group-hover:bg-primary group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]"
+              >
+                <svg
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  class="fill-current"
+                >
+                  <path
+                    d="M36.6667 40.3334H7.33333C6.8471 40.3334 6.38079 40.1402 6.03697 39.7964C5.69315 39.4526 5.5 38.9863 5.5 38.5V14.6667H38.5V38.5C38.5 38.9863 38.3068 39.4526 37.963 39.7964C37.6192 40.1402 37.1529 40.3334 36.6667 40.3334ZM12.8333 20.1667V27.5H20.1667V20.1667H12.8333ZM12.8333 31.1667V34.8334H31.1667V31.1667H12.8333ZM23.8333 22V25.6667H31.1667V22H23.8333Z"
+                  />
+                  <path
+                    opacity="0.5"
+                    d="M38.5 11H5.5V5.49996C5.5 5.01373 5.69315 4.54741 6.03697 4.2036C6.38079 3.85978 6.8471 3.66663 7.33333 3.66663H36.6667C37.1529 3.66663 37.6192 3.85978 37.963 4.2036C38.3068 4.54741 38.5 5.01373 38.5 5.49996V11Z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5"
+                >
+                  Virtual Assistance
+                </h3>
+                <p class="text-base text-dark-text">
+                  Offers remote support through phone, email, or chat, to help with tasks, questions, or scheduling.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[380px] text-center md:mb-16"
+              data-wow-delay=".35s"
+            >
+              <div
+                class="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-primary bg-opacity-5 text-primary transition group-hover:bg-primary group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]"
+              >
+                <svg
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  class="fill-current"
+                >
+                  <path
+                    d="M22 3.66663C32.1255 3.66663 40.3333 11.8745 40.3333 22C40.3333 32.1255 32.1255 40.3333 22 40.3333C11.8745 40.3333 3.66663 32.1255 3.66663 22C3.66663 11.8745 11.8745 3.66663 22 3.66663ZM22 7.33329C13.9003 7.33329 7.33329 13.9003 7.33329 22C7.33329 30.0996 13.9003 36.6666 22 36.6666C30.0996 36.6666 36.6666 30.0996 36.6666 22C36.6666 13.9003 30.0996 7.33329 22 7.33329ZM29.777 11.6288L32.3711 14.2211L25.5438 21.0521C25.6245 21.3546 25.6666 21.6718 25.6666 22C25.6666 24.0258 24.0258 25.6666 22 25.6666C19.9741 25.6666 18.3333 24.0258 18.3333 22C18.3333 19.9741 19.9741 18.3333 22 18.3333C22.3281 18.3333 22.6453 18.3755 22.9478 18.4561L29.7788 11.6288H29.777Z"
+                  />
+                  <path
+                    opacity="0.5"
+                    d="M22 9.16663C23.8663 9.16663 25.6391 9.56446 27.2396 10.2813L24.3741 13.145C23.617 12.9433 22.8213 12.8333 22 12.8333C16.9381 12.8333 12.8333 16.9381 12.8333 22C12.8333 24.53 13.86 26.8216 15.5173 28.4826L12.925 31.075L12.639 30.7798C10.4866 28.4845 9.16663 25.3953 9.16663 22C9.16663 14.9123 14.9123 9.16663 22 9.16663ZM33.7186 16.7621C34.4336 18.3608 34.8333 20.1355 34.8333 22C34.8333 25.5438 33.396 28.7521 31.075 31.075L28.4826 28.4826C30.14 26.8216 31.1666 24.53 31.1666 22C31.1666 21.1786 31.0585 20.383 30.855 19.6258L33.7186 16.7621Z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5"
+                >
+                  Citizen Service Desk
+                </h3>
+                <p class="text-base text-dark-text">
+                  We serve as a central point for customers  to access vendors, services, information, or support.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[380px] text-center md:mb-16"
+              data-wow-delay=".4s"
+            >
+              <div
+                class="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-primary bg-opacity-5 text-primary transition group-hover:bg-primary group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]"
+              >
+                <svg
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  class="fill-current"
+                >
+                  <path
+                    d="M25.6667 38.5H7.33333C6.8471 38.5 6.38079 38.3068 6.03697 37.963C5.69315 37.6192 5.5 37.1529 5.5 36.6667V18.3333H25.6667V38.5ZM38.5 14.6667H5.5V7.33333C5.5 6.8471 5.69315 6.38079 6.03697 6.03697C6.38079 5.69315 6.8471 5.5 7.33333 5.5H36.6667C37.1529 5.5 37.6192 5.69315 37.963 6.03697C38.3068 6.38079 38.5 6.8471 38.5 7.33333V14.6667Z"
+                  />
+                  <path
+                    opacity="0.5"
+                    d="M29.3334 38.5V18.3334H38.5V36.6667C38.5 37.1529 38.3069 37.6193 37.9631 37.9631C37.6193 38.3069 37.1529 38.5 36.6667 38.5H29.3334Z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5"
+                >
+                  Clients Management
+                </h3>
+                <p class="text-base text-dark-text">
+                  Focuses on building and maintaining client relationships through effective communication, support, and issue resolution.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+            <div
+              class="wow fadeInUp group mx-auto max-w-[380px] text-center md:mb-16"
+              data-wow-delay=".45s"
+            >
+              <div
+                class="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-primary bg-opacity-5 text-primary transition group-hover:bg-primary group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]"
+              >
+                <svg
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  class="fill-current"
+                >
+                  <path
+                    opacity="0.5"
+                    d="M10.0154 8.12714C13.3421 5.24452 17.598 3.6605 21.9999 3.66664C32.1254 3.66664 40.3332 11.8745 40.3332 22C40.3332 25.916 39.1049 29.546 37.0149 32.5233L31.1665 22H36.6665C36.6668 19.1246 35.8218 16.3126 34.2368 13.9136C32.6517 11.5146 30.3964 9.63443 27.7514 8.50687C25.1063 7.37931 22.1882 7.0541 19.3598 7.57168C16.5314 8.08926 13.9175 9.42679 11.8432 11.418L10.0154 8.12714Z"
+                  />
+                  <path
+                    d="M33.9843 35.8729C30.6576 38.7555 26.4017 40.3395 21.9998 40.3333C11.8743 40.3333 3.6665 32.1255 3.6665 22C3.6665 18.084 4.89484 14.454 6.98484 11.4767L12.8332 22H7.33317C7.33293 24.8754 8.17788 27.6874 9.76295 30.0864C11.348 32.4854 13.6033 34.3656 16.2483 35.4931C18.8934 36.6207 21.8115 36.9459 24.6399 36.4283C27.4683 35.9107 30.0822 34.5732 32.1565 32.582L33.9843 35.8729Z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5"
+                >
+                   ⁠Address Verification
+                </h3>
+                <p class="text-base text-dark-text">
+                  Verifies the accuracy of addresses for individuals or businesses for identity verification.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[380px] text-center md:mb-16"
+              data-wow-delay=".4s"
+            >
+              <div
+                class="mx-auto mb-6 flex h-[70px] w-[70px] items-center justify-center rounded-full bg-primary bg-opacity-5 text-primary transition group-hover:bg-primary group-hover:bg-opacity-100 group-hover:text-white dark:bg-white dark:bg-opacity-5 dark:text-white dark:group-hover:bg-primary dark:group-hover:bg-opacity-100 md:mb-9 md:h-[90px] md:w-[90px]"
+              >
+                <svg
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  class="fill-current"
+                >
+                  <path
+                    d="M25.6667 38.5H7.33333C6.8471 38.5 6.38079 38.3068 6.03697 37.963C5.69315 37.6192 5.5 37.1529 5.5 36.6667V18.3333H25.6667V38.5ZM38.5 14.6667H5.5V7.33333C5.5 6.8471 5.69315 6.38079 6.03697 6.03697C6.38079 5.69315 6.8471 5.5 7.33333 5.5H36.6667C37.1529 5.5 37.6192 5.69315 37.963 6.03697C38.3068 6.38079 38.5 6.8471 38.5 7.33333V14.6667Z"
+                  />
+                  <path
+                    opacity="0.5"
+                    d="M29.3334 38.5V18.3334H38.5V36.6667C38.5 37.1529 38.3069 37.6193 37.9631 37.9631C37.6193 38.3069 37.1529 38.5 36.6667 38.5H29.3334Z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5"
+                >
+                 Training and Consultancy:
+                </h3>
+                <p class="text-base text-dark-text">
+                  Provides guidance, expertise, and training to individuals or organizations on specific topics, such as customer service, communication, or process improvement.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Features Section End ===== -->
+
+    <!-- ===== About Section Start ===== -->
+    <section id="about" class="pt-14 sm:pt-20 lg:pt-[130px]">
+      <div class="px-4 xl:container">
+        <!-- Section Title -->
+        <div
+          class="wow fadeInUp relative mx-auto mb-12 pt-6 text-center lg:mb-20 lg:pt-16"
+          data-wow-delay=".2s"
+        >
+          <span class="title"> ABOUT US </span>
+          <h2
+            class="mx-auto mb-5 max-w-[570px] font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+          >
+            Know Details About Our Company
+          </h2>
+          <p class="mx-auto max-w-[570px] text-base text-dark-text">
+            We provides reliable, professional assistance to help clients resolve technical issues and streamline operations.
+
+          </p>
+        </div>
+
+        <div
+          class="wow fadeInUp relative z-10 overflow-hidden rounded px-8 pt-0 pb-8 md:px-[70px] md:pb-[70px] lg:px-[60px] lg:pb-[60px] xl:px-[70px] xl:pb-[70px]"
+          data-wow-delay=".3s"
+        >
+          <div
+            class="absolute top-0 left-0 -z-10 h-full w-full bg-cover bg-center opacity-10 dark:opacity-40 bg-noise-pattern"
+          ></div>
+          <div
+            class="absolute bottom-0 left-1/2 -z-10 -translate-x-1/2"
+          >
+            <svg
+              width="1174"
+              height="560"
+              viewBox="0 0 1174 560"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g opacity="0.4" filter="url(#filter0_f_41_257)">
+                <rect
+                  x="450.531"
+                  y="279"
+                  width="272.933"
+                  height="328.051"
+                  fill="url(#paint0_linear_41_257)"
+                />
+              </g>
+              <defs>
+                <filter
+                  id="filter0_f_41_257"
+                  x="0.531494"
+                  y="-171"
+                  width="1172.93"
+                  height="1228.05"
+                  filterUnits="userSpaceOnUse"
+                  color-interpolation-filters="sRGB"
+                >
+                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="BackgroundImageFix"
+                    result="shape"
+                  />
+                  <feGaussianBlur
+                    stdDeviation="225"
+                    result="effect1_foregroundBlur_41_257"
+                  />
+                </filter>
+                <linearGradient
+                  id="paint0_linear_41_257"
+                  x1="425.16"
+                  y1="343.693"
+                  x2="568.181"
+                  y2="660.639"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#ABBCFF" />
+                  <stop offset="0.859375" stop-color="#4A6CF7" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div
+            class="tabButtons flex w-full items-center justify-around"
+          >
+            <button
+              class="w-full border-b px-2 pt-8 pb-6 font-heading text-base font-medium hover:border-primary hover:text-primary dark:border-[#4B4E56] dark:text-white dark:hover:border-primary lg:pt-9 lg:pb-7"
+              onclick="showPanel(0)"
+            >
+              About Us
+            </button>
+            <button
+              class="w-full border-b px-2 pt-8 pb-6 font-heading text-base font-medium hover:border-primary hover:text-primary dark:border-[#4B4E56] dark:text-white dark:hover:border-primary lg:pt-9 lg:pb-7"
+              onclick="showPanel(1)"
+            >
+              Our Mission
+            </button>
+            <button
+              class="w-full border-b px-2 pt-8 pb-6 font-heading text-base font-medium hover:border-primary hover:text-primary dark:border-[#4B4E56] dark:text-white dark:hover:border-primary lg:pt-9 lg:pb-7"
+              onclick="showPanel(2)"
+            >
+              Our Vision
+            </button>
+            <button
+              class="w-full border-b px-2 pt-8 pb-6 font-heading text-base font-medium hover:border-primary hover:text-primary dark:border-[#4B4E56] dark:text-white dark:hover:border-primary lg:pt-9 lg:pb-7"
+              onclick="showPanel(3)"
+            >
+              Core Values
+            </button>
+          </div>
+          <div class="w-full">
+            <div class="tabPanel">
+              <div
+                class="-mx-4 flex flex-wrap items-center pt-[70px]"
+              >
+                <div class="w-full px-4 lg:w-1/2">
+                  <div
+                    class="relative z-30 mb-14 h-[490px] max-w-[600px] lg:mb-0"
+                  >
+                    <div class="absolute left-0 top-0">
+                      <img src="{{ asset('landing/images/about/image-1.jpg')}}" alt="about-image" />
+                    </div>
+                    <div
+                      class="absolute right-0 top-1/2 z-10 -translate-y-1/2"
+                    >
+                      <img src="{{ asset('landing/images/about/image-2.jpg')}}" alt="about-image" />
+                      <div
+                        class="absolute -left-5 -top-5 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"
+                      ></div>
+                    </div>
+                    <div class="absolute right-0 top-24 z-40">
+                      <svg
+                        width="72"
+                        height="38"
+                        viewBox="0 0 72 38"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 2.04985C59.6808 1.76671 57.4524 2.70929 55.1508 4.68209C51.3631 7.92863 44.7908 9.54366 38.8668 4.69678C36.329 2.6204 34.117 2.29213 32.2894 2.59672C30.3972 2.91209 28.8057 3.92088 27.5547 4.75487C25.5734 6.07577 23.3915 7.46379 20.8786 7.78953C18.2847 8.12577 15.515 7.32034 12.3598 4.69105C9.71804 2.48955 7.45748 2.0661 5.72104 2.33325C3.94436 2.6066 2.56003 3.6273 1.76341 4.56877C1.40666 4.99037 0.775686 5.04295 0.354079 4.68621C-0.0675277 4.32946 -0.120109 3.69849 0.236635 3.27688C1.27334 2.05168 3.0643 0.71846 5.41692 0.356509C7.80979 -0.0116349 10.6326 0.648246 13.6402 3.1546C16.485 5.52529 18.7154 6.05321 20.6215 5.80612C22.6086 5.54854 24.4266 4.43657 26.4453 3.09078L27 3.92282L26.4453 3.09078C27.6943 2.25809 29.6028 1.0169 31.9606 0.623935C34.383 0.220203 37.1711 0.725274 40.1333 3.14886C45.1548 7.25733 50.6369 5.9169 53.8492 3.16356C56.3795 0.994798 59.1512 -0.312658 62.2455 0.0645503C65.3089 0.43799 68.4333 2.43425 71.7557 6.26783C72.1174 6.68518 72.0723 7.31674 71.655 7.67845C71.2376 8.04015 70.606 7.99504 70.2443 7.57769C67.0668 3.91125 64.3571 2.33677 62.0035 2.04985Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 11.9727C59.6808 11.6896 57.4524 12.6321 55.1508 14.6049C51.3631 17.8515 44.7908 19.4665 38.8668 14.6196C36.329 12.5433 34.117 12.215 32.2894 12.5196C30.3972 12.8349 28.8057 13.8437 27.5547 14.6777C25.5734 15.9986 23.3915 17.3866 20.8786 17.7124C18.2847 18.0486 15.515 17.2432 12.3598 14.6139C9.71804 12.4124 7.45748 11.989 5.72104 12.2561C3.94436 12.5294 2.56003 13.5501 1.76341 14.4916C1.40666 14.9132 0.775686 14.9658 0.354079 14.6091C-0.0675277 14.2523 -0.120109 13.6213 0.236635 13.1997C1.27334 11.9745 3.0643 10.6413 5.41692 10.2794C7.80979 9.91122 10.6326 10.5711 13.6402 13.0775C16.485 15.4481 18.7154 15.9761 20.6215 15.729C22.6086 15.4714 24.4266 14.3594 26.4453 13.0136L27 13.8457L26.4453 13.0136C27.6943 12.1809 29.6028 10.9397 31.9606 10.5468C34.383 10.1431 37.1711 10.6481 40.1333 13.0717C45.1548 17.1802 50.6369 15.8397 53.8492 13.0864C56.3795 10.9176 59.1512 9.61019 62.2455 9.9874C65.3089 10.3608 68.4333 12.3571 71.7557 16.1907C72.1174 16.608 72.0723 17.2396 71.655 17.6013C71.2376 17.963 70.606 17.9179 70.2443 17.5005C67.0668 13.8341 64.3571 12.2596 62.0035 11.9727Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 21.8953C59.6808 21.6122 57.4524 22.5548 55.1508 24.5275C51.3631 27.7741 44.7908 29.3891 38.8668 24.5422C36.329 22.4659 34.117 22.1376 32.2894 22.4422C30.3972 22.7575 28.8057 23.7663 27.5547 24.6003C25.5734 25.9212 23.3915 27.3093 20.8786 27.635C18.2847 27.9712 15.515 27.1658 12.3598 24.5365C9.71804 22.335 7.45748 21.9116 5.72104 22.1787C3.94436 22.4521 2.56003 23.4728 1.76341 24.4142C1.40666 24.8358 0.775686 24.8884 0.354079 24.5317C-0.0675277 24.1749 -0.120109 23.5439 0.236635 23.1223C1.27334 21.8971 3.0643 20.5639 5.41692 20.202C7.80979 19.8338 10.6326 20.4937 13.6402 23.0001C16.485 25.3707 18.7154 25.8987 20.6215 25.6516C22.6086 25.394 24.4266 24.282 26.4453 22.9362L27 23.7683L26.4453 22.9362C27.6943 22.1035 29.6028 20.8624 31.9606 20.4694C34.383 20.0657 37.1711 20.5707 40.1333 22.9943C45.1548 27.1028 50.6369 25.7624 53.8492 23.009C56.3795 20.8403 59.1512 19.5328 62.2455 19.91C65.3089 20.2834 68.4333 22.2797 71.7557 26.1133C72.1174 26.5306 72.0723 27.1622 71.655 27.5239C71.2376 27.8856 70.606 27.8405 70.2443 27.4231C67.0668 23.7567 64.3571 22.1822 62.0035 21.8953Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 31.8182C59.6808 31.535 57.4524 32.4776 55.1508 34.4504C51.3631 37.6969 44.7908 39.312 38.8668 34.4651C36.329 32.3887 34.117 32.0604 32.2894 32.365C30.3972 32.6804 28.8057 33.6892 27.5547 34.5232C25.5734 35.8441 23.3915 37.2321 20.8786 37.5578C18.2847 37.8941 15.515 37.0887 12.3598 34.4594C9.71804 32.2579 7.45748 31.8344 5.72104 32.1016C3.94436 32.3749 2.56003 33.3956 1.76341 34.3371C1.40666 34.7587 0.775686 34.8113 0.354079 34.4545C-0.0675277 34.0978 -0.120109 33.4668 0.236635 33.0452C1.27334 31.82 3.0643 30.4868 5.41692 30.1248C7.80979 29.7567 10.6326 30.4166 13.6402 32.9229C16.485 35.2936 18.7154 35.8215 20.6215 35.5744C22.6086 35.3169 24.4266 34.2049 26.4453 32.8591L27 33.6911L26.4453 32.8591C27.6943 32.0264 29.6028 30.7852 31.9606 30.3922C34.383 29.9885 37.1711 30.4936 40.1333 32.9172C45.1548 37.0256 50.6369 35.6852 53.8492 32.9319C56.3795 30.7631 59.1512 29.4557 62.2455 29.8329C65.3089 30.2063 68.4333 32.2026 71.7557 36.0361C72.1174 36.4535 72.0723 37.085 71.655 37.4468C71.2376 37.8085 70.606 37.7634 70.2443 37.346C67.0668 33.6796 64.3571 32.1051 62.0035 31.8182Z"
+                          fill="#4A6CF7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full px-4 lg:w-1/2">
+                  <div class="max-w-[565px] lg:ml-auto">
+                    <h2
+                      class="mb-8 font-heading text-2xl font-bold text-dark dark:text-white sm:text-[40px] sm:leading-[50px]"
+                    >
+                      We’re Here When You Need Us
+                    </h2>
+                    <p class="mb-6 text-base text-dark-text">
+                      At eSupportPro Ltd, we're passionate about connecting companies with their customers through exceptional support experiences, innovative solutions, and genuine empathy.
+                    </p>
+                    <p class="mb-6 text-base text-dark-text">
+                      As a trusted partner, we deliver personalized, cutting-edge support and administrative solutions that foster lasting relationships, drive business success, and set a new standard for customer support excellence.
+                    </p>
+                    {{-- <p class="text-base text-dark-text">
+                      Phasellus ex massa, facilisis ac vestibulum eget, ultrices
+                      quis nulla. Integer vitae magna lacus. Sed venenatis
+                      auctor dolor.
+                    </p> --}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tabPanel">
+              <div
+                class="-mx-4 flex flex-wrap items-center pt-[70px]"
+              >
+                <div class="w-full px-4 lg:w-1/2">
+                  <div
+                    class="relative z-30 mb-14 h-[490px] max-w-[600px] lg:mb-0"
+                  >
+                    <div class="absolute left-0 top-0">
+                      <img src="{{asset('landing/images/about/image-1.jpg')}}" alt="about-image" />
+                    </div>
+                    <div
+                      class="absolute right-0 top-1/2 z-10 -translate-y-1/2"
+                    >
+                      <img src="{{asset('landing/images/about/image-2.jpg')}}" alt="about-image" />
+                      <div
+                        class="absolute -left-5 -top-5 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"
+                      ></div>
+                    </div>
+                    <div class="absolute right-0 top-24 z-40">
+                      <svg
+                        width="72"
+                        height="38"
+                        viewBox="0 0 72 38"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 2.04985C59.6808 1.76671 57.4524 2.70929 55.1508 4.68209C51.3631 7.92863 44.7908 9.54366 38.8668 4.69678C36.329 2.6204 34.117 2.29213 32.2894 2.59672C30.3972 2.91209 28.8057 3.92088 27.5547 4.75487C25.5734 6.07577 23.3915 7.46379 20.8786 7.78953C18.2847 8.12577 15.515 7.32034 12.3598 4.69105C9.71804 2.48955 7.45748 2.0661 5.72104 2.33325C3.94436 2.6066 2.56003 3.6273 1.76341 4.56877C1.40666 4.99037 0.775686 5.04295 0.354079 4.68621C-0.0675277 4.32946 -0.120109 3.69849 0.236635 3.27688C1.27334 2.05168 3.0643 0.71846 5.41692 0.356509C7.80979 -0.0116349 10.6326 0.648246 13.6402 3.1546C16.485 5.52529 18.7154 6.05321 20.6215 5.80612C22.6086 5.54854 24.4266 4.43657 26.4453 3.09078L27 3.92282L26.4453 3.09078C27.6943 2.25809 29.6028 1.0169 31.9606 0.623935C34.383 0.220203 37.1711 0.725274 40.1333 3.14886C45.1548 7.25733 50.6369 5.9169 53.8492 3.16356C56.3795 0.994798 59.1512 -0.312658 62.2455 0.0645503C65.3089 0.43799 68.4333 2.43425 71.7557 6.26783C72.1174 6.68518 72.0723 7.31674 71.655 7.67845C71.2376 8.04015 70.606 7.99504 70.2443 7.57769C67.0668 3.91125 64.3571 2.33677 62.0035 2.04985Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 11.9727C59.6808 11.6896 57.4524 12.6321 55.1508 14.6049C51.3631 17.8515 44.7908 19.4665 38.8668 14.6196C36.329 12.5433 34.117 12.215 32.2894 12.5196C30.3972 12.8349 28.8057 13.8437 27.5547 14.6777C25.5734 15.9986 23.3915 17.3866 20.8786 17.7124C18.2847 18.0486 15.515 17.2432 12.3598 14.6139C9.71804 12.4124 7.45748 11.989 5.72104 12.2561C3.94436 12.5294 2.56003 13.5501 1.76341 14.4916C1.40666 14.9132 0.775686 14.9658 0.354079 14.6091C-0.0675277 14.2523 -0.120109 13.6213 0.236635 13.1997C1.27334 11.9745 3.0643 10.6413 5.41692 10.2794C7.80979 9.91122 10.6326 10.5711 13.6402 13.0775C16.485 15.4481 18.7154 15.9761 20.6215 15.729C22.6086 15.4714 24.4266 14.3594 26.4453 13.0136L27 13.8457L26.4453 13.0136C27.6943 12.1809 29.6028 10.9397 31.9606 10.5468C34.383 10.1431 37.1711 10.6481 40.1333 13.0717C45.1548 17.1802 50.6369 15.8397 53.8492 13.0864C56.3795 10.9176 59.1512 9.61019 62.2455 9.9874C65.3089 10.3608 68.4333 12.3571 71.7557 16.1907C72.1174 16.608 72.0723 17.2396 71.655 17.6013C71.2376 17.963 70.606 17.9179 70.2443 17.5005C67.0668 13.8341 64.3571 12.2596 62.0035 11.9727Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 21.8953C59.6808 21.6122 57.4524 22.5548 55.1508 24.5275C51.3631 27.7741 44.7908 29.3891 38.8668 24.5422C36.329 22.4659 34.117 22.1376 32.2894 22.4422C30.3972 22.7575 28.8057 23.7663 27.5547 24.6003C25.5734 25.9212 23.3915 27.3093 20.8786 27.635C18.2847 27.9712 15.515 27.1658 12.3598 24.5365C9.71804 22.335 7.45748 21.9116 5.72104 22.1787C3.94436 22.4521 2.56003 23.4728 1.76341 24.4142C1.40666 24.8358 0.775686 24.8884 0.354079 24.5317C-0.0675277 24.1749 -0.120109 23.5439 0.236635 23.1223C1.27334 21.8971 3.0643 20.5639 5.41692 20.202C7.80979 19.8338 10.6326 20.4937 13.6402 23.0001C16.485 25.3707 18.7154 25.8987 20.6215 25.6516C22.6086 25.394 24.4266 24.282 26.4453 22.9362L27 23.7683L26.4453 22.9362C27.6943 22.1035 29.6028 20.8624 31.9606 20.4694C34.383 20.0657 37.1711 20.5707 40.1333 22.9943C45.1548 27.1028 50.6369 25.7624 53.8492 23.009C56.3795 20.8403 59.1512 19.5328 62.2455 19.91C65.3089 20.2834 68.4333 22.2797 71.7557 26.1133C72.1174 26.5306 72.0723 27.1622 71.655 27.5239C71.2376 27.8856 70.606 27.8405 70.2443 27.4231C67.0668 23.7567 64.3571 22.1822 62.0035 21.8953Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 31.8182C59.6808 31.535 57.4524 32.4776 55.1508 34.4504C51.3631 37.6969 44.7908 39.312 38.8668 34.4651C36.329 32.3887 34.117 32.0604 32.2894 32.365C30.3972 32.6804 28.8057 33.6892 27.5547 34.5232C25.5734 35.8441 23.3915 37.2321 20.8786 37.5578C18.2847 37.8941 15.515 37.0887 12.3598 34.4594C9.71804 32.2579 7.45748 31.8344 5.72104 32.1016C3.94436 32.3749 2.56003 33.3956 1.76341 34.3371C1.40666 34.7587 0.775686 34.8113 0.354079 34.4545C-0.0675277 34.0978 -0.120109 33.4668 0.236635 33.0452C1.27334 31.82 3.0643 30.4868 5.41692 30.1248C7.80979 29.7567 10.6326 30.4166 13.6402 32.9229C16.485 35.2936 18.7154 35.8215 20.6215 35.5744C22.6086 35.3169 24.4266 34.2049 26.4453 32.8591L27 33.6911L26.4453 32.8591C27.6943 32.0264 29.6028 30.7852 31.9606 30.3922C34.383 29.9885 37.1711 30.4936 40.1333 32.9172C45.1548 37.0256 50.6369 35.6852 53.8492 32.9319C56.3795 30.7631 59.1512 29.4557 62.2455 29.8329C65.3089 30.2063 68.4333 32.2026 71.7557 36.0361C72.1174 36.4535 72.0723 37.085 71.655 37.4468C71.2376 37.8085 70.606 37.7634 70.2443 37.346C67.0668 33.6796 64.3571 32.1051 62.0035 31.8182Z"
+                          fill="#4A6CF7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full px-4 lg:w-1/2">
+                  <div class="max-w-[565px] lg:ml-auto">
+                    <h2
+                      class="mb-8 font-heading text-2xl font-bold text-dark dark:text-white sm:text-[40px] sm:leading-[50px]"
+                    >
+                      Support That Solves, Service That Stands
+                    </h2>
+                    <p class="mb-6 text-base text-dark-text">
+                      To bridge the communication gap between companies and their customers, fostering seamless interactions, unparalleled support experiences, and building lasting relationships through empathy, transparency, and technology.
+                      
+                    </p>
+                    {{-- <p class="mb-6 text-base text-dark-text">
+                      Phasellus ex massa, facilisis ac vestibulum eget, ultrices
+                      quis nulla. Integer vitae magna lacus. Sed venenatis
+                      auctor dolor.
+                    </p>
+                    <p class="text-base text-dark-text">
+                      Phasellus ex massa, facilisis ac vestibulum eget, ultrices
+                      quis nulla. Integer vitae magna lacus. Sed venenatis
+                      auctor dolor.
+                    </p> --}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tabPanel">
+              <div
+                class="-mx-4 flex flex-wrap items-center pt-[70px]"
+              >
+                <div class="w-full px-4 lg:w-1/2">
+                  <div
+                    class="relative z-30 mb-14 h-[490px] max-w-[600px] lg:mb-0"
+                  >
+                    <div class="absolute left-0 top-0">
+                      <img src="{{asset('landing/images/about/image-1.jpg')}}" alt="about-image" />
+                    </div>
+                    <div
+                      class="absolute right-0 top-1/2 z-10 -translate-y-1/2"
+                    >
+                      <img src="{{ asset('landing/images/about/image-2.jpg')}}" alt="about-image" />
+                      <div
+                        class="absolute -left-5 -top-5 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"
+                      ></div>
+                    </div>
+                    <div class="absolute right-0 top-24 z-40">
+                      <svg
+                        width="72"
+                        height="38"
+                        viewBox="0 0 72 38"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 2.04985C59.6808 1.76671 57.4524 2.70929 55.1508 4.68209C51.3631 7.92863 44.7908 9.54366 38.8668 4.69678C36.329 2.6204 34.117 2.29213 32.2894 2.59672C30.3972 2.91209 28.8057 3.92088 27.5547 4.75487C25.5734 6.07577 23.3915 7.46379 20.8786 7.78953C18.2847 8.12577 15.515 7.32034 12.3598 4.69105C9.71804 2.48955 7.45748 2.0661 5.72104 2.33325C3.94436 2.6066 2.56003 3.6273 1.76341 4.56877C1.40666 4.99037 0.775686 5.04295 0.354079 4.68621C-0.0675277 4.32946 -0.120109 3.69849 0.236635 3.27688C1.27334 2.05168 3.0643 0.71846 5.41692 0.356509C7.80979 -0.0116349 10.6326 0.648246 13.6402 3.1546C16.485 5.52529 18.7154 6.05321 20.6215 5.80612C22.6086 5.54854 24.4266 4.43657 26.4453 3.09078L27 3.92282L26.4453 3.09078C27.6943 2.25809 29.6028 1.0169 31.9606 0.623935C34.383 0.220203 37.1711 0.725274 40.1333 3.14886C45.1548 7.25733 50.6369 5.9169 53.8492 3.16356C56.3795 0.994798 59.1512 -0.312658 62.2455 0.0645503C65.3089 0.43799 68.4333 2.43425 71.7557 6.26783C72.1174 6.68518 72.0723 7.31674 71.655 7.67845C71.2376 8.04015 70.606 7.99504 70.2443 7.57769C67.0668 3.91125 64.3571 2.33677 62.0035 2.04985Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 11.9727C59.6808 11.6896 57.4524 12.6321 55.1508 14.6049C51.3631 17.8515 44.7908 19.4665 38.8668 14.6196C36.329 12.5433 34.117 12.215 32.2894 12.5196C30.3972 12.8349 28.8057 13.8437 27.5547 14.6777C25.5734 15.9986 23.3915 17.3866 20.8786 17.7124C18.2847 18.0486 15.515 17.2432 12.3598 14.6139C9.71804 12.4124 7.45748 11.989 5.72104 12.2561C3.94436 12.5294 2.56003 13.5501 1.76341 14.4916C1.40666 14.9132 0.775686 14.9658 0.354079 14.6091C-0.0675277 14.2523 -0.120109 13.6213 0.236635 13.1997C1.27334 11.9745 3.0643 10.6413 5.41692 10.2794C7.80979 9.91122 10.6326 10.5711 13.6402 13.0775C16.485 15.4481 18.7154 15.9761 20.6215 15.729C22.6086 15.4714 24.4266 14.3594 26.4453 13.0136L27 13.8457L26.4453 13.0136C27.6943 12.1809 29.6028 10.9397 31.9606 10.5468C34.383 10.1431 37.1711 10.6481 40.1333 13.0717C45.1548 17.1802 50.6369 15.8397 53.8492 13.0864C56.3795 10.9176 59.1512 9.61019 62.2455 9.9874C65.3089 10.3608 68.4333 12.3571 71.7557 16.1907C72.1174 16.608 72.0723 17.2396 71.655 17.6013C71.2376 17.963 70.606 17.9179 70.2443 17.5005C67.0668 13.8341 64.3571 12.2596 62.0035 11.9727Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 21.8953C59.6808 21.6122 57.4524 22.5548 55.1508 24.5275C51.3631 27.7741 44.7908 29.3891 38.8668 24.5422C36.329 22.4659 34.117 22.1376 32.2894 22.4422C30.3972 22.7575 28.8057 23.7663 27.5547 24.6003C25.5734 25.9212 23.3915 27.3093 20.8786 27.635C18.2847 27.9712 15.515 27.1658 12.3598 24.5365C9.71804 22.335 7.45748 21.9116 5.72104 22.1787C3.94436 22.4521 2.56003 23.4728 1.76341 24.4142C1.40666 24.8358 0.775686 24.8884 0.354079 24.5317C-0.0675277 24.1749 -0.120109 23.5439 0.236635 23.1223C1.27334 21.8971 3.0643 20.5639 5.41692 20.202C7.80979 19.8338 10.6326 20.4937 13.6402 23.0001C16.485 25.3707 18.7154 25.8987 20.6215 25.6516C22.6086 25.394 24.4266 24.282 26.4453 22.9362L27 23.7683L26.4453 22.9362C27.6943 22.1035 29.6028 20.8624 31.9606 20.4694C34.383 20.0657 37.1711 20.5707 40.1333 22.9943C45.1548 27.1028 50.6369 25.7624 53.8492 23.009C56.3795 20.8403 59.1512 19.5328 62.2455 19.91C65.3089 20.2834 68.4333 22.2797 71.7557 26.1133C72.1174 26.5306 72.0723 27.1622 71.655 27.5239C71.2376 27.8856 70.606 27.8405 70.2443 27.4231C67.0668 23.7567 64.3571 22.1822 62.0035 21.8953Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 31.8182C59.6808 31.535 57.4524 32.4776 55.1508 34.4504C51.3631 37.6969 44.7908 39.312 38.8668 34.4651C36.329 32.3887 34.117 32.0604 32.2894 32.365C30.3972 32.6804 28.8057 33.6892 27.5547 34.5232C25.5734 35.8441 23.3915 37.2321 20.8786 37.5578C18.2847 37.8941 15.515 37.0887 12.3598 34.4594C9.71804 32.2579 7.45748 31.8344 5.72104 32.1016C3.94436 32.3749 2.56003 33.3956 1.76341 34.3371C1.40666 34.7587 0.775686 34.8113 0.354079 34.4545C-0.0675277 34.0978 -0.120109 33.4668 0.236635 33.0452C1.27334 31.82 3.0643 30.4868 5.41692 30.1248C7.80979 29.7567 10.6326 30.4166 13.6402 32.9229C16.485 35.2936 18.7154 35.8215 20.6215 35.5744C22.6086 35.3169 24.4266 34.2049 26.4453 32.8591L27 33.6911L26.4453 32.8591C27.6943 32.0264 29.6028 30.7852 31.9606 30.3922C34.383 29.9885 37.1711 30.4936 40.1333 32.9172C45.1548 37.0256 50.6369 35.6852 53.8492 32.9319C56.3795 30.7631 59.1512 29.4557 62.2455 29.8329C65.3089 30.2063 68.4333 32.2026 71.7557 36.0361C72.1174 36.4535 72.0723 37.085 71.655 37.4468C71.2376 37.8085 70.606 37.7634 70.2443 37.346C67.0668 33.6796 64.3571 32.1051 62.0035 31.8182Z"
+                          fill="#4A6CF7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full px-4 lg:w-1/2">
+                  <div class="max-w-[565px] lg:ml-auto">
+                    <h2
+                      class="mb-8 font-heading text-2xl font-bold text-dark dark:text-white sm:text-[40px] sm:leading-[50px]"
+                    >
+                      Shaping the Future of Trusted Support
+                    </h2>
+                    <p class="mb-6 text-base text-dark-text">
+                      To be a leading benchmark for support companies, setting the standard for exceptional customer satisfaction and vendor excellence, while driving innovation and excellence in customer support.
+                    </p>
+
+                    {{-- <p class="mb-6 text-base text-dark-text">
+                      Phasellus ex massa, facilisis ac vestibulum eget, ultrices
+                      quis nulla. Integer vitae magna lacus. Sed venenatis
+                      auctor dolor.
+                    </p>
+                    <p class="text-base text-dark-text">
+                      Phasellus ex massa, facilisis ac vestibulum eget, ultrices
+                      quis nulla. Integer vitae magna lacus. Sed venenatis
+                      auctor dolor.
+                    </p> --}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tabPanel">
+              <div
+                class="-mx-4 flex flex-wrap items-center pt-[70px]"
+              >
+                <div class="w-full px-4 lg:w-1/2">
+                  <div
+                    class="relative z-30 mb-14 h-[490px] max-w-[600px] lg:mb-0"
+                  >
+                    <div class="absolute left-0 top-0">
+                      <img src="{{asset('landing/images/about/image-1.jpg')}}" alt="about-image" />
+                    </div>
+                    <div
+                      class="absolute right-0 top-1/2 z-10 -translate-y-1/2"
+                    >
+                      <img src="{{ asset('landing/images/about/image-2.jpg')}}" alt="about-image" />
+                      <div
+                        class="absolute -left-5 -top-5 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"
+                      ></div>
+                    </div>
+                    <div class="absolute right-0 top-24 z-40">
+                      <svg
+                        width="72"
+                        height="38"
+                        viewBox="0 0 72 38"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 2.04985C59.6808 1.76671 57.4524 2.70929 55.1508 4.68209C51.3631 7.92863 44.7908 9.54366 38.8668 4.69678C36.329 2.6204 34.117 2.29213 32.2894 2.59672C30.3972 2.91209 28.8057 3.92088 27.5547 4.75487C25.5734 6.07577 23.3915 7.46379 20.8786 7.78953C18.2847 8.12577 15.515 7.32034 12.3598 4.69105C9.71804 2.48955 7.45748 2.0661 5.72104 2.33325C3.94436 2.6066 2.56003 3.6273 1.76341 4.56877C1.40666 4.99037 0.775686 5.04295 0.354079 4.68621C-0.0675277 4.32946 -0.120109 3.69849 0.236635 3.27688C1.27334 2.05168 3.0643 0.71846 5.41692 0.356509C7.80979 -0.0116349 10.6326 0.648246 13.6402 3.1546C16.485 5.52529 18.7154 6.05321 20.6215 5.80612C22.6086 5.54854 24.4266 4.43657 26.4453 3.09078L27 3.92282L26.4453 3.09078C27.6943 2.25809 29.6028 1.0169 31.9606 0.623935C34.383 0.220203 37.1711 0.725274 40.1333 3.14886C45.1548 7.25733 50.6369 5.9169 53.8492 3.16356C56.3795 0.994798 59.1512 -0.312658 62.2455 0.0645503C65.3089 0.43799 68.4333 2.43425 71.7557 6.26783C72.1174 6.68518 72.0723 7.31674 71.655 7.67845C71.2376 8.04015 70.606 7.99504 70.2443 7.57769C67.0668 3.91125 64.3571 2.33677 62.0035 2.04985Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 11.9727C59.6808 11.6896 57.4524 12.6321 55.1508 14.6049C51.3631 17.8515 44.7908 19.4665 38.8668 14.6196C36.329 12.5433 34.117 12.215 32.2894 12.5196C30.3972 12.8349 28.8057 13.8437 27.5547 14.6777C25.5734 15.9986 23.3915 17.3866 20.8786 17.7124C18.2847 18.0486 15.515 17.2432 12.3598 14.6139C9.71804 12.4124 7.45748 11.989 5.72104 12.2561C3.94436 12.5294 2.56003 13.5501 1.76341 14.4916C1.40666 14.9132 0.775686 14.9658 0.354079 14.6091C-0.0675277 14.2523 -0.120109 13.6213 0.236635 13.1997C1.27334 11.9745 3.0643 10.6413 5.41692 10.2794C7.80979 9.91122 10.6326 10.5711 13.6402 13.0775C16.485 15.4481 18.7154 15.9761 20.6215 15.729C22.6086 15.4714 24.4266 14.3594 26.4453 13.0136L27 13.8457L26.4453 13.0136C27.6943 12.1809 29.6028 10.9397 31.9606 10.5468C34.383 10.1431 37.1711 10.6481 40.1333 13.0717C45.1548 17.1802 50.6369 15.8397 53.8492 13.0864C56.3795 10.9176 59.1512 9.61019 62.2455 9.9874C65.3089 10.3608 68.4333 12.3571 71.7557 16.1907C72.1174 16.608 72.0723 17.2396 71.655 17.6013C71.2376 17.963 70.606 17.9179 70.2443 17.5005C67.0668 13.8341 64.3571 12.2596 62.0035 11.9727Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 21.8953C59.6808 21.6122 57.4524 22.5548 55.1508 24.5275C51.3631 27.7741 44.7908 29.3891 38.8668 24.5422C36.329 22.4659 34.117 22.1376 32.2894 22.4422C30.3972 22.7575 28.8057 23.7663 27.5547 24.6003C25.5734 25.9212 23.3915 27.3093 20.8786 27.635C18.2847 27.9712 15.515 27.1658 12.3598 24.5365C9.71804 22.335 7.45748 21.9116 5.72104 22.1787C3.94436 22.4521 2.56003 23.4728 1.76341 24.4142C1.40666 24.8358 0.775686 24.8884 0.354079 24.5317C-0.0675277 24.1749 -0.120109 23.5439 0.236635 23.1223C1.27334 21.8971 3.0643 20.5639 5.41692 20.202C7.80979 19.8338 10.6326 20.4937 13.6402 23.0001C16.485 25.3707 18.7154 25.8987 20.6215 25.6516C22.6086 25.394 24.4266 24.282 26.4453 22.9362L27 23.7683L26.4453 22.9362C27.6943 22.1035 29.6028 20.8624 31.9606 20.4694C34.383 20.0657 37.1711 20.5707 40.1333 22.9943C45.1548 27.1028 50.6369 25.7624 53.8492 23.009C56.3795 20.8403 59.1512 19.5328 62.2455 19.91C65.3089 20.2834 68.4333 22.2797 71.7557 26.1133C72.1174 26.5306 72.0723 27.1622 71.655 27.5239C71.2376 27.8856 70.606 27.8405 70.2443 27.4231C67.0668 23.7567 64.3571 22.1822 62.0035 21.8953Z"
+                          fill="#4A6CF7"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M62.0035 31.8182C59.6808 31.535 57.4524 32.4776 55.1508 34.4504C51.3631 37.6969 44.7908 39.312 38.8668 34.4651C36.329 32.3887 34.117 32.0604 32.2894 32.365C30.3972 32.6804 28.8057 33.6892 27.5547 34.5232C25.5734 35.8441 23.3915 37.2321 20.8786 37.5578C18.2847 37.8941 15.515 37.0887 12.3598 34.4594C9.71804 32.2579 7.45748 31.8344 5.72104 32.1016C3.94436 32.3749 2.56003 33.3956 1.76341 34.3371C1.40666 34.7587 0.775686 34.8113 0.354079 34.4545C-0.0675277 34.0978 -0.120109 33.4668 0.236635 33.0452C1.27334 31.82 3.0643 30.4868 5.41692 30.1248C7.80979 29.7567 10.6326 30.4166 13.6402 32.9229C16.485 35.2936 18.7154 35.8215 20.6215 35.5744C22.6086 35.3169 24.4266 34.2049 26.4453 32.8591L27 33.6911L26.4453 32.8591C27.6943 32.0264 29.6028 30.7852 31.9606 30.3922C34.383 29.9885 37.1711 30.4936 40.1333 32.9172C45.1548 37.0256 50.6369 35.6852 53.8492 32.9319C56.3795 30.7631 59.1512 29.4557 62.2455 29.8329C65.3089 30.2063 68.4333 32.2026 71.7557 36.0361C72.1174 36.4535 72.0723 37.085 71.655 37.4468C71.2376 37.8085 70.606 37.7634 70.2443 37.346C67.0668 33.6796 64.3571 32.1051 62.0035 31.8182Z"
+                          fill="#4A6CF7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full px-4 lg:w-1/2">
+                  <div class="max-w-[565px] lg:ml-auto">
+                    <h2
+                      class="mb-8 font-heading text-2xl font-bold text-dark dark:text-white sm:text-[40px] sm:leading-[50px]"
+                    >
+                      Core Beliefs That Power Our Support
+                    </h2>
+                    <p class="mb-6 text-base text-dark-text">
+                     Integrity: We uphold the highest standards of honesty, ethics, and transparency in all our interactions, ensuring trust and credibility with our customers and stakeholders.
+                    </p>
+
+                    <p class="mb-6 text-base text-dark-text">
+                      Professionalism:  We demonstrate expertise, reliability, and a commitment to excellence in our work, striving to exceed expectations and deliver exceptional results.
+                    </p>
+                    <p class="text-base text-dark-text">
+                      Empathy:  We prioritize understanding and compassion, actively listening to our customers' needs and concerns, and responding with kindness, care, and personalized support.
+                    </p>
+                    
+                    <p class="text-base text-dark-text">
+                      Accountability: We take ownership of our actions, decisions, and outcomes, being responsible and answerable for our work and its impact.
+                    </p>
+                     <p class="text-base text-dark-text">
+                      Excellence:  We strive for continuous improvement, setting high standards and pursuing excellence in every aspect of our work.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== About Section End ===== -->
+
+    <!-- ===== Team Section Start ===== -->
+    <section id="team" class="pt-14 sm:pt-20 lg:pt-[130px]">
+      <div class="px-4 xl:container">
+        <!-- Section Title -->
+        <div
+          class="wow fadeInUp relative mx-auto mb-12 pt-6 text-center md:mb-20 lg:pt-16"
+          data-wow-delay=".2s"
+        >
+          <span class="title"> OUR TEAM </span>
+          <h2
+            class="mx-auto mb-5 max-w-[620px] font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+          >
+            Meet With Our Team
+          </h2>
+          <p class="mx-auto max-w-[620px] text-base text-dark-text">
+                Our support team is made up of knowledgeable, friendly professionals committed to helping you every step of the way. Whether you need technical assistance or general guidance, we’re here to ensure your experience is smooth, efficient, and stress-free.
+
+          </p>
+        </div>
+
+        <div class="-mx-4 flex flex-wrap justify-center">
+          <div class="w-full px-4 md:w-1/2 lg:w-1/4">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[300px] text-center xs:max-w-[370px]"
+              data-wow-delay=".2s"
+            >
+              <div class="relative mb-8 overflow-hidden rounded">
+                <img
+                  src="{{ asset('landing/images/team/toni.jpg') }}"
+                  alt="team-image"
+                  class="w-full"
+                  alt="Head of Operations"
+                  class="w-full"
+                />
+                <div
+                  class="duration-300 absolute bottom-6 left-1/2 -translate-x-1/2 translate-y-10 opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100"
+                >
+                  <div
+                    class="flex items-center justify-center space-x-3"
+                  >
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11.6667 11.2501H13.75L14.5834 7.91675H11.6667V6.25008C11.6667 5.39175 11.6667 4.58341 13.3334 4.58341H14.5834V1.78341C14.3117 1.74758 13.2859 1.66675 12.2025 1.66675C9.94004 1.66675 8.33337 3.04758 8.33337 5.58341V7.91675H5.83337V11.2501H8.33337V18.3334H11.6667V11.2501Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18.4684 4.71327C17.8322 4.99468 17.1575 5.1795 16.4667 5.26161C17.1948 4.82613 17.7398 4.14078 18 3.33327C17.3167 3.73994 16.5675 4.02494 15.7867 4.17911C15.2622 3.61792 14.567 3.24574 13.8092 3.12043C13.0513 2.99511 12.2733 3.12368 11.5961 3.48615C10.9189 3.84862 10.3804 4.42468 10.0643 5.12477C9.74824 5.82486 9.67233 6.60976 9.84838 7.35744C8.46263 7.28798 7.10699 6.92788 5.86945 6.30049C4.63191 5.67311 3.54015 4.79248 2.66504 3.71577C2.35529 4.24781 2.19251 4.85263 2.19338 5.46827C2.19338 6.67661 2.80838 7.74411 3.74338 8.36911C3.19005 8.35169 2.6489 8.20226 2.16504 7.93327V7.97661C2.16521 8.78136 2.44368 9.56129 2.95325 10.1842C3.46282 10.807 4.17211 11.2345 4.96088 11.3941C4.44722 11.5333 3.90863 11.5538 3.38588 11.4541C3.60827 12.1468 4.04172 12.7526 4.62554 13.1867C5.20936 13.6208 5.91432 13.8614 6.64171 13.8749C5.91878 14.4427 5.09102 14.8624 4.20578 15.1101C3.32053 15.3577 2.39515 15.4285 1.48254 15.3183C3.07563 16.3428 4.93012 16.8867 6.82421 16.8849C13.235 16.8849 16.7409 11.5741 16.7409 6.96827C16.7409 6.81827 16.7367 6.66661 16.73 6.51827C17.4124 6.02508 18.0014 5.41412 18.4692 4.71411L18.4684 4.71327Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5.78328 4.16677C5.78306 4.6088 5.60726 5.03263 5.29454 5.34504C4.98182 5.65744 4.55781 5.83282 4.11578 5.8326C3.67376 5.83238 3.24992 5.65657 2.93752 5.34386C2.62511 5.03114 2.44973 4.60713 2.44995 4.1651C2.45017 3.72307 2.62598 3.29924 2.9387 2.98683C3.25141 2.67443 3.67542 2.49905 4.11745 2.49927C4.55948 2.49949 4.98331 2.6753 5.29572 2.98801C5.60812 3.30073 5.78351 3.72474 5.78328 4.16677ZM5.83328 7.06677H2.49995V17.5001H5.83328V7.06677ZM11.1 7.06677H7.78328V17.5001H11.0666V12.0251C11.0666 8.9751 15.0416 8.69177 15.0416 12.0251V17.5001H18.3333V10.8918C18.3333 5.7501 12.45 5.94177 11.0666 8.46677L11.1 7.06677Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3
+                  class="mb-1 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl"
+                >
+                  Anthony Ikani
+                </h3>
+                <p class="font-heading text-base text-dark-text">
+                  Managing Director
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/2 lg:w-1/4">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[300px] text-center xs:max-w-[370px]"
+              data-wow-delay=".2s"
+            >
+              <div class="relative mb-8 overflow-hidden rounded">
+                <img
+                  src="{{ asset('landing/images/team/nancy.jpeg') }}"
+                  alt="team-image"
+                  class="w-full"
+                  alt="Head of Operations"
+                  class="w-full"
+                />
+                <div
+                  class="duration-300 absolute bottom-6 left-1/2 -translate-x-1/2 translate-y-10 opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100"
+                >
+                  <div
+                    class="flex items-center justify-center space-x-3"
+                  >
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11.6667 11.2501H13.75L14.5834 7.91675H11.6667V6.25008C11.6667 5.39175 11.6667 4.58341 13.3334 4.58341H14.5834V1.78341C14.3117 1.74758 13.2859 1.66675 12.2025 1.66675C9.94004 1.66675 8.33337 3.04758 8.33337 5.58341V7.91675H5.83337V11.2501H8.33337V18.3334H11.6667V11.2501Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18.4684 4.71327C17.8322 4.99468 17.1575 5.1795 16.4667 5.26161C17.1948 4.82613 17.7398 4.14078 18 3.33327C17.3167 3.73994 16.5675 4.02494 15.7867 4.17911C15.2622 3.61792 14.567 3.24574 13.8092 3.12043C13.0513 2.99511 12.2733 3.12368 11.5961 3.48615C10.9189 3.84862 10.3804 4.42468 10.0643 5.12477C9.74824 5.82486 9.67233 6.60976 9.84838 7.35744C8.46263 7.28798 7.10699 6.92788 5.86945 6.30049C4.63191 5.67311 3.54015 4.79248 2.66504 3.71577C2.35529 4.24781 2.19251 4.85263 2.19338 5.46827C2.19338 6.67661 2.80838 7.74411 3.74338 8.36911C3.19005 8.35169 2.6489 8.20226 2.16504 7.93327V7.97661C2.16521 8.78136 2.44368 9.56129 2.95325 10.1842C3.46282 10.807 4.17211 11.2345 4.96088 11.3941C4.44722 11.5333 3.90863 11.5538 3.38588 11.4541C3.60827 12.1468 4.04172 12.7526 4.62554 13.1867C5.20936 13.6208 5.91432 13.8614 6.64171 13.8749C5.91878 14.4427 5.09102 14.8624 4.20578 15.1101C3.32053 15.3577 2.39515 15.4285 1.48254 15.3183C3.07563 16.3428 4.93012 16.8867 6.82421 16.8849C13.235 16.8849 16.7409 11.5741 16.7409 6.96827C16.7409 6.81827 16.7367 6.66661 16.73 6.51827C17.4124 6.02508 18.0014 5.41412 18.4692 4.71411L18.4684 4.71327Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5.78328 4.16677C5.78306 4.6088 5.60726 5.03263 5.29454 5.34504C4.98182 5.65744 4.55781 5.83282 4.11578 5.8326C3.67376 5.83238 3.24992 5.65657 2.93752 5.34386C2.62511 5.03114 2.44973 4.60713 2.44995 4.1651C2.45017 3.72307 2.62598 3.29924 2.9387 2.98683C3.25141 2.67443 3.67542 2.49905 4.11745 2.49927C4.55948 2.49949 4.98331 2.6753 5.29572 2.98801C5.60812 3.30073 5.78351 3.72474 5.78328 4.16677ZM5.83328 7.06677H2.49995V17.5001H5.83328V7.06677ZM11.1 7.06677H7.78328V17.5001H11.0666V12.0251C11.0666 8.9751 15.0416 8.69177 15.0416 12.0251V17.5001H18.3333V10.8918C18.3333 5.7501 12.45 5.94177 11.0666 8.46677L11.1 7.06677Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3
+                  class="mb-1 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl"
+                >
+                  Ubah Nancy Ijeoma
+                </h3>
+                <p class="font-heading text-base text-dark-text">
+                  Head of Operations
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/2 lg:w-1/4">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[300px] text-center xs:max-w-[370px]"
+              data-wow-delay=".25s"
+            >
+              <div class="relative mb-8 overflow-hidden rounded">
+                <img
+                  src="{{ asset('landing/images/team/mercy.jpeg') }}"
+                  alt="Administrator"
+                  class="w-full"
+                />
+                <div
+                  class="duration-300 absolute bottom-6 left-1/2 -translate-x-1/2 translate-y-10 opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100"
+                >
+                  <div
+                    class="flex items-center justify-center space-x-3"
+                  >
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11.6667 11.2501H13.75L14.5834 7.91675H11.6667V6.25008C11.6667 5.39175 11.6667 4.58341 13.3334 4.58341H14.5834V1.78341C14.3117 1.74758 13.2859 1.66675 12.2025 1.66675C9.94004 1.66675 8.33337 3.04758 8.33337 5.58341V7.91675H5.83337V11.2501H8.33337V18.3334H11.6667V11.2501Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18.4684 4.71327C17.8322 4.99468 17.1575 5.1795 16.4667 5.26161C17.1948 4.82613 17.7398 4.14078 18 3.33327C17.3167 3.73994 16.5675 4.02494 15.7867 4.17911C15.2622 3.61792 14.567 3.24574 13.8092 3.12043C13.0513 2.99511 12.2733 3.12368 11.5961 3.48615C10.9189 3.84862 10.3804 4.42468 10.0643 5.12477C9.74824 5.82486 9.67233 6.60976 9.84838 7.35744C8.46263 7.28798 7.10699 6.92788 5.86945 6.30049C4.63191 5.67311 3.54015 4.79248 2.66504 3.71577C2.35529 4.24781 2.19251 4.85263 2.19338 5.46827C2.19338 6.67661 2.80838 7.74411 3.74338 8.36911C3.19005 8.35169 2.6489 8.20226 2.16504 7.93327V7.97661C2.16521 8.78136 2.44368 9.56129 2.95325 10.1842C3.46282 10.807 4.17211 11.2345 4.96088 11.3941C4.44722 11.5333 3.90863 11.5538 3.38588 11.4541C3.60827 12.1468 4.04172 12.7526 4.62554 13.1867C5.20936 13.6208 5.91432 13.8614 6.64171 13.8749C5.91878 14.4427 5.09102 14.8624 4.20578 15.1101C3.32053 15.3577 2.39515 15.4285 1.48254 15.3183C3.07563 16.3428 4.93012 16.8867 6.82421 16.8849C13.235 16.8849 16.7409 11.5741 16.7409 6.96827C16.7409 6.81827 16.7367 6.66661 16.73 6.51827C17.4124 6.02508 18.0014 5.41412 18.4692 4.71411L18.4684 4.71327Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5.78328 4.16677C5.78306 4.6088 5.60726 5.03263 5.29454 5.34504C4.98182 5.65744 4.55781 5.83282 4.11578 5.8326C3.67376 5.83238 3.24992 5.65657 2.93752 5.34386C2.62511 5.03114 2.44973 4.60713 2.44995 4.1651C2.45017 3.72307 2.62598 3.29924 2.9387 2.98683C3.25141 2.67443 3.67542 2.49905 4.11745 2.49927C4.55948 2.49949 4.98331 2.6753 5.29572 2.98801C5.60812 3.30073 5.78351 3.72474 5.78328 4.16677ZM5.83328 7.06677H2.49995V17.5001H5.83328V7.06677ZM11.1 7.06677H7.78328V17.5001H11.0666V12.0251C11.0666 8.9751 15.0416 8.69177 15.0416 12.0251V17.5001H18.3333V10.8918C18.3333 5.7501 12.45 5.94177 11.0666 8.46677L11.1 7.06677Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3
+                  class="mb-1 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl"
+                >
+                  Bobade O. Mercy
+                </h3>
+                <p class="font-heading text-base text-dark-text">
+                  Administrator
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/2 lg:w-1/4">
+            <div
+              class="wow fadeInUp group mx-auto mb-10 max-w-[300px] text-center xs:max-w-[370px]"
+              data-wow-delay=".3s"
+            >
+              <div class="relative mb-8 overflow-hidden rounded">
+                <img
+                  src="{{ asset('landing/images/team/eunice.jpg') }}"
+                  loading="lazy"
+                  width="300"
+                  height="300"
+                  alt="team-image"
+                  class="w-full"
+                />
+                <div
+                  class="duration-300 absolute bottom-6 left-1/2 -translate-x-1/2 translate-y-10 opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100"
+                >
+                  <div
+                    class="flex items-center justify-center space-x-3"
+                  >
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11.6667 11.2501H13.75L14.5834 7.91675H11.6667V6.25008C11.6667 5.39175 11.6667 4.58341 13.3334 4.58341H14.5834V1.78341C14.3117 1.74758 13.2859 1.66675 12.2025 1.66675C9.94004 1.66675 8.33337 3.04758 8.33337 5.58341V7.91675H5.83337V11.2501H8.33337V18.3334H11.6667V11.2501Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18.4684 4.71327C17.8322 4.99468 17.1575 5.1795 16.4667 5.26161C17.1948 4.82613 17.7398 4.14078 18 3.33327C17.3167 3.73994 16.5675 4.02494 15.7867 4.17911C15.2622 3.61792 14.567 3.24574 13.8092 3.12043C13.0513 2.99511 12.2733 3.12368 11.5961 3.48615C10.9189 3.84862 10.3804 4.42468 10.0643 5.12477C9.74824 5.82486 9.67233 6.60976 9.84838 7.35744C8.46263 7.28798 7.10699 6.92788 5.86945 6.30049C4.63191 5.67311 3.54015 4.79248 2.66504 3.71577C2.35529 4.24781 2.19251 4.85263 2.19338 5.46827C2.19338 6.67661 2.80838 7.74411 3.74338 8.36911C3.19005 8.35169 2.6489 8.20226 2.16504 7.93327V7.97661C2.16521 8.78136 2.44368 9.56129 2.95325 10.1842C3.46282 10.807 4.17211 11.2345 4.96088 11.3941C4.44722 11.5333 3.90863 11.5538 3.38588 11.4541C3.60827 12.1468 4.04172 12.7526 4.62554 13.1867C5.20936 13.6208 5.91432 13.8614 6.64171 13.8749C5.91878 14.4427 5.09102 14.8624 4.20578 15.1101C3.32053 15.3577 2.39515 15.4285 1.48254 15.3183C3.07563 16.3428 4.93012 16.8867 6.82421 16.8849C13.235 16.8849 16.7409 11.5741 16.7409 6.96827C16.7409 6.81827 16.7367 6.66661 16.73 6.51827C17.4124 6.02508 18.0014 5.41412 18.4692 4.71411L18.4684 4.71327Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      name="social-icon"
+                      aria-label="social-icon"
+                      class="flex h-10 w-10 items-center justify-center rounded-full border border-white border-opacity-10 bg-white bg-opacity-10 text-white backdrop-blur transition hover:border-transparent hover:bg-primary hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5.78328 4.16677C5.78306 4.6088 5.60726 5.03263 5.29454 5.34504C4.98182 5.65744 4.55781 5.83282 4.11578 5.8326C3.67376 5.83238 3.24992 5.65657 2.93752 5.34386C2.62511 5.03114 2.44973 4.60713 2.44995 4.1651C2.45017 3.72307 2.62598 3.29924 2.9387 2.98683C3.25141 2.67443 3.67542 2.49905 4.11745 2.49927C4.55948 2.49949 4.98331 2.6753 5.29572 2.98801C5.60812 3.30073 5.78351 3.72474 5.78328 4.16677ZM5.83328 7.06677H2.49995V17.5001H5.83328V7.06677ZM11.1 7.06677H7.78328V17.5001H11.0666V12.0251C11.0666 8.9751 15.0416 8.69177 15.0416 12.0251V17.5001H18.3333V10.8918C18.3333 5.7501 12.45 5.94177 11.0666 8.46677L11.1 7.06677Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3
+                  class="mb-1 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl"
+                >
+                  Eunice David Yusuf
+                </h3>
+                <p class="font-heading text-base text-dark-text">
+                  Service Management Lead
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Team Section End ===== -->
+
+    <!-- ===== Portfolio Section Start ===== -->
+    {{-- <section id="portfolio" class="pt-14 sm:pt-20 lg:pt-[130px]">
+      <div class="px-4 xl:container"> --}}
+        <!-- Section Title -->
+        {{-- <div
+          class="wow fadeInUp relative mx-auto mb-12 pt-6 text-center md:mb-20 lg:pt-16"
+          data-wow-delay=".2s"
+        >
+          <span class="title"> PORTFOLIO </span>
+          <h2
+            class="mx-auto mb-5 max-w-[500px] font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+          >
+            Explore Our Latest Case Studies
+          </h2>
+          <p class="mx-auto max-w-[620px] text-base text-dark-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+            convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
+            ante in maximus.
+          </p>
+        </div>
+
+        <div class="w-full">
+          <div
+            class="portfolio-btn-wrapper wow fadeInUp mb-16 flex items-center justify-center overflow-x-auto pb-2"
+            data-wow-delay=".2s"
+          >
+            <button
+              class="active whitespace-nowrap px-5 font-heading text-base text-dark dark:text-white"
+              data-filter="*"
+            >
+              All
+            </button>
+            <button
+              class="whitespace-nowrap px-5 font-heading text-base text-dark dark:text-white"
+              data-filter=".branding"
+            >
+              Branding Strategy
+            </button>
+            <button
+              class="whitespace-nowrap px-5 font-heading text-base text-dark dark:text-white"
+              data-filter=".digital"
+            >
+              Digital Experiences
+            </button>
+            <button
+              class="whitespace-nowrap px-5 font-heading text-base text-dark dark:text-white"
+              data-filter=".ecom"
+            >
+              eCommerce
+            </button>
+          </div>
+
+          <div class="portfolio-grid -mx-4 flex flex-wrap">
+            <div class="grid-sizer"></div>
+            <div class="grid-item ecom w-full px-4 lg:w-2/3">
+              <div
+                class="wow fadeInUp group relative mb-10 overflow-hidden rounded"
+                data-wow-delay=".2s"
+              >
+                <img
+                  src="{{ asset('landing/images/portfolio/image-1.jpg') }}"
+                  alt="portfolio-image"
+                  class="w-full"
+                />
+                  alt="portfolio-image"
+                  class="w-full"
+                />
+
+                <div
+                  class="duration-300 absolute bottom-8 left-5 flex translate-y-8 items-center justify-between rounded bg-[#000] bg-opacity-30 py-5 px-4 opacity-0 backdrop-blur-[30px] transition group-hover:translate-y-0 group-hover:opacity-100 sm:left-8 sm:px-6 lg:left-5 lg:px-4 xl:px-6 2xl:left-8"
+                >
+                  <div
+                    class="border-r border-[#e9e9e9] border-opacity-30 pr-4 sm:pr-5 lg:pr-4 xl:pr-5"
+                  >
+                    <h3
+                      class="font-heading text-base font-medium text-white sm:text-xl lg:text-base xl:text-xl"
+                    >
+                      Photo Retouching
+                    </h3>
+                    <p
+                      class="text-sm text-[#d9d9d9] sm:text-base lg:text-sm xl:text-base"
+                    >
+                      Branded Ecommerce
+                    </p>
+                  </div>
+                  <div class="pl-4 sm:pl-5 lg:pl-4 xl:pl-5">
+                    <a
+                      href="javascript:void(0)"
+                      class="dark:hover:us-bg-primary flex h-10 w-10 items-center justify-center rounded-full bg-[#f8f8f8] bg-opacity-[15%] text-white hover:bg-primary hover:bg-opacity-100 dark:hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        class="fill-current"
+                      >
+                        <path
+                          d="M13.4767 9.16689L9.00671 4.69689L10.185 3.51855L16.6667 10.0002L10.185 16.4819L9.00671 15.3036L13.4767 10.8336H3.33337V9.16689H13.4767Z"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="grid-item branding w-full px-4 md:w-1/2 lg:w-1/3"
+            >
+              <div
+                class="wow fadeInUp group relative mb-10 overflow-hidden rounded"
+                data-wow-delay=".25s"
+              >
+                <img
+                  src="{{ asset('landing/images/portfolio/image-2.jpg') }}"
+                  alt="portfolio-image"
+                  class="w-full"
+                />
+
+                <div
+                  class="duration-300 absolute bottom-8 left-5 flex translate-y-8 items-center justify-between rounded bg-[#000] bg-opacity-30 py-5 px-4 opacity-0 backdrop-blur-[30px] transition group-hover:translate-y-0 group-hover:opacity-100 sm:left-8 sm:px-6 lg:left-5 lg:px-4 xl:px-6 2xl:left-8"
+                >
+                  <div
+                    class="border-r border-[#e9e9e9] border-opacity-30 pr-4 sm:pr-5 lg:pr-4 xl:pr-5"
+                  >
+                    <h3
+                      class="font-heading text-base font-medium text-white sm:text-xl lg:text-base xl:text-xl"
+                    >
+                      Photo Retouching
+                    </h3>
+                    <p
+                      class="text-sm text-[#d9d9d9] sm:text-base lg:text-sm xl:text-base"
+                    >
+                      Branded Ecommerce
+                    </p>
+                  </div>
+                  <div class="pl-4 sm:pl-5 lg:pl-4 xl:pl-5">
+                    <a
+                      href="javascript:void(0)"
+                      class="dark:hover:us-bg-primary flex h-10 w-10 items-center justify-center rounded-full bg-[#f8f8f8] bg-opacity-[15%] text-white hover:bg-primary hover:bg-opacity-100 dark:hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        class="fill-current"
+                      >
+                        <path
+                          d="M13.4767 9.16689L9.00671 4.69689L10.185 3.51855L16.6667 10.0002L10.185 16.4819L9.00671 15.3036L13.4767 10.8336H3.33337V9.16689H13.4767Z"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="grid-item digital w-full px-4 md:w-1/2 lg:w-1/3"
+            >
+              <div
+                class="wow fadeInUp group relative mb-10 overflow-hidden rounded"
+                data-wow-delay=".3s"
+              >
+                <img
+                  src="{{ asset('landing/images/portfolio/image-3.jpg') }}"
+                  alt="portfolio-image"
+                  class="w-full"
+                />
+
+                <div
+                  class="duration-300 absolute bottom-8 left-5 flex translate-y-8 items-center justify-between rounded bg-[#000] bg-opacity-30 py-5 px-4 opacity-0 backdrop-blur-[30px] transition group-hover:translate-y-0 group-hover:opacity-100 sm:left-8 sm:px-6 lg:left-5 lg:px-4 xl:px-6 2xl:left-8"
+                >
+                  <div
+                    class="border-r border-[#e9e9e9] border-opacity-30 pr-4 sm:pr-5 lg:pr-4 xl:pr-5"
+                  >
+                    <h3
+                      class="font-heading text-base font-medium text-white sm:text-xl lg:text-base xl:text-xl"
+                    >
+                      Photo Retouching
+                    </h3>
+                    <p
+                      class="text-sm text-[#d9d9d9] sm:text-base lg:text-sm xl:text-base"
+                    >
+                      Branded Ecommerce
+                    </p>
+                  </div>
+                  <div class="pl-4 sm:pl-5 lg:pl-4 xl:pl-5">
+                    <a
+                      href="javascript:void(0)"
+                      class="dark:hover:us-bg-primary flex h-10 w-10 items-center justify-center rounded-full bg-[#f8f8f8] bg-opacity-[15%] text-white hover:bg-primary hover:bg-opacity-100 dark:hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        class="fill-current"
+                      >
+                        <path
+                          d="M13.4767 9.16689L9.00671 4.69689L10.185 3.51855L16.6667 10.0002L10.185 16.4819L9.00671 15.3036L13.4767 10.8336H3.33337V9.16689H13.4767Z"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="grid-item ecom w-full px-4 md:w-1/2 lg:w-1/3"
+            >
+              <div
+                class="wow fadeInUp group relative mb-10 overflow-hidden rounded"
+                data-wow-delay=".35s"
+              >
+                <img
+                  src="{{ asset('landing/images/portfolio/image-4.jpg') }}"
+                  alt="portfolio-image"
+                  class="w-full"
+                />
+
+                <div
+                  class="duration-300 absolute bottom-8 left-5 flex translate-y-8 items-center justify-between rounded bg-[#000] bg-opacity-30 py-5 px-4 opacity-0 backdrop-blur-[30px] transition group-hover:translate-y-0 group-hover:opacity-100 sm:left-8 sm:px-6 lg:left-5 lg:px-4 xl:px-6 2xl:left-8"
+                >
+                  <div
+                    class="border-r border-[#e9e9e9] border-opacity-30 pr-4 sm:pr-5 lg:pr-4 xl:pr-5"
+                  >
+                    <h3
+                      class="font-heading text-base font-medium text-white sm:text-xl lg:text-base xl:text-xl"
+                    >
+                      Photo Retouching
+                    </h3>
+                    <p
+                      class="text-sm text-[#d9d9d9] sm:text-base lg:text-sm xl:text-base"
+                    >
+                      Branded Ecommerce
+                    </p>
+                  </div>
+                  <div class="pl-4 sm:pl-5 lg:pl-4 xl:pl-5">
+                    <a
+                      href="javascript:void(0)"
+                      class="dark:hover:us-bg-primary flex h-10 w-10 items-center justify-center rounded-full bg-[#f8f8f8] bg-opacity-[15%] text-white hover:bg-primary hover:bg-opacity-100 dark:hover:bg-opacity-100"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        class="fill-current"
+                      >
+                        <path
+                          d="M13.4767 9.16689L9.00671 4.69689L10.185 3.51855L16.6667 10.0002L10.185 16.4819L9.00671 15.3036L13.4767 10.8336H3.33337V9.16689H13.4767Z"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="wow fadeInUp w-full pt-10 text-center"
+            data-wow-delay=".2s"
+          >
+            <a
+              href="javascript:void(0)"
+              class="inline-flex items-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"
+            >
+              See More Projects
+              <span class="pl-3">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.172 7L6.808 1.636L8.222 0.222L16 8L8.222 15.778L6.808 14.364L12.172 9H0V7H12.172Z"
+                    fill="white"
+                  />
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section> --}}
+    <!-- ===== Portfolio Section End ===== -->
+
+    <!-- ===== Testimonial Section Start ===== -->
+    <section id="testimonial" class="pt-14 sm:pt-20 lg:pt-[130px]">
+      <div class="px-4 xl:container">
+        <!-- Section Title -->
+        <div
+          class="wow fadeInUp relative mx-auto mb-12 pt-6 text-center md:mb-20 lg:pt-16"
+          data-wow-delay=".2s"
+        >
+          <span class="title"> Testimonial </span>
+          <h2
+            class="mx-auto mb-5 max-w-[450px] font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+          >
+            What Our Clients Say About Us
+          </h2>
+          <p class="mx-auto max-w-[620px] text-base text-dark-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+            convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
+            ante in maximus.
+          </p>
+        </div>
+
+        <div class="w-full px-4">
+          <div
+            class="wow fadeInUp relative z-10 overflow-hidden rounded bg-cover bg-center px-10 pt-[60px] pb-28 drop-shadow-light dark:drop-shadow-none sm:px-14 md:p-[70px] md:pb-28 lg:pb-[70px]"
+            data-wow-delay=".3s"
+          >
+            <div
+              class="absolute top-0 left-0 -z-10 h-full w-full bg-cover bg-center opacity-10 dark:opacity-40 bg-noise-pattern" 
+            ></div>
+            <div
+              class="absolute bottom-0 left-1/2 -z-10 -translate-x-1/2"
+            >
+              <svg
+                width="1174"
+                height="560"
+                viewBox="0 0 1174 560"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g opacity="0.4" filter="url(#filter0_f_41_257)">
+                  <rect
+                    x="450.531"
+                    y="279"
+                    width="272.933"
+                    height="328.051"
+                    fill="url(#paint0_linear_41_257)"
+                  />
+                </g>
+                <defs>
+                  <filter
+                    id="filter0_f_41_257"
+                    x="0.531494"
+                    y="-171"
+                    width="1172.93"
+                    height="1228.05"
+                    filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB"
+                  >
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feBlend
+                      mode="normal"
+                      in="SourceGraphic"
+                      in2="BackgroundImageFix"
+                      result="shape"
+                    />
+                    <feGaussianBlur
+                      stdDeviation="225"
+                      result="effect1_foregroundBlur_41_257"
+                    />
+                  </filter>
+                  <linearGradient
+                    id="paint0_linear_41_257"
+                    x1="425.16"
+                    y1="343.693"
+                    x2="568.181"
+                    y2="660.639"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#ABBCFF" />
+                    <stop offset="0.859375" stop-color="#4A6CF7" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="testimonial-active">
+              <div class="testimonial-item">
+                <div class="-mx-4 flex flex-wrap items-center">
+                  <div
+                    class="order-last w-full px-4 lg:order-first lg:w-1/2"
+                  >
+                    <div class="text-center lg:text-left">
+                      <p
+                        class="mb-9 font-heading text-base font-light text-dark-text lg:text-lg xl:text-2xl"
+                      >
+                        “Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Fusce condimentum sapien ac leo cursus dignissim.
+                        In ac lectus vel orci accumsan ultricies at in libero
+                        accumsan Lorem Ipsum has been the industry's standard
+                      </p>
+
+                      <h3
+                        class="mb-1 font-heading text-xl text-dark dark:text-white"
+                      >
+                        Deniyal Shifer
+                      </h3>
+                      <p class="text-base text-dark-text">
+                        Founder @democompany.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-full px-4 lg:w-1/2">
+                    <div
+                      class="lg:mr-0 relative mx-auto mb-9 h-[420px] w-full max-w-[420px] lg:mb-0"
+                    >
+                      <div class="absolute right-5 top-5 z-10">
+                        <img
+                          src="{{asset('landing/images/testimonial/image-1.jpg')}}"
+                          alt="testimonial-image"
+                        />
+                        <div
+                          class="absolute -right-5 -top-5 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"
+                        ></div>
+                      </div>
+                      <div class="absolute -right-4 bottom-20 z-40">
+                        <svg
+                          width="72"
+                          height="38"
+                          viewBox="0 0 72 38"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M62.0035 2.04985C59.6808 1.76671 57.4524 2.70929 55.1508 4.68209C51.3631 7.92863 44.7908 9.54366 38.8668 4.69678C36.329 2.6204 34.117 2.29213 32.2894 2.59672C30.3972 2.91209 28.8057 3.92088 27.5547 4.75487C25.5734 6.07577 23.3915 7.46379 20.8786 7.78953C18.2847 8.12577 15.515 7.32034 12.3598 4.69105C9.71804 2.48955 7.45748 2.0661 5.72104 2.33325C3.94436 2.6066 2.56003 3.6273 1.76341 4.56877C1.40666 4.99037 0.775686 5.04295 0.354079 4.68621C-0.0675277 4.32946 -0.120109 3.69849 0.236635 3.27688C1.27334 2.05168 3.0643 0.71846 5.41692 0.356509C7.80979 -0.0116349 10.6326 0.648246 13.6402 3.1546C16.485 5.52529 18.7154 6.05321 20.6215 5.80612C22.6086 5.54854 24.4266 4.43657 26.4453 3.09078L27 3.92282L26.4453 3.09078C27.6943 2.25809 29.6028 1.0169 31.9606 0.623935C34.383 0.220203 37.1711 0.725274 40.1333 3.14886C45.1548 7.25733 50.6369 5.9169 53.8492 3.16356C56.3795 0.994798 59.1512 -0.312658 62.2455 0.0645503C65.3089 0.43799 68.4333 2.43425 71.7557 6.26783C72.1174 6.68518 72.0723 7.31674 71.655 7.67845C71.2376 8.04015 70.606 7.99504 70.2443 7.57769C67.0668 3.91125 64.3571 2.33677 62.0035 2.04985Z"
+                            fill="#4A6CF7"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M62.0035 11.9727C59.6808 11.6896 57.4524 12.6321 55.1508 14.6049C51.3631 17.8515 44.7908 19.4665 38.8668 14.6196C36.329 12.5433 34.117 12.215 32.2894 12.5196C30.3972 12.8349 28.8057 13.8437 27.5547 14.6777C25.5734 15.9986 23.3915 17.3866 20.8786 17.7124C18.2847 18.0486 15.515 17.2432 12.3598 14.6139C9.71804 12.4124 7.45748 11.989 5.72104 12.2561C3.94436 12.5294 2.56003 13.5501 1.76341 14.4916C1.40666 14.9132 0.775686 14.9658 0.354079 14.6091C-0.0675277 14.2523 -0.120109 13.6213 0.236635 13.1997C1.27334 11.9745 3.0643 10.6413 5.41692 10.2794C7.80979 9.91122 10.6326 10.5711 13.6402 13.0775C16.485 15.4481 18.7154 15.9761 20.6215 15.729C22.6086 15.4714 24.4266 14.3594 26.4453 13.0136L27 13.8457L26.4453 13.0136C27.6943 12.1809 29.6028 10.9397 31.9606 10.5468C34.383 10.1431 37.1711 10.6481 40.1333 13.0717C45.1548 17.1802 50.6369 15.8397 53.8492 13.0864C56.3795 10.9176 59.1512 9.61019 62.2455 9.9874C65.3089 10.3608 68.4333 12.3571 71.7557 16.1907C72.1174 16.608 72.0723 17.2396 71.655 17.6013C71.2376 17.963 70.606 17.9179 70.2443 17.5005C67.0668 13.8341 64.3571 12.2596 62.0035 11.9727Z"
+                            fill="#4A6CF7"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M62.0035 21.8953C59.6808 21.6122 57.4524 22.5548 55.1508 24.5275C51.3631 27.7741 44.7908 29.3891 38.8668 24.5422C36.329 22.4659 34.117 22.1376 32.2894 22.4422C30.3972 22.7575 28.8057 23.7663 27.5547 24.6003C25.5734 25.9212 23.3915 27.3093 20.8786 27.635C18.2847 27.9712 15.515 27.1658 12.3598 24.5365C9.71804 22.335 7.45748 21.9116 5.72104 22.1787C3.94436 22.4521 2.56003 23.4728 1.76341 24.4142C1.40666 24.8358 0.775686 24.8884 0.354079 24.5317C-0.0675277 24.1749 -0.120109 23.5439 0.236635 23.1223C1.27334 21.8971 3.0643 20.5639 5.41692 20.202C7.80979 19.8338 10.6326 20.4937 13.6402 23.0001C16.485 25.3707 18.7154 25.8987 20.6215 25.6516C22.6086 25.394 24.4266 24.282 26.4453 22.9362L27 23.7683L26.4453 22.9362C27.6943 22.1035 29.6028 20.8624 31.9606 20.4694C34.383 20.0657 37.1711 20.5707 40.1333 22.9943C45.1548 27.1028 50.6369 25.7624 53.8492 23.009C56.3795 20.8403 59.1512 19.5328 62.2455 19.91C65.3089 20.2834 68.4333 22.2797 71.7557 26.1133C72.1174 26.5306 72.0723 27.1622 71.655 27.5239C71.2376 27.8856 70.606 27.8405 70.2443 27.4231C67.0668 23.7567 64.3571 22.1822 62.0035 21.8953Z"
+                            fill="#4A6CF7"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M62.0035 31.8182C59.6808 31.535 57.4524 32.4776 55.1508 34.4504C51.3631 37.6969 44.7908 39.312 38.8668 34.4651C36.329 32.3887 34.117 32.0604 32.2894 32.365C30.3972 32.6804 28.8057 33.6892 27.5547 34.5232C25.5734 35.8441 23.3915 37.2321 20.8786 37.5578C18.2847 37.8941 15.515 37.0887 12.3598 34.4594C9.71804 32.2579 7.45748 31.8344 5.72104 32.1016C3.94436 32.3749 2.56003 33.3956 1.76341 34.3371C1.40666 34.7587 0.775686 34.8113 0.354079 34.4545C-0.0675277 34.0978 -0.120109 33.4668 0.236635 33.0452C1.27334 31.82 3.0643 30.4868 5.41692 30.1248C7.80979 29.7567 10.6326 30.4166 13.6402 32.9229C16.485 35.2936 18.7154 35.8215 20.6215 35.5744C22.6086 35.3169 24.4266 34.2049 26.4453 32.8591L27 33.6911L26.4453 32.8591C27.6943 32.0264 29.6028 30.7852 31.9606 30.3922C34.383 29.9885 37.1711 30.4936 40.1333 32.9172C45.1548 37.0256 50.6369 35.6852 53.8492 32.9319C56.3795 30.7631 59.1512 29.4557 62.2455 29.8329C65.3089 30.2063 68.4333 32.2026 71.7557 36.0361C72.1174 36.4535 72.0723 37.085 71.655 37.4468C71.2376 37.8085 70.606 37.7634 70.2443 37.346C67.0668 33.6796 64.3571 32.1051 62.0035 31.8182Z"
+                            fill="#4A6CF7"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="testimonial-item">
+                <div class="-mx-4 flex flex-wrap items-center">
+                  <div
+                    class="order-last w-full px-4 lg:order-first lg:w-1/2"
+                  >
+                    <div class="text-center lg:text-left">
+                      <p
+                        class="mb-9 font-heading text-base font-light text-dark-text lg:text-lg xl:text-2xl"
+                      >
+                        “Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit. Fusce condimentum sapien ac leo cursus dignissim.
+                        In ac lectus vel orci accumsan ultricies at in libero
+                        accumsan Lorem Ipsum has been the industry's standard
+                      </p>
+
+                      <h3
+                        class="mb-1 font-heading text-xl text-dark dark:text-white"
+                      >
+                        Deniyal Shifer
+                      </h3>
+                      <p class="text-base text-dark-text">
+                        Founder @democompany.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-full px-4 lg:w-1/2">
+                    <div
+                      class="lg:mr-0 relative mx-auto mb-9 h-[420px] w-full max-w-[420px] lg:mb-0"
+                    >
+                      <div class="absolute right-5 top-5 z-10">
+                        <img
+                          src="{{ asset('landing/images/testimonial/image-1.jpg') }}"
+                          class="h-16 w-16 rounded-full object-cover"
+                          alt="testimonial-image"
+                        />
+                        <div
+                          class="absolute -right-5 -top-5 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"
+                        ></div>
+                      </div>
+                      <div class="absolute -right-4 bottom-20 z-40">
+                        <svg
+                          width="72"
+                          height="38"
+                          viewBox="0 0 72 38"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M62.0035 2.04985C59.6808 1.76671 57.4524 2.70929 55.1508 4.68209C51.3631 7.92863 44.7908 9.54366 38.8668 4.69678C36.329 2.6204 34.117 2.29213 32.2894 2.59672C30.3972 2.91209 28.8057 3.92088 27.5547 4.75487C25.5734 6.07577 23.3915 7.46379 20.8786 7.78953C18.2847 8.12577 15.515 7.32034 12.3598 4.69105C9.71804 2.48955 7.45748 2.0661 5.72104 2.33325C3.94436 2.6066 2.56003 3.6273 1.76341 4.56877C1.40666 4.99037 0.775686 5.04295 0.354079 4.68621C-0.0675277 4.32946 -0.120109 3.69849 0.236635 3.27688C1.27334 2.05168 3.0643 0.71846 5.41692 0.356509C7.80979 -0.0116349 10.6326 0.648246 13.6402 3.1546C16.485 5.52529 18.7154 6.05321 20.6215 5.80612C22.6086 5.54854 24.4266 4.43657 26.4453 3.09078L27 3.92282L26.4453 3.09078C27.6943 2.25809 29.6028 1.0169 31.9606 0.623935C34.383 0.220203 37.1711 0.725274 40.1333 3.14886C45.1548 7.25733 50.6369 5.9169 53.8492 3.16356C56.3795 0.994798 59.1512 -0.312658 62.2455 0.0645503C65.3089 0.43799 68.4333 2.43425 71.7557 6.26783C72.1174 6.68518 72.0723 7.31674 71.655 7.67845C71.2376 8.04015 70.606 7.99504 70.2443 7.57769C67.0668 3.91125 64.3571 2.33677 62.0035 2.04985Z"
+                            fill="#4A6CF7"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M62.0035 11.9727C59.6808 11.6896 57.4524 12.6321 55.1508 14.6049C51.3631 17.8515 44.7908 19.4665 38.8668 14.6196C36.329 12.5433 34.117 12.215 32.2894 12.5196C30.3972 12.8349 28.8057 13.8437 27.5547 14.6777C25.5734 15.9986 23.3915 17.3866 20.8786 17.7124C18.2847 18.0486 15.515 17.2432 12.3598 14.6139C9.71804 12.4124 7.45748 11.989 5.72104 12.2561C3.94436 12.5294 2.56003 13.5501 1.76341 14.4916C1.40666 14.9132 0.775686 14.9658 0.354079 14.6091C-0.0675277 14.2523 -0.120109 13.6213 0.236635 13.1997C1.27334 11.9745 3.0643 10.6413 5.41692 10.2794C7.80979 9.91122 10.6326 10.5711 13.6402 13.0775C16.485 15.4481 18.7154 15.9761 20.6215 15.729C22.6086 15.4714 24.4266 14.3594 26.4453 13.0136L27 13.8457L26.4453 13.0136C27.6943 12.1809 29.6028 10.9397 31.9606 10.5468C34.383 10.1431 37.1711 10.6481 40.1333 13.0717C45.1548 17.1802 50.6369 15.8397 53.8492 13.0864C56.3795 10.9176 59.1512 9.61019 62.2455 9.9874C65.3089 10.3608 68.4333 12.3571 71.7557 16.1907C72.1174 16.608 72.0723 17.2396 71.655 17.6013C71.2376 17.963 70.606 17.9179 70.2443 17.5005C67.0668 13.8341 64.3571 12.2596 62.0035 11.9727Z"
+                            fill="#4A6CF7"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M62.0035 21.8953C59.6808 21.6122 57.4524 22.5548 55.1508 24.5275C51.3631 27.7741 44.7908 29.3891 38.8668 24.5422C36.329 22.4659 34.117 22.1376 32.2894 22.4422C30.3972 22.7575 28.8057 23.7663 27.5547 24.6003C25.5734 25.9212 23.3915 27.3093 20.8786 27.635C18.2847 27.9712 15.515 27.1658 12.3598 24.5365C9.71804 22.335 7.45748 21.9116 5.72104 22.1787C3.94436 22.4521 2.56003 23.4728 1.76341 24.4142C1.40666 24.8358 0.775686 24.8884 0.354079 24.5317C-0.0675277 24.1749 -0.120109 23.5439 0.236635 23.1223C1.27334 21.8971 3.0643 20.5639 5.41692 20.202C7.80979 19.8338 10.6326 20.4937 13.6402 23.0001C16.485 25.3707 18.7154 25.8987 20.6215 25.6516C22.6086 25.394 24.4266 24.282 26.4453 22.9362L27 23.7683L26.4453 22.9362C27.6943 22.1035 29.6028 20.8624 31.9606 20.4694C34.383 20.0657 37.1711 20.5707 40.1333 22.9943C45.1548 27.1028 50.6369 25.7624 53.8492 23.009C56.3795 20.8403 59.1512 19.5328 62.2455 19.91C65.3089 20.2834 68.4333 22.2797 71.7557 26.1133C72.1174 26.5306 72.0723 27.1622 71.655 27.5239C71.2376 27.8856 70.606 27.8405 70.2443 27.4231C67.0668 23.7567 64.3571 22.1822 62.0035 21.8953Z"
+                            fill="#4A6CF7"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M62.0035 31.8182C59.6808 31.535 57.4524 32.4776 55.1508 34.4504C51.3631 37.6969 44.7908 39.312 38.8668 34.4651C36.329 32.3887 34.117 32.0604 32.2894 32.365C30.3972 32.6804 28.8057 33.6892 27.5547 34.5232C25.5734 35.8441 23.3915 37.2321 20.8786 37.5578C18.2847 37.8941 15.515 37.0887 12.3598 34.4594C9.71804 32.2579 7.45748 31.8344 5.72104 32.1016C3.94436 32.3749 2.56003 33.3956 1.76341 34.3371C1.40666 34.7587 0.775686 34.8113 0.354079 34.4545C-0.0675277 34.0978 -0.120109 33.4668 0.236635 33.0452C1.27334 31.82 3.0643 30.4868 5.41692 30.1248C7.80979 29.7567 10.6326 30.4166 13.6402 32.9229C16.485 35.2936 18.7154 35.8215 20.6215 35.5744C22.6086 35.3169 24.4266 34.2049 26.4453 32.8591L27 33.6911L26.4453 32.8591C27.6943 32.0264 29.6028 30.7852 31.9606 30.3922C34.383 29.9885 37.1711 30.4936 40.1333 32.9172C45.1548 37.0256 50.6369 35.6852 53.8492 32.9319C56.3795 30.7631 59.1512 29.4557 62.2455 29.8329C65.3089 30.2063 68.4333 32.2026 71.7557 36.0361C72.1174 36.4535 72.0723 37.085 71.655 37.4468C71.2376 37.8085 70.606 37.7634 70.2443 37.346C67.0668 33.6796 64.3571 32.1051 62.0035 31.8182Z"
+                            fill="#4A6CF7"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Testimonial Section End ===== -->
+
+    <!-- ====== Brands Section Start -->
+    <section class="pt-14 sm:pt-20 lg:pt-24">
+      <div class="px-4 xl:container">
+        <!-- Section Title -->
+        <div
+          class="wow fadeInUp relative mx-auto mb-16 max-w-[620px] text-center"
+          data-wow-delay=".2s"
+        >
+          <h2
+            class="mb-5 font-heading text-[38px] font-semibold leading-tight text-dark dark:text-white"
+          >
+            Trusted by Global Brands
+          </h2>
+          <p class="text-base text-dark-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+            convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
+            ante in maximus.
+          </p>
+        </div>
+        <div class="border-b pb-24 dark:border-[#2E333D]">
+          <div
+            class="wow fadeInUp -mx-4 flex flex-wrap"
+            data-wow-delay=".2s"
+          >
+            <div class="w-full px-4">
+              <div
+                class="flex flex-wrap items-center justify-center"
+              >
+                <a
+                  href="javascript:void(0)"
+                  class="mx-4 flex w-[150px] items-center justify-center py-5 2xl:w-[180px]"
+                >
+                  <img
+                    src="{{ asset('landing/images/brands/uideck.svg') }}"
+                    alt="image"
+                    class="hidden h-10 w-full dark:block"
+                  />
+                  <img
+                    src="{{ asset('landing/images/brands/uideck-2.svg') }}"
+                    alt="image"
+                    class="h-10 w-full dark:hidden"
+                  />
+                </a>
+                <a
+                  href="javascript:void(0)"
+                  class="mx-4 flex w-[150px] items-center justify-center py-5 2xl:w-[180px]"
+                >
+                  <img
+                    src="{{ asset('landing/images/brands/ayroui.svg') }}"
+                    alt="image"
+                    class="hidden h-10 w-full dark:block"
+                  />
+                  <img
+                    src="{{ asset('landing/images/brands/ayroui-2.svg') }}"
+                    alt="image"
+                    class="h-10 w-full dark:hidden"
+                  />
+                </a>
+                <a
+                  href="javascript:void(0)"
+                  class="mx-4 flex w-[150px] items-center justify-center py-5 2xl:w-[180px]"
+                >
+                  <img
+                    src="{{ asset('landing/images/brands/graygrids.svg') }}"
+                    alt="image"
+                    class="hidden h-10 w-full dark:block"
+                  />
+                  <img
+                    src="{{ asset('landing/images/brands/graygrids-2.svg') }}"
+                    alt="image"
+                    class="h-10 w-full dark:hidden"
+                    alt="image"
+                    class="h-10 w-full dark:hidden"
+                  />
+                </a>
+                <a
+                  href="javascript:void(0)"
+                  class="mx-4 flex w-[150px] items-center justify-center py-5 2xl:w-[180px]"
+                >
+                  <img
+                    src="{{ asset('landing/images/brands/lineicons.svg') }}"
+                    alt="image"
+                    class="hidden h-10 w-full dark:block"
+                  />
+                  <img
+                    src="{{ asset('landing/images/brands/lineicons-2.svg') }}"
+                    alt="image"
+                    class="h-10 w-full dark:hidden"
+                  />
+                </a>
+                <a
+                  href="javascript:void(0)"
+                  class="mx-4 flex w-[150px] items-center justify-center py-5 2xl:w-[180px]"
+                >
+                  <img
+                    src="{{ asset('landing/images/brands/plainadmin.svg') }}"
+                    alt="image"
+                    class="hidden h-10 w-full dark:block"
+                  />
+                  <img
+                    src="{{ asset('landing/images/brands/plainadmin.svg') }}"
+                    alt="image"
+                    class="h-10 w-full dark:hidden"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ====== Brands Section End -->
+
+    <!-- ===== Pricing Section Start ===== -->
+    <section id="pricing" class="pt-14 sm:pt-20 lg:pt-[130px]">
+      <div class="px-4 xl:container">
+        <!-- Section Title -->
+        <div
+          class="wow fadeInUp relative mb-12 w-full pt-10 text-center md:mb-20 lg:pt-16"
+          data-wow-delay=".2s"
+        >
+          <span class="title whitespace-nowrap"> PRICING PLANS </span>
+          <h2
+            class="mx-auto mb-5 max-w-[600px] font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+          >
+            Affordable Pricing With Simple Plans
+          </h2>
+          <p class="mx-auto max-w-[600px] text-base text-dark-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+            convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
+            ante in maximus.
+          </p>
+        </div>
+
+        <div
+          class="relative z-10 flex flex-wrap justify-center overflow-hidden rounded drop-shadow-light dark:drop-shadow-none"
+        >
+          <div
+            class="absolute top-0 left-0 -z-10 h-full w-full bg-cover bg-center opacity-10 dark:opacity-40 bg-noise-pattern"
+          ></div>
+          <div
+            class="absolute bottom-0 left-1/2 -z-10 -translate-x-1/2"
+          >
+            <svg
+              width="1174"
+              height="560"
+              viewBox="0 0 1174 560"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g opacity="0.4" filter="url(#filter0_f_41_257)">
+                <rect
+                  x="450.531"
+                  y="279"
+                  width="272.933"
+                  height="328.051"
+                  fill="url(#paint0_linear_41_257)"
+                />
+              </g>
+              <defs>
+                <filter
+                  id="filter0_f_41_257"
+                  x="0.531494"
+                  y="-171"
+                  width="1172.93"
+                  height="1228.05"
+                  filterUnits="userSpaceOnUse"
+                  color-interpolation-filters="sRGB"
+                >
+                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="BackgroundImageFix"
+                    result="shape"
+                  />
+                  <feGaussianBlur
+                    stdDeviation="225"
+                    result="effect1_foregroundBlur_41_257"
+                  />
+                </filter>
+                <linearGradient
+                  id="paint0_linear_41_257"
+                  x1="425.16"
+                  y1="343.693"
+                  x2="568.181"
+                  y2="660.639"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#ABBCFF" />
+                  <stop offset="0.859375" stop-color="#4A6CF7" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="w-full sm:w-1/2 lg:w-1/3">
+            <div
+              class="wow fadeInUp pt-10 pb-20 text-center"
+              data-wow-delay=".2s"
+            >
+              <div class="border-b dark:border-[#2E333D]">
+                <h3
+                  class="mb-2 font-heading text-3xl font-medium text-dark dark:text-white"
+                >
+                  Free
+                </h3>
+                <p class="pb-10 text-base text-dark-text">
+                  The most basic plan
+                </p>
+              </div>
+              <div class="border-b py-10 dark:border-[#2E333D]">
+                <h3
+                  class="mb-6 flex items-end justify-center pt-2 font-heading text-base font-medium text-dark dark:text-white"
+                >
+                  $ <sup class="-mb-2 text-[55px]"> 0 </sup>
+                  /month
+                </h3>
+
+                <p
+                  class="mx-auto max-w-[300px] text-base text-dark-text"
+                >
+                  Lorem ipsum dolor sit ametion consectetur adipisc elit.
+                </p>
+              </div>
+              <div
+                class="space-y-4 px-6 pt-10 pb-[60px] text-left sm:px-10 md:px-8 lg:px-10 xl:px-20"
+              >
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  300 GB Storage
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Unlimited Photos and Videos
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Exclusive Support
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Custom Branding Strategy
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Free SEO Tools
+                </p>
+              </div>
+              <a
+                href="javascript:void(0)"
+                class="inline-flex items-center rounded bg-dark-text py-[14px] px-8 font-heading text-base text-white hover:bg-primary"
+              >
+                Join This Plan
+                <span class="pl-3">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.172 7L6.808 1.636L8.222 0.222L16 8L8.222 15.778L6.808 14.364L12.172 9H0V7H12.172Z"
+                      fill="white"
+                    />
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div
+            class="w-full dark:border-[#2E333D] sm:w-1/2 sm:border-l lg:w-1/3 lg:border-x"
+          >
+            <div
+              class="wow fadeInUp pt-10 pb-20 text-center"
+              data-wow-delay=".3s"
+            >
+              <div class="border-b dark:border-[#2E333D]">
+                <h3
+                  class="mb-2 font-heading text-3xl font-medium text-dark dark:text-white"
+                >
+                  Basic
+                </h3>
+                <p class="pb-10 text-base text-dark-text">
+                  The most popular plan
+                </p>
+              </div>
+              <div class="border-b py-10 dark:border-[#2E333D]">
+                <h3
+                  class="mb-6 flex items-end justify-center pt-2 font-heading text-base font-medium text-dark dark:text-white"
+                >
+                  $ <sup class="-mb-2 text-[55px]"> 29 </sup>
+                  /month
+                </h3>
+
+                <p
+                  class="mx-auto max-w-[300px] text-base text-dark-text"
+                >
+                  Lorem ipsum dolor sit ametion consectetur adipisc elit.
+                </p>
+              </div>
+              <div
+                class="space-y-4 px-6 pt-10 pb-[60px] text-left sm:px-10 md:px-8 lg:px-10 xl:px-20"
+              >
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  300 GB Storage
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Unlimited Photos and Videos
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Exclusive Support
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Custom Branding Strategy
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Free SEO Tools
+                </p>
+              </div>
+              <a
+                href="javascript:void(0)"
+                class="inline-flex items-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"
+              >
+                Join This Plan
+                <span class="pl-3">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.172 7L6.808 1.636L8.222 0.222L16 8L8.222 15.778L6.808 14.364L12.172 9H0V7H12.172Z"
+                      fill="white"
+                    />
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="w-full sm:w-1/2 lg:w-1/3">
+            <div
+              class="wow fadeInUp pt-10 pb-20 text-center"
+              data-wow-delay=".4s"
+            >
+              <div class="border-b dark:border-[#2E333D]">
+                <h3
+                  class="mb-2 font-heading text-3xl font-medium text-dark dark:text-white"
+                >
+                  Premium
+                </h3>
+                <p class="pb-10 text-base text-dark-text">
+                  The most premium plan
+                </p>
+              </div>
+              <div class="border-b py-10 dark:border-[#2E333D]">
+                <h3
+                  class="mb-6 flex items-end justify-center pt-2 font-heading text-base font-medium text-dark dark:text-white"
+                >
+                  $ <sup class="-mb-2 text-[55px]"> 99 </sup>
+                  /month
+                </h3>
+
+                <p
+                  class="mx-auto max-w-[300px] text-base text-dark-text"
+                >
+                  Lorem ipsum dolor sit ametion consectetur adipisc elit.
+                </p>
+              </div>
+              <div
+                class="space-y-4 px-6 pt-10 pb-[60px] text-left sm:px-10 md:px-8 lg:px-10 xl:px-20"
+              >
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  300 GB Storage
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Unlimited Photos and Videos
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Exclusive Support
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Custom Branding Strategy
+                </p>
+                <p
+                  class="flex items-center text-base text-dark-text"
+                >
+                  <span class="inline-block pr-2 text-[#00CB99]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M9.99999 15.172L19.192 5.979L20.607 7.393L9.99999 18L3.63599 11.636L5.04999 10.222L9.99999 15.172Z"
+                      />
+                    </svg>
+                  </span>
+                  Free SEO Tools
+                </p>
+              </div>
+              <a
+                href="javascript:void(0)"
+                class="inline-flex items-center rounded bg-dark-text py-[14px] px-8 font-heading text-base text-white hover:bg-primary"
+              >
+                Join This Plan
+                <span class="pl-3">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.172 7L6.808 1.636L8.222 0.222L16 8L8.222 15.778L6.808 14.364L12.172 9H0V7H12.172Z"
+                      fill="white"
+                    />
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-12 text-center">
+          <h3
+            class="mb-5 font-heading text-xl font-medium text-dark dark:text-white sm:text-3xl"
+          >
+            Looking for a company solution?
+          </h3>
+          <p class="text-base text-dark-text">
+            Contact our team to get a quote.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Pricing Section End ===== -->
+
+    <!-- ===== Blog Section Start ===== -->
+    {{-- <section id="blog" class="pt-14 sm:pt-20 lg:pt-[130px]">
+      <div class="px-4 xl:container"> --}}
+        <!-- Section Title -->
+        {{-- <div
+          class="wow fadeInUp relative mx-auto mb-12 max-w-[620px] pt-6 text-center md:mb-20 lg:pt-16"
+          data-wow-delay=".2s"
+        >
+          <span class="title"> BLOGS </span>
+          <h2
+            class="mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+          >
+            Latest News & Articles From Our Blog
+          </h2>
+          <p class="text-base text-dark-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+            convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
+            ante in maximus.
+          </p>
+        </div>
+
+        <div class="w-full border-b pb-20 dark:border-[#2E333D]">
+          <div class="-mx-4 flex flex-wrap">
+            <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+              <div class="wow fadeInUp mb-10" data-wow-delay=".2s">
+                <div class="relative mb-8 overflow-hidden rounded">
+                  <a href="javascript:void(0)" class="block">
+                    <img
+                      src="{{ asset('landing/images/blog/image-1.jpg') }}"
+                      alt="blog-image"
+                      class="w-full"
+                    />
+                  </a>
+                  <span
+                    class="absolute top-5 left-5 rounded bg-primary py-[6px] px-4 font-heading text-sm font-medium text-white"
+                  >
+                    Online Business
+                  </span>
+                </div>
+                <div>
+                  <div class="mb-4 flex items-center">
+                    <p
+                      class="flex items-center pr-5 font-heading text-base text-dark-text"
+                    >
+                      <span class="pr-2">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          class="fill-current"
+                        >
+                          <path
+                            d="M15 16.5H13.5V15C13.5 14.4033 13.2629 13.831 12.841 13.409C12.419 12.9871 11.8467 12.75 11.25 12.75H6.75C6.15326 12.75 5.58097 12.9871 5.15901 13.409C4.73705 13.831 4.5 14.4033 4.5 15V16.5H3V15C3 14.0054 3.39509 13.0516 4.09835 12.3484C4.80161 11.6451 5.75544 11.25 6.75 11.25H11.25C12.2446 11.25 13.1984 11.6451 13.9016 12.3484C14.6049 13.0516 15 14.0054 15 15V16.5ZM9 9.75C8.40905 9.75 7.82389 9.63361 7.27792 9.40746C6.73196 9.18131 6.23588 8.84984 5.81802 8.43198C5.40015 8.01412 5.06869 7.51804 4.84254 6.97208C4.6164 6.42611 4.5 5.84095 4.5 5.25C4.5 4.65905 4.6164 4.07389 4.84254 3.52793C5.06869 2.98196 5.40015 2.48588 5.81802 2.06802C6.23588 1.65016 6.73196 1.31869 7.27792 1.09254C7.82389 0.866396 8.40905 0.75 9 0.75C10.1935 0.75 11.3381 1.22411 12.182 2.06802C13.0259 2.91193 13.5 4.05653 13.5 5.25C13.5 6.44348 13.0259 7.58807 12.182 8.43198C11.3381 9.2759 10.1935 9.75 9 9.75ZM9 8.25C9.79565 8.25 10.5587 7.93393 11.1213 7.37132C11.6839 6.80871 12 6.04565 12 5.25C12 4.45435 11.6839 3.69129 11.1213 3.12868C10.5587 2.56607 9.79565 2.25 9 2.25C8.20435 2.25 7.44129 2.56607 6.87868 3.12868C6.31607 3.69129 6 4.45435 6 5.25C6 6.04565 6.31607 6.80871 6.87868 7.37132C7.44129 7.93393 8.20435 8.25 9 8.25Z"
+                          />
+                        </svg>
+                      </span>
+                      Musharof Chy
+                    </p>
+                    <p
+                      class="flex items-center font-heading text-base text-dark-text"
+                    >
+                      <span class="pr-2">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          class="fill-current"
+                        >
+                          <path
+                            d="M12.75 2.25H15.75C15.9489 2.25 16.1397 2.32902 16.2803 2.46967C16.421 2.61032 16.5 2.80109 16.5 3V15C16.5 15.1989 16.421 15.3897 16.2803 15.5303C16.1397 15.671 15.9489 15.75 15.75 15.75H2.25C2.05109 15.75 1.86032 15.671 1.71967 15.5303C1.57902 15.3897 1.5 15.1989 1.5 15V3C1.5 2.80109 1.57902 2.61032 1.71967 2.46967C1.86032 2.32902 2.05109 2.25 2.25 2.25H5.25V0.75H6.75V2.25H11.25V0.75H12.75V2.25ZM11.25 3.75H6.75V5.25H5.25V3.75H3V6.75H15V3.75H12.75V5.25H11.25V3.75ZM15 8.25H3V14.25H15V8.25Z"
+                          />
+                        </svg>
+                      </span>
+                      25 Dec, 2025
+                    </p>
+                  </div>
+                  <h3>
+                    <a
+                      href="javascript:void(0)"
+                      class="font-heading text-xl font-medium text-dark hover:text-primary dark:text-white dark:hover:text-primary md:text-2xl lg:text-xl xl:text-2xl"
+                    >
+                      Free advertising for your online business
+                    </a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+              <div class="wow fadeInUp mb-10" data-wow-delay=".3s">
+                <div class="relative mb-8 overflow-hidden rounded">
+                  <a href="javascript:void(0)" class="block">
+                    <img
+                      src="{{ asset('landing/images/blog/image-2.jpg') }}"
+                      alt="blog-image"
+                      class="w-full"
+                    />
+                  </a>
+                  <span
+                    class="absolute top-5 left-5 rounded bg-primary py-[6px] px-4 font-heading text-sm font-medium text-white"
+                  >
+                    Ui/Ux Design
+                  </span>
+                </div>
+                <div>
+                  <div class="mb-4 flex items-center">
+                    <p
+                      class="flex items-center pr-5 font-heading text-base text-dark-text"
+                    >
+                      <span class="pr-2">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          class="fill-current"
+                        >
+                          <path
+                            d="M15 16.5H13.5V15C13.5 14.4033 13.2629 13.831 12.841 13.409C12.419 12.9871 11.8467 12.75 11.25 12.75H6.75C6.15326 12.75 5.58097 12.9871 5.15901 13.409C4.73705 13.831 4.5 14.4033 4.5 15V16.5H3V15C3 14.0054 3.39509 13.0516 4.09835 12.3484C4.80161 11.6451 5.75544 11.25 6.75 11.25H11.25C12.2446 11.25 13.1984 11.6451 13.9016 12.3484C14.6049 13.0516 15 14.0054 15 15V16.5ZM9 9.75C8.40905 9.75 7.82389 9.63361 7.27792 9.40746C6.73196 9.18131 6.23588 8.84984 5.81802 8.43198C5.40015 8.01412 5.06869 7.51804 4.84254 6.97208C4.6164 6.42611 4.5 5.84095 4.5 5.25C4.5 4.65905 4.6164 4.07389 4.84254 3.52793C5.06869 2.98196 5.40015 2.48588 5.81802 2.06802C6.23588 1.65016 6.73196 1.31869 7.27792 1.09254C7.82389 0.866396 8.40905 0.75 9 0.75C10.1935 0.75 11.3381 1.22411 12.182 2.06802C13.0259 2.91193 13.5 4.05653 13.5 5.25C13.5 6.44348 13.0259 7.58807 12.182 8.43198C11.3381 9.2759 10.1935 9.75 9 9.75ZM9 8.25C9.79565 8.25 10.5587 7.93393 11.1213 7.37132C11.6839 6.80871 12 6.04565 12 5.25C12 4.45435 11.6839 3.69129 11.1213 3.12868C10.5587 2.56607 9.79565 2.25 9 2.25C8.20435 2.25 7.44129 2.56607 6.87868 3.12868C6.31607 3.69129 6 4.45435 6 5.25C6 6.04565 6.31607 6.80871 6.87868 7.37132C7.44129 7.93393 8.20435 8.25 9 8.25Z"
+                          />
+                        </svg>
+                      </span>
+                      Musharof Chy
+                    </p>
+                    <p
+                      class="flex items-center font-heading text-base text-dark-text"
+                    >
+                      <span class="pr-2">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          class="fill-current"
+                        >
+                          <path
+                            d="M12.75 2.25H15.75C15.9489 2.25 16.1397 2.32902 16.2803 2.46967C16.421 2.61032 16.5 2.80109 16.5 3V15C16.5 15.1989 16.421 15.3897 16.2803 15.5303C16.1397 15.671 15.9489 15.75 15.75 15.75H2.25C2.05109 15.75 1.86032 15.671 1.71967 15.5303C1.57902 15.3897 1.5 15.1989 1.5 15V3C1.5 2.80109 1.57902 2.61032 1.71967 2.46967C1.86032 2.32902 2.05109 2.25 2.25 2.25H5.25V0.75H6.75V2.25H11.25V0.75H12.75V2.25ZM11.25 3.75H6.75V5.25H5.25V3.75H3V6.75H15V3.75H12.75V5.25H11.25V3.75ZM15 8.25H3V14.25H15V8.25Z"
+                          />
+                        </svg>
+                      </span>
+                      19 Mar, 2025
+                    </p>
+                  </div>
+                  <h3>
+                    <a
+                      href="javascript:void(0)"
+                      class="font-heading text-xl font-medium text-dark hover:text-primary dark:text-white dark:hover:text-primary md:text-2xl lg:text-xl xl:text-2xl"
+                    >
+                      9 simple ways to improve your design skills
+                    </a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+              <div class="wow fadeInUp mb-10" data-wow-delay=".4s">
+                <div class="relative mb-8 overflow-hidden rounded">
+                  <a href="javascript:void(0)" class="block">
+                    <img
+                      src="{{ asset('landing/images/blog/image-3.jpg') }}"
+                      alt="blog-image"
+                      class="w-full"
+                      alt="blog-image"
+                      class="w-full"
+                    />
+                  </a>
+                  <span
+                    class="absolute top-5 left-5 rounded bg-primary py-[6px] px-4 font-heading text-sm font-medium text-white"
+                  >
+                    Web Development
+                  </span>
+                </div>
+                <div>
+                  <div class="mb-4 flex items-center">
+                    <p
+                      class="flex items-center pr-5 font-heading text-base text-dark-text"
+                    >
+                      <span class="pr-2">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          class="fill-current"
+                        >
+                          <path
+                            d="M15 16.5H13.5V15C13.5 14.4033 13.2629 13.831 12.841 13.409C12.419 12.9871 11.8467 12.75 11.25 12.75H6.75C6.15326 12.75 5.58097 12.9871 5.15901 13.409C4.73705 13.831 4.5 14.4033 4.5 15V16.5H3V15C3 14.0054 3.39509 13.0516 4.09835 12.3484C4.80161 11.6451 5.75544 11.25 6.75 11.25H11.25C12.2446 11.25 13.1984 11.6451 13.9016 12.3484C14.6049 13.0516 15 14.0054 15 15V16.5ZM9 9.75C8.40905 9.75 7.82389 9.63361 7.27792 9.40746C6.73196 9.18131 6.23588 8.84984 5.81802 8.43198C5.40015 8.01412 5.06869 7.51804 4.84254 6.97208C4.6164 6.42611 4.5 5.84095 4.5 5.25C4.5 4.65905 4.6164 4.07389 4.84254 3.52793C5.06869 2.98196 5.40015 2.48588 5.81802 2.06802C6.23588 1.65016 6.73196 1.31869 7.27792 1.09254C7.82389 0.866396 8.40905 0.75 9 0.75C10.1935 0.75 11.3381 1.22411 12.182 2.06802C13.0259 2.91193 13.5 4.05653 13.5 5.25C13.5 6.44348 13.0259 7.58807 12.182 8.43198C11.3381 9.2759 10.1935 9.75 9 9.75ZM9 8.25C9.79565 8.25 10.5587 7.93393 11.1213 7.37132C11.6839 6.80871 12 6.04565 12 5.25C12 4.45435 11.6839 3.69129 11.1213 3.12868C10.5587 2.56607 9.79565 2.25 9 2.25C8.20435 2.25 7.44129 2.56607 6.87868 3.12868C6.31607 3.69129 6 4.45435 6 5.25C6 6.04565 6.31607 6.80871 6.87868 7.37132C7.44129 7.93393 8.20435 8.25 9 8.25Z"
+                          />
+                        </svg>
+                      </span>
+                      Musharof Chy
+                    </p>
+                    <p
+                      class="flex items-center font-heading text-base text-dark-text"
+                    >
+                      <span class="pr-2">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          class="fill-current"
+                        >
+                          <path
+                            d="M12.75 2.25H15.75C15.9489 2.25 16.1397 2.32902 16.2803 2.46967C16.421 2.61032 16.5 2.80109 16.5 3V15C16.5 15.1989 16.421 15.3897 16.2803 15.5303C16.1397 15.671 15.9489 15.75 15.75 15.75H2.25C2.05109 15.75 1.86032 15.671 1.71967 15.5303C1.57902 15.3897 1.5 15.1989 1.5 15V3C1.5 2.80109 1.57902 2.61032 1.71967 2.46967C1.86032 2.32902 2.05109 2.25 2.25 2.25H5.25V0.75H6.75V2.25H11.25V0.75H12.75V2.25ZM11.25 3.75H6.75V5.25H5.25V3.75H3V6.75H15V3.75H12.75V5.25H11.25V3.75ZM15 8.25H3V14.25H15V8.25Z"
+                          />
+                        </svg>
+                      </span>
+                      15 Feb, 2025
+                    </p>
+                  </div>
+                  <h3>
+                    <a
+                      href="javascript:void(0)"
+                      class="font-heading text-xl font-medium text-dark hover:text-primary dark:text-white dark:hover:text-primary md:text-2xl lg:text-xl xl:text-2xl"
+                    >
+                      Tips to quickly improve your coding speed.
+                    </a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> --}}
+    <!-- ===== Blog Section End ===== -->
+
+    <!-- ===== Support Section Start ===== -->
+    <section id="support" class="pt-14 sm:pt-20 lg:pt-[130px]">
+      <div class="px-4 xl:container">
+        <div class="-mx-4 flex flex-wrap justify-center">
+          <div class="w-full px-4 xl:w-10/12">
+            <div
+              class="flex flex-wrap items-center border-b pb-14 dark:border-[#2E333D] lg:pb-0"
+            >
+              <div class="w-full px-4 lg:w-1/2">
+                <!-- Section Title -->
+                <div
+                  class="wow fadeInUp relative mb-12 max-w-[500px] pt-6 md:mb-14 lg:pt-16"
+                  data-wow-delay=".2s"
+                >
+                  <span class="title !left-0 !translate-x-0">
+                    SUPPORT
+                  </span>
+                  <h2
+                    class="mb-5 font-heading text-3xl font-semibold text-dark dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+                  >
+                    Need Any Help? Say hello
+                  </h2>
+                  <p class="text-base text-dark-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                    Donec vitae tortor aliquam ante.
+                  </p>
+                </div>
+              </div>
+
+              <div class="w-full px-4 lg:w-1/2">
+                <div
+                  class="wow fadeInUp flex items-center"
+                  data-wow-delay=".2s"
+                >
+                  <span
+                    class="mr-10 h-1 w-full max-w-[200px] bg-dark dark:bg-white"
+                  ></span>
+                  <a
+                    href="mailto:info@gostartup.com"
+                    class="font-heading text-xl text-dark dark:text-white md:text-3xl lg:text-xl xl:text-3xl"
+                  >
+                    info@gostartup.com
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="wow fadeInUp -mx-4 flex flex-wrap pt-12"
+              data-wow-delay=".2s"
+            >
+              <div class="w-full px-4 md:w-1/2 lg:w-1/4">
+                <div class="mb-6">
+                  <h3
+                    class="mb-2 font-heading text-base text-dark dark:text-white sm:text-xl"
+                  >
+                    Email Address
+                  </h3>
+                  <p class="text-base font-medium text-dark-text">
+                    support@startup.com
+                  </p>
+                </div>
+              </div>
+              <div class="w-full px-4 md:w-1/2 lg:w-1/4">
+                <div class="mb-6">
+                  <h3
+                    class="mb-2 font-heading text-base text-dark dark:text-white sm:text-xl"
+                  >
+                    Phone Number
+                  </h3>
+                  <p class="text-base font-medium text-dark-text">
+                    +009 8754 3433 223
+                  </p>
+                </div>
+              </div>
+              <div class="w-full px-4 md:w-1/2 lg:w-1/4">
+                <div class="mb-6">
+                  <h3
+                    class="mb-2 font-heading text-base text-dark dark:text-white sm:text-xl"
+                  >
+                    Office Location
+                  </h3>
+                  <p class="text-base font-medium text-dark-text">
+                    76/A, Green valle, Califonia USA.
+                  </p>
+                </div>
+              </div>
+              <div class="w-full px-4 md:w-1/2 lg:w-1/4">
+                <div
+                  class="mb-6 flex items-center space-x-5 lg:justify-end"
+                >
+                  <a
+                    href="javascript:void(0)"
+                    name="social-link"
+                    aria-label="social-link"
+                    class="text-dark-text hover:text-primary dark:hover:text-white"
+                  >
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M14 13.5H16.5L17.5 9.5H14V7.5C14 6.47 14 5.5 16 5.5H17.5V2.14C17.174 2.097 15.943 2 14.643 2C11.928 2 10 3.657 10 6.7V9.5H7V13.5H10V22H14V13.5Z"
+                      />
+                    </svg>
+                  </a>
+                  <a
+                    href="javascript:void(0)"
+                    name="social-link"
+                    aria-label="social-link"
+                    class="text-dark-text hover:text-primary dark:hover:text-white"
+                  >
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M22.1621 5.65593C21.3986 5.99362 20.589 6.2154 19.7601 6.31393C20.6338 5.79136 21.2878 4.96894 21.6001 3.99993C20.7801 4.48793 19.8811 4.82993 18.9441 5.01493C18.3147 4.34151 17.4804 3.89489 16.571 3.74451C15.6616 3.59413 14.728 3.74842 13.9153 4.18338C13.1026 4.61834 12.4564 5.30961 12.0772 6.14972C11.6979 6.98983 11.6068 7.93171 11.8181 8.82893C10.1552 8.74558 8.52838 8.31345 7.04334 7.56059C5.55829 6.80773 4.24818 5.75098 3.19805 4.45893C2.82634 5.09738 2.63101 5.82315 2.63205 6.56193C2.63205 8.01193 3.37005 9.29293 4.49205 10.0429C3.82806 10.022 3.17868 9.84271 2.59805 9.51993V9.57193C2.59825 10.5376 2.93242 11.4735 3.5439 12.221C4.15538 12.9684 5.00653 13.4814 5.95305 13.6729C5.33667 13.84 4.69036 13.8646 4.06305 13.7449C4.32992 14.5762 4.85006 15.3031 5.55064 15.824C6.25123 16.345 7.09718 16.6337 7.97005 16.6499C7.10253 17.3313 6.10923 17.8349 5.04693 18.1321C3.98464 18.4293 2.87418 18.5142 1.77905 18.3819C3.69075 19.6114 5.91615 20.2641 8.18905 20.2619C15.8821 20.2619 20.0891 13.8889 20.0891 8.36193C20.0891 8.18193 20.0841 7.99993 20.0761 7.82193C20.8949 7.2301 21.6017 6.49695 22.1631 5.65693L22.1621 5.65593Z"
+                      />
+                    </svg>
+                  </a>
+                  <a
+                    href="javascript:void(0)"
+                    name="social-link"
+                    aria-label="social-link"
+                    class="text-dark-text hover:text-primary dark:hover:text-white"
+                  >
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M6.93994 5.00002C6.93968 5.53046 6.72871 6.03906 6.35345 6.41394C5.97819 6.78883 5.46938 6.99929 4.93894 6.99902C4.40851 6.99876 3.89991 6.78779 3.52502 6.41253C3.15014 6.03727 2.93968 5.52846 2.93994 4.99802C2.94021 4.46759 3.15117 3.95899 3.52644 3.5841C3.9017 3.20922 4.41051 2.99876 4.94094 2.99902C5.47137 2.99929 5.97998 3.21026 6.35486 3.58552C6.72975 3.96078 6.94021 4.46959 6.93994 5.00002ZM6.99994 8.48002H2.99994V21H6.99994V8.48002ZM13.3199 8.48002H9.33994V21H13.2799V14.43C13.2799 10.77 18.0499 10.43 18.0499 14.43V21H21.9999V13.07C21.9999 6.90002 14.9399 7.13002 13.2799 10.16L13.3199 8.48002Z"
+                      />
+                    </svg>
+                  </a>
+                  <a
+                    href="javascript:void(0)"
+                    name="social-link"
+                    aria-label="social-link"
+                    class="text-dark-text hover:text-primary dark:hover:text-white"
+                  >
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      class="fill-current"
+                    >
+                      <path
+                        d="M7.443 5.34961C8.082 5.34961 8.673 5.39961 9.213 5.54761C9.70302 5.63765 10.1708 5.82244 10.59 6.09161C10.984 6.33861 11.279 6.68561 11.475 7.13061C11.672 7.57561 11.77 8.12061 11.77 8.71361C11.77 9.40661 11.623 9.99961 11.279 10.4446C10.984 10.8906 10.492 11.2856 9.902 11.5826C10.738 11.8306 11.377 12.2756 11.77 12.8686C12.164 13.4626 12.41 14.2046 12.41 15.0456C12.41 15.7386 12.262 16.3316 12.016 16.8266C11.77 17.3216 11.377 17.7666 10.934 18.0636C10.4528 18.382 9.92084 18.616 9.361 18.7556C8.771 18.9046 8.181 19.0036 7.591 19.0036H1V5.34961H7.443ZM7.049 10.8896C7.59 10.8896 8.033 10.7416 8.377 10.4946C8.721 10.2476 8.869 9.80161 8.869 9.25761C8.869 8.96061 8.819 8.66361 8.721 8.46661C8.623 8.26861 8.475 8.11961 8.279 7.97161C8.082 7.87261 7.885 7.77361 7.639 7.72461C7.393 7.67461 7.148 7.67461 6.852 7.67461H4V10.8906H7.05L7.049 10.8896ZM7.197 16.7276C7.492 16.7276 7.787 16.6776 8.033 16.6286C8.28138 16.5814 8.51628 16.48 8.721 16.3316C8.92139 16.1868 9.08903 16.0015 9.213 15.7876C9.311 15.5406 9.41 15.2436 9.41 14.8976C9.41 14.2046 9.213 13.7096 8.82 13.3636C8.426 13.0666 7.885 12.9186 7.246 12.9186H4V16.7286H7.197V16.7276ZM16.689 16.6776C17.082 17.0736 17.672 17.2716 18.459 17.2716C19 17.2716 19.492 17.1236 19.885 16.8766C20.279 16.5796 20.525 16.2826 20.623 15.9856H23.033C22.639 17.1726 22.049 18.0136 21.263 18.5576C20.475 19.0526 19.541 19.3496 18.41 19.3496C17.6864 19.3518 16.9688 19.2175 16.295 18.9536C15.6887 18.7262 15.148 18.3524 14.721 17.8656C14.2643 17.4102 13.9267 16.8494 13.738 16.2326C13.492 15.5896 13.393 14.8976 13.393 14.1056C13.393 13.3636 13.492 12.6716 13.738 12.0276C13.9745 11.4077 14.3245 10.8373 14.77 10.3456C15.213 9.90061 15.754 9.50561 16.344 9.25761C17.0007 8.99367 17.7022 8.8592 18.41 8.86161C19.246 8.86161 19.984 9.01061 20.623 9.35661C21.263 9.70261 21.754 10.0986 22.148 10.6926C22.5499 11.2631 22.8494 11.8993 23.033 12.5726C23.131 13.2646 23.18 13.9576 23.131 14.7486H16C16 15.5406 16.295 16.2826 16.689 16.6786V16.6776ZM19.787 11.4836C19.443 11.1376 18.902 10.9396 18.262 10.9396C17.82 10.9396 17.475 11.0386 17.18 11.1866C16.885 11.3356 16.689 11.5336 16.492 11.7316C16.311 11.9229 16.1912 12.1638 16.148 12.4236C16.098 12.6716 16.049 12.8686 16.049 13.0666H20.475C20.377 12.3246 20.131 11.8306 19.787 11.4836ZM15.459 6.28961H20.967V7.62561H15.46V6.28961H15.459Z"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mx-auto max-w-[780px] pt-[130px]">
+          <form class="wow fadeInUp" data-wow-delay=".2s" action="https://formbold.com/s/unique_form_id" method="POST" >
+            <div class="-mx-4 flex flex-wrap">
+              <div class="w-full px-4 sm:w-1/2">
+                <div class="mb-12">
+                  <label
+                    for="name"
+                    class="mb-3 block font-heading text-base text-dark dark:text-white"
+                  >
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Full Name"
+                    class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
+                  />
+                </div>
+              </div>
+              <div class="w-full px-4 sm:w-1/2">
+                <div class="mb-12">
+                  <label
+                    for="email"
+                    class="mb-3 block font-heading text-base text-dark dark:text-white"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Email Address"
+                    class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
+                  />
+                </div>
+              </div>
+              <div class="w-full px-4 sm:w-1/2">
+                <div class="mb-12">
+                  <label
+                    for="phone"
+                    class="mb-3 block font-heading text-base text-dark dark:text-white"
+                  >
+                    Phone (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="Phone Number"
+                    class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
+                  />
+                </div>
+              </div>
+              <div class="w-full px-4 sm:w-1/2">
+                <div class="mb-12">
+                  <label
+                    for="subject"
+                    class="mb-3 block font-heading text-base text-dark dark:text-white"
+                  >
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    name="subject"
+                    id="subject"
+                    placeholder="Type Subject"
+                    class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
+                  />
+                </div>
+              </div>
+              <div class="w-full px-4">
+                <div class="mb-10">
+                  <label
+                    for="message"
+                    class="mb-3 block font-heading text-base text-dark dark:text-white"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    rows="4"
+                    name="message"
+                    id="message"
+                    placeholder="Type Message"
+                    class="w-full resize-none border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="w-full px-4">
+                <div class="mb-12">
+                  <label
+                    for="supportCheckbox"
+                    class="flex cursor-pointer select-none text-dark-text hover:text-primary"
+                  >
+                    <div class="relative">
+                      <input
+                        type="checkbox"
+                        id="supportCheckbox"
+                        class="sr-only"
+                      />
+                      <div
+                        class="box mr-4 mt-1 flex h-5 w-5 items-center justify-center rounded border dark:border-[#414652]"
+                      >
+                        <span class="opacity-0">
+                          <svg
+                            width="11"
+                            height="8"
+                            viewBox="0 0 11 8"
+                            fill="none"
+                            class="stroke-current"
+                          >
+                            <path
+                              d="M10.0915 0.951972L10.0867 0.946075L10.0813 0.940568C9.90076 0.753564 9.61034 0.753146 9.42927 0.939309L4.16201 6.22962L1.58507 3.63469C1.40401 3.44841 1.11351 3.44879 0.932892 3.63584C0.755703 3.81933 0.755703 4.10875 0.932892 4.29224L0.932878 4.29225L0.934851 4.29424L3.58046 6.95832C3.73676 7.11955 3.94983 7.2 4.1473 7.2C4.36196 7.2 4.55963 7.11773 4.71406 6.9584L10.0468 1.60234C10.2436 1.4199 10.2421 1.1339 10.0915 0.951972ZM4.2327 6.30081L4.2317 6.2998C4.23206 6.30015 4.23237 6.30049 4.23269 6.30082L4.2327 6.30081Z"
+                              stroke-width="0.4"
+                            ></path>
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                    I have read the terms of the Service & I accept Privacy
+                    Policy
+                  </label>
+                </div>
+              </div>
+
+              <div class="w-full px-4">
+                <button
+                  class="flex w-full items-center justify-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"
+                >
+                  Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- ===== Support Section End ===== -->
+
+    <!-- ===== CTA Section Start ===== -->
+    <section id="cta" class="pt-14 sm:pt-20 lg:pt-[130px]">
+      <div class="px-4 xl:container">
+        <div
+          class="wow fadeInUp relative overflow-hidden bg-cover bg-center py-[60px] px-10 drop-shadow-light dark:drop-shadow-none sm:px-[70px]"
+          data-wow-delay=".2s"
+        >
+          <div
+            class="absolute top-0 left-0 -z-10 h-full w-full bg-cover bg-center opacity-10 dark:opacity-40 bg-noise-pattern"
+          ></div>
+          <div
+            class="absolute bottom-0 left-1/2 -z-10 -translate-x-1/2"
+          >
+            <svg
+              width="1215"
+              height="259"
+              viewBox="0 0 1215 259"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g opacity="0.6" filter="url(#filter0_f_63_363)">
+                <rect
+                  x="450"
+                  y="189"
+                  width="315"
+                  height="378"
+                  fill="url(#paint0_linear_63_363)"
+                />
+              </g>
+              <defs>
+                <filter
+                  id="filter0_f_63_363"
+                  x="0"
+                  y="-261"
+                  width="1215"
+                  height="1278"
+                  filterUnits="userSpaceOnUse"
+                  color-interpolation-filters="sRGB"
+                >
+                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="BackgroundImageFix"
+                    result="shape"
+                  />
+                  <feGaussianBlur
+                    stdDeviation="225"
+                    result="effect1_foregroundBlur_63_363"
+                  />
+                </filter>
+                <linearGradient
+                  id="paint0_linear_63_363"
+                  x1="420.718"
+                  y1="263.543"
+                  x2="585.338"
+                  y2="628.947"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#ABBCFF" />
+                  <stop offset="0.859375" stop-color="#4A6CF7" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <div class="-mx-4 flex flex-wrap items-center">
+            <div class="w-full px-4 lg:w-2/3">
+              <div
+                class="mx-auto mb-10 max-w-[550px] text-center lg:ml-0 lg:mb-0 lg:text-left"
+              >
+                <h2
+                  class="mb-4 font-heading text-xl font-semibold leading-tight text-dark dark:text-white sm:text-[38px]"
+                >
+                  Looking for a collaboration? Get Started Today!
+                </h2>
+                <p class="text-base text-dark-text">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </p>
+              </div>
+            </div>
+            <div class="w-full px-4 lg:w-1/3">
+              <div class="text-center lg:text-right">
+                <a
+                  href="javascript:void(0)"
+                  class="inline-flex items-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"
+                >
+                  Get Started Now
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== CTA Section End ===== -->
+
+    @include('landing.partials.footer') 
+
+    <script>
+      // section menu active
+      function onScroll(event) {
+        const sections = document.querySelectorAll(".menu-scroll");
+        const scrollPos =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop;
+
+        for (let i = 0; i < sections.length; i++) {
+          const currLink = sections[i];
+          const val = currLink.getAttribute("href");
+          const refElement = document.querySelector(val);
+          const scrollTopMinus = scrollPos + 73;
+          if (
+            refElement.offsetTop <= scrollTopMinus &&
+            refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
+          ) {
+            document.querySelector(".menu-scroll").classList.remove("active");
+            currLink.classList.add("active");
+          } else {
+            currLink.classList.remove("active");
+          }
+        }
+      }
+
+      window.document.addEventListener("scroll", onScroll);
+      // ==== About Tabs
+      const tabButtons = document.querySelectorAll(".tabButtons button");
+      const tabPanels = document.querySelectorAll(".tabPanel");
+
+      function showPanel(panelIndex) {
+        console.log("Panel is",panelIndex);
+        tabButtons.forEach(function (node) {
+          node.classList.remove(
+            "text-primary",
+            "border-primary",
+            "dark:border-primary"
+          );
+        });
+        tabButtons[panelIndex].classList.add(
+          "text-primary",
+          "dark:text-white",
+          "border-primary",
+          "dark:border-primary"
+        );
+        tabPanels.forEach(function (node) {
+          node.style.display = "none";
+        });
+        tabPanels[panelIndex].style.display = "flex";
+      }
+      showPanel(0);
+    </script>
+ 
+  </x-guest-layout>
+    

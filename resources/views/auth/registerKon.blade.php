@@ -1,0 +1,107 @@
+<x-guest-layout>
+
+    <div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="h-screen w-screen flex justify-center items-center">
+
+            <div class="2xl:w-1/4 lg:w-1/3 md:w-1/2 w-full">
+                <div class="card overflow-hidden sm:rounded-md rounded-none">
+                    <div class="p-6">
+                        
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
+                        <a href="index.html" class="block mb-8">
+                            <img class="h-6 block dark:hidden" src="{{asset('storage/'. $settings->dark_logo_sm)}}" alt="">
+                            <img class="h-6 hidden dark:block" src="{{asset('storage/' . $settings->light_logo_sm)}}" alt="">
+                        </a>
+
+                        <div class="mb-4">
+                            <input type="hidden" id="user_type" name="user_type" value="customer" />
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="fname">Full Name</label>
+                            <input id="fname" class="form-input" type="text"  name="fname" :value="old('fname')" required autofocus autocomplete="fname" placeholder="Enter your Name" >
+                            <x-input-error :messages="$errors->get('fname')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="LoggingEmailAddress">Email Address</label>
+                            <input id="LoggingEmailAddress" class="form-input" type="email"  name="email" :value="old('email')" required autocomplete="email" placeholder="Enter your email" >
+                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="fname">Referal Code (Optional)</label>
+                            <input id="referral_code" class="form-input" type="text"  name="referral_code" :value="old('referral_code')" autofocus autocomplete="referral_code" placeholder="Enter your Code (Optional)" >
+                            <x-input-error :messages="$errors->get('referral_code')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="loggingPassword">Password</label>
+                             <input id="password" class="form-input" type="password"
+                            name="password" required autocomplete="new-password" placeholder="Enter your password" >
+                            
+                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="password">Comfirm Password</label>
+                            <input id="password" class="form-input" type="password"
+                             name="password_confirmation" required autocomplete="new-password" placeholder="Enter your password" >
+                            
+                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                        </div>
+                        
+                        
+
+                        <div class="mb-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded" id="checkbox-signup" required>
+                                <label class="ms-2 text-slate-900 dark:text-slate-200" for="checkbox-signup">I accept <a href="#" class="text-gray-400 underline">Terms and Conditions</a></label>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center mb-6">
+                            <button class="btn w-full text-white bg-primary"> Register </button>
+                        </div>
+
+                        <div class="flex items-center my-6">
+                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
+                            <div class="mx-4 text-secondary">Or</div>
+                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
+                        </div>
+
+                        {{-- <div class="flex gap-4 justify-center mb-6">
+                            <a href="javascript:void(0)" class="btn border-light text-gray-400 dark:border-slate-700">
+                                <span class="flex justify-center items-center gap-2">
+                                    <i class="mgc_github_line text-info text-xl"></i>
+                                    <span class="lg:block hidden">Github</span>
+                                </span>
+                            </a>
+                            <a href="javascript:void(0)" class="btn border-light text-gray-400 dark:border-slate-700">
+                                <span class="flex justify-center items-center gap-2">
+                                    <i class="mgc_google_line text-danger text-xl"></i>
+                                    <span class="lg:block hidden">Google</span>
+                                </span>
+                            </a>
+                            <a href="javascript:void(0)" class="btn border-light text-gray-400 dark:border-slate-700">
+                                <span class="flex justify-center items-center gap-2">
+                                    <i class="mgc_facebook_line text-primary text-xl"></i>
+                                    <span class="lg:block hidden">Facebook</span>
+                                </span>
+                            </a>
+                        </div> --}}
+
+                        <p class="text-gray-500 dark:text-gray-400 text-center">Already have account ?<a href="{{ route('login') }}" class="text-primary ms-1"><b>Log In</b></a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+</x-guest-layout>

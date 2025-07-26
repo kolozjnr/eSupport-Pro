@@ -17,9 +17,13 @@ use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\MonnifyPaymentController;
 use App\Http\Controllers\User\SupportPerfomanceController;
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('landing.index');
+})->name('home');
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
