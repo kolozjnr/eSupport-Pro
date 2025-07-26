@@ -26,10 +26,10 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Install NPM dependencies and build
-      run: |
-        npm install
-        npm run build
+    # - name: Install NPM dependencies and build
+    #   run: |
+    #     npm install
+    #     npm run build
 
     - name: Create deployment artifacts
       run: |
