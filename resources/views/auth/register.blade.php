@@ -89,7 +89,7 @@
                         <input
                           type="text"
                           name="fname"
-                          :value="old('referral_code')" required autofocus autocomplete="referral_code"
+                          :value="old('referral_code')" autofocus autocomplete="referral_code"
                           placeholder="Referral Code (Optional)"
                           class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
                         />
