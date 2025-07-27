@@ -10,7 +10,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4  # Updated to v4
+      uses: actions/checkout@v3
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -22,87 +22,39 @@ jobs:
       run: composer install --optimize-autoloader --no-dev --no-interaction
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4  # Updated to v4
+      uses: actions/setup-node@v3
       with:
         node-version: '18'
-        cache: 'npm'
 
     - name: Install NPM dependencies and build
       run: |
-        npm ci  # More reliable than npm install for CI
+        npm install
         npm run build
 
-    - name: Verify build output
+    - name: Create deployment artifacts
       run: |
-        echo "Checking if build files exist:"
-        ls -la public/build/ || echo "Build directory not found"
-        ls -la public/build/manifest.json || echo "Manifest not found"
-        cat public/build/manifest.json || echo "Cannot read manifest"
-
-    - name: Create deployment artifacts for shared hosting
-      run: |
-        # Create the esupportpro folder structure
-        mkdir -p deployment/esupportpro
+        mkdir deployment
+        cp -R app deployment/
+        cp -R bootstrap deployment/
+        cp -R config deployment/
+        cp -R database deployment/
+        cp -R public deployment/
+        cp -R resources deployment/
+        cp -R routes deployment/
+        cp -R storage deployment/
+        cp -R vendor deployment/
+        cp artisan deployment/
+        cp composer.json deployment/
+        cp composer.lock deployment/
+        cp .env.example deployment/
         
-        # Copy Laravel app files to esupportpro subfolder
-        cp -R app deployment/esupportpro/
-        cp -R bootstrap deployment/esupportpro/
-        cp -R config deployment/esupportpro/
-        cp -R database deployment/esupportpro/
-        cp -R resources deployment/esupportpro/
-        cp -R routes deployment/esupportpro/
-        cp -R storage deployment/esupportpro/
-        cp -R vendor deployment/esupportpro/
-        cp artisan deployment/esupportpro/
-        cp composer.json deployment/esupportpro/
-        cp composer.lock deployment/esupportpro/
-        
-        # Copy ALL public folder contents to root (this includes build folder)
-        cp -R public/* deployment/
-        
-        # Double-check that build files are copied
-        echo "Verifying deployment structure:"
-        ls -la deployment/build/ || echo "Build folder missing in deployment"
-        ls -la deployment/build/manifest.json || echo "Manifest missing in deployment"
-        
-        # Create the correct index.php
-        cat > deployment/index.php << 'EOF'
-        <?php
-        use Illuminate\Foundation\Application;
-        use Illuminate\Http\Request;
-        
-        define('LARAVEL_START', microtime(true));
-        
-        // Determine if the application is in maintenance mode...
-        if (file_exists($maintenance = __DIR__.'/esupportpro/storage/framework/maintenance.php')) {
-            require $maintenance;
-        }
-        
-        // Register the Composer autoloader...
-        require __DIR__.'/esupportpro/vendor/autoload.php';
-        
-        // Bootstrap Laravel and handle the request...
-        /** @var Application $app */
-        $app = require_once __DIR__.'/esupportpro/bootstrap/app.php';
-        $app->handleRequest(Request::capture());
-        EOF
-        
-        # Create .htaccess for the root directory
-        cat > deployment/.htaccess << 'EOF'
-        <IfModule mod_rewrite.c>
+        # Create production .htaccess
+        echo '<IfModule mod_rewrite.c>
             RewriteEngine On
-            
-            # Handle Laravel routing
-            RewriteCond %{REQUEST_FILENAME} !-d
-            RewriteCond %{REQUEST_FILENAME} !-f
-            RewriteRule ^(.*)$ index.php [QSA,L]
-        </IfModule>
-        EOF
-        
-        # Set proper permissions for Laravel directories
-        chmod -R 755 deployment/esupportpro/storage
-        chmod -R 755 deployment/esupportpro/bootstrap/cache
+            RewriteRule ^(.*)$ public/$1 [L]
+        </IfModule>' > deployment/.htaccess
 
+ 
     - name: Deploy to server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
@@ -117,81 +69,4 @@ jobs:
           **/node_modules/**
           tests/**
           .env
-        log-level: verbose
-
-
-
-
-
-# name: Deploy to Shared Hosting
-
-# on:
-#   push:
-#     branches: [ main, master ]
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-    
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v3
-
-#     - name: Setup PHP
-#       uses: shivammathur/setup-php@v2
-#       with:
-#         php-version: '8.2'
-#         extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, dom, filter, gd, iconv, json, mbstring, pdo
-
-#     - name: Install Composer dependencies
-#       run: composer install --optimize-autoloader --no-dev --no-interaction
-
-#     - name: Setup Node.js
-#       uses: actions/setup-node@v3
-#       with:
-#         node-version: '18'
-
-#     - name: Install NPM dependencies and build
-#       run: |
-#         npm install
-#         npm run build
-
-#     - name: Create deployment artifacts
-#       run: |
-#         mkdir deployment
-#         cp -R app deployment/
-#         cp -R bootstrap deployment/
-#         cp -R config deployment/
-#         cp -R database deployment/
-#         cp -R public deployment/
-#         cp -R resources deployment/
-#         cp -R routes deployment/
-#         cp -R storage deployment/
-#         cp -R vendor deployment/
-#         cp artisan deployment/
-#         cp composer.json deployment/
-#         cp composer.lock deployment/
-#         cp .env.example deployment/
-        
-#         # Create production .htaccess
-#         echo '<IfModule mod_rewrite.c>
-#             RewriteEngine On
-#             RewriteRule ^(.*)$ public/$1 [L]
-#         </IfModule>' > deployment/.htaccess
-
- 
-#     - name: Deploy to server
-#       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-#       with:
-#         server: ${{ secrets.FTP_SERVER }}
-#         username: ${{ secrets.FTP_USERNAME }}
-#         password: ${{ secrets.FTP_PASSWORD }}
-#         local-dir: ./deployment/
-#         server-dir: ${{ secrets.FTP_TARGET }}
-#         exclude: |
-#           **/.git*
-#           **/.git*/**
-#           **/node_modules/**
-#           tests/**
-#           .env
         
