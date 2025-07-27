@@ -19,5 +19,5 @@ export default defineConfig({
         outDir: '../public/build', // Build to parent directory's public folder
         emptyOutDir: false,
     },
-    base: '/build/',
+    //base: '/build/',
 });
