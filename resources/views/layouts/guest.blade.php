@@ -26,6 +26,7 @@
   
 
       @vite(['resources/landing/css/style.css', 'resources/landing/css/animate.css', 'resources/landing/js/index.js', 'resources/landing/js/typewriter.js'])
+      
     </head>
     {{-- <body class="font-sans text-gray-900 antialiased"> --}}
           <body class="dark:bg-dark">
