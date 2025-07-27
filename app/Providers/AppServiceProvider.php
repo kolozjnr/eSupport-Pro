@@ -27,11 +27,6 @@ class AppServiceProvider extends ServiceProvider
             });
             $view->with('settings', $settings);
         });
-
-        if (app()->environment('production')) {
-        config([
-            'vite.build_path' => '/build', // Root-level build directory
-        ]);
-    }
+        
     }
 }

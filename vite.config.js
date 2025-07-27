@@ -14,10 +14,4 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    build: {
-        manifest: true,
-        outDir: '../public/build', // Build to parent directory's public folder
-        emptyOutDir: false,
-    },
-    //base: '/build/',
 });
