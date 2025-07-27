@@ -47,7 +47,7 @@
 
                 <x-admin-mid-cards />
                {{-- @include('layouts.chart.admin-mid-cards') --}}
-               @if(auth()->user()->hasRole('businessmanager'))
+               @if(auth()->user()->hasRole('customer'))
 
                 <x-ticket-overview :recentTickets="$recentTickets" />
                @endif
