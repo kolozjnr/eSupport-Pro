@@ -11,7 +11,12 @@ export default defineConfig({
                     'resources/landing/js/index.js',     // landing page Tailwind CSS
                     'resources/landing/js/typewriter.js',     // landing page Tailwind CSS
             ],
-            refresh: true,
+            //refresh: true,
+              build: {
+        manifest: true,
+        outDir: 'public/build',
+        emptyOutDir: true,
+    },
         }),
     ],
 });
