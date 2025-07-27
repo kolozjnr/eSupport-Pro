@@ -2110,7 +2110,7 @@
                 <h3
                   class="mb-2 font-heading text-3xl font-medium text-dark dark:text-white"
                 >
-                  Free
+                  Citizen Service Desk
                 </h3>
                 <p class="pb-10 text-base text-dark-text">
                   The most basic plan
@@ -2120,7 +2120,9 @@
                 <h3
                   class="mb-6 flex items-end justify-center pt-2 font-heading text-base font-medium text-dark dark:text-white"
                 >
-                  $ <sup class="-mb-2 text-[55px]"> 0 </sup>
+                  
+                <span class="font-bold text-2xl -me-2">&#8358;</span> 
+                <sup class="-mb-2 text-[55px]"> {{$settings->citizen_desk_plan_amount}} </sup>
                   /month
                 </h3>
 
