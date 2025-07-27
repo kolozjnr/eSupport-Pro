@@ -6,7 +6,7 @@
                                 <div class="flex justify-between items-center">
                                     <h4 class="card-title">Recent Tickets Uploaded</h4>
                                     
-                                </div>
+                                </div> 
                               
 
                                 <div class="grid md:grid-cols-2 items-center gap-4">
