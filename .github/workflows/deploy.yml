@@ -48,11 +48,39 @@ jobs:
         cp composer.lock deployment/
         cp .env.example deployment/
         
-        # Create production .htaccess
         echo '<IfModule mod_rewrite.c>
             RewriteEngine On
             RewriteRule ^(.*)$ public/$1 [L]
         </IfModule>' > deployment/.htaccess
+
+        cat > deployment/esupportpro/create-symlinks.php << 'EOF'
+        <?php
+        echo "Creating storage symlink...\n";
+        
+        $targetPath = __DIR__ . '/storage/app/public';
+        $linkPath = __DIR__ . '/../public/storage'; 
+        if (is_link($linkPath)) {
+            unlink($linkPath);
+            echo "Removed existing symlink\n";
+        }
+        
+        if (symlink($targetPath, $linkPath)) {
+            echo "Storage symlink created successfully!\n";
+            echo "Target: $targetPath\n";
+            echo "Link: $linkPath\n";
+        } else {
+            echo "Failed to create storage symlink\n";
+        }
+        
+        if (is_link($linkPath) && readlink($linkPath) === $targetPath) {
+            echo "Symlink verification: SUCCESS\n";
+        } else {
+            echo "Symlink verification: FAILED\n";
+        }
+        EOF
+        
+        # Make the script executable
+        chmod +x deployment/esupportpro/create-symlinks.php
 
  
     - name: Deploy to server
