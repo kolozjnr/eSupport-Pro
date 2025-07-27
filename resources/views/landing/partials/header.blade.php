@@ -6,7 +6,7 @@
         <div
           class="relative z-[99] max-w-[250px] lg:w-full xl:max-w-[350px]"
         >
-          <a href="index.html" class="inline-block">
+          <a href="/" class="inline-block">
             <img
               src="{{ asset('storage/'. $settings->light_logo) }}"
               alt="logo"
@@ -43,12 +43,29 @@
                     About Us
                   </a>
                 </li>
+                
+                <li>
+                  <a
+                    href="/#features"
+                    class="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
+                  >
+                    Services
+                  </a>
+                </li>
                 <li>
                   <a
                     href="/#team"
                     class="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                   >
                     Our Team
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/#support"
+                    class="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
+                  >
+                    Contact Us
                   </a>
                 </li>
                 {{-- <li class="submenu-item group relative">
@@ -116,14 +133,14 @@
                     </li>
                   </ul>
                 </li> --}}
-                <li>
+                {{-- <li>
                   <a
                     href="/#support"
                     class="menu-scroll inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                   >
                     Support
                   </a>
-                </li>
+                </li> --}}
               </ul>
             </nav>
           </div>

@@ -31,6 +31,21 @@
     {{-- <body class="font-sans text-gray-900 antialiased"> --}}
           <body class="dark:bg-dark">
             @include("landing.partials.header")
+            @if(session('success'))
+                <x-flash-message type="success" :message="session('success')" />
+            @endif
+
+            @if(session('error'))
+                <x-flash-message type="error" :message="session('error')" />
+            @endif
+
+            @if(session('warning'))
+                <x-flash-message type="warning" :message="session('warning')" />
+            @endif
+
+            @if(session('message'))
+                <x-flash-message type="info" :message="session('message')" />
+            @endif
          {{ $slot }}
         {{-- <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
 

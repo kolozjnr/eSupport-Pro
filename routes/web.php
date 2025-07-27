@@ -36,6 +36,7 @@ Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashb
 Route::get('/univ', [UnivController::class, 'index']);
 Route::get('/dashboard/roles', [UnivController::class, 'getUserRole']);
 Route::get('/dashboard/email', [UnivController::class, 'testEmail']);
+Route::post('/contact-email', [UnivController::class, 'contactEmail'])->name('contact-email');
 
 Route::post('/pay/monnify', [MonnifyPaymentController::class, 'pay'])->name('monnify.pay');
 Route::get('/monnify/callback', [MonnifyPaymentController::class, 'callback'])->name('monnify.callback');

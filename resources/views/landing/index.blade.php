@@ -37,7 +37,7 @@
                 class="wow fadeInUp mb-12 text-base text-dark-text"
                 data-wow-delay=".4s"
               >
-              **Eltch Support** is a dedicated service company committed to delivering reliable, efficient, and professional support solutions. We specialize in helping individuals, businesses, and organizations resolve technical challenges, streamline operations, and maintain system stability. With a team of experienced support professionals and a client-focused approach, Eltch Support ensures every issue is handled promptly and effectively. Whether it's IT troubleshooting, software guidance, or general customer care, we’re here to support you—anytime, every step of the way.
+              **Eltech Support** is a dedicated service company committed to delivering reliable, efficient, and professional support solutions. We specialize in helping individuals, businesses, and organizations resolve technical challenges, streamline operations, and maintain system stability. With a team of experienced support professionals and a client-focused approach, Eltch Support ensures every issue is handled promptly and effectively. Whether it's IT troubleshooting, software guidance, or general customer care, we’re here to support you—anytime, every step of the way.
               </p>
               <div
                 class="wow fadeInUp flex flex-wrap items-center justify-center lg:justify-start"
@@ -1917,13 +1917,13 @@
           <h2
             class="mb-5 font-heading text-[38px] font-semibold leading-tight text-dark dark:text-white"
           >
-            Trusted by Global Brands
+            Our Partners
           </h2>
-          <p class="text-base text-dark-text">
+          {{-- <p class="text-base text-dark-text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
             convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam
             ante in maximus.
-          </p>
+          </p> --}}
         </div>
         <div class="border-b pb-24 dark:border-[#2E333D]">
           <div
@@ -1939,17 +1939,17 @@
                   class="mx-4 flex w-[150px] items-center justify-center py-5 2xl:w-[180px]"
                 >
                   <img
-                    src="{{ asset('landing/images/brands/uideck.svg') }}"
+                    src="{{ asset('landing/images/brands/eltechPartner.png') }}"
                     alt="image"
-                    class="hidden h-10 w-full dark:block"
+                    class="hidden h-30 w-full dark:block"
                   />
                   <img
-                    src="{{ asset('landing/images/brands/uideck-2.svg') }}"
+                    src="{{ asset('landing/images/brands/eltechPartner.png') }}"
                     alt="image"
-                    class="h-10 w-full dark:hidden"
+                    class="h-30 w-full dark:hidden"
                   />
                 </a>
-                <a
+                {{-- <a
                   href="javascript:void(0)"
                   class="mx-4 flex w-[150px] items-center justify-center py-5 2xl:w-[180px]"
                 >
@@ -2010,7 +2010,7 @@
                     alt="image"
                     class="h-10 w-full dark:hidden"
                   />
-                </a>
+                </a> --}}
               </div>
             </div>
           </div>
@@ -2785,8 +2785,7 @@
                     Need Any Help? Say hello
                   </h2>
                   <p class="text-base text-dark-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                    Donec vitae tortor aliquam ante.
+                    Just a click and send us a mail.
                   </p>
                 </div>
               </div>
@@ -2800,10 +2799,10 @@
                     class="mr-10 h-1 w-full max-w-[200px] bg-dark dark:bg-white"
                   ></span>
                   <a
-                    href="mailto:info@gostartup.com"
+                    href="mailto:info@esupportpro.com"
                     class="font-heading text-xl text-dark dark:text-white md:text-3xl lg:text-xl xl:text-3xl"
                   >
-                    info@gostartup.com
+                    info@esupportpro.com
                   </a>
                 </div>
               </div>
@@ -2821,7 +2820,7 @@
                     Email Address
                   </h3>
                   <p class="text-base font-medium text-dark-text">
-                    support@startup.com
+                    support@esupportpro.com
                   </p>
                 </div>
               </div>
@@ -2833,7 +2832,7 @@
                     Phone Number
                   </h3>
                   <p class="text-base font-medium text-dark-text">
-                    +009 8754 3433 223
+                    +234 7067 317 819
                   </p>
                 </div>
               </div>
@@ -2845,7 +2844,7 @@
                     Office Location
                   </h3>
                   <p class="text-base font-medium text-dark-text">
-                    76/A, Green valle, Califonia USA.
+                    No.23, Powa Plaza, Opp. Fire Service, New Site. Dei Dei Abuja
                   </p>
                 </div>
               </div>
@@ -2926,9 +2925,10 @@
             </div>
           </div>
         </div>
-
-        <div class="mx-auto max-w-[780px] pt-[130px]">
-          <form class="wow fadeInUp" data-wow-delay=".2s" action="https://formbold.com/s/unique_form_id" method="POST" >
+{{--  action="https://formbold.com/s/unique_form_id" --}}
+        <div class="mx-auto max-w-[780px] pt-[130px]" x-data="contactForm()" >
+          <form class="wow fadeInUp" data-wow-delay=".2s" method="POST" action="{{ route('contact-email') }}" @submit.prevent="submitForm">
+            @csrf
             <div class="-mx-4 flex flex-wrap">
               <div class="w-full px-4 sm:w-1/2">
                 <div class="mb-12">
@@ -2941,6 +2941,7 @@
                   <input
                     type="text"
                     name="name"
+                    x-model="formData.name"
                     id="name"
                     placeholder="Full Name"
                     class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
@@ -2958,6 +2959,7 @@
                   <input
                     type="email"
                     name="email"
+                    x-model="formData.email"
                     id="email"
                     placeholder="Email Address"
                     class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
@@ -2975,6 +2977,7 @@
                   <input
                     type="text"
                     name="phone"
+                    x-model="formData.phone"
                     id="phone"
                     placeholder="Phone Number"
                     class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
@@ -2992,6 +2995,7 @@
                   <input
                     type="text"
                     name="subject"
+                    x-model="formData.subject"
                     id="subject"
                     placeholder="Type Subject"
                     class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
@@ -3009,6 +3013,7 @@
                   <textarea
                     rows="4"
                     name="message"
+                    x-model="formData.message"
                     id="message"
                     placeholder="Type Message"
                     class="w-full resize-none border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
@@ -3053,13 +3058,36 @@
                 </div>
               </div>
 
-              <div class="w-full px-4">
+              {{-- <div class="w-full px-4">
                 <button
                   class="flex w-full items-center justify-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"
                 >
                   Send Message
                 </button>
-              </div>
+              </div> --}}
+                  <div class="w-full px-4">
+                    <button
+                        type="submit"
+                        class="flex w-full items-center justify-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"
+                        :disabled="loading">
+                        <span x-show="!loading">Send Message</span>
+                        {{-- <span x-show="loading" x-cloak class="flex items-center">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Sending...
+                        </span> --}}
+                    </button>
+                </div>
+                
+                <!-- Success/Error Messages -->
+                <div x-show="success" class="mt-4 px-4 text-green-500">
+                    Message sent successfully!
+                </div>
+                <div x-show="error" class="mt-4 px-4 text-red-500">
+                    There was an error sending your message. Please try again.
+                </div>
             </div>
           </form>
         </div>
@@ -3167,6 +3195,53 @@
     @include('landing.partials.footer') 
 
     <script>
+      document.addEventListener('alpine:init', () => {
+    Alpine.data('contactForm', () => ({
+        formData: {
+            name: '',
+            email: '',
+            phone: '',
+            subject: '',
+            message: ''
+        },
+        loading: false,
+        success: false,
+        error: false,
+        
+        submitForm() {
+            this.loading = true;
+            this.success = false;
+            this.error = false;
+            
+            fetch('/contact-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify(this.formData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                this.success = true;
+                this.formData = { name: '', email: '', phone: '', subject: '', message: '' };
+            })
+            .catch(error => {
+                this.error = true;
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                this.loading = false;
+            });
+        }
+    }));
+});
+
       // section menu active
       function onScroll(event) {
         const sections = document.querySelectorAll(".menu-scroll");
