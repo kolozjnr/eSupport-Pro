@@ -97,7 +97,7 @@
                       </div>
                     </div>
 
-                    <div class="w-full px-4 sm:w-1/2"> 
+                    <div class="w-full px-4 sm:w-1/2">
                       <div class="mb-10">
                         <label
                           for="password"
