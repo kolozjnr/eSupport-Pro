@@ -14,6 +14,6 @@ class TicketOverview extends Component
 
     public function render()
     {
-        return view('components.Ticket-overview');
+        return view('components.ticket-overview');
     }
 }
