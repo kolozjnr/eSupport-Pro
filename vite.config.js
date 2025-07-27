@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 
 export default defineConfig({
-    base: '/esupportpro/public/build/',
     plugins: [
         laravel({
             input: [
@@ -14,4 +13,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        outDir: 'public/build',
+    },
+    // Only use base for production builds
+    base: process.env.NODE_ENV === 'production' ? '/esupportpro/public/build/' : '/',
 })
