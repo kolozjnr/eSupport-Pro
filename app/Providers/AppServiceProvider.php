@@ -28,14 +28,29 @@ class AppServiceProvider extends ServiceProvider
         //     $view->with('settings', $settings);
         // });
 
-            view()->composer('*', function ($view) {
-            $settings = Cache::remember('site_settings', now()->addDay(), function () {
-                $setting = Setting::first();
-                // Handle case where no settings exist
-                return $setting ?? new Setting();
+             view()->composer('*', function ($view) {
+                try {
+                    // Test if cache is working
+                    Cache::put('test_cache', 'working', 60);
+                    $test = Cache::get('test_cache');
+                    
+                    if (!$test) {
+                        \Log::error('Cache not working in production');
+                    }
+                    
+                    $settings = Cache::rememberForever('site_settings', function () {
+                        \Log::info('Cache miss - fetching settings from database');
+                        return Setting::first();
+                    });
+                    
+                } catch (\Exception $e) {
+                    \Log::error('Cache error: ' . $e->getMessage());
+                    // Fallback without cache
+                    $settings = Setting::first();
+                }
+                
+                $view->with('settings', $settings);
             });
-            $view->with('settings', $settings);
-        });
         
     }
     
