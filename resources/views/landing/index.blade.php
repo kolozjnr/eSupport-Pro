@@ -3298,7 +3298,6 @@
             </div>
           </div>
         </div>
-{{--  action="https://formbold.com/s/unique_form_id" --}}
         <div class="mx-auto max-w-[780px] pt-[130px]" x-data="contactForm()" >
           <form class="wow fadeInUp" data-wow-delay=".2s" method="POST" action="{{ route('contact-email') }}" @submit.prevent="submitForm">
             @csrf
@@ -3552,7 +3551,7 @@
             <div class="w-full px-4 lg:w-1/3">
               <div class="text-center lg:text-right">
                 <a
-                  href="javascript:void(0)"
+                  href="/#support"
                   class="inline-flex items-center rounded bg-primary py-[14px] px-8 font-heading text-base text-white hover:bg-opacity-90"
                 >
                   Get Started Now
