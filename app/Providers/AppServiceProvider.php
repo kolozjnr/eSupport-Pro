@@ -21,12 +21,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        view()->composer('*', function ($view) {
-            $settings = Cache::rememberForever('site_settings', function () {
-                return Setting::first();
+        // view()->composer('*', function ($view) {
+        //     $settings = Cache::rememberForever('site_settings', function () {
+        //         return Setting::first();
+        //     });
+        //     $view->with('settings', $settings);
+        // });
+
+            view()->composer('*', function ($view) {
+            $settings = Cache::remember('site_settings', now()->addDay(), function () {
+                $setting = Setting::first();
+                // Handle case where no settings exist
+                return $setting ?? new Setting();
             });
             $view->with('settings', $settings);
         });
         
     }
+    
 }
