@@ -1662,9 +1662,8 @@
     <!-- ===== Portfolio Section End ===== -->
 
     <!-- ===== Testimonial Section Start ===== -->
-    <section id="testimonial" class="pt-14 sm:pt-20 lg:pt-[130px]">
+    {{-- <section id="testimonial" class="pt-14 sm:pt-20 lg:pt-[130px]">
       <div class="px-4 xl:container">
-        <!-- Section Title -->
         <div
           class="wow fadeInUp relative mx-auto mb-12 pt-6 text-center md:mb-20 lg:pt-16"
           data-wow-delay=".2s"
@@ -1903,7 +1902,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> --}}
     <!-- ===== Testimonial Section End ===== -->
 
     <!-- ====== Brands Section Start -->
