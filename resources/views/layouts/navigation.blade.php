@@ -57,6 +57,21 @@
                                     <span class="menu-text">Create Ticket</span>
                                 </a>
                             </li>
+
+                            
+                            <li class="menu-item">
+                                <a href="{{ route('tickets.create-onbehalf')}}" class="menu-link">
+                                    <span class="menu-text">Create Ticket For</span>
+                                </a>
+                            </li>
+
+                            
+
+                            <li class="menu-item">
+                                <a href="{{ route('tickets.view-tickets-onbehalf')}}" class="menu-link">
+                                    <span class="menu-text">Accept Tickets</span>
+                                </a>
+                            </li>
                             
                             <li class="menu-item">
                                 <a href="{{ route('tickets.draft')}}" class="menu-link">
@@ -132,17 +147,23 @@
                                     <span class="menu-text">Create user</span>
                                 </a>
                             </li>
+
+                            <li class="menu-item">
+                                <a href="{{route('users.assign-customer')}}" class="menu-link">
+                                    <span class="menu-text">Assign Customer to BD</span>
+                                </a>
+                            </li>
                             {{-- <li class="menu-item">
                                 <a href="{{route('users.manage-roles')}}" class="menu-link">
                                     <span class="menu-text">Role Management</span>
                                 </a>
                             </li> --}}
                             
-                            <li class="menu-item">
+                            {{-- <li class="menu-item">
                                 <a href="{{route('users.knowledgebase')}}" class="menu-link">
                                     <span class="menu-text">Knowledge Base</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
 
@@ -150,6 +171,13 @@
                         <a href="{{route('customers.pricing')}}" class="menu-link">
                             <span class="menu-icon"><i class="mgc_box_2_line"></i></span>
                             <span class="menu-text"> Pricing </span>
+                        </a>
+                    </li>
+
+                     <li class="menu-item">
+                        <a href="https://esupportpro.com:2096/" class="menu-link">
+                            <span class="menu-icon"><i class="mgc_box_2_line"></i></span>
+                            <span class="menu-text"> Web mail </span>
                         </a>
                     </li>
 

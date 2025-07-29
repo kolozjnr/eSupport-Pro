@@ -535,7 +535,7 @@
                 <h3
                   class="mb-3 font-heading text-xl font-medium text-dark dark:text-white sm:text-2xl md:mb-5"
                 >
-                 Training and Consultancy:
+                 Training
                 </h3>
                 <p class="text-base text-dark-text">
                   Provides guidance, expertise, and training to individuals or organizations on specific topics, such as customer service, communication, or process improvement.

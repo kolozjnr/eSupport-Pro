@@ -115,6 +115,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/create-onbehalf', 'createTicketonBehalf')->name('create-onbehalf');
                 Route::get('/get-tickets-onbehalf', 'getCustomerTicketsOnBehalf')->name('get-tickets-onbehalf');
                 Route::get('/view-tickets-onbehalf', 'viewOnbehalfTicket')->name('view-tickets-onbehalf');
+                Route::post('/update-onbehalf', 'actionOnTicketByCustomerOnbehalf')->name('update-onbehalf');
             });
             Route::controller(DraftController::class)
             ->prefix('support')

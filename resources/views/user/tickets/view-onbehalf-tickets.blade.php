@@ -446,25 +446,25 @@ window.updateBulkActionButton = function() {
     }
 }
 
-window.fetchSupportStaff = async function() {
-    try {
-        const response = await fetch('users/support', {
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
-            }
-        });
+// window.fetchSupportStaff = async function() {
+//     try {
+//         const response = await fetch('users/support', {
+//             headers: {
+//                 'Accept': 'application/json',
+//                 'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+//             }
+//         });
         
-        if (!response.ok) {
-            throw new Error('Failed to fetch support staff');
-        }
+//         if (!response.ok) {
+//             throw new Error('Failed to fetch support staff');
+//         }
         
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching support staff:', error);
-        return [];
-    }
-}
+//         return await response.json();
+//     } catch (error) {
+//         console.error('Error fetching support staff:', error);
+//         return [];
+//     }
+// }
 
 window.showTailwindModal = function(modalHTML) {
     // Remove existing modal if any
@@ -534,13 +534,13 @@ window.updateSelectedTickets = async function() {
         }
 
         // Fetch support staff before showing modal
-        const supportStaff = await window.fetchSupportStaff();
+        // const supportStaff = await window.fetchSupportStaff();
         
-        if (supportStaff.length === 0) {
-            throw new Error('No support staff available');
-        }
+        // if (supportStaff.length === 0) {
+        //     throw new Error('No support staff available');
+        // }
 
-        console.log("support staffs", supportStaff)
+        // console.log("support staffs", supportStaff)
 
         // Create modal HTML with Tailwind classes
         const modalHTML = `
@@ -566,11 +566,12 @@ window.updateSelectedTickets = async function() {
                             
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Support Staff</label>
-                                <select name="staff_id" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
-                                    <option value="" disabled selected>Select Support Staff</option>
-                                    ${supportStaff.map(staff => `
-                                        <option value="${staff.id}" class="dark:bg-gray-700">${staff.user.fname + ' '  + staff.user.lname}   (${staff.assigned_tickets_count})</option>
-                                    `).join('')}
+                                <select name="accept_reject" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                                    <option value="" disabled selected>Choose Action</option>
+                                    
+                                        <option value="1" class="dark:bg-gray-700">Accept</option>
+                                        <option value="0" class="dark:bg-gray-700">Reject</option>
+                                   
                                 </select>
                             </div>
                             
@@ -587,7 +588,7 @@ window.updateSelectedTickets = async function() {
                             Cancel
                         </button>
                         <button type="button" onclick="submitBulkUpdate()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
-                            Assign Tickets
+                            Update
                         </button>
                     </div>
                 </div>
@@ -620,8 +621,8 @@ window.submitBulkUpdate = async function() {
     }
 
     const formData = new FormData(form);
-    const staffId = formData.get('staff_id');
-    if (!staffId) {
+    const accept_reject = formData.get('accept_reject');
+    if (!accept_reject) {
         alert('Please select a support staff member');
         return;
     }
@@ -629,8 +630,7 @@ window.submitBulkUpdate = async function() {
     // Convert FormData to JSON
     const jsonData = {
         ticket_ids: formData.get('ticket_ids').split(',').map(id => parseInt(id)),
-        staff_id: parseInt(staffId),
-        notes: formData.get('notes') || ''
+        accept_reject: parseInt(accept_reject)
     };
 
     // Show loading state
@@ -639,13 +639,13 @@ window.submitBulkUpdate = async function() {
         submitBtn.disabled = true;
         submitBtn.innerHTML = `
             <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-r-transparent"></span>
-            Assigning...
+            Updating...
         `;
     }
 
     try {
         // Send request to server
-        const response = await fetch('tickets/bulk-assign-ticket', {
+        const response = await fetch('/dashboard/tickets/update-onbehalf', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -682,7 +682,7 @@ window.submitBulkUpdate = async function() {
         const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
         if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Assign Tickets';
+            submitBtn.innerHTML = 'Update';
         }
     }
 }

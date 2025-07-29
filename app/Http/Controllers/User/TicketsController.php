@@ -168,7 +168,7 @@ class TicketsController extends Controller
         try {
             $query = Ticket::with('user', 'phoneNumbers', 'support.identity', 'support.user')
                 ->where('user_id', auth()->id())
-                ->where('accepted_status', true)
+                ->where('accepted_status', 1)
                 ->where('customer_id', auth()->user()->getCustomerId());
                 
             // Add status filter if provided
@@ -206,11 +206,73 @@ class TicketsController extends Controller
         $tickets = Ticket::select('id', 'description', 'created_at', 'status')
             ->where('user_id', auth()->id())
             ->where('customer_id', auth()->user()->getCustomerId())
-            ->where('accepted_status', false)
+            ->where('accepted_status', 0)
             ->latest()
             ->get();
 
         return response()->json($tickets);
+    }
+
+    public function actionOnTicketByCustomerOnbehalf(Request $request)
+    {
+        
+        $deduction = Cache::rememberForever('deduction', function(){
+            return Setting::first();
+        });
+        $deduction = $deduction->general_support_charge;
+        $citizenBal = auth()->user()->customer->general_support_points;
+
+        $validate = Validator::make($request->all(), [
+            'ticket_ids' => 'required',
+            'ticket_ids.*' => 'required|exists:tickets,id',
+            'accept_reject' => 'nullable|numeric',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validate->errors()->first()
+            ], 422);
+        }
+
+        try {
+            DB::beginTransaction();
+            
+            foreach ($request->ticket_ids as $ticketId) {
+
+                $ticket = Ticket::where('id', $ticketId)->update([
+                'accepted_status' => $request->accept_reject,
+                ]);
+
+                if($request->accept_reject == 1){
+                    auth()->user()->customer->decrement('general_support_points', $deduction);
+                }
+            
+            }
+
+            //   $support = Support::with('user')->findOrFail($request->staff_id);
+
+            //   //dd($support);
+
+            // if ($support->user) {
+            //    $support->user->notify(new TaskAssignedNotification($request->ticket_ids));
+            // }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Tickets successfully assigned.'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
 
@@ -218,7 +280,7 @@ class TicketsController extends Controller
     {
         try {
             $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity' )
-            ->where('accepted_status', true)
+            ->where('accepted_status', 1)
             ->latest()
             ->get();
                 
@@ -315,7 +377,7 @@ public function getSupportTicket()
     try {
             $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity' )
             ->where('support_id', $supportId)
-            ->where('accepted_status', true)
+            ->where('accepted_status', 1)
             ->latest()
             ->get();
                 
@@ -447,6 +509,13 @@ public function updateSupportTicket(Request $request, $id)
             'phone_numbers.*.number' => 'required|max:20',
         ]);
 
+        if ($citizenBal < $deduction) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Insufficient service points to create ticket.'
+                ], 400);
+            }
+
         try {
 
             if ($citizenBal < $deduction) {
@@ -474,7 +543,7 @@ public function updateSupportTicket(Request $request, $id)
                     'status' => 'open',
                     'user_id' => $userId,
                     'customer_id' => $request->customer_id,
-                    'accepted_status' => false
+                    'accepted_status' => 0
                 ]);
                 foreach ($validated['phone_numbers'] as $phone) {
                 $ticket->phoneNumbers()->create([
@@ -606,7 +675,7 @@ public function updateSupportTicket(Request $request, $id)
                         'status' => 'open',
                         'user_id' => $userId,
                         'customer_id' => $customerId,
-                        'accepted_status' => false
+                        'accepted_status' => 0
                     ]);
 
                     $phoneNumbers = explode(',', $row[2]);

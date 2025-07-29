@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->boolean('accepted_status')->default(true)->after('status');
+            $table->integer('accepted_status')->default(1)->after('status')->comment('0 = pending, 1= accepted, 2 = rejected');
         });
     }
 
