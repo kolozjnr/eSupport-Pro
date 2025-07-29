@@ -25,7 +25,7 @@
                 fadeInUp mb-5 font-heading text-2xl font-semibold dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
                 data-wow-delay=".3s"
               >
-                Digital Solutions for Your
+                Customer Service / Support Solutions for Your
                 <!-- <span class="underline"> Business </span> -->
                 <span
                   class="txt-type underline"
@@ -37,7 +37,7 @@
                 class="wow fadeInUp mb-12 text-base text-dark-text"
                 data-wow-delay=".4s"
               >
-              **Eltech Support** is a dedicated service company committed to delivering reliable, efficient, and professional support solutions. We specialize in helping individuals, businesses, and organizations resolve technical challenges, streamline operations, and maintain system stability. With a team of experienced support professionals and a client-focused approach, Eltch Support ensures every issue is handled promptly and effectively. Whether it's IT troubleshooting, software guidance, or general customer care, we’re here to support you—anytime, every step of the way.
+              Transforming customer connections, one conversation at a time. At eSupportPro Ltd, we craft bespoke experiences that resonate with your audience, leveraging innovative technology and heartfelt empathy to turn customers into loyal advocates. By partnering with us, you'll unlock the full potential of your customer service, driving growth, loyalty, and a lasting legacy.
               </p>
               <div
                 class="wow fadeInUp flex flex-wrap items-center justify-center lg:justify-start"
