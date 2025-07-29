@@ -31,14 +31,14 @@
 <!-- Theme Settings -->
 <div>
 <!-- Theme Setting Button -->
-<div class="fixed end-0 bottom-20">
+{{-- <div class="fixed end-0 bottom-20">
 <button data-fc-type="offcanvas" data-fc-target="theme-customization" type="button" class="bg-white rounded-s-full shadow-lg p-2.5 ps-3 transition-all dark:bg-slate-800">
     <span class="sr-only">Setting</span>
     <span class="flex items-center justify-center animate-spin">
         <i class="mgc_settings_4_line text-2xl"></i>
     </span>
 </button>
-</div>
+</div> --}}
 
 <!-- Theme Settings Offcanvas -->
 <div id="theme-customization" class="fc-offcanvas-open:translate-x-0 hidden translate-x-full rtl:-translate-x-full fixed inset-y-0 end-0

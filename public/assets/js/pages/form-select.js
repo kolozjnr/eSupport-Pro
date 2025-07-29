@@ -15,4 +15,5 @@ document.addEventListener("DOMContentLoaded", function (e) {
         searchable: true
     };
     NiceSelect.bind(document.getElementById("search-select"), options);
+    NiceSelect.bind(document.getElementById("search-select2"), options);
 })

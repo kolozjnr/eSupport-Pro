@@ -94,9 +94,9 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="flex justify-between items-center">
-                                <h4 class="card-title">Bulk Draft Upload</h4>
+                                <h4 class="card-title">Bulk Ticket Upload</h4>
                                 <div class="flex items-center gap-2">
-                                    <a href="{{ route('tickets.draft-template') }}" class="btn-code">
+                                    <a href="{{ route('tickets.download-template') }}" class="btn-code">
                                         <i class="mgc_download_line text-lg"></i>
                                         <span class="ms-2">Download CSV Template</span>
                                     </a>
@@ -109,7 +109,7 @@
                                 Upload a CSV file with ticket data. Format: name,description,phone_numbers (comma-separated)
                             </p>
 
-                            <form method="POST" action="{{ route('tickets.bulk-upload') }}" 
+                            <form method="POST" action="{{ route('tickets.download-template') }}" 
                                   enctype="multipart/form-data" 
                                   x-data="{ isUploading: false }" 
                                   @submit.prevent="isUploading = true; $el.submit()">

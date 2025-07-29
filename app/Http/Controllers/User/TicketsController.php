@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Services\SupportPerformanceService;
 use App\Notifications\TaskAssignedNotification;
 use App\Notifications\CustomerTicketUpdateNotification;
+use App\Notifications\TicketUploadedOnbehalfofCustomerNotification;
 
 class TicketsController extends Controller
 {
@@ -55,6 +56,11 @@ class TicketsController extends Controller
             ->get();
 
         return view('user.dashboard', compact('recentTickets'));
+    }
+
+    public function viewOnbehalfTicket()
+    {
+        return view('user.tickets.view-onbehalf-tickets');
     }
 
     public function editTicket($id)
@@ -150,11 +156,19 @@ class TicketsController extends Controller
     //     }
     // }
 
+    public function createTicketonBehalf()
+    {
+        $customers = Customer::with('user')->get();
+
+        return view('user.tickets.create-behalf', compact('customers'));
+    }
+
     public function getCustomerTickets()
     {
         try {
             $query = Ticket::with('user', 'phoneNumbers', 'support.identity', 'support.user')
                 ->where('user_id', auth()->id())
+                ->where('accepted_status', true)
                 ->where('customer_id', auth()->user()->getCustomerId());
                 
             // Add status filter if provided
@@ -186,10 +200,25 @@ class TicketsController extends Controller
         }
     }
 
+    //get tickets uploaded on behalf of customer
+    public function getCustomerTicketsOnBehalf()
+    {
+        $tickets = Ticket::select('id', 'description', 'created_at', 'status')
+            ->where('user_id', auth()->id())
+            ->where('customer_id', auth()->user()->getCustomerId())
+            ->where('accepted_status', false)
+            ->latest()
+            ->get();
+
+        return response()->json($tickets);
+    }
+
+
     public function getQualityControlTickets()
     {
         try {
             $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity' )
+            ->where('accepted_status', true)
             ->latest()
             ->get();
                 
@@ -286,6 +315,7 @@ public function getSupportTicket()
     try {
             $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity' )
             ->where('support_id', $supportId)
+            ->where('accepted_status', true)
             ->latest()
             ->get();
                 
@@ -399,6 +429,8 @@ public function updateSupportTicket(Request $request, $id)
 
     public function store(Request $request)
     {
+        
+        //dd($request->customer_id);
         $deduction = Cache::rememberForever('deduction', function(){
             return Setting::first();
         });
@@ -425,26 +457,58 @@ public function updateSupportTicket(Request $request, $id)
             }
 
             DB::beginTransaction();
-            
-            $ticket = Ticket::create([
-                'name' => $validated['name'],
-                'description' => $validated['description'],
-                'subject' => 'New Ticket',
-                'status' => 'open',
-                'user_id' => $userId,
-                'customer_id' => $customerId
-            ]);
 
-            foreach ($validated['phone_numbers'] as $phone) {
+            if($request->filled('customer_id'))
+            {
+                //dd($request->customer_id);
+                $customer = Customer::findOrFail($request->customer_id);
+                $userId = $customer->user_id;
+            
+                $userFname = auth()->user()->fname;
+                //dd($userFname);
+                //dd('its for someone please');  this is when someone is uploading on behalf of a customer
+                $ticket = Ticket::create([
+                    'name' => $validated['name'],
+                    'description' => $validated['description'],
+                    'subject' => 'New Ticket',
+                    'status' => 'open',
+                    'user_id' => $userId,
+                    'customer_id' => $request->customer_id,
+                    'accepted_status' => false
+                ]);
+                foreach ($validated['phone_numbers'] as $phone) {
                 $ticket->phoneNumbers()->create([
                     'number' => $phone['number'],
                     'user_id' => $userId,
-                    'customer_id' => $customerId
+                    'customer_id' => $request->customer_id
                 ]);
             }
+            $customer->user->notify(new TicketUploadedOnbehalfofCustomerNotification($userFname, $ticket->id));
 
-            //$citizenBal - 5;
-            auth()->user()->customer->decrement('general_support_points', $deduction);
+            }
+            else{
+                //dd('i own it'); this is customers ticket uploaded by itself
+                $ticket = Ticket::create([
+                    'name' => $validated['name'],
+                    'description' => $validated['description'],
+                    'subject' => 'New Ticket',
+                    'status' => 'open',
+                    'user_id' => $userId,
+                    'customer_id' => $customerId
+                ]);
+                foreach ($validated['phone_numbers'] as $phone) {
+                    $ticket->phoneNumbers()->create([
+                        'number' => $phone['number'],
+                        'user_id' => $userId,
+                        'customer_id' => $customerId
+                    ]);
+                }
+                //$citizenBal - 5;
+                auth()->user()->customer->decrement('general_support_points', $deduction);
+            }
+
+            
+
             DB::commit();
 
             return response()->json([
@@ -497,6 +561,8 @@ public function updateSupportTicket(Request $request, $id)
         $userId = auth()->user()->id;
         $customerId = auth()->user()->getCustomerId();
 
+        //dd($request->all());
+
         $request->validate([
             'tickets_file' => 'required|file|mimes:csv,txt|max:5120',
         ]);
@@ -523,30 +589,68 @@ public function updateSupportTicket(Request $request, $id)
 
             DB::beginTransaction();
 
-            foreach ($data as $row) {
-                if (count($row) < 3) continue;
-                
-                $ticket = Ticket::create([
-                    'name' => $row[0],
-                    'description' => $row[1],
-                    'subject' => 'New Ticket',
-                    'status' => 'open',
-                    'user_id' => $userId,
-                    'customer_id' => $customerId
-                ]);
+            if($request->has('customer_id'))
+            {
+                $customerId = $request->customer_id;
+                $customer = Customer::find($customerId);
+                $userId = $customer->user->id;
+                //this is the user who uploads the ticket
+                $userFname = auth()->user()->fname;
+                foreach ($data as $row) {
+                    if (count($row) < 3) continue;
+                    
+                    $ticket = Ticket::create([
+                        'name' => $row[0],
+                        'description' => $row[1],
+                        'subject' => 'New Ticket',
+                        'status' => 'open',
+                        'user_id' => $userId,
+                        'customer_id' => $customerId,
+                        'accepted_status' => false
+                    ]);
 
-                $phoneNumbers = explode(',', $row[2]);
-                foreach ($phoneNumbers as $number) {
-                    $ticket->phoneNumbers()->create([
-                        'number' => trim($number),
+                    $phoneNumbers = explode(',', $row[2]);
+                    foreach ($phoneNumbers as $number) {
+                        $ticket->phoneNumbers()->create([
+                            'number' => trim($number),
+                            'user_id' => $userId,
+                            'customer_id' => $customerId
+                        ]);
+                    }
+                }
+                 $customer->user->notify(new TicketUploadedOnbehalfofCustomerNotification($userFname, $ticket->id));
+
+                // Don't deduct first untill customer accepts
+                // auth()->user()->customer->decrement('general_support_points', $cost * $ticketCount);
+            }
+            else
+            {
+                foreach ($data as $row) {
+                    if (count($row) < 3) continue;
+                    
+                    $ticket = Ticket::create([
+                        'name' => $row[0],
+                        'description' => $row[1],
+                        'subject' => 'New Ticket',
+                        'status' => 'open',
                         'user_id' => $userId,
                         'customer_id' => $customerId
                     ]);
-                }
-            }
 
-            // Deduct total cost at once
-            auth()->user()->customer->decrement('general_support_points', $cost * $ticketCount);
+                    $phoneNumbers = explode(',', $row[2]);
+                    foreach ($phoneNumbers as $number) {
+                        $ticket->phoneNumbers()->create([
+                            'number' => trim($number),
+                            'user_id' => $userId,
+                            'customer_id' => $customerId
+                        ]);
+                    }
+                }
+
+                // Deduct total cost at once
+                auth()->user()->customer->decrement('general_support_points', $cost * $ticketCount);
+            }
+            
 
             DB::commit();
 

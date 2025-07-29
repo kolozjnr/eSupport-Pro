@@ -84,7 +84,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/create', 'create')->name('create');
                 Route::post('/store', 'store')->name('store');
                 Route::post('/bulk-upload', 'bulkUpload')->name('bulk-upload');
-                Route::get('/template', 'downloadTemplate')->name('download-template');
+                Route::get('/template-tickets', 'downloadTemplate')->name('download-template');
                 Route::get('/show', 'show')->name('show');
                 // Route::get('/{ticket}', 'show')->name('show');
                 Route::get('/customer-tickets', 'getCustomerTickets')->name('CustomerTickets');
@@ -103,13 +103,18 @@ Route::middleware('auth')->group(function () {
                 Route::get('/support-tickets', 'getSupportTicket')->name('support-tickets');
                 Route::post('/tickets/update-status/{id}', 'updateSupportTicket')->name('updateSupportTicket');
 
-                Route::get('/template', 'draftTemplate')->name('draft-template');
+                Route::get('/template-draft', 'draftTemplate')->name('draft-template');
                 Route::get('/view-drafts', 'viewDrafts')->name('view-drafts');
                 Route::get('/data-drafts', 'getDraft')->name('data-drafts');
                 Route::post('/store-draft', 'storeDraft')->name('storeDraft');
                 Route::post('/bulk-draft-upload', 'bulkDraftUpload')->name('bulk-draft-upload');
                 // Route::delete('/{draft}', [DraftController::class, 'destroy'])->name('drafts.destroy');
                 Route::get('/view-feedback', 'viewFeedback')->name('view-feedback');
+
+                //Ticket onBehalf
+                Route::get('/create-onbehalf', 'createTicketonBehalf')->name('create-onbehalf');
+                Route::get('/get-tickets-onbehalf', 'getCustomerTicketsOnBehalf')->name('get-tickets-onbehalf');
+                Route::get('/view-tickets-onbehalf', 'viewOnbehalfTicket')->name('view-tickets-onbehalf');
             });
             Route::controller(DraftController::class)
             ->prefix('support')
@@ -157,6 +162,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/manage-roles', 'manageRoles')->name('manage-roles');
             Route::get('/knowledgebase', 'getKnowledgebase')->name('knowledgebase');
             Route::post('/post-user', 'postUserCreation')->name('store');
+            Route::get('/assign-customer', 'assignCustomer')->name('assign-customer');
+            Route::post('/post-assign', 'postAssignCustomer')->name('post-customer');
         });
 
         Route::controller(CustomerController::class)

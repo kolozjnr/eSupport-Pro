@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -194,6 +195,41 @@ class UserController extends Controller
                 'message' => 'Failed to create: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function assignCustomer()
+    {
+        $customers = Customer::with('user')->get();
+        $bds = BusinessDeveloper::with('user')->get();
+        return view('user.settings.assign-customer-to-bd', compact('customers', 'bds'));
+    }
+
+    public function postAssignCustomer(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'customer_id' => 'required|exists:customers,id',
+            'business_developer_id' => 'required|exists:business_developers,id',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $customer = Customer::find($request->customer_id);
+            $customer->business_developer_id = $request->business_developer_id;
+            $customer->save();
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Customer assigned successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to assign customer: ' . $e->getMessage());
+        }
+
+     
     }
 
     public function manageRoles()
