@@ -50,7 +50,7 @@
                         >
                           Full Name
                         </label>
-                          <input type="hidden" id="user_type" name="user_type" value="customer" />
+                          <input type="hidden" id="user_type" name="user_type" value="administrator" />
                         <input
                           type="text"
                           name="fname"
