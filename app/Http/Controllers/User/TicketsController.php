@@ -498,8 +498,20 @@ public function updateSupportTicket(Request $request, $id)
         });
         $deduction = $deduction->general_support_charge;
         $userId = auth()->user()->id;
+
         $customerId = auth()->user()->getCustomerId();
-        $citizenBal = auth()->user()->customer->general_support_points;
+        if(auth()->user()->hasRole('customer'))
+        {
+            $citizenBal = auth()->user()->customer->general_support_points;
+
+             if ($citizenBal < $deduction) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Insufficient service points to create ticket.'
+                ], 400);
+            }
+
+        }
         //dd($userId);
         //dd(auth()->user()->id);
         $validated = $request->validate([
@@ -509,22 +521,16 @@ public function updateSupportTicket(Request $request, $id)
             'phone_numbers.*.number' => 'required|max:20',
         ]);
 
-        if ($citizenBal < $deduction) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Insufficient service points to create ticket.'
-                ], 400);
-            }
+        // if ($citizenBal < $deduction) {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'Insufficient service points to create ticket.'
+        //         ], 400);
+        //     }
 
         try {
 
-            if ($citizenBal < $deduction) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Insufficient service points to create ticket.'
-                ], 400);
-            }
-
+           
             DB::beginTransaction();
 
             if($request->filled('customer_id'))
@@ -646,14 +652,17 @@ public function updateSupportTicket(Request $request, $id)
             }
 
             $ticketCount = count($data);
-            $citizenBal = auth()->user()->customer->general_support_points;
+            if(auth()->user()->hasRole('customer'))
+            {
+                $citizenBal = auth()->user()->customer->general_support_points;
 
-            if ($ticketCount === 0) {
-                return back()->with('error', 'No data found in file.');
-            }
+                if ($ticketCount === 0) {
+                    return back()->with('error', 'No data found in file.');
+                }
 
-            if ($citizenBal < $cost * $ticketCount) {
-                return back()->with('error', 'Insufficient service points to create tickets.');
+                if ($citizenBal < $cost * $ticketCount) {
+                    return back()->with('error', 'Insufficient service points to create tickets.');
+                }
             }
 
             DB::beginTransaction();
