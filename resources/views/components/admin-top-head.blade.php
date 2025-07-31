@@ -33,6 +33,41 @@
     </div>
 </div>
 
+@elseif(auth()->user()->hasRole('administrator'))
+<div class="grid xl:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
+    <div class="card">
+        <div class="p-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400"> Total Income</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " > <b>&#8358;</b> <span id="total_income_admin"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="card">
+        <div class="p-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Total Ticket</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="total_ticket_admin">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <div class="card">
+        <div class="p-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Total Customers</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="total_customers_admin">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @elseif(auth()->user()->hasRole('support'))
 <div class="grid xl:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
     <div class="card">

@@ -14,6 +14,7 @@ use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\SettingsController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\NotificationController;
+use App\Http\Controllers\User\AdministratorController;
 use App\Http\Controllers\User\MonnifyPaymentController;
 use App\Http\Controllers\User\SupportPerfomanceController;
 
@@ -165,6 +166,13 @@ Route::middleware('auth')->group(function () {
             Route::post('/post-user', 'postUserCreation')->name('store');
             Route::get('/assign-customer', 'assignCustomer')->name('assign-customer');
             Route::post('/post-assign', 'postAssignCustomer')->name('post-customer');
+        });
+
+        Route::controller(AdministratorController::class)
+        ->prefix('administrator')
+        ->name('admin.')
+        ->group(function(){
+            Route::get('/admin-stats', 'adminStats')->name('admin-stats');
         });
 
         Route::controller(CustomerController::class)

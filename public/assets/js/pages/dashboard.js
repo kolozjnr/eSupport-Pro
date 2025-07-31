@@ -288,101 +288,193 @@ loadChartData();
         
     }
     else if (role === 'administrator') {
-        
+                var options = {
+            chart: {
+                height: 350,
+                type: 'area',
+                toolbar: { show: false }
+            },
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 3 },
+            series: [
+                { name: 'Total Revenue', data: [] },
+                { name: 'Total Subscribers', data: [] }
+            ],
+            colors: ['#556ee6', '#34c38f'],
+            xaxis: {
+                type: 'datetime',
+                categories: []
+            },
+            grid: { borderColor: '#9ca3af20' },
+            tooltip: {
+                x: { format: 'MMM yyyy' } // Changed to show month/year only
+            }
+        };
+
+        // Create chart instance
+        var chart = new ApexCharts(
+            document.querySelector("#admin_data"),
+            options
+        );
+        chart.render();
+
+        // Function to fetch and update chart data
+        function updateChartData() {
+            fetch('dashboard/administrator/admin-stats')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        
+                console.log('Administrator response', data)
+                        // Process the metrics data
+                        const metrics = data.metrics;
+                        
+                        // Prepare data arrays
+                        const revenueData = [];
+                        const subscriberData = [];
+                        const categories = [];
+                        
+                        // Get current date and calculate start date (12 months ago)
+                        const currentDate = new Date();
+                        const startDate = new Date();
+                        startDate.setMonth(currentDate.getMonth() - 12);
+                        
+                        // Generate all months in the range
+                        const monthYearMap = {};
+                        let date = new Date(startDate);
+                        while (date <= currentDate) {
+                            const year = date.getFullYear();
+                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                            const monthYear = `${year}-${month}`;
+                            monthYearMap[monthYear] = true;
+                            date.setMonth(date.getMonth() + 1);
+                        }
+                        
+                        // Fill data for all months (including zeros for missing months)
+                        Object.keys(monthYearMap).sort().forEach(monthYear => {
+                            const metric = metrics.find(m => m.month === monthYear);
+                            
+                            categories.push(`${monthYear}-01`); // Add first day for proper date format
+                            revenueData.push(metric ? metric.total_amount : 0);
+                            subscriberData.push(metric ? metric.total_subscribers : 0);
+                        });
+                        
+                        // Update the chart
+                        chart.updateOptions({
+                            xaxis: { categories: categories }
+                        });
+                        
+                        chart.updateSeries([
+                            { name: 'Total Revenue', data: revenueData },
+                            { name: 'Total Subscribers', data: subscriberData }
+                        ]);
+
+                        document.getElementById('total_income_admin').textContent = data.totalIncome || 0;
+                        document.getElementById('total_ticket_admin').textContent = data.tickets || 0;
+                        document.getElementById('total_customers_admin').textContent = data.customers || 0;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        // Load data when page is ready
+        updateChartData();
     }
     else if (role === 'account') {
         // Initialize the chart with empty data first
-var options = {
-    chart: {
-        height: 350,
-        type: 'area',
-        toolbar: { show: false }
-    },
-    dataLabels: { enabled: false },
-    stroke: { curve: 'smooth', width: 3 },
-    series: [
-        { name: 'Total Revenue', data: [] },
-        { name: 'Total Subscribers', data: [] }
-    ],
-    colors: ['#556ee6', '#34c38f'],
-    xaxis: {
-        type: 'datetime',
-        categories: []
-    },
-    grid: { borderColor: '#9ca3af20' },
-    tooltip: {
-        x: { format: 'MMM yyyy' } // Changed to show month/year only
-    }
-};
-
-// Create chart instance
-var chart = new ApexCharts(
-    document.querySelector("#invoiceFinancialReport"),
-    options
-);
-chart.render();
-
-// Function to fetch and update chart data
-function updateChartData() {
-    fetch('dashboard/users/subscription-metrics')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Process the metrics data
-                const metrics = data.metrics;
-                
-                // Prepare data arrays
-                const revenueData = [];
-                const subscriberData = [];
-                const categories = [];
-                
-                // Get current date and calculate start date (12 months ago)
-                const currentDate = new Date();
-                const startDate = new Date();
-                startDate.setMonth(currentDate.getMonth() - 12);
-                
-                // Generate all months in the range
-                const monthYearMap = {};
-                let date = new Date(startDate);
-                while (date <= currentDate) {
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const monthYear = `${year}-${month}`;
-                    monthYearMap[monthYear] = true;
-                    date.setMonth(date.getMonth() + 1);
-                }
-                
-                // Fill data for all months (including zeros for missing months)
-                Object.keys(monthYearMap).sort().forEach(monthYear => {
-                    const metric = metrics.find(m => m.month === monthYear);
-                    
-                    categories.push(`${monthYear}-01`); // Add first day for proper date format
-                    revenueData.push(metric ? metric.total_amount : 0);
-                    subscriberData.push(metric ? metric.total_subscribers : 0);
-                });
-                
-                // Update the chart
-                chart.updateOptions({
-                    xaxis: { categories: categories }
-                });
-                
-                chart.updateSeries([
-                    { name: 'Total Revenue', data: revenueData },
-                    { name: 'Total Subscribers', data: subscriberData }
-                ]);
-
-                document.getElementById('pending_invoices').textContent = data.total_pending || 0;
-                document.getElementById('successful_transactions').textContent = data.total_success || 0;
-                document.getElementById('failed_transactions').textContent = data.total_failed || 0;
+        var options = {
+            chart: {
+                height: 350,
+                type: 'area',
+                toolbar: { show: false }
+            },
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 3 },
+            series: [
+                { name: 'Total Revenue', data: [] },
+                { name: 'Total Subscribers', data: [] }
+            ],
+            colors: ['#556ee6', '#34c38f'],
+            xaxis: {
+                type: 'datetime',
+                categories: []
+            },
+            grid: { borderColor: '#9ca3af20' },
+            tooltip: {
+                x: { format: 'MMM yyyy' } // Changed to show month/year only
             }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-}
+        };
 
-// Load data when page is ready
-updateChartData();
+        // Create chart instance
+        var chart = new ApexCharts(
+            document.querySelector("#invoiceFinancialReport"),
+            options
+        );
+        chart.render();
+
+        // Function to fetch and update chart data
+        function updateChartData() {
+            fetch('dashboard/users/subscription-metrics')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Process the metrics data
+                        const metrics = data.metrics;
+                        
+                        // Prepare data arrays
+                        const revenueData = [];
+                        const subscriberData = [];
+                        const categories = [];
+                        
+                        // Get current date and calculate start date (12 months ago)
+                        const currentDate = new Date();
+                        const startDate = new Date();
+                        startDate.setMonth(currentDate.getMonth() - 12);
+                        
+                        // Generate all months in the range
+                        const monthYearMap = {};
+                        let date = new Date(startDate);
+                        while (date <= currentDate) {
+                            const year = date.getFullYear();
+                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                            const monthYear = `${year}-${month}`;
+                            monthYearMap[monthYear] = true;
+                            date.setMonth(date.getMonth() + 1);
+                        }
+                        
+                        // Fill data for all months (including zeros for missing months)
+                        Object.keys(monthYearMap).sort().forEach(monthYear => {
+                            const metric = metrics.find(m => m.month === monthYear);
+                            
+                            categories.push(`${monthYear}-01`); // Add first day for proper date format
+                            revenueData.push(metric ? metric.total_amount : 0);
+                            subscriberData.push(metric ? metric.total_subscribers : 0);
+                        });
+                        
+                        // Update the chart
+                        chart.updateOptions({
+                            xaxis: { categories: categories }
+                        });
+                        
+                        chart.updateSeries([
+                            { name: 'Total Revenue', data: revenueData },
+                            { name: 'Total Subscribers', data: subscriberData }
+                        ]);
+
+                        document.getElementById('pending_invoices').textContent = data.total_pending || 0;
+                        document.getElementById('successful_transactions').textContent = data.total_success || 0;
+                        document.getElementById('failed_transactions').textContent = data.total_failed || 0;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        // Load data when page is ready
+        updateChartData();
     
     }
     else if (role === 'businessdeveloper') {
