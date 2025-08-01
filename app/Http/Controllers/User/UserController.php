@@ -82,6 +82,7 @@ class UserController extends Controller
 
             if($request->user_type == 'customer')
             {
+                //dd($request->referral_code);
                 $refId = null;
                 if (isset($request->referral_code) && !empty($request->referral_code)) {
                     $referrer = BusinessDeveloper::where('referral_code', $request->referral_code)->first();
@@ -89,6 +90,7 @@ class UserController extends Controller
                         //dd($referrer);
                         $refId = $referrer->id;
                     }
+                    
                 }
                 //dd($referrer);
 

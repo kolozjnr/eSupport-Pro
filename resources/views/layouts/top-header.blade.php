@@ -206,7 +206,7 @@
         @if($picture)
             <img src="{{ asset('storage/' . $picture) }}" alt="user-image" class="rounded-full h-10">
         @else
-            <img src="{{ asset('assets/images/users/display_picture.PNG') }}" alt="default-user" class="rounded-full h-10">
+            <img src="{{ asset('assets/images/users/display_picture.png') }}" alt="default-user" class="rounded-full h-10">
         @endif
                 </button>
         <div class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-44 z-50 transition-[margin,opacity] duration-300 mt-2 bg-white shadow-lg border rounded-lg p-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
