@@ -14,7 +14,7 @@
     <meta property="og:title" content="{{ config('app.name', 'esupport Pro') }}">
     <meta property="og:description" content="Eltech support pro built to ease access to support from our customers.">
     <meta property="og:image" content="{{ asset('storage/' . $settings->light_logo) }}">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="https://esupportpro.com/">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card -->
