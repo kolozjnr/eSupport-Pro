@@ -91,7 +91,7 @@
                                         <div class="">
                                             <label for="user_type" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
                                             <select id="search-select" x-model="formData.user_type" name="user_type" id="user_type" class="search-select">
-                                                <option selected>Choose</option>
+                                                <option selected disabled>Choose</option>
                                                 <option value="support">Support Staff</option>
                                                 <option value="qualitycontrol">QA</option>
                                                 {{-- @if(auth()->user()->hasRole('businessdeveloper')) --}}

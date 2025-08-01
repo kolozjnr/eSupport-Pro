@@ -9,6 +9,7 @@ use App\Models\Support;
 use App\Models\Customer;
 use App\Models\Identity;
 use App\Models\Supervisor;
+use Laratrust\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\QualityControl;
 use App\Models\BusinessManager;

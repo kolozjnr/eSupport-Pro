@@ -10,6 +10,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Eltech support pro built to ease access to support from our customers." name="description">
     <meta content="Tecknow" name="author">
+    <!-- Open Graph for Facebook/LinkedIn -->
+    <meta property="og:title" content="{{ config('app.name', 'esupport Pro') }}">
+    <meta property="og:description" content="Eltech support pro built to ease access to support from our customers.">
+    <meta property="og:image" content="{{ asset('storage/' . $settings->light_logo) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ config('app.name', 'esupport Pro') }}">
+    <meta name="twitter:description" content="Eltech support pro built to ease access to support from our customers.">
+    <meta name="twitter:image" content="{{ asset('storage/' . $settings->light_logo) }}">
+
+
     <!-- Add this to your HTML head -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 
