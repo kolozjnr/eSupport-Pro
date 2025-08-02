@@ -180,7 +180,7 @@
             <div class="flex justify-between items-start">
                 <div>
                     <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Onboarded Customers</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">5</p>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="onboarded_customers"></p>
                 </div>
             </div>
         </div>
@@ -190,7 +190,7 @@
             <div class="flex justify-between items-start">
                 <div>
                     <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Active Customers</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">15</p>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="active_customers"></p>
                 </div>
             </div>
         </div>
@@ -200,8 +200,8 @@
         <div class="p-6">
             <div class="flex justify-between items-start">
                 <div>
-                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Sales</h4>
-                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center ">1500</p>
+                    <h4 class="text-base mb-1 text-gray-600 dark:text-gray-400">Inactive Customers</h4>
+                    <p class="font-bold text-xl text-gray-400 truncate dark:text-white text-center " id="inactive_customers"></p>
                 </div>
             </div>
         </div>

@@ -16,6 +16,7 @@ use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\AdministratorController;
 use App\Http\Controllers\User\MonnifyPaymentController;
+use App\Http\Controllers\User\BusinesDeveloperController;
 use App\Http\Controllers\User\SupportPerfomanceController;
 
 // Route::get('/', function () {
@@ -175,6 +176,18 @@ Route::middleware('auth')->group(function () {
             Route::get('/admin-stats', 'adminStats')->name('admin-stats');
         });
 
+        Route::controller(BusinesDeveloperController::class)
+        ->prefix('busines-developer')
+        ->name('busines-developer.')
+        ->group(function(){
+            Route::get('/', 'bussinesDeveloperDashboard')->name('bussines-developer-dashboard');
+            Route::get('/send-emails', 'sendEmails')->name('send-emails');
+            Route::get('/my-customers', 'getAllMyCustomers')->name('my-customers');
+            Route::post('/send-single', 'sendSingleEmail')->name('send-single-post');
+            Route::post('/send-inactive', 'sendInactiveEmail')->name('send-inactive-post');
+            Route::post('/send-to-all-customers', 'sendAllCustomerEmail')->name('send-all-customers');
+        });
+
         Route::controller(CustomerController::class)
         ->prefix('customers')
         ->name('customers.')
@@ -185,6 +198,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/pricing', 'pricing')->name('pricing');
             Route::get('/customer-dashboard', 'customerDashboard');
             Route::put('/update/{id}', 'updateCustomer')->name('update');
+            Route::get('/download-onboarding-template', 'downloadTemplate')->name('download-onboarding-template');
+            Route::post('/bulk-customer-upload', 'bulkUpload')->name('bulk-customer-upload');
+            Route::post('/single-customer', 'store')->name('single-customer');
         });
 
         Route::controller(SupportController::class)

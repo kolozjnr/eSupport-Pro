@@ -234,17 +234,7 @@ class DashboardController extends Controller
         ], 403);
     }
 
-    public function bussinesDeveloper()
-    {
-        $user = auth()->user();
-        if(auth()->user()->hasRole('businessdeveloper')){
-            $totalCustomers = Customer::where('business_developer_id', $user->id)->count();
-            $activeCustomers = Customer::where('business_developer_id', $user->id)
-            ->where('is_subscribed', 1)->count(); 
-        }
-        
-    }
-
+    
 
    
 }

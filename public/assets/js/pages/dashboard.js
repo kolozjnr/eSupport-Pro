@@ -480,74 +480,147 @@ loadChartData();
     else if (role === 'businessdeveloper') {
         
         // business_developer chart
-
+        // Initialize the chart with empty data first
         var options = {
             chart: {
                 height: 350,
-                type: 'bar',
-                toolbar: {
-                    show: false,
-                }
+                type: 'area',
+                toolbar: { show: false }
             },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '45%',
-                    endingShape: 'rounded'
-                },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            series: [{
-                name: 'Net Profit',
-                data: [46, 57, 59, 54, 62, 58, 64, 60, 66]
-            }, {
-                name: 'Revenue',
-                data: [74, 83, 102, 97, 86, 106, 93, 114, 94]
-            }, {
-                name: 'Free Cash Flow',
-                data: [37, 42, 38, 26, 47, 50, 54, 55, 43]
-            }],
-            colors: ['#34c38f', '#556ee6', '#f46a6a'],
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 3 },
+            series: [
+                { name: 'Subscribed Customers', data: [] }
+            ],
+            colors: ['#556ee6'],
             xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-            },
-            yaxis: {
-                title: {
-                    text: '$ (thousands)',
+                type: 'datetime',
+                categories: [],
+                labels: {
+                    show: true,
+                    rotate: -45,
+                    rotateAlways: false,
+                    hideOverlappingLabels: false,
+                    showDuplicates: false,
+                    trim: false,
+                    minHeight: undefined,
+                    maxHeight: 120,
                     style: {
-                        fontWeight: '500',
+                        colors: [],
+                        fontSize: '12px',
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 400,
+                        cssClass: 'apexcharts-xaxis-label',
                     },
-                }
+                    offsetX: 0,
+                    offsetY: 0,
+                    format: undefined,
+                    formatter: undefined,
+                    datetimeUTC: true,
+                    datetimeFormatter: {
+                        year: 'yyyy',
+                        month: "MMM 'yy",
+                        day: 'dd MMM',
+                        hour: 'HH:mm',
+                    },
+                },
+                axisBorder: {
+                    show: true,
+                    color: '#78909C',
+                    height: 1,
+                    width: '100%',
+                    offsetX: 0,
+                    offsetY: 0
+                },
+                axisTicks: {
+                    show: true,
+                    borderType: 'solid',
+                    color: '#78909C',
+                    height: 6,
+                    offsetX: 0,
+                    offsetY: 0
+                },
+                tickAmount: 12,
+                min: undefined,
+                max: undefined
             },
-            grid: {
-                borderColor: '#9ca3af20',
-            },
-            fill: {
-                opacity: 1
-
-            },
+            grid: { borderColor: '#9ca3af20' },
             tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return "$ " + val + " thousands"
-                    }
-                }
+                x: { format: 'MMM yyyy' }
             }
-        }
+        };
 
+        // Create chart instance
         var chart = new ApexCharts(
             document.querySelector("#business_developer"),
             options
         );
 
         chart.render();
+
+        // Function to fetch and update chart data
+        function updateBusinessChartData() {
+            fetch('dashboard/busines-developer')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Backend response:', data); // Debug log
+                    
+                    // Use the complete chart data that includes all 12 months
+                    const chartData = data.chartDataComplete || [];
+                    
+                    // Prepare data arrays
+                    const subscriberData = [];
+                    const categories = [];
+                    
+                    // Process each month's data
+                    chartData.forEach(monthData => {
+                        // Create date string for ApexCharts (YYYY-MM-01 format)
+                        const dateStr = `${monthData.year}-${String(monthData.month).padStart(2, '0')}-01`;
+                        categories.push(dateStr);
+                        subscriberData.push(monthData.count);
+                    });
+                    
+                    console.log('Chart categories:', categories); // Debug log
+                    console.log('Subscriber data:', subscriberData); // Debug log
+                    
+                    // Update the chart with explicit tick configuration
+                    chart.updateOptions({
+                        xaxis: { 
+                            categories: categories,
+                            tickAmount: 11, // 12 months = 11 intervals
+                            labels: {
+                                format: 'MMM yyyy',
+                                rotate: -45,
+                                hideOverlappingLabels: false,
+                                showDuplicates: false,
+                                datetimeFormatter: {
+                                    year: 'yyyy',
+                                    month: "MMM 'yy",
+                                    day: 'dd MMM',
+                                    hour: 'HH:mm',
+                                }
+                            }
+                        }
+                    });
+                    
+                    chart.updateSeries([
+                        { name: 'Subscribed Customers', data: subscriberData }
+                    ]);
+
+                    // Update dashboard metrics
+                    document.getElementById('onboarded_customers').textContent = data.totalCustomers || 0;
+                    document.getElementById('active_customers').textContent = data.activeCustomers || 0;
+                    document.getElementById('inactive_customers').textContent = data.inactiveCustomers || 0;
+                })
+                .catch(error => {
+                    console.error('Error fetching business developer data:', error);
+                });
+        }
+
+        updateBusinessChartData();
+
+        //setInterval(updateBusinessChartData, 300000);
+
     }
     else if (role === 'businessmanager') {
         // Sales Performance

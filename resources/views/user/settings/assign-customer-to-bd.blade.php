@@ -67,7 +67,7 @@
                                         </div>
                                         
                                         <div class="">
-                                            <label for="business_developer_id" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
+                                            <label for="business_developer_id" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Business Developer</label>
                                             <select id="search-select2" x-model="formData.business_developer_id" name="business_developer_id" id="business_developer_id" class="search-select">
                                                 <option selected>Choose</option>
                                                 @foreach ($bds as $bd)

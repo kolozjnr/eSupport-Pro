@@ -235,6 +235,8 @@ class UserController extends Controller
      
     }
 
+    
+
     public function manageRoles()
     {
         return view('user.settings.manage_roles');

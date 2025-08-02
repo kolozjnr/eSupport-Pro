@@ -137,20 +137,23 @@
 
 @elseif(auth()->user()->hasRole('businessdeveloper'))
 
-<div class="grid lg:grid-cols-2 gap-6">
+ <!-- First Column (takes 2/3 of the row) -->
     <div class="lg:col-span-2">
         <div class="card">
-            <div class="p-6 flex flex-col h-full">
+            <div class="p-6">
                 <div class="flex justify-between items-center">
-                    <h4 class="card-title">Subscription metrics</h4>
+                    <h4 class="card-title">Monthly Performance</h4>
+                   
                 </div>
+
+
                 <div dir="ltr" class="mt-2">
-                  <div id="business_developer" class="apex-charts h-full" dir="ltr"></div>
+                   <div id="business_developer" class="apex-charts" dir="ltr"></div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
 
 @elseif(auth()->user()->hasRole('customermanager'))
 
