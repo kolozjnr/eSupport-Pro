@@ -19,7 +19,7 @@
 @endphp
 
 <div x-data="{ show: true }" 
-     x-init="setTimeout(() => show = false, 80000)" 
+     x-init="setTimeout(() => show = false, 8000)" 
      x-show="show"
      x-transition:enter="transition ease-out duration-300"
      x-transition:enter-start="opacity-0 translate-y-2"
