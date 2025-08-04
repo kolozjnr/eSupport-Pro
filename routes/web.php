@@ -167,6 +167,10 @@ Route::middleware('auth')->group(function () {
             Route::post('/post-user', 'postUserCreation')->name('store');
             Route::get('/assign-customer', 'assignCustomer')->name('assign-customer');
             Route::post('/post-assign', 'postAssignCustomer')->name('post-customer');
+            Route::get('/manage',  'getAllUsers')->name('get-all-users');
+            //Route::post('/{user}/change-role', 'changeRole')->name('change-role');
+            Route::post('/update-role', 'updateUserRole')->name('update-role');
+            Route::delete('/{user}', 'destroy');
         });
 
         Route::controller(AdministratorController::class)
@@ -198,7 +202,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/pricing', 'pricing')->name('pricing');
             Route::get('/customer-dashboard', 'customerDashboard');
             Route::put('/update/{id}', 'updateCustomer')->name('update');
-            Route::get('/download-onboarding-template', 'downloadTemplate')->name('download-onboarding-template');
+            Route::get('/download-onboarmanading-template', 'downloadTemplate')->name('download-onboarding-template');
             Route::post('/bulk-customer-upload', 'bulkUpload')->name('bulk-customer-upload');
             Route::post('/single-customer', 'store')->name('single-customer');
         });

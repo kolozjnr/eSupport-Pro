@@ -22,13 +22,21 @@ return new class extends Migration
             $table->text('nok_address')->nullable()->after('business_developer_id');
             $table->string('nok_phone')->nullable()->after('business_developer_id');
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('is_active')->default(true)->after('email_verified_at');
+        });
     }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
-    {
+    {    
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('is_active');
+        });
+
         Schema::table('customers', function (Blueprint $table) {
             $table->dropColumn('nok_phone');
             $table->dropColumn('nok_address');

@@ -378,6 +378,12 @@
                                     <span class="menu-text">Customer Onboarding</span>
                                 </a>
                             </li>
+                            
+                            <li class="menu-item">
+                                <a href="{{ route('busines-developer.send-emails')}}" class="menu-link">
+                                    <span class="menu-text">Send Mails</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 

@@ -83,7 +83,7 @@ class User extends Authenticatable implements LaratrustUser
     {
         return $this->hasOne(CustomerManager::class);
     }
-    public function superviosr()
+    public function supervisor()
     {
         return $this->hasOne(Supervisor::class);
     }
@@ -100,6 +100,13 @@ class User extends Authenticatable implements LaratrustUser
     {
         return $this->hasMany(Rating::class);
     }
+
+    public function administrator()
+    {
+        return $this->hasOne(Admin::class);
+    }
+ 
+    
 
     
 

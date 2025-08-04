@@ -21,6 +21,9 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --optimize-autoloader --no-dev --no-interaction
 
+    - name: Run migrations
+      run: php artisan migrate --force
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:

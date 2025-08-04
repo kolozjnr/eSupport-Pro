@@ -1731,83 +1731,301 @@ function deleteTicket(ticketId) {
             }).render(document.getElementById("table-manage-customers"));
 
             // Customers Feedback Table
+       // Manage Roles with Current and Addable Roles
+if (document.getElementById("table-manageRoles")) {
+    // Define all possible roles from your system
+    const allRoles = [
+        { value: 'customer', label: 'Customer' },
+        { value: 'support', label: 'Support' },
+        { value: 'admin', label: 'Admin' },
+        { value: 'qualitycontrol', label: 'QA' },
+        { value: 'supervisor', label: 'Supervisor' },
+        { value: 'account', label: 'Account' },
+        { value: 'businessdeveloper', label: 'Business Developer' },
+        { value: 'businessmanager', label: 'Business Manager' },
+        { value: 'businesssupervisor', label: 'Business Supervisor' },
+        { value: 'customermanager', label: 'Customer Manager' }
+    ];
+
+    // Function to fetch user data
+    const fetchUsers = async () => {
+        try {
+            const response = await fetch('/dashboard/users/manage');
+            console.log('Fetch users response:', response);
             
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Fetched users data:', data);
+            
+            // Transform data to match what we need for the grid
+            return data.map(user => ({
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                current_roles: [user.role.toLowerCase()], // Array of current roles
+                status: user.status === 1 ? 'active' : 'inactive',
+                role_data: user.role_data,
+                user_type: user.user_type
+            }));
+            
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            return [];
+        }
+    };
 
-            //Manage Roles
+    // Initialize the grid
+    const userGrid = new gridjs.Grid({
+        columns: [
+            {
+                name: 'ID',
+                formatter: (cell) => gridjs.html(`<span class="font-semibold">${cell}</span>`),
+                width: '80px'
+            },
+            {
+                name: 'Full Name',
+                formatter: (cell) => gridjs.html(`<span class="font-medium">${cell}</span>`)
+            },
+            {
+                name: 'Email',
+                formatter: (cell) => gridjs.html(`<a href="mailto:${cell}" class="text-primary hover:underline">${cell}</a>`)
+            },
+            {
+                name: 'Current Roles',
+                formatter: (cell, row) => {
+                    return gridjs.html(`
+                        <div class="flex flex-wrap gap-1">
+                            ${cell.map(role => {
+                                const roleInfo = allRoles.find(r => r.value === role);
+                                return `<span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-800">${roleInfo?.label || role}</span>`;
+                            }).join('')}
+                        </div>
+                    `);
+                }
+            },
+            {
+                name: 'Add Role',
+                formatter: (cell, row) => {
+                    const currentRoles = row.cells[3].data; // Current roles from hidden column
+                    const availableRoles = allRoles.filter(role => !currentRoles.includes(role.value));
+                    
+                    return gridjs.html(`
+                        <div class="flex items-center gap-2">
+                            <select class="add-role-select form-select form-select-sm" 
+                                    data-user-id="${row.cells[0].data}">
+                                <option value="">Select role to add</option>
+                                ${availableRoles.map(role => `
+                                    <option value="${role.value}">${role.label}</option>
+                                `).join('')}
+                            </select>
+                            <button class="btn-add-role p-1 rounded text-success hover:bg-success/10" 
+                                    data-user-id="${row.cells[0].data}">
+                                <i class="ti ti-plus text-lg"></i>
+                            </button>
+                        </div>
+                    `);
+                }
+            },
+            {
+                name: 'Status',
+                formatter: (cell) => {
+                    const isActive = cell === 'active';
+                    const bgClass = isActive ? 'bg-success-subtle' : 'bg-danger-subtle';
+                    const textClass = isActive ? 'text-success' : 'text-danger';
+                    const statusText = isActive ? 'Active' : 'Inactive';
+                    
+                    return gridjs.html(
+                        `<span class="px-2 py-1 rounded-md ${bgClass} ${textClass}">${statusText}</span>`
+                    );
+                }
+            },
+            {
+                name: 'Actions',
+                width: '120px',
+                formatter: (cell, row) => {
+                    const userId = row.cells[0].data;
+                    return gridjs.html(`
+                        <div class="flex gap-2">
+                            <button class="btn-view p-1 rounded text-primary hover:bg-primary/10" 
+                                    data-user-id="${userId}">
+                                <i class="ti ti-eye text-lg"></i>
+                            </button>
+                            <button class="btn-edit p-1 rounded text-warning hover:bg-warning/10" 
+                                    data-user-id="${userId}">
+                                <i class="ti ti-edit text-lg"></i>
+                            </button>
+                            <button class="btn-delete p-1 rounded text-danger hover:bg-danger/10" 
+                                    data-user-id="${userId}">
+                                <i class="ti ti-trash text-lg"></i>
+                            </button>
+                        </div>
+                    `);
+                }
+            },
+            // Hidden columns for internal data
+            {
+                name: 'current_roles',
+                hidden: true
+            },
+            {
+                name: 'role_data',
+                hidden: true
+            },
+            {
+                name: 'user_type',
+                hidden: true
+            }
+        ],
+        pagination: {
+            limit: 10
+        },
+        sort: true,
+        search: true,
+        data: () => fetchUsers().then(data => data.map(user => [
+            user.id,
+            user.name,
+            user.email,
+            user.current_roles, // Current roles (array)
+            '', // Add role controls
+            user.status,
+            '', // Actions
+            user.current_roles, // Hidden current roles
+            user.role_data,
+            user.role
+        ])),
+        language: {
+            search: {
+                placeholder: 'Search users...'
+            },
+            pagination: {
+                previous: '←',
+                next: '→',
+                showing: 'Showing',
+                results: () => 'Records'
+            }
+        }
+    }).render(document.getElementById("table-manageRoles"));
 
-            if (document.getElementById("table-manageRoles"))
-                new gridjs.Grid({
-                    columns: [{
-                        name: 'ID',
-                        formatter: (function (cell) {
-                            return gridjs.html('<span class="fw-semibold">' + cell + '</span>');
-                        })
-                    },
-                        "Full Name",
-                    {
-                        name: 'Email',
-                        formatter: (function (cell) {
-                            return gridjs.html('<a href="">' + cell + '</a>');
-                        })
-                    },
-                        "Role",
-                        {
-                            name: 'Status',
-                            formatter: function (cell) {
-                                let bgClass = '';
-                                let textClass = '';
-                        
-                                switch (cell.toLowerCase()) {
-                                    case 'open':
-                                        bgClass = 'bg-primary-subtle';
-                                        textClass = 'text-primary';
-                                        break;
-                                    case 'active':
-                                        bgClass = 'bg-success-subtle';
-                                        textClass = 'text-success';
-                                        break;
-                                    case 'pending':
-                                        bgClass = 'bg-warning-subtle';
-                                        textClass = 'text-warning';
-                                        break;
-                                case 'rejected':
-                                    bgClass = 'bg-warning-subtle';
-                                    textClass = 'text-danger';
-                                    break;
-                                    default:
-                                        bgClass = 'bg-secondary-subtle';
-                                        textClass = 'text-secondary';
-                                }
-                        
-                                return gridjs.html(
-                                    `<span class="badge ${bgClass} ${textClass}">${cell}</span>`
-                                );
-                            }
+    // Add event listeners after render
+    userGrid.on('render', () => {
+        // Add role button handler
+        document.querySelectorAll('.btn-add-role').forEach(btn => {
+            btn.addEventListener('click', async function() {
+                const userId = this.dataset.userId;
+                const select = this.previousElementSibling;
+                const newRole = select.value;
+                
+                if (!newRole) {
+                    showNotification('Please select a role to add', 'warning');
+                    return;
+                }
+                
+                try {
+                    console.log(`Attempting to add role ${newRole} to user ${userId}`);
+                    const response = await fetch(`/api/users/${userId}/add-role`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json'
                         },
-                    {
-                        name: 'Actions',
-                        width: '120px',
-                        formatter: (function (cell) {
-                            return gridjs.html("<a href='#' class='text-reset text-decoration-underline'>" + "<a href='tickets/show' class='me-0.5'> <i class='mgc_edit_line text-lg'></i> </a> " + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_delete_line text-xl' id='sweetalert-longcontent' ></i> </a>"  + " <a href='javascript:void(0);' class='ms-0.5'> <i class='mgc_eye_2_line text-xl'></i> </a>" + "</a>");
-                        })
-                    },
-                    ],
-                    pagination: {
-                        limit: 5
-                    },
-                    sort: true,
-                    search: true,
-                    data: [
-                        ["01", "Jonathan", "jonathan@example.com", "Support Assistant", "active"],
-                        ["02", "Harold", "harold@example.com", "QA", "active"],
-                        ["03", "Shannon", "shannon@example.com",  "User", "active"],
-                        ["04", "Robert", "robert@example.com", "SA", "active"],
-                        ["10", "Tyrone", "tyrone@example.com", "QA", "active"],
-                    ]
-                }).render(document.getElementById("table-manageRoles"));
+                        body: JSON.stringify({ role: newRole })
+                    });
+                    
+                    const responseData = await response.json();
+                    console.log('Add role response:', response, responseData);
+                    
+                    if (response.ok) {
+                        showNotification('Role added successfully', 'success');
+                        // Reset the select
+                        select.value = '';
+                        // Refresh the grid
+                        userGrid.forceRender();
+                    } else {
+                        throw new Error(responseData.message || 'Failed to add role');
+                    }
+                } catch (error) {
+                    console.error('Error adding role:', error);
+                    showNotification(error.message || 'Error adding role', 'error');
+                }
+            });
+        });
 
+        // View button handler
+        document.querySelectorAll('.btn-view').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const userId = btn.dataset.userId;
+                window.location.href = `/users/${userId}`;
+            });
+        });
 
-          
+        // Edit button handler
+        document.querySelectorAll('.btn-edit').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const userId = btn.dataset.userId;
+                window.location.href = `/users/${userId}/edit`;
+            });
+        });
+
+        // Delete button handler
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const userId = btn.dataset.userId;
+                if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                    try {
+                        console.log(`Attempting to delete user ${userId}`);
+                        const response = await fetch(`/api/users/${userId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                'Accept': 'application/json'
+                            }
+                        });
+                        
+                        const responseData = await response.json();
+                        console.log('Delete response:', response, responseData);
+                        
+                        if (response.ok) {
+                            showNotification('User deleted successfully', 'success');
+                            userGrid.forceRender();
+                        } else {
+                            throw new Error(responseData.message || 'Failed to delete user');
+                        }
+                    } catch (error) {
+                        console.error('Error deleting user:', error);
+                        showNotification(error.message || 'Error deleting user', 'error');
+                    }
+                }
+            });
+        });
+    });
+
+    // Helper function for showing notifications
+    function showNotification(message, type = 'success') {
+        const alertClass = type === 'success' ? 'alert-success' : 
+                         type === 'error' ? 'alert-danger' : 'alert-warning';
+        const icon = type === 'success' ? 'circle-check' : 
+                    type === 'error' ? 'alert-circle' : 'alert-triangle';
+        
+        const alertBox = document.createElement('div');
+        alertBox.className = `alert ${alertClass} fixed top-4 right-4 z-50`;
+        alertBox.innerHTML = `
+            <div class="flex items-start gap-3">
+                <i class="ti ti-${icon} text-lg"></i>
+                <div>${message}</div>
+            </div>
+        `;
+        document.body.appendChild(alertBox);
+        
+        setTimeout(() => {
+            alertBox.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+            setTimeout(() => alertBox.remove(), 300);
+        }, 3000);
+    }
+}
 
         // card Table
         if (document.getElementById("table-card"))

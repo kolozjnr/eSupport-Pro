@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use Laratrust;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Account;
@@ -239,8 +240,138 @@ class UserController extends Controller
 
     public function manageRoles()
     {
-        return view('user.settings.manage_roles');
+        $users = User::with(['customer', 'support', 'administrator', 'qualitycontrol', 'supervisor', 'account', 'businessDeveloper', 'bussinesManager', 'bussinessSupervisor', 'customerManager']) // Add all your role relationships
+            ->get()
+            ->map(function ($user) {
+                $roleData = null;
+                $roleName = 'user'; // Default role
+                
+                if ($user->customer) {
+                    $roleData = $user->customer;
+                    $roleName = 'Customer';
+                } elseif ($user->support) {
+                    $roleData = $user->support;
+                    $roleName = 'Support';
+                } elseif ($user->administrator) {
+                    $roleData = $user->administrator;
+                    $roleName = 'Admin';
+                }
+                elseif($user->qualitycontrol){
+                    $roleData = $user->qualitycontrol;
+                    $roleName = 'QA';
+                }
+                elseif($user->supervisor){
+                    $roleData = $user->supervisor;
+                    $roleName = 'Supervisor';
+                }
+                elseif($user->account){
+                    $roleData = $user->account;
+                    $roleName = 'Account';
+                }
+                elseif($user->businessdeveloper){
+                    $roleData = $user->businessdeveloper;
+                    $roleName = 'Business Developer';
+                }
+                elseif($user->businessmanager){
+                    $roleData = $user->businessmanager;
+                    $roleName = 'Business Manager';
+                }
+                elseif($user->businesssupervisor){
+                    $roleData = $user->businesssupervisor;
+                    $roleName = 'Business Supervisor';
+                }
+                elseif($user->customermanager){
+                    $roleData = $user->customermanager;
+                    $roleName = 'Customer Manager';
+                }
+                
+                return [
+                    'id' => $user->id,
+                    'name' => $user->fname,
+                    'email' => $user->email,
+                    'role' => $roleName,
+                    'status' => $user->is_active ?? 'active',
+                    'role_data' => $roleData,
+                    'user_type' => $user->role
+                ];
+            });
+
+            $roles = Role::all();
+        return view('user.settings.manage_roles', compact('users', 'roles'));
     }
+
+    public function updateUserRole(Request $request)
+{
+    $request->validate([
+        'user_type' => 'required|exists:users,id',
+        'role' => 'required|exists:roles,id',
+    ]);
+
+    $user = User::findOrFail($request->user_type);
+    $newRoleId = $request->role;
+    $newRoleName = Role::findOrFail($newRoleId)->name;
+
+    // Step 1: Delete existing role data
+    $roleTables = [
+        'customer' => Customer::class,
+        'support' => Support::class,
+        'administrator' => Administrator::class,
+        'qualitycontrol' => QualityControl::class,
+        'supervisor' => Supervisor::class,
+        'account' => Account::class,
+        'businessdeveloper' => BusinessDeveloper::class,
+        'businessmanager' => BusinessManager::class,
+        'businesssupervisor' => BusinessSupervisor::class,
+        'customermanager' => CustomerManager::class,
+    ];
+
+    foreach ($roleTables as $relation => $model) {
+        if ($user->$relation) {
+            $model::where('user_id', $user->id)->delete();
+        }
+    }
+
+    // Step 2: Create new role record
+    switch (strtolower($newRoleName)) {
+        case 'customer':
+            Customer::create(['user_id' => $user->id]);
+            break;
+        case 'support':
+            Support::create(['user_id' => $user->id]);
+            break;
+        case 'administrator':
+            Administrator::create(['user_id' => $user->id]);
+            break;
+        case 'quality control':
+            QualityControl::create(['user_id' => $user->id]);
+            break;
+        case 'supervisor':
+            Supervisor::create(['user_id' => $user->id]);
+            break;
+        case 'account':
+            Account::create(['user_id' => $user->id]);
+            break;
+        case 'business developer':
+            BusinessDeveloper::create(['user_id' => $user->id]);
+            break;
+        case 'business manager':
+            BusinessManager::create(['user_id' => $user->id]);
+            break;
+        case 'business supervisor':
+            BusinessSupervisor::create(['user_id' => $user->id]);
+            break;
+        case 'customer manager':
+            CustomerManager::create(['user_id' => $user->id]);
+            break;
+    }
+
+    // Optional: Update user table if you store role info there
+    //$user->role = $newRoleName;
+    $user->save();
+
+    return redirect()->back()->with('success', 'User role updated successfully.');
+}
+
 
     public function getKnowledgebase()
     {
@@ -257,5 +388,137 @@ class UserController extends Controller
         $roles = Role::with('users')->get();
 
         dd($roles);
+    }
+
+    public function getAllUsers()
+    {
+        // Get all users with their related role data
+        $users = User::with(['customer', 'support', 'administrator', 'qualitycontrol', 'supervisor', 'account', 'businessDeveloper', 'bussinesManager', 'bussinessSupervisor', 'customerManager']) // Add all your role relationships
+            ->get()
+            ->map(function ($user) {
+                // Determine the user's role and related data
+                $roleData = null;
+                $roleName = 'user'; // Default role
+                
+                if ($user->customer) {
+                    $roleData = $user->customer;
+                    $roleName = 'Customer';
+                } elseif ($user->support) {
+                    $roleData = $user->support;
+                    $roleName = 'Support';
+                } elseif ($user->administrator) {
+                    $roleData = $user->administrator;
+                    $roleName = 'Admin';
+                }
+                elseif($user->qualitycontrol){
+                    $roleData = $user->qualitycontrol;
+                    $roleName = 'QA';
+                }
+                elseif($user->supervisor){
+                    $roleData = $user->supervisor;
+                    $roleName = 'Supervisor';
+                }
+                elseif($user->account){
+                    $roleData = $user->account;
+                    $roleName = 'Account';
+                }
+                elseif($user->businessdeveloper){
+                    $roleData = $user->businessdeveloper;
+                    $roleName = 'Business Developer';
+                }
+                elseif($user->businessmanager){
+                    $roleData = $user->businessmanager;
+                    $roleName = 'Business Manager';
+                }
+                elseif($user->businesssupervisor){
+                    $roleData = $user->businesssupervisor;
+                    $roleName = 'Business Supervisor';
+                }
+                elseif($user->customermanager){
+                    $roleData = $user->customermanager;
+                    $roleName = 'Customer Manager';
+                }
+                
+                return [
+                    'id' => $user->id,
+                    'name' => $user->fname,
+                    'email' => $user->email,
+                    'role' => $roleName,
+                    'status' => $user->is_active ?? 'active',
+                    'role_data' => $roleData,
+                    'user_type' => $user->role
+                ];
+            });
+
+        return response()->json($users);
+    }
+
+    public function changeRole(User $user, Request $request)
+{
+    try {
+        $request->validate([
+            'role' => 'required|in:customer,support,admin'
+        ]);
+
+        // Verify the role exists in Laratrust
+        if (!Laratrust::role()->where('name', $request->role)->exists()) {
+            return response()->json(['message' => 'Invalid role specified'], 422);
+        }
+
+        $user->syncRoles([$request->role]);
+        $user->update(['user_type' => $request->role]);
+
+        return response()->json(['message' => 'Role updated successfully']);
+        
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Error updating role: ' . $e->getMessage()], 500);
+    }
+}
+
+    // public function changeRole(User $user, Request $request)
+    // {
+    //     $request->validate([
+    //         'role' => 'required|in:customer,support,admin'
+    //     ]);
+        
+    //     // Remove from old role table
+    //     if ($user->user_type === 'customer') {
+    //         Customer::where('user_id', $user->id)->delete();
+    //     } elseif ($user->user_type === 'support') {
+    //         Support::where('user_id', $user->id)->delete();
+    //     } elseif ($user->user_type === 'admin') {
+    //        // Admin::where('user_id', $user->id)->delete();
+    //     }
+        
+    //     // Add to new role table
+    //     if ($request->role === 'customer') {
+    //         Customer::create(['user_id' => $user->id]);
+    //     } elseif ($request->role === 'support') {
+    //         Support::create(['user_id' => $user->id]);
+    //     } elseif ($request->role === 'admin') {
+    //         Admin::create(['user_id' => $user->id]);
+    //     }
+        
+    //     // Update user type
+    //     $user->update(['user_type' => $request->role]);
+        
+    //     return response()->json(['message' => 'Role updated successfully']);
+    // }
+
+    public function destroy(User $user)
+    {
+        // Delete from role-specific table first
+        if ($user->user_type === 'customer') {
+            Customer::where('user_id', $user->id)->delete();
+        } elseif ($user->user_type === 'support') {
+            Support::where('user_id', $user->id)->delete();
+        } elseif ($user->user_type === 'admin') {
+            Admin::where('user_id', $user->id)->delete();
+        }
+        
+        // Then delete the user
+        $user->delete();
+        
+        return response()->json(['message' => 'User deleted successfully']);
     }
 }
