@@ -33,6 +33,7 @@ class MonnifyService
     public function initializeTransaction(array $data)
     {
         $token = $this->getAccessToken();
+        //dd($this->baseUrl);
 
         return Http::withToken($token)->post("{$this->baseUrl}/api/v1/merchant/transactions/init-transaction", [
             "amount" => $data['amount'],

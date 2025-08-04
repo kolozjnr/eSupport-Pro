@@ -25,6 +25,7 @@ class MonnifyPaymentController extends Controller
         $userId = auth()->user()->id;
         $customerId = auth()->user()->getCustomerId();
         $reference =  Subscription::generateTrx(10);
+        //dd($reference);
         try {
             $response = $this->monnify->initializeTransaction([
             'amount' => $request->amount,
@@ -37,9 +38,6 @@ class MonnifyPaymentController extends Controller
         ]);
         //dd($response);
         
-
-
-
          $transaction = Subscription::create([
                 'user_id' => $userId,
                 'customer_id' => $customerId,
