@@ -92,12 +92,15 @@
                                             <label for="user_type" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
                                             <select id="search-select" x-model="formData.user_type" name="user_type" id="user_type" class="search-select">
                                                 <option selected disabled>Choose</option>
-                                                <option value="support">Support Staff</option>
-                                                <option value="qualitycontrol">QA</option>
+                                                @foreach ($roles as $role)
+                                                    <option value="{{ $role->name }}">{{ $role->display_name }}</option>
+                                                @endforeach
+                                                {{-- <option value="support">Support Staff</option>
+                                                <option value="qualitycontrol">QA</option> --}}
                                                 {{-- @if(auth()->user()->hasRole('businessdeveloper')) --}}
-                                                <option value="customer">Customer</option>
+                                                {{-- <option value="customer">Customer</option> --}}
                                                 {{-- @endif --}}
-                                                <option value="businessdeveloper">Business Developer</option>
+                                                {{-- <option value="businessdeveloper">Business Developer</option> --}}
                                             </select>
                                         </div>
                                     </div>

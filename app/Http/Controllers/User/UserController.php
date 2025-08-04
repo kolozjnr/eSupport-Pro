@@ -32,7 +32,8 @@ class UserController extends Controller
 {
     public function createUser()
     {
-        return view('user.settings.create-user');
+        $roles = Role::all();
+        return view('user.settings.create-user', compact('roles'));
     }
 
     public function postUserCreation(Request $request)
