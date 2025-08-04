@@ -170,6 +170,12 @@ Route::middleware('auth')->group(function () {
             Route::get('/manage',  'getAllUsers')->name('get-all-users');
             //Route::post('/{user}/change-role', 'changeRole')->name('change-role');
             Route::post('/update-role', 'updateUserRole')->name('update-role');
+            Route::get('/manage-users', 'manageUsers')->name('manage-users');
+             Route::post('{user}/status', 'updateStatus')->name('update-status');
+            Route::get('{user}/status', 'getUserStatus')->name('get-status');
+            Route::post('bulk-status-update', 'bulkUpdateStatus')->name('bulk-status-update');
+            Route::get('status-stats', 'getStatusStats')->name('status-stats');
+
             Route::delete('/{user}', 'destroy');
         });
 

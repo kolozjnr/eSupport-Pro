@@ -52,20 +52,27 @@
                                     <span class="menu-text">Tickets</span>
                                 </a>
                             </li>
+                            @if (!Auth::user()->hasRole('customer'))
+                                <li class="menu-item">
+                                <a href="{{ route('tickets.create-onbehalf')}}" class="menu-link">
+                                    <span class="menu-text">Create Ticket</span>
+                                </a>
+                            </li>
+
+                            @endif
+                             
+                          
+
+                            
+                           
+
+                            
+                            @if (Auth::user()->hasRole('customer'))
                             <li class="menu-item">
                                 <a href="{{ route('tickets.create')}}" class="menu-link">
                                     <span class="menu-text">Create Ticket</span>
                                 </a>
                             </li>
-
-                            
-                            <li class="menu-item">
-                                <a href="{{ route('tickets.create-onbehalf')}}" class="menu-link">
-                                    <span class="menu-text">Create Ticket For</span>
-                                </a>
-                            </li>
-
-                            
 
                             <li class="menu-item">
                                 <a href="{{ route('tickets.view-tickets-onbehalf')}}" class="menu-link">
@@ -83,11 +90,11 @@
                                     <span class="menu-text">View Draft</span>
                                 </a>
                             </li>
-                            
+                            @endif
                             
                         </ul>
                     </li>
-
+                    @if (Auth::user()->hasRole('account'))
                     <li class="menu-item">
                         <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
                             <span class="menu-icon"><i class="mgc_box_3_line"></i></span>
@@ -111,6 +118,7 @@
                             </li> --}}
                         </ul>
                     </li>
+                    @endif
 
                     <li class="menu-item">
                         <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
@@ -120,16 +128,19 @@
                         </a>
 
                         <ul class="sub-menu hidden">
-                            <li class="menu-item">
+                            {{-- <li class="menu-item">
                                 <a href="{{ route('tickets.view-feedback')}}" class="menu-link">
                                     <span class="menu-text">Customer Interaction History</span>
                                 </a>
-                            </li>
+                            </li> --}}
+                            @if (Auth::user()->hasRole('businessdeveloper'))
+                                
                             <li class="menu-item">
                                 <a href="{{ route('customers.onboard')}}" class="menu-link">
                                     <span class="menu-text">Customer Onboarding</span>
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </li>
 
@@ -141,10 +152,17 @@
                         </a>
 
                         <ul class="sub-menu hidden">
-                            
+                            @if (Auth::user()->hasRole('administrator') || Auth::user()->hasRole('businessmanager') || Auth::user()->hasRole('support') || Auth::user()->hasRole('customermanager'))
                             <li class="menu-item">
                                 <a href="{{route('users.create')}}" class="menu-link">
                                     <span class="menu-text">Create user</span>
+                                </a>
+                            </li>
+                            @endif
+                            @if (Auth::user()->hasRole('administrator'))
+                            <li class="menu-item">
+                                <a href="{{route('users.manage-users')}}" class="menu-link">
+                                    <span class="menu-text">Manage users</span>
                                 </a>
                             </li>
 
@@ -153,6 +171,13 @@
                                     <span class="menu-text">Assign Customer to BD</span>
                                 </a>
                             </li>
+
+                             <li class="menu-item">
+                                <a href="{{route('settings.index')}}" class="menu-link">
+                                    <span class="menu-text">Settings</span>
+                                </a>
+                            </li>
+                            @endif
                             {{-- <li class="menu-item">
                                 <a href="{{route('users.manage-roles')}}" class="menu-link">
                                     <span class="menu-text">Role Management</span>
@@ -167,13 +192,17 @@
                         </ul>
                     </li>
 
-                     <li class="menu-item">
+                    @if (Auth::user()->hasRole('customer'))
+                         <li class="menu-item">
                         <a href="{{route('customers.pricing')}}" class="menu-link">
                             <span class="menu-icon"><i class="mgc_box_2_line"></i></span>
                             <span class="menu-text"> Pricing </span>
                         </a>
                     </li>
 
+                    @endif
+
+                    
                      <li class="menu-item">
                         <a href="https://esupportpro.com:2096/" class="menu-link">
                             <span class="menu-icon"><i class="mgc_box_2_line"></i></span>

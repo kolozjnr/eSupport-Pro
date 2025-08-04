@@ -19,6 +19,7 @@ use App\Mail\UserRegisteredMail;
 use App\Models\BusinessDeveloper;
 use App\Models\BusinessSupervisor;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -200,9 +201,233 @@ class UserController extends Controller
             ], 500);
         }
     }
+    public function manageUsers()
+    {
+        //
+        $user = Auth::user();
+        if($user->user_type != 'administrator')
+        {
+            return abort(403);
+        }
+        //  Get all users with their current status
+        $users = User::select('id', 'fname', 'lname', 'email', 'user_type', 'is_active', 'created_at', 'updated_at')
+                    ->orderBy('fname')
+                    ->get();
+
+        return view('user.settings.manage_users', compact('users'));
+    }
+
+    /**
+     * Update user status via API
+     */
+    public function updateStatus(Request $request, $userId)
+    {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'is_active' => 'required|boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            // Find the user
+            $user = User::findOrFail($userId);
+            
+            // Store old status for logging
+            $oldStatus = $user->is_active;
+            $newStatus = $request->input('is_active');
+            
+            // Update the user status
+            $user->is_active = $newStatus;
+            $user->save();
+
+            // Log the status change
+            $statusText = $newStatus ? 'activated' : 'deactivated';
+            Log::info("User status updated", [
+                'user_id' => $user->id,
+                'user_name' => $user->fname . ' ' . $user->lname,
+                'old_status' => $oldStatus ? 'active' : 'inactive',
+                'new_status' => $newStatus ? 'active' : 'inactive',
+                'updated_by' => auth()->user() ? auth()->user()->id : 'system',
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent()
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => "User {$statusText} successfully",
+                'data' => [
+                    'user_id' => $user->id,
+                    'name' => $user->fname . ' ' . $user->lname,
+                    'is_active' => $user->is_active,
+                    'updated_at' => $user->updated_at->toISOString()
+                ]
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
+
+        } catch (\Exception $e) {
+            Log::error('Error updating user status: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'request_data' => $request->all(),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while updating user status'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get user status information
+     */
+    public function getUserStatus($userId)
+    {
+        try {
+            $user = User::select('id', 'fname', 'lname', 'email', 'user_type', 'is_active', 'updated_at')
+                       ->findOrFail($userId);
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'user_id' => $user->id,
+                    'name' => $user->fname . ' ' . $user->lname,
+                    'email' => $user->email,
+                    'user_type' => $user->user_type,
+                    'is_active' => $user->is_active,
+                    'updated_at' => $user->updated_at->toISOString()
+                ]
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching user status: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while fetching user status'
+            ], 500);
+        }
+    }
+
+    /**
+     * Bulk update user statuses
+     */
+    public function bulkUpdateStatus(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_ids' => 'required|array',
+            'user_ids.*' => 'exists:users,id',
+            'is_active' => 'required|boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            $userIds = $request->input('user_ids');
+            $newStatus = $request->input('is_active');
+            
+            // Update all selected users
+            $updatedCount = User::whereIn('id', $userIds)
+                               ->update(['is_active' => $newStatus]);
+
+            // Log the bulk update
+            Log::info("Bulk user status update", [
+                'user_ids' => $userIds,
+                'new_status' => $newStatus ? 'active' : 'inactive',
+                'updated_count' => $updatedCount,
+                'updated_by' => auth()->user() ? auth()->user()->id : 'system',
+                'ip_address' => $request->ip()
+            ]);
+
+            $statusText = $newStatus ? 'activated' : 'deactivated';
+
+            return response()->json([
+                'success' => true,
+                'message' => "{$updatedCount} users {$statusText} successfully",
+                'data' => [
+                    'updated_count' => $updatedCount,
+                    'user_ids' => $userIds,
+                    'new_status' => $newStatus
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error in bulk status update: ' . $e->getMessage(), [
+                'request_data' => $request->all(),
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred during bulk update'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get user status statistics
+     */
+    public function getStatusStats()
+    {
+        try {
+            $activeCount = User::where('is_active', true)->count();
+            $inactiveCount = User::where('is_active', false)->count();
+            $totalCount = User::count();
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'active_users' => $activeCount,
+                    'inactive_users' => $inactiveCount,
+                    'total_users' => $totalCount,
+                    'active_percentage' => $totalCount > 0 ? round(($activeCount / $totalCount) * 100, 2) : 0
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching status statistics: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while fetching statistics'
+            ], 500);
+        }
+    }
+    
 
     public function assignCustomer()
     {
+        $user = Auth::user();
+        if($user->user_type != 'administrator')
+        {
+            return abort(403);
+        }
+
         $customers = Customer::with('user')->get();
         $bds = BusinessDeveloper::with('user')->get();
         return view('user.settings.assign-customer-to-bd', compact('customers', 'bds'));
@@ -240,6 +465,12 @@ class UserController extends Controller
 
     public function manageRoles()
     {
+        $user = Auth::user();
+        if($user->user_type != 'administrator')
+        {
+            return abort(403);
+        }
+        
         $users = User::with(['customer', 'support', 'administrator', 'qualitycontrol', 'supervisor', 'account', 'businessDeveloper', 'bussinesManager', 'bussinessSupervisor', 'customerManager']) // Add all your role relationships
             ->get()
             ->map(function ($user) {
