@@ -26,6 +26,10 @@ class MonnifyService
             $response = Http::withBasicAuth($this->apiKey, $this->secretKey)
                 ->post("{$this->baseUrl}/api/v1/auth/login");
 
+            if (!$response->successful()) {
+                throw new \Exception('Failed to get access token: ' . $response->body());
+            }
+
             return $response->json('responseBody.accessToken');
         });
     }
@@ -33,19 +37,22 @@ class MonnifyService
     public function initializeTransaction(array $data)
     {
         $token = $this->getAccessToken();
-        //dd($this->baseUrl);
-       // dd($data);
 
-        return Http::withToken($token)->post("{$this->baseUrl}/api/v1/merchant/transactions/init-transaction", [
+        $response = Http::withToken($token)->post("{$this->baseUrl}/api/v1/merchant/transactions/init-transaction", [
             "amount" => $data['amount'],
             "customerName" => $data['name'],
             "customerEmail" => $data['email'],
             "paymentReference" => $data['reference'],
-            // "paymentDescription" => $data['description'],
             "currencyCode" => "NGN",
             "contractCode" => $this->contractCode,
             "redirectUrl" => $data['redirect_url']
-        ])->json();
+        ]);
+
+        if (!$response->successful()) {
+            throw new \Exception('Transaction initialization failed: ' . $response->body());
+        }
+
+        return $response->json();
     }
 
     
