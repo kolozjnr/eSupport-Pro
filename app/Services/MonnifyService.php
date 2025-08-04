@@ -34,6 +34,7 @@ class MonnifyService
     {
         $token = $this->getAccessToken();
         //dd($this->baseUrl);
+       // dd($data);
 
         return Http::withToken($token)->post("{$this->baseUrl}/api/v1/merchant/transactions/init-transaction", [
             "amount" => $data['amount'],

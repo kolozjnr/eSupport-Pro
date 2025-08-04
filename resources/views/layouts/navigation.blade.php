@@ -121,11 +121,14 @@
                     @endif
 
                     <li class="menu-item">
+                        @if (!Auth::user()->hasRole('support'))
+                            
                         <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
                             <span class="menu-icon"><i class="mgc_layout_line"></i></span>
                             <span class="menu-text"> Business Management </span>
                             <span class="menu-arrow"></span>
                         </a>
+                        @endif
 
                         <ul class="sub-menu hidden">
                             {{-- <li class="menu-item">
@@ -152,7 +155,7 @@
                         </a>
 
                         <ul class="sub-menu hidden">
-                            @if (Auth::user()->hasRole('administrator') || Auth::user()->hasRole('businessmanager') || Auth::user()->hasRole('support') || Auth::user()->hasRole('customermanager'))
+                            @if (Auth::user()->hasRole('administrator') || Auth::user()->hasRole('businessmanager') || Auth::user()->hasRole('customermanager'))
                             <li class="menu-item">
                                 <a href="{{route('users.create')}}" class="menu-link">
                                     <span class="menu-text">Create user</span>
@@ -177,12 +180,13 @@
                                     <span class="menu-text">Settings</span>
                                 </a>
                             </li>
-                            @endif
-                            {{-- <li class="menu-item">
+                            
+                            <li class="menu-item">
                                 <a href="{{route('users.manage-roles')}}" class="menu-link">
                                     <span class="menu-text">Role Management</span>
                                 </a>
-                            </li> --}}
+                            </li>
+                            @endif
                             
                             {{-- <li class="menu-item">
                                 <a href="{{route('users.knowledgebase')}}" class="menu-link">
