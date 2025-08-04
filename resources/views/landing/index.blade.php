@@ -2149,7 +2149,7 @@
                       />
                     </svg>
                   </span>
-                  Call Centre Service 10,000 Points
+                  Call Centre Service {{$settings->call_center_lite}} Points
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2166,7 +2166,7 @@
                       />
                     </svg>
                   </span>
-                  Virtual Assistance 10,000 Points
+                  Virtual Assistance {{$settings->virtual_assistance_lite}} Points
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2183,7 +2183,7 @@
                       />
                     </svg>
                   </span>
-                  General Support, 10,000 Points
+                  General Support, {{$settings->general_support_lite}} Points
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2293,7 +2293,7 @@
                       />
                     </svg>
                   </span>
-                  Call Centre Service 20,000
+                  Call Centre Service {{$settings->call_center_standard}}
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2310,7 +2310,7 @@
                       />
                     </svg>
                   </span>
-                  General Support, 20,000
+                  General Support {{$settings->general_support_standard}}
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2327,7 +2327,7 @@
                       />
                     </svg>
                   </span>
-                  Virtual Assistance 20,000
+                  Virtual Assistance {{$settings->virtual_support_standard}}
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2452,7 +2452,7 @@
                       />
                     </svg>
                   </span>
-                   General Support 30,000
+                   General Support {{$settings->general_support_advanced}}
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2469,7 +2469,7 @@
                       />
                     </svg>
                   </span>
-                   Call center 30,000
+                   Call center {{$settings->call_center_advanced}}
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2658,7 +2658,7 @@
                       />
                     </svg>
                   </span>
-                  Call Centre Service 50,000
+                  Call Centre Service {{$settings->call_center_business}} Points
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2675,7 +2675,7 @@
                       />
                     </svg>
                   </span>
-                    Virtual Assistance 50,000
+                    Virtual Assistance {{$settings->virtual_assistance}} Points
                 </p>
                 
                 <p
@@ -2693,7 +2693,7 @@
                       />
                     </svg>
                   </span>
-                   General Support, 50,000
+                   General Support {{$settings->general_support_business}} Points
                 </p>
                 <p
                   class="flex items-center text-base text-dark-text"
@@ -2773,10 +2773,10 @@
                 <h3
                   class="mb-6 flex items-end justify-center pt-2 font-heading text-base font-medium text-dark dark:text-white"
                 >
-                                    <span class="font-bold text-2xl -me-2 mr-4">&#8358;</span>
+                                    {{-- <span class="font-bold text-2xl -me-2 mr-4">&#8358;</span> --}}
 
-                   <sup class="-mb-2 text-[45px]"> {{$settings->premium_amount}} </sup>
-                  /month
+                   <sup class="-mb-2 text-[45px]"> Contact Sales </sup>
+                  
                 </h3>
 
                 {{-- <p

@@ -111,11 +111,11 @@
                                     <span class="menu-text">View Subscriptions</span>
                                 </a>
                             </li>
-                            {{-- <li class="menu-item">
-                                 <a href="{{ route('invoices.report')}}" class="menu-link">
-                                    <span class="menu-text">Financial Report and Analytics</span>
+                            <li class="menu-item">
+                                 <a href="{{ route('invoices.manual-invoice')}}" class="menu-link">
+                                    <span class="menu-text">Manual Subscription</span>
                                 </a>
-                            </li> --}}
+                            </li>
                         </ul>
                     </li>
                     @endif

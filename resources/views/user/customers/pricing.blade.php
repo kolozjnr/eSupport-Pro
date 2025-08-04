@@ -185,13 +185,13 @@
                                         Below 50 Tasks
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
-                                        Call Centre Service 10,000 Points
+                                        Call Centre Service {{$settings->call_center_lite}} Points
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
-                                        Virtual Assistance 10,000 Points
+                                        Virtual Assistance {{$settings->virtual_support_lite}} Points
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
-                                        General Support, 10,000 Points
+                                        General Support {{$settings->general_support_lite}} Points
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
                                         Citizen Service Desk
@@ -200,7 +200,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->citizen_desk_plan_amount}}" href="#" data-general-support="10000" data-call-center="10000" data-virtual-assistance="10000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->citizen_desk_plan_amount}}" href="#" data-general-support="{{$settings->general_support_lite}}" data-call-center="{{$settings->call_center_lite}}" data-virtual-assistance="{{$settings->virtual_support_lite}}">
                                     Proceed
                                 </a>
                             </div>
@@ -240,13 +240,13 @@
                                         50 - 100 Tasks
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400" >
-                                        Call Centre Service 20,000
+                                        Call Centre Service {{$settings->call_center_standard}} Points
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
-                                        Virtual Assistance 20,000
+                                        Virtual Assistance {{$settings->virtual_support_standard}} Points
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
-                                        General Support, 20,000
+                                        General Support {{$settings->general_support_standard}} Points
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
                                         Citizen Service Desk
@@ -255,7 +255,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->startup_up_amount}}" href="#" data-general-support="20000" data-call-center="20000" data-virtual-assistance="20000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->startup_up_amount}}" href="#" data-general-support="{{$settings->general_support_standard}}" data-call-center="{{$settings->call_center_standard}}" data-virtual-assistance="{{$settings->virtual_support_standard}}">
                                     Proceed
                                 </a>
                             </div>
@@ -293,11 +293,13 @@
                                     <li class="text-gray-800 dark:text-gray-400">
                                         101 - 500 Tasks
                                     </li>
-                                    <li class="text-gray-800 dark:text-gray-400" data-virtual-assistance="30,000">
-                                        Virtual Assistance 30,000
+                                    <li class="text-gray-800 dark:text-gray-400" data-call-center="{{$settings->call_center_advanced}}">
                                     </li>
-                                    <li class="text-gray-800 dark:text-gray-400" data-general-support="30,000">
-                                        General Support 30,000
+                                    <li class="text-gray-800 dark:text-gray-400" data-virtual-assistance="{{$settings->virtual_support_advanced}}">
+                                        Virtual Assistance {{$settings->virtual_support_advanced}} Points
+                                    </li>
+                                    <li class="text-gray-800 dark:text-gray-400" data-general-support="{{$settings->general_support_advanced}}">
+                                        General Support {{$settings->general_support_advanced}} Points
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400" data-citizen-service-desk="30,000">
                                         Citizen Service Desk 
@@ -306,7 +308,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->team_amount}}" href="#" data-general-support="40000" data-call-center="40000" data-virtual-assistance="40000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->team_amount}}" href="#" data-general-support="{{$settings->general_support_advanced}}" data-call-center="{{$settings->call_center_advanced}}" data-virtual-assistance="{{$settings->virtual_support_advanced}}">
                                     Proceed
                                 </a>
                             </div>
@@ -348,13 +350,13 @@
                                         Product support
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
-                                        Call Centre Service 50,000
+                                        Call Centre Service {{$settings->call_center_business}}
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
-                                        Virtual Assistance 50,000
+                                        Virtual Assistance {{$settings->virtual_support_business}}
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
-                                        General Support, 50,000
+                                        General Support {{$settings->general_support_business}}
                                     </li>
                                     <li class="text-gray-800 dark:text-gray-400">
                                         Citizen Service Desk
@@ -363,7 +365,7 @@
                             </div>
 
                             <div class="bg-white py-8 px-8 dark:bg-gray-800">
-                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->enterprise_amount}}" href="#" data-general-support="50000" data-call-center="50000" data-virtual-assistance="50000">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->enterprise_amount}}" href="#" data-general-support="{{$settings->general_support_business}}" data-call-center="{{$settings->call_center_business}}" data-virtual-assistance="{{$settings->virtual_support_business}}">
                                     Proceed
                                 </a>
                             </div>
@@ -389,7 +391,7 @@
                                 
                                 <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     <span class="font-bold text-2xl -me-2">&#8358;</span>
-                                    <span class="display-price">{{$settings->premium_amount}}</span>
+                                    <span class="display-price">Contact Sales</span>
                                 </span>
                             </div>
 
@@ -413,11 +415,11 @@
                                 </ul>
                             </div>
 
-                            <div class="bg-white py-8 px-8 dark:bg-gray-800">
+                            {{-- <div class="bg-white py-8 px-8 dark:bg-gray-800">
                                 <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->premium_amount}}" href="#" data-general-support="100000" data-call-center="100000" data-virtual-assistance="100000">
                                     Proceed
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                             <!-- End Card -->
                         </div>

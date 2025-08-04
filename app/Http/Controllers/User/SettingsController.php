@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use App\Notifications\PasswordChangedNotification;
 
 class SettingsController extends Controller
 {
@@ -35,6 +39,22 @@ class SettingsController extends Controller
             'team_amount' => 'nullable|numeric',
             'enterprise_amount' => 'nullable|numeric',
             'premium_amount' => 'nullable|numeric',
+            'call_center_lite' => 'nullable|numeric',
+            'virtual_support_lite' => 'nullable|numeric',
+            'general_support_lite' => 'nullable|numeric',
+
+            'call_center_standard' => 'nullable|numeric',
+            'virtual_support_standard' => 'nullable|numeric',
+            'general_support_standard' => 'nullable|numeric',
+
+            'call_center_advanced' => 'nullable|numeric',
+            'virtual_support_advanced' => 'nullable|numeric',
+            'general_support_advanced' => 'nullable|numeric',
+
+            'call_center_business' => 'nullable|numeric',
+            'virtual_support_business' => 'nullable|numeric',
+            'general_support_business' => 'nullable|numeric',
+
         ]);
 
         $settings = Setting::first();
@@ -73,6 +93,37 @@ class SettingsController extends Controller
         //     'status' => true,
         //     'message' => 'Settings saved successfully',
         // ]);
+    }
+
+    public function getUpdatePassword()
+    {
+        return view('user.settings.update-password');
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed|different:old_password',
+        ]);
+
+        // if(!$validated)
+        // {
+        //     re
+        // }
+
+        $user = User::findOrFail($id);
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->withErrors(['old_password' => 'The current password is incorrect']);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+        $user->notify(new PasswordChangedNotification());
+
+        return back()->with('success', 'Password updated successfully');
     }
 
 }

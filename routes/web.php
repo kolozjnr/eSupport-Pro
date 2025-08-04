@@ -145,6 +145,8 @@ Route::middleware('auth')->group(function () {
             ->group(function(){
                 Route::get('/', 'viewSettings')->name('index');
                 Route::post('/post-settings', 'postSettings')->name('store');
+                Route::get('/get-update-password/{id}', 'getUpdatePassword')->name('get-update-password');
+                Route::put('/update-password/{id}', 'updatePassword')->name('update-password');
             });
 
         Route::controller(InvoiceController::class)
@@ -155,6 +157,8 @@ Route::middleware('auth')->group(function () {
                 Route::get('/report', 'financialReport')->name('report');
                 Route::get('/create', 'create')->name('create');
                 Route::get('/subscriptions', 'getSubscription')->name('subscriptions');
+                Route::get('/manual-invoice', 'manualInvoice')->name('manual-invoice');
+                Route::post('/post-manual-invoice', 'creditInvoice')->name('post-manual-invoice');
             });
 
         Route::controller(UserController::class)
