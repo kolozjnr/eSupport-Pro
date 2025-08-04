@@ -2109,11 +2109,11 @@
                 <h3
                   class="mb-2 font-heading text-3xl font-medium text-dark dark:text-white"
                 >
-                  Citizen Service Desk
+                  Lite
                 </h3>
-                <p class="pb-10 text-base text-dark-text">
+                {{-- <p class="pb-10 text-base text-dark-text">
                   The most basic plan
-                </p>
+                </p> --}}
               </div>
               <div class="border-b py-10 dark:border-[#2E333D]">
                 <h3
@@ -2253,11 +2253,11 @@
                 <h3
                   class="mb-2 font-heading text-3xl font-medium text-dark dark:text-white"
                 >
-                  Basic
+                  Standard
                 </h3>
-                <p class="pb-10 text-base text-dark-text">
+                {{-- <p class="pb-10 text-base text-dark-text">
                   The most popular plan
-                </p>
+                </p> --}}
               </div>
               <div class="border-b py-10 dark:border-[#2E333D]">
                 <h3
@@ -2395,11 +2395,11 @@
                 <h3
                   class="mb-2 font-heading text-3xl font-medium text-dark dark:text-white"
                 >
-                  Team
+                  Advanced
                 </h3>
-                <p class="pb-10 text-base text-dark-text">
+                {{-- <p class="pb-10 text-base text-dark-text">
                   The most premium plan
-                </p>
+                </p> --}}
               </div>
               <div class="border-b py-10 dark:border-[#2E333D]">
                 <h3
@@ -2601,7 +2601,7 @@
                 <h3
                   class="mb-2 font-heading text-3xl font-medium text-dark dark:text-white"
                 >
-                  Enterprise
+                  Business
                 </h3>
                 {{-- <p class="pb-10 text-base text-dark-text">
                   The most basic plan
@@ -2763,11 +2763,11 @@
                 <h3
                   class="mb-2 font-heading text-3xl font-medium text-dark dark:text-white"
                 >
-                  Premium
+                  Enterprise
                 </h3>
-                <p class="pb-10 text-base text-dark-text">
+                {{-- <p class="pb-10 text-base text-dark-text">
                   The most popular plan
-                </p>
+                </p> --}}
               </div>
               <div class="border-b py-10 dark:border-[#2E333D]">
                 <h3

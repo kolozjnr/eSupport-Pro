@@ -146,7 +146,7 @@
                     <!-- Title -->
                     <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
                         <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Find the right plan for your your business</h2>
-                        <p class="mt-1 text-gray-600 dark:text-gray-400">Pay as you go service, cancel anytime.</p>
+                        {{-- <p class="mt-1 text-gray-600 dark:text-gray-400">Pay as you go service, cancel anytime.</p> --}}
                     </div>
                     <!-- End Title -->
 
@@ -156,7 +156,7 @@
                             <!-- Card -->
                        <div class="flex flex-col h-full text-center">
                             <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Citizen Service Desk</h4>
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Lite</h4>
                             </div>
 
                             <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
@@ -211,7 +211,7 @@
                         <!-- Card -->
                         <div class="flex flex-col h-full text-center">
                             <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Startup</h4>
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Standard</h4>
                             </div>
 
                             <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
@@ -265,7 +265,7 @@
                         <!-- Card -->
                         <div class="flex flex-col h-full text-center">
                             <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Team</h4>
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Advanced</h4>
                             </div>
 
                             <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
@@ -316,7 +316,7 @@
                         <!-- Card -->
                         <div class="flex flex-col h-full text-center">
                             <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Enterprise</h4>
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Business</h4>
                             </div>
 
                             <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
@@ -373,7 +373,7 @@
                         <!-- Card -->
                         <div class="flex flex-col h-full text-center">
                             <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
-                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Premium</h4>
+                                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Enterprise</h4>
                             </div>
 
                             <div class="h-full bg-white lg:mt-px lg:py-5 px-8 dark:bg-gray-800">
