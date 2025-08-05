@@ -167,18 +167,18 @@ Route::middleware('auth')->group(function () {
         ->group(function(){
             Route::get('/create', 'createUser')->name('create');
             Route::get('/manage-roles', 'manageRoles')->name('manage-roles');
-            Route::get('/knowledgebase', 'getKnowledgebase')->name('knowledgebase');
+            Route::get('/knowledgebase', 'getKnowledgebase')->name('knowledgebase') ->middleware('role:administrator|supervisor|support');
             Route::post('/post-user', 'postUserCreation')->name('store');
             Route::get('/assign-customer', 'assignCustomer')->name('assign-customer');
             Route::post('/post-assign', 'postAssignCustomer')->name('post-customer');
             Route::get('/manage',  'getAllUsers')->name('get-all-users');
             //Route::post('/{user}/change-role', 'changeRole')->name('change-role');
-            Route::post('/update-role', 'updateUserRole')->name('update-role');
-            Route::get('/manage-users', 'manageUsers')->name('manage-users');
+            Route::post('/update-role', 'updateUserRole')->name('update-role')->middleware('role:administrator');
+            Route::get('/manage-users', 'manageUsers')->name('manage-users')->middleware('role:administrator');
              Route::post('{user}/status', 'updateStatus')->name('update-status');
             Route::get('{user}/status', 'getUserStatus')->name('get-status');
             Route::post('bulk-status-update', 'bulkUpdateStatus')->name('bulk-status-update');
-            Route::get('status-stats', 'getStatusStats')->name('status-stats');
+            Route::get('status-stats', 'getStatusStats')->name('status-stats')->middleware('role:administrator');
 
             Route::delete('/{user}', 'destroy');
         });
@@ -193,6 +193,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(BusinesDeveloperController::class)
         ->prefix('busines-developer')
         ->name('busines-developer.')
+        ->middleware('role:bussinessdeveloper')
         ->group(function(){
             Route::get('/', 'bussinesDeveloperDashboard')->name('bussines-developer-dashboard');
             Route::get('/send-emails', 'sendEmails')->name('send-emails');
@@ -206,11 +207,11 @@ Route::middleware('auth')->group(function () {
         ->prefix('customers')
         ->name('customers.')
         ->group(function(){
-            Route::get('/onboard', 'getOnboarding')->name('onboard');
-            Route::get('/manage', 'manageCustomer')->name('manage');
+            Route::get('/onboard', 'getOnboarding')->name('onboard')->middleware('role:administrator');
+            Route::get('/manage', 'manageCustomer')->name('manage')->middleware('role:administrator');
             Route::get('/edit/{id}', 'show')->name('edit');
-            Route::get('/pricing', 'pricing')->name('pricing');
-            Route::get('/customer-dashboard', 'customerDashboard');
+            Route::get('/pricing', 'pricing')->name('pricing')->middleware('role:customer');
+            Route::get('/customer-dashboard', 'customerDashboard')->middleware('role:customer');
             Route::put('/update/{id}', 'updateCustomer')->name('update');
             Route::get('/download-onboarmanading-template', 'downloadTemplate')->name('download-onboarding-template');
             Route::post('/bulk-customer-upload', 'bulkUpload')->name('bulk-customer-upload');
