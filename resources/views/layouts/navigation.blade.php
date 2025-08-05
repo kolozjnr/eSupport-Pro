@@ -207,12 +207,14 @@
                     @endif
 
                     
-                     <li class="menu-item">
+                     @if (!auth()->user()->hasRole('customer'))
+                         <li class="menu-item">
                         <a href="https://esupportpro.com:2096/" class="menu-link">
                             <span class="menu-icon"><i class="mgc_box_2_line"></i></span>
                             <span class="menu-text"> Web mail </span>
                         </a>
-                    </li>
+                        </li>
+                     @endif
 
                     
                     
