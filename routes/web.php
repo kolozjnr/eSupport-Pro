@@ -92,7 +92,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/customer-tickets', 'getCustomerTickets')->name('CustomerTickets');
                 Route::get('/quality-control-tickets', 'getQualityControlTickets')->name('QualityControlTickets');
                 //Assign Ticket QA
-                Route::post('/bulk-assign-ticket', 'assignTicketByQualityControl')->name('bulk-assign-ticket');
+                Route::post('/bulk-assign-ticket', 'assignTicketByQualityControl')->name('bulk-assign-ticket')->middleware('role:qualitycontrol');
                 
                 Route::get('/{ticket}/edit-ticket', 'editTicket')->name('edit-ticket');
                 Route::put('/tickets/{ticket}', 'updateTicket')->name('user.tickets.update');
@@ -102,22 +102,22 @@ Route::middleware('auth')->group(function () {
                 //Review
 
                 //support ticket
-                Route::get('/support-tickets', 'getSupportTicket')->name('support-tickets');
-                Route::post('/tickets/update-status/{id}', 'updateSupportTicket')->name('updateSupportTicket');
+                Route::get('/support-tickets', 'getSupportTicket')->name('support-tickets')->middleware('role:support');
+                Route::post('/tickets/update-status/{id}', 'updateSupportTicket')->name('updateSupportTicket')->middleware('role:support');
 
-                Route::get('/template-draft', 'draftTemplate')->name('draft-template');
-                Route::get('/view-drafts', 'viewDrafts')->name('view-drafts');
-                Route::get('/data-drafts', 'getDraft')->name('data-drafts');
-                Route::post('/store-draft', 'storeDraft')->name('storeDraft');
-                Route::post('/bulk-draft-upload', 'bulkDraftUpload')->name('bulk-draft-upload');
+                Route::get('/template-draft', 'draftTemplate')->name('draft-template')->middleware('role:customer');
+                Route::get('/view-drafts', 'viewDrafts')->name('view-drafts')->middleware('role:customer');
+                Route::get('/data-drafts', 'getDraft')->name('data-drafts')->middleware('role:customer');
+                Route::post('/store-draft', 'storeDraft')->name('storeDraft')->middleware('role:customer');
+                Route::post('/bulk-draft-upload', 'bulkDraftUpload')->name('bulk-draft-upload')->middleware('role:customer');
                 // Route::delete('/{draft}', [DraftController::class, 'destroy'])->name('drafts.destroy');
                 Route::get('/view-feedback', 'viewFeedback')->name('view-feedback');
 
                 //Ticket onBehalf
-                Route::get('/create-onbehalf', 'createTicketonBehalf')->name('create-onbehalf');
-                Route::get('/get-tickets-onbehalf', 'getCustomerTicketsOnBehalf')->name('get-tickets-onbehalf');
-                Route::get('/view-tickets-onbehalf', 'viewOnbehalfTicket')->name('view-tickets-onbehalf');
-                Route::post('/update-onbehalf', 'actionOnTicketByCustomerOnbehalf')->name('update-onbehalf');
+                Route::get('/create-onbehalf', 'createTicketonBehalf')->name('create-onbehalf')->middleware('role:administrator|support|bussinessdeveloper|qualitycontrol');
+                Route::get('/get-tickets-onbehalf', 'getCustomerTicketsOnBehalf')->name('get-tickets-onbehalf')->middleware('role:customer');
+                Route::get('/view-tickets-onbehalf', 'viewOnbehalfTicket')->name('view-tickets-onbehalf')->middleware('role:customer');
+                Route::post('/update-onbehalf', 'actionOnTicketByCustomerOnbehalf')->name('update-onbehalf')->middleware('role:customer');
             });
             Route::controller(DraftController::class)
             ->prefix('support')
@@ -128,14 +128,15 @@ Route::middleware('auth')->group(function () {
             Route::controller(ReviewController::class)
             ->prefix('reviews')
             ->name('reviews.')
+            ->middleware('role:customer')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/create', 'create')->name('create');
-                Route::post('/post-review', 'reviewTicket')->name('store');
-                Route::get('/{review}', 'show')->name('show');
-                Route::get('/{review}/edit', 'edit')->name('edit');
-                Route::put('/{review}', 'update')->name('update');
-                Route::delete('/{review}', 'destroy')->name('destroy');
+                Route::post('/post-review', 'reviewTicket')->name('store')->middleware('role:customer');
+                Route::get('/{review}', 'show')->name('show')->middleware('role:customer');
+                Route::get('/{review}/edit', 'edit')->name('edit')->middleware('role:customer');
+                Route::put('/{review}', 'update')->name('update')->middleware('role:customer');
+                Route::delete('/{review}', 'destroy')->name('destroy')->middleware('role:customer');
             });
 
             // Administrator settings
@@ -143,8 +144,8 @@ Route::middleware('auth')->group(function () {
             ->prefix('settings')
             ->name('settings.')
             ->group(function(){
-                Route::get('/', 'viewSettings')->name('index');
-                Route::post('/post-settings', 'postSettings')->name('store');
+                Route::get('/', 'viewSettings')->name('index')->middleware('role:administrator');
+                Route::post('/post-settings', 'postSettings')->name('store')->middleware('role:administrator');
                 Route::get('/get-update-password/{id}', 'getUpdatePassword')->name('get-update-password');
                 Route::put('/update-password/{id}', 'updatePassword')->name('update-password');
             });
@@ -152,6 +153,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(InvoiceController::class)
             ->prefix('invoices')
             ->name('invoices.')
+            ->middleware('role:account')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/report', 'financialReport')->name('report');

@@ -87,15 +87,15 @@
                 <div class="mb-4">
                     <h3 class="font-semibold mb-2">Bank Transfer Details</h3>
                     <ul class="text-sm space-y-1">
-                        <li><strong>Bank:</strong> Zenith Bank</li>
-                        <li><strong>Account Name:</strong> EL Tech</li>
-                        <li><strong>Account Number:</strong> 1234567890</li>
+                        <li><strong>Bank:</strong> Zenith Bank plc</li>
+                        <li><strong>Account Name:</strong> E-Supportpro</li>
+                        <li><strong>Account Number:</strong> 1310262889</li>
                     </ul>
                 </div>
 
                 <div class="mb-6 text-sm">
                     After successful payment, please send your proof of payment (screenshot or receipt) to:  
-                    <a href="mailto:support@dictacare.org" class="text-blue-600 underline">billing@eltechsolution.com</a>
+                    <a href="mailto:support@dictacare.org" class="text-blue-600 underline">billing@esupportpro.com</a>
                 </div>
                 <form action="{{ route('monnify.pay') }}" method="POST">
                     @csrf
