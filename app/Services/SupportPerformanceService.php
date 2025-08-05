@@ -53,7 +53,9 @@ class SupportPerformanceService
 
     public function getSupportPerformanceMetrics()
     {
-        $supportMetrics = SupportPerformanceMetric::with('support.user')->get();
+        $supportMetrics = SupportPerformanceMetric::with('support.user')
+        ->whereNotNull('support_id')
+        ->get();
 
         return $supportMetrics;
     }

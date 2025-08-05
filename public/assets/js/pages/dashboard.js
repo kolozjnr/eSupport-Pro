@@ -246,7 +246,7 @@ function loadChartData() {
                     series.push(support.average_resolution_time);
                     
                     // Create label with support name and resolved tickets count
-                    const supportName = support.support.user.fname + ' ' + support.support.user.lname;
+                    const supportName = support.support?.user?.fname + ' ' + support.support?.user?.lname;
                     labels.push(`${supportName} (${support.total_tickets_resolved} resolved)`);
                 });
                 

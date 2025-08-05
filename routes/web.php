@@ -23,6 +23,10 @@ use App\Http\Controllers\User\SupportPerfomanceController;
 //     return view('welcome');
 // });
 
+Route::get('/test-403', function () {
+    abort(403, 'This is a test 403 error');
+})->name('test.403');
+
 Route::get('/', function () {
     return view('landing.index');
 })->name('home');
@@ -92,7 +96,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/customer-tickets', 'getCustomerTickets')->name('CustomerTickets');
                 Route::get('/quality-control-tickets', 'getQualityControlTickets')->name('QualityControlTickets');
                 //Assign Ticket QA
-                Route::post('/bulk-assign-ticket', 'assignTicketByQualityControl')->name('bulk-assign-ticket')->middleware('role:qualitycontrol');
+                Route::post('/bulk-assign-ticket', 'assignTicketByQualityControl')->name('bulk-assign-ticket');
                 
                 Route::get('/{ticket}/edit-ticket', 'editTicket')->name('edit-ticket');
                 Route::put('/tickets/{ticket}', 'updateTicket')->name('user.tickets.update');
@@ -102,22 +106,22 @@ Route::middleware('auth')->group(function () {
                 //Review
 
                 //support ticket
-                Route::get('/support-tickets', 'getSupportTicket')->name('support-tickets')->middleware('role:support');
-                Route::post('/tickets/update-status/{id}', 'updateSupportTicket')->name('updateSupportTicket')->middleware('role:support');
+                Route::get('/support-tickets', 'getSupportTicket')->name('support-tickets');
+                Route::post('/tickets/update-status/{id}', 'updateSupportTicket')->name('updateSupportTicket');
 
-                Route::get('/template-draft', 'draftTemplate')->name('draft-template')->middleware('role:customer');
-                Route::get('/view-drafts', 'viewDrafts')->name('view-drafts')->middleware('role:customer');
-                Route::get('/data-drafts', 'getDraft')->name('data-drafts')->middleware('role:customer');
-                Route::post('/store-draft', 'storeDraft')->name('storeDraft')->middleware('role:customer');
-                Route::post('/bulk-draft-upload', 'bulkDraftUpload')->name('bulk-draft-upload')->middleware('role:customer');
+                Route::get('/template-draft', 'draftTemplate')->name('draft-template');
+                Route::get('/view-drafts', 'viewDrafts')->name('view-drafts');
+                Route::get('/data-drafts', 'getDraft')->name('data-drafts');
+                Route::post('/store-draft', 'storeDraft')->name('storeDraft');
+                Route::post('/bulk-draft-upload', 'bulkDraftUpload')->name('bulk-draft-upload');
                 // Route::delete('/{draft}', [DraftController::class, 'destroy'])->name('drafts.destroy');
                 Route::get('/view-feedback', 'viewFeedback')->name('view-feedback');
 
                 //Ticket onBehalf
-                Route::get('/create-onbehalf', 'createTicketonBehalf')->name('create-onbehalf')->middleware('role:administrator|support|bussinessdeveloper|qualitycontrol');
-                Route::get('/get-tickets-onbehalf', 'getCustomerTicketsOnBehalf')->name('get-tickets-onbehalf')->middleware('role:customer');
-                Route::get('/view-tickets-onbehalf', 'viewOnbehalfTicket')->name('view-tickets-onbehalf')->middleware('role:customer');
-                Route::post('/update-onbehalf', 'actionOnTicketByCustomerOnbehalf')->name('update-onbehalf')->middleware('role:customer');
+                Route::get('/create-onbehalf', 'createTicketonBehalf')->name('create-onbehalf');
+                Route::get('/get-tickets-onbehalf', 'getCustomerTicketsOnBehalf')->name('get-tickets-onbehalf');
+                Route::get('/view-tickets-onbehalf', 'viewOnbehalfTicket')->name('view-tickets-onbehalf');
+                Route::post('/update-onbehalf', 'actionOnTicketByCustomerOnbehalf')->name('update-onbehalf');
             });
             Route::controller(DraftController::class)
             ->prefix('support')
@@ -128,15 +132,14 @@ Route::middleware('auth')->group(function () {
             Route::controller(ReviewController::class)
             ->prefix('reviews')
             ->name('reviews.')
-            ->middleware('role:customer')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/create', 'create')->name('create');
-                Route::post('/post-review', 'reviewTicket')->name('store')->middleware('role:customer');
-                Route::get('/{review}', 'show')->name('show')->middleware('role:customer');
-                Route::get('/{review}/edit', 'edit')->name('edit')->middleware('role:customer');
-                Route::put('/{review}', 'update')->name('update')->middleware('role:customer');
-                Route::delete('/{review}', 'destroy')->name('destroy')->middleware('role:customer');
+                Route::post('/post-review', 'reviewTicket')->name('store');
+                Route::get('/{review}', 'show')->name('show');
+                Route::get('/{review}/edit', 'edit')->name('edit');
+                Route::put('/{review}', 'update')->name('update');
+                Route::delete('/{review}', 'destroy')->name('destroy');
             });
 
             // Administrator settings
@@ -144,8 +147,8 @@ Route::middleware('auth')->group(function () {
             ->prefix('settings')
             ->name('settings.')
             ->group(function(){
-                Route::get('/', 'viewSettings')->name('index')->middleware('role:administrator');
-                Route::post('/post-settings', 'postSettings')->name('store')->middleware('role:administrator');
+                Route::get('/', 'viewSettings')->name('index');
+                Route::post('/post-settings', 'postSettings')->name('store');
                 Route::get('/get-update-password/{id}', 'getUpdatePassword')->name('get-update-password');
                 Route::put('/update-password/{id}', 'updatePassword')->name('update-password');
             });
@@ -153,7 +156,6 @@ Route::middleware('auth')->group(function () {
         Route::controller(InvoiceController::class)
             ->prefix('invoices')
             ->name('invoices.')
-            ->middleware('role:account')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/report', 'financialReport')->name('report');
@@ -169,18 +171,18 @@ Route::middleware('auth')->group(function () {
         ->group(function(){
             Route::get('/create', 'createUser')->name('create');
             Route::get('/manage-roles', 'manageRoles')->name('manage-roles');
-            Route::get('/knowledgebase', 'getKnowledgebase')->name('knowledgebase') ->middleware('role:administrator|supervisor|support');
+            Route::get('/knowledgebase', 'getKnowledgebase')->name('knowledgebase');
             Route::post('/post-user', 'postUserCreation')->name('store');
             Route::get('/assign-customer', 'assignCustomer')->name('assign-customer');
             Route::post('/post-assign', 'postAssignCustomer')->name('post-customer');
             Route::get('/manage',  'getAllUsers')->name('get-all-users');
             //Route::post('/{user}/change-role', 'changeRole')->name('change-role');
-            Route::post('/update-role', 'updateUserRole')->name('update-role')->middleware('role:administrator');
-            Route::get('/manage-users', 'manageUsers')->name('manage-users')->middleware('role:administrator');
+            Route::post('/update-role', 'updateUserRole')->name('update-role');
+            Route::get('/manage-users', 'manageUsers')->name('manage-users');
              Route::post('{user}/status', 'updateStatus')->name('update-status');
             Route::get('{user}/status', 'getUserStatus')->name('get-status');
             Route::post('bulk-status-update', 'bulkUpdateStatus')->name('bulk-status-update');
-            Route::get('status-stats', 'getStatusStats')->name('status-stats')->middleware('role:administrator');
+            Route::get('status-stats', 'getStatusStats')->name('status-stats');
 
             Route::delete('/{user}', 'destroy');
         });
@@ -195,7 +197,6 @@ Route::middleware('auth')->group(function () {
         Route::controller(BusinesDeveloperController::class)
         ->prefix('busines-developer')
         ->name('busines-developer.')
-        ->middleware('role:bussinessdeveloper')
         ->group(function(){
             Route::get('/', 'bussinesDeveloperDashboard')->name('bussines-developer-dashboard');
             Route::get('/send-emails', 'sendEmails')->name('send-emails');
@@ -209,11 +210,11 @@ Route::middleware('auth')->group(function () {
         ->prefix('customers')
         ->name('customers.')
         ->group(function(){
-            Route::get('/onboard', 'getOnboarding')->name('onboard')->middleware('role:administrator');
-            Route::get('/manage', 'manageCustomer')->name('manage')->middleware('role:administrator');
+            Route::get('/onboard', 'getOnboarding')->name('onboard');
+            Route::get('/manage', 'manageCustomer')->name('manage');
             Route::get('/edit/{id}', 'show')->name('edit');
-            Route::get('/pricing', 'pricing')->name('pricing')->middleware('role:customer');
-            Route::get('/customer-dashboard', 'customerDashboard')->middleware('role:customer');
+            Route::get('/pricing', 'pricing')->name('pricing');
+            Route::get('/customer-dashboard', 'customerDashboard');
             Route::put('/update/{id}', 'updateCustomer')->name('update');
             Route::get('/download-onboarmanading-template', 'downloadTemplate')->name('download-onboarding-template');
             Route::post('/bulk-customer-upload', 'bulkUpload')->name('bulk-customer-upload');
