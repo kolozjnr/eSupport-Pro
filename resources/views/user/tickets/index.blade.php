@@ -38,19 +38,23 @@
                             </div>
                         </div>
                         <div class="p-6">
-                          <div id="loading-indicator" class="hidden fixed inset-0 bg-white dark:bg-slate-900 bg-opacity-75 flex items-center justify-center z-50">
+                        <div id="loading-indicator" class="hidden fixed inset-0 bg-white dark:bg-slate-900 bg-opacity-75 flex items-center justify-center z-50">
                             <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-                          </div>
-                            <div id="bulk-actions-container" class="mb-3"></div>
-                            {{-- <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">The most basic list group is an unordered list with list items and the proper classes. Build upon it with the options that follow, or with your own CSS as needed.</p> --}}
+                        </div>
+                        <div id="bulk-actions-container" class="mb-3"></div>
+                        
+                        <!-- Responsive table container -->
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <div class="min-w-[800px] md:min-w-full">
                             @if(auth()->user()->hasRole('customer'))
                             <div id="customer-tickets-table"></div>
                             @elseif(auth()->user()->hasRole('qualitycontrol'))
                             <div id="quality-control-tickets"></div>
                             @elseif(auth()->user()->hasRole('support'))
                             <div id="support-tickets-table"></div>
-                            
                             @endif
+                            </div>
+                        </div>
                         </div>
                     </div>
 
