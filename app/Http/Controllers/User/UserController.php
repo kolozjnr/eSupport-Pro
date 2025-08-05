@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\RoleChangedNotification;
 
 class UserController extends Controller
 {
@@ -532,7 +533,8 @@ class UserController extends Controller
         return view('user.settings.manage_roles', compact('users', 'roles'));
     }
 
-    public function updateUserRole(Request $request)
+
+public function updateUserRole(Request $request)
 {
     $request->validate([
         'user_type' => 'required|exists:users,id',
@@ -543,7 +545,9 @@ class UserController extends Controller
     $newRoleId = $request->role;
     $newRoleName = Role::findOrFail($newRoleId)->name;
 
-    // Step 1: Delete existing role data
+    $oldRole = optional($user->roles()->first())->name ?? 'No Role';
+
+    // Delete old role data
     $roleTables = [
         'customer' => Customer::class,
         'support' => Support::class,
@@ -563,7 +567,7 @@ class UserController extends Controller
         }
     }
 
-    // Step 2: Create new role record
+    // Add new role record
     switch (strtolower($newRoleName)) {
         case 'customer':
             Customer::create(['user_id' => $user->id]);
@@ -574,7 +578,7 @@ class UserController extends Controller
         case 'administrator':
             Administrator::create(['user_id' => $user->id]);
             break;
-        case 'quality control':
+        case 'qualitycontrol':
             QualityControl::create(['user_id' => $user->id]);
             break;
         case 'supervisor':
@@ -583,26 +587,30 @@ class UserController extends Controller
         case 'account':
             Account::create(['user_id' => $user->id]);
             break;
-        case 'business developer':
-            BusinessDeveloper::create(['user_id' => $user->id]);
+        case 'businessdeveloper':
+            $refCode = BusinessDeveloper::generateRefCode();
+            BusinessDeveloper::create([
+                'user_id' => $user->id,
+                'referral_code' => $refCode
+            ]);
             break;
-        case 'business manager':
+        case 'businessmanager':
             BusinessManager::create(['user_id' => $user->id]);
             break;
-        case 'business supervisor':
+        case 'businesssupervisor':
             BusinessSupervisor::create(['user_id' => $user->id]);
             break;
-        case 'customer manager':
+        case 'customermanager':
             CustomerManager::create(['user_id' => $user->id]);
             break;
     }
 
-    // Optional: Update user table if you store role info there
-    //$user->role = $newRoleName;
-    $user->save();
+    // Send role change notification
+    $user->notify(new RoleChangedNotification($oldRole, $newRoleName));
 
     return redirect()->back()->with('success', 'User role updated successfully.');
 }
+
 
 
     public function getKnowledgebase()
