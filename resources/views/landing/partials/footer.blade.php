@@ -207,13 +207,13 @@
               <div class="space-y-7">
                 <div>
                   <p class="font-heading text-base text-dark-text">
-                    Toll Free Customer Care
+                    Customer Care
                   </p>
                   <a
                     href="tel:+(1) 123 456 7890"
                     class="font-heading text-base text-dark hover:text-primary dark:text-white dark:hover:text-primary"
                   >
-                    +(1) 123 456 7890
+                    +(234) 706 731 9819
                   </a>
                 </div>
                 <div>
