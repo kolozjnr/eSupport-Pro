@@ -156,6 +156,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(InvoiceController::class)
             ->prefix('invoices')
             ->name('invoices.')
+            ->middleware('role:account')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/report', 'financialReport')->name('report');
@@ -197,6 +198,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(BusinesDeveloperController::class)
         ->prefix('busines-developer')
         ->name('busines-developer.')
+        ->middleware('role:businessdeveloper')
         ->group(function(){
             Route::get('/', 'bussinesDeveloperDashboard')->name('bussines-developer-dashboard');
             Route::get('/send-emails', 'sendEmails')->name('send-emails');
@@ -210,10 +212,10 @@ Route::middleware('auth')->group(function () {
         ->prefix('customers')
         ->name('customers.')
         ->group(function(){
-            Route::get('/onboard', 'getOnboarding')->name('onboard');
+            Route::get('/onboard', 'getOnboarding')->name('onboard')->middleware('role:businessdeveloper');
             Route::get('/manage', 'manageCustomer')->name('manage');
             Route::get('/edit/{id}', 'show')->name('edit');
-            Route::get('/pricing', 'pricing')->name('pricing');
+            Route::get('/pricing', 'pricing')->name('pricing')->middleware('role:customer');
             Route::get('/customer-dashboard', 'customerDashboard');
             Route::put('/update/{id}', 'updateCustomer')->name('update');
             Route::get('/download-onboarmanading-template', 'downloadTemplate')->name('download-onboarding-template');
@@ -225,8 +227,8 @@ Route::middleware('auth')->group(function () {
         ->prefix('support')
         ->name('support.')
         ->group(function(){
-            Route::get('/manage-identity', 'getSupports')->name('manage-identity');
-            Route::get('/get-support-identity/{support_id}', 'getIdentity')->name('get-identity');
+            Route::get('/manage-identity', 'getSupports')->name('manage-identity')->middleware('role:customer');
+            Route::get('/get-support-identity/{support_id}', 'getIdentity')->name('get-identity')->middleware('role:customer');
             Route::post('/update-identity', 'updateIdentity')->name('update-identity');
         });
 

@@ -112,6 +112,11 @@ class MonnifyPaymentController extends Controller
                     case 'monthly':
                         $newEndDate->addMonth();
                         break;
+                    case 'quarterly':
+                        $newEndDate->addMonths(3);
+                    case 'biannually':
+                        $newEndDate->addMonths(6);
+                        break;
                     case 'yearly':
                         $newEndDate->addYear();
                         break;

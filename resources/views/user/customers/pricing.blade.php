@@ -165,7 +165,7 @@
                                     <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                         <option value="monthly">Monthly</option>
                                         <option value="quarterly">Quarterly (Save 5%)</option>
-                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="biannually">Bi-Annually (Save 10%)</option>
                                         <option value="annually">Annually (Save 15%)</option>
                                     </select>
                                 </div>
@@ -220,7 +220,7 @@
                                     <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                         <option value="monthly">Monthly</option>
                                         <option value="quarterly">Quarterly (Save 5%)</option>
-                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="biannually">Bi-Annually (Save 10%)</option>
                                         <option value="annually">Annually (Save 15%)</option>
                                     </select>
                                 </div>
@@ -274,7 +274,7 @@
                                     <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                         <option value="monthly">Monthly</option>
                                         <option value="quarterly">Quarterly (Save 5%)</option>
-                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="biannually">Bi-Annually (Save 10%)</option>
                                         <option value="annually">Annually (Save 15%)</option>
                                     </select>
                                 </div>
@@ -327,7 +327,7 @@
                                     <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                         <option value="monthly">Monthly</option>
                                         <option value="quarterly">Quarterly (Save 5%)</option>
-                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="biannually">Bi-Annually (Save 10%)</option>
                                         <option value="annually">Annually (Save 15%)</option>
                                     </select>
                                 </div>
@@ -384,7 +384,7 @@
                                     <select class="subscription-frequency w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                         <option value="monthly">Monthly</option>
                                         <option value="quarterly">Quarterly (Save 5%)</option>
-                                        <option value="bi-annually">Bi-Annually (Save 10%)</option>
+                                        <option value="biannually">Bi-Annually (Save 10%)</option>
                                         <option value="annually">Annually (Save 15%)</option>
                                     </select>
                                 </div>
@@ -539,7 +539,7 @@ New sub before the expiration of the previous one. The slots on the previous sub
                 case 'quarterly':
                     price = basePrice * 3 * 0.95; // 5% discount
                     break;
-                case 'bi-annually':
+                case 'biannually':
                     price = basePrice * 6 * 0.90; // 10% discount
                     break;
                 case 'annually':
