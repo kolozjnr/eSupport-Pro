@@ -390,7 +390,7 @@
                                 </div>
                                 
                                 <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
-                                    <span class="font-bold text-2xl -me-2">&#8358;</span>
+                                    {{-- <span class="font-bold text-2xl -me-2">&#8358;</span> --}}
                                     <span class="display-price">Contact Sales</span>
                                 </span>
                             </div>
@@ -398,19 +398,7 @@
                             <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
                                 <ul class="space-y-2.5 text-center text-sm">
                                     <li class="text-gray-800 dark:text-gray-400">
-                                        Plan features
-                                    </li>
-                                    <li class="text-gray-800 dark:text-gray-400">
-                                        Call Centre Service 
-                                    </li>
-                                    <li class="text-gray-800 dark:text-gray-400">
-                                        Virtual Assistance
-                                    </li>
-                                    <li class="text-gray-800 dark:text-gray-400">
-                                        General Support
-                                    </li>
-                                    <li class="text-gray-800 dark:text-gray-400">
-                                        Citizen Service Desk
+                                        Kindly contact our sales team. for this plan
                                     </li>
                                 </ul>
                             </div>

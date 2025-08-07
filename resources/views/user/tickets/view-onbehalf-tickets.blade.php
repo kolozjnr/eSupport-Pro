@@ -43,9 +43,14 @@
                           </div>
                             <div id="bulk-actions-container" class="mb-3"></div>
                             {{-- <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">The most basic list group is an unordered list with list items and the proper classes. Build upon it with the options that follow, or with your own CSS as needed.</p> --}}
+                            
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <div class="min-w-[800px] md:min-w-full">
                             @if(auth()->user()->hasRole('customer'))
                             <div id="customer-tickets-onbehalf"></div>
                             @endif
+                            </div>
+                        </div>
                         </div>
                     </div>
 
