@@ -29,6 +29,17 @@
                 
                             <form class="grid gap-4 mb-6" @submit.prevent="submitTicket">
                                 <!-- Ticket Information -->
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div>
+                                            <label for="ticket-name" class="block text-sm font-medium mb-1">Service</label>
+                                            <select x-model="ticket.service_type" class="form-select w-full" required>
+                                                <option value="call_service_points">Call Service</option>
+                                                <option value="general_support_points">General Support</option>
+                                                <option value="virtual_assistance_points">Virtual Assistant</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label for="ticket-name" class="block text-sm font-medium mb-1">Ticket Name</label>
@@ -202,6 +213,7 @@
                     name: '',
                     description: '',
                     customer_id: '',
+                    service_type: '',
                     phone_numbers: [{ number: '' }]
                 },
                 isLoading: false,

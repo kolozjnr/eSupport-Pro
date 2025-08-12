@@ -230,7 +230,7 @@
             </a>
             <hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700">
 
-             <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="{{ route('customers.edit', auth()->user()->customer->id) }}">
+             <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="{{ route('customers.edit', auth()->user()->id) }}">
                 <i class="mgc_settings_1_line  me-2"></i> 
                 <span>Update Profile</span>
             </a>
@@ -252,6 +252,9 @@
         </div>
     </div>
 </header>
+ @if (auth()->user()->hasRole('customer') && auth()->user()->customer->is_kyced !== 2)
+                        <marquee behavior="" direction="left" scrollamount="5" class="text-red-500 text-xl"> Kindly submit your KYC for approval</marquee>
+                    @endif
 <!-- Topbar End -->
 
 <!-- Topbar Search Modal -->
@@ -302,7 +305,7 @@ function notificationSystem() {
         init() {
             this.fetchNotifications();
             // Poll for new notifications every 60 seconds
-            this.polling = setInterval(() => this.fetchNotifications(), 60000);
+            //this.polling = setInterval(() => this.fetchNotifications(), 60000);
         },
         
         toggleDropdown() {

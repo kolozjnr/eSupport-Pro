@@ -81,7 +81,26 @@
                     <div class="w-full px-4 sm:w-1/2">
                       <div class="mb-10">
                         <label
-                          for="fname"
+                          for="username"
+                          class="mb-3 block font-heading text-base text-dark dark:text-white"
+                        >
+                          Username
+                        </label>
+                        <input
+                          type="text"
+                          name="username"
+                          :value="old('username')" autofocus autocomplete="username"
+                          placeholder="Username"
+                          class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
+                        />
+                        <x-input-error :messages="$errors->get('username')" class="mt-2" /> 
+                      </div>
+                    </div>
+
+                    <div class="w-full px-4 sm:w-1/2">
+                      <div class="mb-10">
+                        <label
+                          for="referral_code"
                           class="mb-3 block font-heading text-base text-dark dark:text-white"
                         >
                           Referral Code (Optional)

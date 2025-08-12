@@ -12,6 +12,7 @@ use App\Models\Customer;
 use App\Models\Identity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\TicketAttachment;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Services\SupportPerformanceService;
 use App\Notifications\TaskAssignedNotification;
 use App\Notifications\CustomerTicketUpdateNotification;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use App\Notifications\TicketUploadedOnbehalfofCustomerNotification;
 
 class TicketsController extends Controller
@@ -490,50 +492,91 @@ public function updateSupportTicket(Request $request, $id)
 
 
     public function store(Request $request)
-    {
+{
+    // Get deduction from settings
+    $deduction = Cache::rememberForever('deduction', function() {
+        return Setting::first();
+    })->general_support_charge;
+
+    $userId = auth()->id();
+    $customerId = auth()->user()->getCustomerId();
+
+    // Validate request
+    $validator = Validator::make($request->all(), [
+       'service_type' => 'required',
+        'name' => 'required|string|max:255',
+        'description' => 'required|string|max:500',
+        'phone_numbers' => 'required|array|min:1',
+        'phone_numbers.*' => 'required|max:20',
+        'file' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    if($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Validation failed',
+            'errors' => $validator->errors()
+        ], 400);
+    }
+
+    $validated = $validator->validated();
+
+    //dd($request->file);
+
+    // Check customer balance if user is a customer
+    if (auth()->user()->hasRole('customer')) {
+        $customer = auth()->user()->customer;
+        $serviceType = $request->service_type;
         
-        //dd($request->customer_id);
-        $deduction = Cache::rememberForever('deduction', function(){
-            return Setting::first();
-        });
-        $deduction = $deduction->general_support_charge;
-        $userId = auth()->user()->id;
+        $balanceField = match($serviceType) {
+            'call_service_points' => 'call_service_points',
+            'general_support_points' => 'general_support_points',
+            'virtual_assistance_points' => 'virtual_assistance_points',
+            default => null
+        };
 
-        $customerId = auth()->user()->getCustomerId();
-        if(auth()->user()->hasRole('customer'))
-        {
-            $citizenBal = auth()->user()->customer->general_support_points;
-
-             if ($citizenBal < $deduction) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Insufficient service points to create ticket.'
-                ], 400);
-            }
-
+        if (!$balanceField || $customer->$balanceField < $deduction) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Insufficient service points to create ticket.'
+            ], 400);
         }
-        //dd($userId);
-        //dd(auth()->user()->id);
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
-            'phone_numbers' => 'required|array|min:1',
-            'phone_numbers.*.number' => 'required|max:20',
-        ]);
 
-        // if ($citizenBal < $deduction) {
-        //         return response()->json([
-        //             'success' => false,
-        //             'message' => 'Insufficient service points to create ticket.'
-        //         ], 400);
-        //     }
+        $customer->decrement($balanceField, $deduction);
+    }
 
-        try {
+    try {
+        DB::beginTransaction();
+  $phoneNumbers = $request->input('phone_numbers', []);
+        // Process phone numbers - safer handling
+        $phoneNumbers = collect($request->phone_numbers)
+            ->map(function ($phone) {
+                if (is_array($phone)) {
+                    return $phone['number'] ?? null;
+                }
+                return $phone;
+            })
+            ->filter()
+            ->all();
 
-           
-            DB::beginTransaction();
+        if (empty($phoneNumbers)) {
+            throw new \Exception('At least one valid phone number is required');
+        }
 
-            if($request->filled('customer_id'))
+        // Create ticket
+        // $ticketData = [
+        //     'name' => $validated['name'],
+        //     'description' => $validated['description'],
+        //     'subject' => 'New Ticket',
+        //     'status' => 'open',
+        //     'user_id' => $userId,
+        //     'customer_id' => $customerId,
+        //     'accepted_status' => 0
+        // ];
+
+
+
+          if($request->filled('customer_id'))
             {
                 //dd($request->customer_id);
                 $customer = Customer::findOrFail($request->customer_id);
@@ -551,12 +594,36 @@ public function updateSupportTicket(Request $request, $id)
                     'customer_id' => $request->customer_id,
                     'accepted_status' => 0
                 ]);
-                foreach ($validated['phone_numbers'] as $phone) {
+            //     foreach ($phoneNumbers as $number) {
+            //     $ticket->phoneNumbers()->create([
+            //         'number' => $number,
+            //         'user_id' => $ticket->user_id,
+            //         'customer_id' => $ticket->customer_id
+            //     ]);
+            // }
+              foreach ($phoneNumbers as $number) {
                 $ticket->phoneNumbers()->create([
-                    'number' => $phone['number'],
-                    'user_id' => $userId,
-                    'customer_id' => $request->customer_id
+                    'number' => $number,
+                    'user_id' => $ticket->user_id,
+                    'customer_id' => $ticket->customer_id
                 ]);
+            }
+
+            // Handle file upload
+            if ($request->hasFile('file')) {
+                
+                    $uploadedFile = $request->file('file');
+                    $cloudinaryResponse = Cloudinary::upload($uploadedFile->getRealPath(), [
+                        'folder' => 'ticket_attachments',
+                        'resource_type' => 'auto'
+                    ]);
+                    
+                $upl =  TicketAttachment::create([
+                        'ticket_id' => $ticket->id,
+                        'public_id' => $cloudinaryResponse->getPublicId(),
+                        'file' => $cloudinaryResponse->getSecurePath()
+                    ]);
+                    //dd($upl);
             }
             $customer->user->notify(new TicketUploadedOnbehalfofCustomerNotification($userFname, $ticket->id));
 
@@ -571,36 +638,88 @@ public function updateSupportTicket(Request $request, $id)
                     'user_id' => $userId,
                     'customer_id' => $customerId
                 ]);
-                foreach ($validated['phone_numbers'] as $phone) {
-                    $ticket->phoneNumbers()->create([
-                        'number' => $phone['number'],
-                        'user_id' => $userId,
-                        'customer_id' => $customerId
-                    ]);
+                 foreach ($phoneNumbers as $number) {
+                $ticket->phoneNumbers()->create([
+                    'number' => $number,
+                    'user_id' => $ticket->user_id,
+                    'customer_id' => $ticket->customer_id
+                ]);
+            }
+                // foreach ($phoneNumbers as $number) {
+                //     $ticket->phoneNumbers()->create([
+                //         'number' => $number,
+                //         'user_id' => $ticket->user_id,
+                //         'customer_id' => $ticket->customer_id
+                //     ]);
+                // }
+                
+                // Handle file upload
+                if ($request->hasFile('file')) {
+                   //dd('i own it');
+                        $uploadedFile = $request->file('file');
+                        //dd($uploadedFile);
+                        if ($uploadedFile->isValid()) {
+                        $cloudinaryResponse = Cloudinary::upload($uploadedFile->getRealPath(), [
+                            'folder' => 'ticket_attachments',
+                            'resource_type' => 'auto'
+                        ]);
+                        
+                     TicketAttachment::create([
+                            'ticket_id' => $ticket->id,
+                            'public_id' => $cloudinaryResponse->getPublicId(),
+                            'file' => $cloudinaryResponse->getSecurePath()
+                        ]);
+                    }
+                        //dd($upl);
                 }
+                
                 //$citizenBal - 5;
-                auth()->user()->customer->decrement('general_support_points', $deduction);
+                //auth()->user()->customer->decrement('general_support_points', $deduction);
             }
 
-            
 
-            DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Ticket created successfully',
-                'ticket' => $ticket
-            ]);
+        // if ($request->filled('customer_id')) {
+        //     $customer = Customer::findOrFail($request->customer_id);
+        //     $ticketData['user_id'] = $customer->user_id;
+        //     $ticketData['customer_id'] = $request->customer_id;
+        // }
 
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to create ticket: ' . $e->getMessage()
-            ], 500);
-        }
+        // $ticket = Ticket::create($ticketData);
+
+        // // Add phone numbers
+        // foreach ($phoneNumbers as $number) {
+        //     $ticket->phoneNumbers()->create([
+        //         'number' => $number,
+        //         'user_id' => $ticket->user_id,
+        //         'customer_id' => $ticket->customer_id
+        //     ]);
+        // }
+
+        
+
+        // Send notification if applicable
+        // if ($request->filled('customer_id')) {
+        //     $userFname = auth()->user()->fname;
+        //     $customer->user->notify(new TicketUploadedOnbehalfofCustomerNotification($userFname, $ticket->id));
+        // }
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ticket created successfully',
+            'ticket' => $ticket
+        ]);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to create ticket: ' . $e->getMessage()
+        ], 500);
     }
-
+}
     public function downloadTemplate()
     {
         $filename = "tickets_template.csv";
@@ -609,16 +728,16 @@ public function updateSupportTicket(Request $request, $id)
             'Content-Disposition' => "attachment; filename=$filename",
         ];
 
-        $handle = fopen('php://output', 'w');
-        fputcsv($handle, ['name', 'description', 'phone_numbers']);
-        fputcsv($handle, ['Sample Ticket', 'Sample description', '1234567890,9876543210']);
-        fclose($handle);
+        // $handle = fopen('php://output', 'w');
+        // fputcsv($handle, ['name', 'description', 'phone_numbers']);
+        // fputcsv($handle, ['Sample Ticket', 'Sample description', '1234567890,9876543210']);
+        // fclose($handle);
 
         return response()->streamDownload(
             function () {
                 $handle = fopen('php://output', 'w');
-                fputcsv($handle, ['name', 'description', 'phone_numbers']);
-                fputcsv($handle, ['Sample Ticket', 'Sample description', '1234567890,9876543210']);
+                fputcsv($handle, ['Name', 'Description', 'Service Type', 'phone_numbers']);
+                //fputcsv($handle, ['Sample Ticket', 'Sample description', '1234567890,9876543210']);
                 fclose($handle);
             },
             $filename,

@@ -470,10 +470,7 @@ async function initializeCustomerOnbehalfTicketsTable() {
                             //         </a>
                             let actionsHTML = `
                                 <div class="flex items-center">
-                                    
-                                    <a href="javascript:void(0);" onclick="deleteTicket('${ticketId}')" class="text-danger me-2" title="Delete">
-                                        <i class="mgc_delete_line text-xl"></i>
-                                    </a>
+                                   
                                     <a href="/dashboard/tickets/view-single-ticket/${ticketId}" class="text-primary me-2" title="View">
                                         <i class="mgc_eye_2_line text-xl"></i>
                                     </a>
@@ -1223,10 +1220,10 @@ async function initializeSupportTicketsTable() {
     }
 }
 
-  //invoice Table
+// Customer Payment History
 
-  async function subscription() {
-    const tableContainer = document.getElementById("table-viewInvoice");
+  async function paymentHistory() {
+    const tableContainer = document.getElementById("paymentHistory");
     const loadingIndicator = document.getElementById("loading-indicator");
     
     try {
@@ -1235,7 +1232,7 @@ async function initializeSupportTicketsTable() {
         if (tableContainer) tableContainer.innerHTML = '';
         
         // Fetch subscriptions from your Laravel endpoint
-        const response = await fetch('/dashboard/invoices/subscriptions', {
+        const response = await fetch('/dashboard/customers/get-payment-history', {
             headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
@@ -1243,7 +1240,7 @@ async function initializeSupportTicketsTable() {
         });
         
         if (!response.ok) {
-            throw new Error('Failed to fetch subscriptions: ' + response.statusText);
+            throw new Error('Failed to fetch history: ' + response.statusText);
         }
         
         const data = await response.json();
@@ -1253,27 +1250,31 @@ async function initializeSupportTicketsTable() {
         }
         
         const subscriptions = data.subscriptions;
-        console.log('Subscription data:', subscriptions);
+        console.log('payment history data:', subscriptions);
         
         // Initialize GridJS table if element exists
         if (tableContainer) {
             new gridjs.Grid({
                 columns: [
+                    { name: 'ID', hidden: true }, 
                     {
                         name: 'ID',
-                        formatter: (cell) => gridjs.html(`<span class="fw-semibold">${cell}</span>`)
+                        formatter: (cell) => gridjs.html(`<span class="fw-semibold">${cell}</span>`),
+                        width: '10%'
                     },
                     // {
                     //     name: 'Type',
                     //     formatter: (cell) => cell || 'N/A'
                     // },
                     {
-                        name: 'Email',
-                        formatter: (cell, row) => {
+                        name: 'Reference',
+                        formatter: (cell) => {
                             // Assuming customer data is included in the relationship
-                            const email = row.cells[2]?.data?.customer?.email || 'N/A';
-                            return gridjs.html(`<a href="mailto:${email}">${email}</a>`);
-                        }
+                            const reference = cell || 'N/A';
+                            return gridjs.html(`<span class="fw-semibold">${reference}</span>`);
+                           
+                        },
+                         width: '28%',
                     },
                         {
                         name: 'Amount',
@@ -1290,11 +1291,12 @@ async function initializeSupportTicketsTable() {
                         }
                     },
                     {
-                        name: 'Company',
-                        formatter: (cell, row) => {
+                        name: 'TRX Date',
+                        formatter: (cell) => {
                             // Assuming customer data is included in the relationship
-                            const company = row.cells[2]?.data?.customer?.company || 'N/A';
-                            return company;
+                            if (!cell) return 'N/A';
+                            const date = new Date(cell);
+                            return date.toISOString().split('T')[0];
                         }
                     },
                     {
@@ -1337,14 +1339,8 @@ async function initializeSupportTicketsTable() {
                             const subscriptionId = row.cells[0].data;
                             return gridjs.html(`
                                 <div class="flex items-center">
-                                    <a href="#" onclick="updateInvoice('${subscriptionId}')" class="text-warning me-2">
-                                        <i class="mgc_edit_line text-lg"></i>
-                                    </a>
-                                    <a href="javascript:void(0);" onclick="deleteSubscription('${subscriptionId}')" class="text-danger me-2">
-                                        <i class="mgc_delete_line text-xl"></i>
-                                    </a>
-                                    <a href="/dashboard/invoices/view/${subscriptionId}" class="text-primary">
-                                        <i class="mgc_view_line text-xl"></i>
+                                    <a href="/dashboard/customers/single-payment/${subscriptionId}" class="text-warning me-2">
+                                        <i class="mgc_eye_2_line text-lg"></i>
                                     </a>
                                 </div>
                             `);
@@ -1352,16 +1348,198 @@ async function initializeSupportTicketsTable() {
                     }
                 ],
                 pagination: {
-                    limit: 5
+                    limit: 20
+                },
+                sort: true,
+                search: true,
+                    data: subscriptions.map((pay, index) => [
+                    pay.id,                                          // ID
+                    index + 1,                                      // Auto-increment number starting from 1
+                    pay.payment_gateway_ref || 'N/A',                // REF (will be extracted from customer in formatter)
+                    pay.amount || 0,                                // Amount
+                    pay.created_at || 'N/A',                        // Created date
+                    pay.status || 'N/A',                            // Status
+                    null                                            // Actions (handled by formatter)
+                ])
+            }).render(tableContainer);
+        }
+    } catch (error) {
+        console.error('Error loading subscriptions:', error);
+        if (tableContainer) {
+            tableContainer.innerHTML = `
+                <div class="alert alert-danger p-4">
+                    <h4 class="alert-heading">Failed to load subscriptions</h4>
+                    <p>${error.message}</p>
+                    <button onclick="subscription()" class="btn btn-sm btn-primary mt-2">
+                        Retry
+                    </button>
+                </div>
+            `;
+        }
+    } finally {
+        if (loadingIndicator) loadingIndicator.classList.add('hidden');
+    }
+}
+
+paymentHistory()
+
+  //invoice Table
+
+  async function subscription() {
+    const tableContainer = document.getElementById("table-viewInvoice");
+    const loadingIndicator = document.getElementById("loading-indicator");
+    
+    try {
+        // Show loading indicator
+        if (loadingIndicator) loadingIndicator.classList.remove('hidden');
+        if (tableContainer) tableContainer.innerHTML = '';
+        
+        // Fetch subscriptions from your Laravel endpoint
+        const response = await fetch('/dashboard/invoices/subscriptions', {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch subscriptions: ' + response.statusText);
+        }
+        
+        const data = await response.json();
+        
+        if (!data.success || !data.subscriptions) {
+            throw new Error('Invalid data format from server');
+        }
+        
+        const subscriptions = data.subscriptions;
+        console.log('Subscription data:', subscriptions);
+        
+        // Initialize GridJS table if element exists
+        if (tableContainer) {
+            new gridjs.Grid({
+                columns: [
+                    {name: 'ID', hidden: true},
+                    {name: 'reference', hidden: true},
+                    {name: 'customer', hidden: true},
+                    {
+                        name: 'TRX Ref',
+                        formatter: (cell) => gridjs.html(`<span class="fw-semibold">${cell}</span>`),
+                        width: '23%'
+                    },
+                    // {
+                    //     name: 'Type',
+                    //     formatter: (cell) => cell || 'N/A'
+                    // },
+                    {
+                        name: 'Email',
+                        formatter: (cell) => {
+                            // Assuming customer data is included in the relationship
+                            const email = cell?.email || 'N/A';
+                            return gridjs.html(`<a href="mailto:${email}">${email}</a>`);
+                        }
+                    },
+                        {
+                        name: 'Amount',
+                        formatter: (cell) => {
+                            // Format amount as Nigerian Naira (NGN)
+                            // Handle null/undefined values by defaulting to 0
+                            const amount = cell || 0;
+                            return new Intl.NumberFormat('en-NG', {
+                                style: 'currency',
+                                currency: 'NGN',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }).format(amount);
+                        }
+                    },
+                    {
+                        name: 'TRX Date',
+                        formatter: (cell) => {
+                            // Assuming customer data is included in the relationship
+                            if (!cell) return 'N/A';
+                            const date = new Date(cell);
+                            return date.toISOString().split('T')[0];
+                        }
+                    },
+                    {
+                        name: 'Status',
+                        formatter: (cell) => {
+                            let bgClass = '';
+                            let textClass = '';
+                    
+                            switch (cell?.toLowerCase()) {
+                                case 'open':
+                                    bgClass = 'bg-primary-subtle';
+                                    textClass = 'text-primary';
+                                    break;
+                                case 'completed':
+                                    bgClass = 'bg-success-subtle';
+                                    textClass = 'text-success';
+                                    break;
+                                case 'pending':
+                                    bgClass = 'bg-warning-subtle';
+                                    textClass = 'text-warning';
+                                    break;
+                                case 'rejected':
+                                    bgClass = 'bg-warning-subtle';
+                                    textClass = 'text-danger';
+                                    break;
+                                default:
+                                    bgClass = 'bg-secondary-subtle';
+                                    textClass = 'text-secondary';
+                            }
+                    
+                            return gridjs.html(
+                                `<span class="badge ${bgClass} ${textClass}">${cell || 'N/A'}</span>`
+                            );
+                        }
+                    },
+                    {
+                        name: 'Actions',
+                        width: '120px',
+                        formatter: (cell, row) => {
+                        const subscriptionId = row.cells[0].data;
+                        const status = row.cells[7].data?.toLowerCase();
+                        const ref = row.cells[1].data;
+                        const customer_id = row.cells[2].data;
+
+                        let buttons = '';
+
+                        // Show Requery button if status is "pending" or "failed"
+                        if (status === 'pending' || status === 'failed') {
+                            buttons += `
+                                <a href="javascript:void(0)" onclick="requery('${ref}', '${customer_id}')" id="requery-${subscriptionId}" class="text-warning me-2" title="Requery Transaction">
+                                    <i class="mgc_refresh_2_line text-lg"></i>
+                                </a>
+                            `;
+                        }
+
+                        // Always show view button
+                        buttons += `
+                            <a href="/dashboard/invoices/single-invoice/${subscriptionId}" class="text-warning me-2" title="View Invoice">
+                                <i class="mgc_eye_2_line text-xl"></i>
+                            </a>
+                        `;
+
+                        return gridjs.html(`<div class="flex items-center">${buttons}</div>`);
+}
+                    }
+                ],
+                pagination: {
+                    limit: 20
                 },
                 sort: true,
                 search: true,
                 data: subscriptions.map(sub => [
-                    sub.reference || 'N/A',          // ID (using reference)
+                    sub.id,
+                    sub.paymentReference || 'N/A',           // ID
+                    sub.customer_id || 'N/A',                   // ID
+                    sub.payment_gateway_ref || 'N/A',          // ID (using reference)
                     //'Subscription',                  // Type (hardcoded as all are subscriptions)
-                    sub.customer?.user?.email || 'N/A',                             // Email (will be extracted from customer in formatter)
+                    sub.user || {},                             // Email (will be extracted from customer in formatter)
                     sub.amount || 0,                 // Amount
-                    sub,                             // Company (will be extracted from customer in formatter)
+                    sub.created_at || 'N/A',                            // Company (will be extracted from customer in formatter)
                     sub.status || 'N/A',            // Status
                     null                            // Actions (handled by formatter)
                 ])
@@ -1387,6 +1565,37 @@ async function initializeSupportTicketsTable() {
 
 // Call the function when the page loads
 subscription();
+
+window.requery = function (paymentReference, customer_id) {
+    console.log('Requery transaction:', paymentReference);
+    const loadingIndicator = document.getElementById("loading-indicator");
+
+    if (loadingIndicator) {
+            loadingIndicator.classList.remove("hidden");
+        }
+    fetch(`/monnify/requery?paymentReference=${encodeURIComponent(paymentReference)}&customer_id=${encodeURIComponent(customer_id)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to requery transaction');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Requery result:', data);
+            alert(data.message || 'Transaction status updated!');
+        })
+        .catch(error => {
+            console.error(error);
+            //alert(data.message || 'Transaction status updated!');
+            alert('This Transaction has failed and no money has been debited.');
+        })
+        .finally(() => {
+            if (loadingIndicator) {
+                loadingIndicator.classList.add("hidden");
+            }
+        });
+};
+
 
 // Example action functions
 function updateInvoice(id) {

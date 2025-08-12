@@ -100,7 +100,8 @@ class UserController extends Controller
 
                 $customer = Customer::create([
                     'user_id' => $user->id,
-                    'business_developer_id' => $refId
+                    'business_developer_id' => $refId,
+                    'is_kyced' => 0
 
                 ]);
             }
@@ -203,6 +204,85 @@ class UserController extends Controller
             ], 500);
         }
     }
+
+    public function approveKYC()
+    {
+         $user = Auth::user();
+        if($user->user_type != 'administrator')
+        {
+            return abort(403);
+        }
+        //  Get all users with their current status
+        $customers = Customer::with('user')
+        ->where('is_kyced', 1)
+        //->orWhere('is_kyced')
+                    ->get();
+
+        return view('user.settings.approve-kyc', compact('customers'));
+    }
+    public function updateKYCStatus(Request $request, Customer $customer)
+    {
+        $user = Auth::user();
+        if ($user->user_type != 'administrator') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $request->validate([
+            'is_kyced' => 'required|integer|in:2,3', // Only allow rejection (2) or approval (3)
+        ]);
+
+        try {
+            // Update the customer's KYC status
+            $customer->update([
+                'is_kyced' => $request->is_kyced,
+                'updated_at' => now(),
+            ]);
+
+            // Optional: Log the action for audit purposes
+            \Log::info("KYC status updated", [
+                'customer_id' => $customer->id,
+                'user_id' => $customer->user->id,
+                'old_status' => $customer->getOriginal('is_kyced'),
+                'new_status' => $request->is_kyced,
+                'updated_by' => $user->id,
+                'updated_at' => now()
+            ]);
+
+            // Optional: Send notification to customer
+            if ($request->is_kyced == 2) {
+                // KYC Approved - you can send approval notification
+                // Mail::to($customer->user->email)->send(new KYCApprovedMail($customer));
+                $message = 'KYC approved successfully';
+            } else {
+                // KYC Rejected - you can send rejection notification
+                 Mail::to($customer->user->email)->send(new KYCRejectedMail($customer));
+                $message = 'KYC rejected successfully';
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => $message,
+                'customer' => [
+                    'id' => $customer->id,
+                    'is_kyced' => $customer->is_kyced,
+                    'updated_at' => $customer->updated_at,
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error("Failed to update KYC status", [
+                'customer_id' => $customer->id,
+                'error' => $e->getMessage(),
+                'updated_by' => $user->id
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update KYC status. Please try again.'
+            ], 500);
+        }
+    }
+
     public function manageUsers()
     {
         //
@@ -529,7 +609,7 @@ class UserController extends Controller
                 ];
             });
 
-            $roles = Role::all();
+            $roles = Role::where('name', '!=', 'customer')->get();
         return view('user.settings.manage_roles', compact('users', 'roles'));
     }
 

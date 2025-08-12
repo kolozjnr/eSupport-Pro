@@ -38,8 +38,8 @@
                     <li class="menu-title">Apps</li>
 
                     <li class="menu-item">
-                        {{-- <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{ request()->is('create*') || request()->is('draft*') ? 'open' : '' }}"> --}}
-                            <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{ request()->is('tickets') || request()->is('tickets/create') || request()->is('tickets/draft') || request()->is('tickets/view-drafts') ? 'open' : '' }}">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{ request()->is('create*') || request()->is('draft*') ? 'open' : '' }}"> --}}
+                            <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{ request()->is('tickets') || request()->is('tickets/create') ? 'open' : '' }}">
                             <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
                             <span class="menu-text"> Manage Tickets </span>
                             <span class="menu-arrow"></span>
@@ -56,6 +56,22 @@
                                     <span class="menu-text">Create Ticket</span>
                                 </a>
                             </li>
+                            
+                            
+                        </ul>
+                    </li>
+
+
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{ request()->is('create*') || request()->is('draft*') ? 'open' : '' }}"> --}}
+                            <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link {{  request()->is('tickets/draft') || request()->is('tickets/view-drafts') ? 'open' : '' }}">
+                            <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                            <span class="menu-text"> Manage Drafts </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+
+                        <ul class="sub-menu hidden">
+                           
                             
                             <li class="menu-item">
                                 <a href="{{ route('tickets.draft')}}" class="menu-link">
@@ -87,11 +103,11 @@
                                     <span class="menu-text">Create Task</span>
                                 </a>
                             </li>
-                            {{-- <li class="menu-item">
+                            <!-- {{-- <li class="menu-item">
                                 <a href="apps-project-create.html" class="menu-link">
                                     <span class="menu-text">Review Ticket</span>
                                 </a>
-                            </li> --}}
+                            </li> --}} -->
                             <li class="menu-item">
                                 <a href="{{ route('tickets.view-feedback')}}" class="menu-link">
                                     <span class="menu-text">View customer Feedback</span>

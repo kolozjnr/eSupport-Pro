@@ -69,11 +69,121 @@ class MonnifyPaymentController extends Controller
         return back()->with('error', 'Payment failed to initialize.');
     }
 
+       public function requery(Request $request)
+    {
+        $paymentReference = $request->get('paymentReference'); // YOUR reference
+        $subscription = Subscription::where('paymentReference', $paymentReference)->first();
+        $customerId = null;
+        if(auth()->user()->user_type === 'customer'){
+            
+        $customerId = auth()->user()->getCustomerId();
+        }
+        else{
+            $customerId = $request->get('customer_id');
+        }
+        $customer = Customer::find($subscription->customer_id);
+
+        if (!$subscription) {
+            return response()->json(['error' => 'Payment reference not found.'], 404);
+        }
+
+        $transactionReference = $subscription->payment_gateway_ref; // MONNIFY's reference
+
+        try {
+            if ($subscription->status === 'successful') {
+                throw new \Exception("Transaction already processed.");
+            }
+
+            $response = $this->monnify->verifyTransaction($transactionReference);
+
+            if (
+                isset($response['responseBody']['paymentStatus']) &&
+                $response['responseBody']['paymentStatus'] === 'PAID'
+            ) {
+                //dd($response);
+                $subscription->update([
+                    'status' => 'successful',
+                    'reference' => $response['responseBody']['paymentReference'],
+                    //'payment_method' => $response['responseBody']['channel'],
+                    'currency' => $response['responseBody']['currency'],
+                    'amount' => $response['responseBody']['amountPaid'],
+                ]);
+
+               // dd($response);
+                $frequency = $subscription->frequency;
+                $subEnddate = Carbon::parse($customer->subscription_date);
+                $now = Carbon::now();
+                $newEndDate  = $now->copy();
+
+                switch ($frequency) {
+                    case 'monthly':
+                        $newEndDate->addMonth();
+                        break;
+                    case 'quarterly':
+                        $newEndDate->addMonths(3);
+                    case 'biannually':
+                        $newEndDate->addMonths(6);
+                        break;
+                    case 'yearly':
+                        $newEndDate->addYear();
+                        break;
+                    default:
+                        $newEndDate  = $now->copy();
+                        break;
+                }
+                // $customer->update([
+                //     'subscription_date' => $now,
+                //     'subscription_due_date' => $newEndDate,
+                // ]);
+
+
+               $baseVirtualPoints = $subscription->virtual_assistance_points ?? 0;
+                $baseCallPoints = $subscription->call_service_points ?? 0;
+                $baseGeneralPoints = $subscription->general_support_points ?? 0;
+
+                // Check if renewal is within 48 hours of current subscription end date
+                $subEndDate = Carbon::parse($customer->subscription_due_date);
+                $shouldApplyBonus = $now->diffInHours($subEndDate) <= 48;
+
+                // Calculate points with 30% bonus if applicable
+                $virtualPoints = $baseVirtualPoints;
+                $callPoints = $baseCallPoints;
+                $generalPoints = $baseGeneralPoints;
+
+                if ($shouldApplyBonus) {
+                    $virtualPoints += $baseVirtualPoints * 0.3;
+                    $callPoints += $baseCallPoints * 0.3;
+                    $generalPoints += $baseGeneralPoints * 0.3;
+                }
+
+                // Update customer subscription and points
+                $customer->update([
+                    'is_subscribed' => 1,
+                    'subscription_date' => $now,
+                    'subscription_due_date' => $newEndDate,
+                    'virtual_assistance_points' => ($customer->virtual_assistance_points ?? 0) + $virtualPoints,
+                    'call_service_points' => ($customer->call_service_points ?? 0) + $callPoints,
+                    'general_support_points' => ($customer->general_support_points ?? 0) + $generalPoints,
+                ]);
+
+
+                return response()->json(['message' => 'Transaction successfully processed.']);
+            } else {
+                return response()->json(['error' => 'Transaction not successful.'], 400);
+            }
+        } catch (\Exception $e) {
+            $subscription->update(['status' => 'failed']);
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+
     public function callback(Request $request)
     {
         $paymentReference = $request->get('paymentReference'); // YOUR reference
         $subscription = Subscription::where('paymentReference', $paymentReference)->first();
+      
         $customerId = auth()->user()->getCustomerId();
+       
         $customer = Customer::find($subscription->customer_id);
 
         if (!$subscription) {

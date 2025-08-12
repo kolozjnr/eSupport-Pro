@@ -443,7 +443,7 @@ window.updateBulkActionButton = function() {
             bulkActionBtn.classList.remove('hidden');
             bulkActionBtn.innerHTML = `
                 <i class="mgc_check_line me-1"></i> 
-                Assign Tickets (${window.selectedTickets.size})
+                Accept Tickets (${window.selectedTickets.size})
             `;
         } else {
             bulkActionBtn.classList.add('hidden');
@@ -554,7 +554,7 @@ window.updateSelectedTickets = async function() {
                     <!-- Modal header -->
                     <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                            Assign ${selectedIds.length} Ticket(s)
+                            Accept ${selectedIds.length} Ticket(s)
                         </h3>
                         <button type="button" onclick="hideTailwindModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
                             <span class="sr-only">Close</span>
@@ -581,8 +581,8 @@ window.updateSelectedTickets = async function() {
                             </div>
                             
                             <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Assignment Notes</label>
-                                <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Optional notes about this assignment"></textarea>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Accept  Notes</label>
+                                <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Optional notes about"></textarea>
                             </div>
                         </form>
                     </div>
@@ -612,7 +612,7 @@ window.updateSelectedTickets = async function() {
             bulkActionBtn.disabled = false;
             bulkActionBtn.innerHTML = `
                 <i class="mgc_check_line me-1"></i> 
-                Assign Tickets (${window.selectedTickets.size})
+                Accept Tickets (${window.selectedTickets.size})
             `;
         }
     }

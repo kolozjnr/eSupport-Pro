@@ -13,8 +13,8 @@
                             <p class="text-primary-100">Thank you for your payment</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-sm text-primary-200">Receipt #{{ $data['paymentReference'] }}</p>
-                            <p class="text-xs text-primary-200">{{ now()->format('M d, Y h:i A') }}</p>
+                            <p class="text-sm text-primary-200">Receipt # {{ $data['payment_gateway_ref'] }}</p>
+                            <p class="text-xs text-primary-200">{{ \Carbon\Carbon::parse($data['created_at'])->format('M d, Y h:i A') }}</p>
                         </div>
                     </div>
                 </div>
@@ -30,16 +30,27 @@
                         <div class="space-y-3">
                             <div class="flex justify-between">
                                 <span class="text-gray-600 dark:text-gray-400">Transaction Reference:</span>
-                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ $data['transactionReference'] }}</span>
+                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ $data['reference'] }}</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-600 dark:text-gray-400">Payment Method:</span>
-                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ $data['paymentMethod'] ?? 'Card' }}</span>
+                                <span class="text-gray-600 dark:text-gray-400">Payment Channel:</span>
+                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ $data['payment_method'] ?? 'Card' }}</span>
                             </div>
+                            @php
+                                $status = $data['status'];
+                                $statusClass = match (strtolower($status)) {
+                                    'paid', 'completed' => 'text-green-600 dark:text-green-400',
+                                    'pending' => 'text-yellow-600 dark:text-yellow-400',
+                                    'failed', 'declined' => 'text-red-600 dark:text-red-400',
+                                    default => 'text-gray-600 dark:text-gray-400'
+                                };
+                            @endphp
+
                             <div class="flex justify-between">
                                 <span class="text-gray-600 dark:text-gray-400">Payment Status:</span>
-                                <span class="font-medium text-green-600 dark:text-green-400">Successful</span>
+                                <span class="font-medium {{ $statusClass }}">{{ $status }}</span>
                             </div>
+
                         </div>
                     </div>
 
@@ -52,39 +63,39 @@
                         <div class="space-y-3">
                             <div class="flex justify-between">
                                 <span class="text-gray-600 dark:text-gray-400">Amount Paid:</span>
-                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ $data['currency'] }} {{ number_format($data['amountPaid'], 2) }}</span>
+                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ $data['currency'] }} {{ number_format($data['amount'], 2) }}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-600 dark:text-gray-400">Payment Date:</span>
-                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ \Carbon\Carbon::parse($data['paidOn'])->format('M d, Y h:i A') }}</span>
+                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ \Carbon\Carbon::parse($data['created_at'])->format('M d, Y h:i A') }}</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Customer Details -->
-                    <div class="mb-8">
+                    {{-- <div class="mb-8">
                         <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
                             Customer Details
                         </h2>
                         
                         <div class="space-y-3">
-                            {{-- <div class="flex justify-between">
+                            <div class="flex justify-between">
                                 <span class="text-gray-600 dark:text-gray-400">Customer Name:</span>
                                 <span class="font-medium text-gray-800 dark:text-gray-200">{{ $data['customer']['name'] ?? 'N/A' }}</span>
-                            </div> --}}
+                            </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-600 dark:text-gray-400">Customer Email:</span>
                                 <span class="font-medium text-gray-800 dark:text-gray-200">{{ $data['customer']['email'] ?? 'N/A' }}</span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- Summary -->
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                         <div class="flex justify-between items-center">
                             <span class="text-lg font-semibold text-gray-800 dark:text-gray-200">Total Paid</span>
                             <span class="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                                {{ $data['currency'] }} {{ number_format($data['amountPaid'], 2) }}
+                                {{ $data['currency'] }} {{ number_format($data['amount'], 2) }}
                             </span>
                         </div>
                     </div>

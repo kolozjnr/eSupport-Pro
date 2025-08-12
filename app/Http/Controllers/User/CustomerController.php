@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\KYCSubmissionNotification;
 
 class CustomerController extends Controller
 {
@@ -103,6 +105,34 @@ public function customerDashboard()
     ]);
 }
 
+public function paymentHistory()
+{
+    return view('user.customers.payment-history');
+}
+
+public function getPaymentHistory()
+{
+    if(auth()->user()->hasRole('customer')){
+        $customer = auth()->user();
+        $customer_id = $customer->customer->id;
+        $subscriptions = Subscription::where('customer_id', $customer_id)
+        ->latest()
+        ->get();
+        return response()->json([
+            'success' => true,
+            'subscriptions' => $subscriptions
+        ]);
+    }
+}
+
+public function getSinglePayment($id)
+{
+    if(auth()->user()->hasRole('customer')){
+        $customer = auth()->user();
+        $data = Subscription::findOrFail($id);
+        return view('user.customers.single-payment-history', compact('data'));
+    }
+}
 
     public function getOnboarding()
     {
@@ -115,7 +145,10 @@ public function customerDashboard()
     }
     public function show($id)
     {
-        $customer = auth()->user();
+        //dd($id);
+        //$customer = auth()->user();
+        $customer = User::with('customer')->findOrFail($id);
+        //dd($customer);
         return view('user.customers.edit', compact('customer'));
     }
 
@@ -153,6 +186,55 @@ public function updateCustomer(Request $request, $id)
 
         return redirect()->back()->with('success', 'Profile updated successfully!');
     } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Failed to update profile.');
+    }
+}
+public function submitKYC(Request $request, $id)
+{
+    $customer = Customer::findOrFail($id);
+
+    $validator = Validator::make($request->all(), [
+        'business_name' => 'required|string|max:255',
+        'phone_number' => 'required|string',
+        'nin' => 'required|numeric',
+        'address' => 'required|string',
+        'land_mark' => 'required|string',
+        'nok_name' => 'required|string|max:255',
+        'nok_phone' => 'required|string|max:255',
+        'nok_address' => 'required|string',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $validated = $validator->validated();
+
+    try {
+        DB::beginTransaction();
+
+        $customer->update([
+            'business_name' => $validated['business_name'],
+            'phone_number' => $validated['phone_number'],
+            'nin' => $validated['nin'],
+            'address' => $validated['address'],
+            'land_mark' => $validated['land_mark'],
+            'nok_name' => $validated['nok_name'],
+            'nok_phone' => $validated['nok_phone'],
+            'nok_address' => $validated['nok_address'],
+            'is_kyced' => 1
+        ]);
+
+        // Correct variable name
+        $admins = User::where('user_type', 'administrator')->get();
+
+        Notification::send($admins, new KYCSubmissionNotification($customer));
+
+        DB::commit();
+
+        return redirect()->back()->with('success', 'KYC submitted successfully!');
+    } catch (\Exception $e) {
+        DB::rollBack();
         return redirect()->back()->with('error', 'Failed to update profile.');
     }
 }

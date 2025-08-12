@@ -130,7 +130,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Full Name:</span>
-                                        <p class="text-sm text-gray-900 dark:text-gray-100" x-text="selectedUser?.name"></p>
+                                        <p class="text-sm text-gray-900 dark:text-gray-100" x-text="selectedUser?.fname + ' ' + selectedUser?.lname"></p>
                                     </div>
                                     <div>
                                         <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Email:</span>

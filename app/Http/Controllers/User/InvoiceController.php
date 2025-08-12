@@ -124,8 +124,9 @@ class InvoiceController extends Controller
 
     public function getSubscription()
     {
-        $subscriptions = Subscription::with(['customer'])
-            ->select(['amount', 'status', 'reference', 'payment_gateway_ref', 'email'])
+        $subscriptions = Subscription::with(['user', 'customer'])
+            //->select(['amount', 'status', 'reference', 'payment_gateway_ref', 'email'])
+            ->latest()
             ->get();
             return response()->json(
                 [
@@ -133,5 +134,11 @@ class InvoiceController extends Controller
                     'subscriptions' => $subscriptions
                 ]
                 );
+    }
+
+    public function getSingleInvoice($id)
+    {
+        $data = Subscription::with(['user', 'customer'])->findOrFail($id);
+        return view('user.invoice.single-invoice', compact('data'));
     }
 }

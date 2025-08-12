@@ -47,6 +47,8 @@ Route::post('/contact-email', [UnivController::class, 'contactEmail'])->name('co
 Route::post('/pay/monnify', [MonnifyPaymentController::class, 'pay'])->name('monnify.pay');
 Route::get('/monnify/callback', [MonnifyPaymentController::class, 'callback'])->name('monnify.callback');
 Route::post('/monnify/webhook', [MonnifyPaymentController::class, 'webhook']);
+Route::get('/payment/retry/{id}', [PaymentController::class, 'retry'])->name('payment.retry');
+Route::get('/monnify/requery', [MonnifyPaymentController::class, 'requery'])->name('monnify.requery');
 
 
 
@@ -164,6 +166,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/subscriptions', 'getSubscription')->name('subscriptions');
                 Route::get('/manual-invoice', 'manualInvoice')->name('manual-invoice');
                 Route::post('/post-manual-invoice', 'creditInvoice')->name('post-manual-invoice');
+                Route::get('/single-invoice/{id}', 'getSingleInvoice')->name('single-invoice');
             });
 
         Route::controller(UserController::class)
@@ -184,6 +187,9 @@ Route::middleware('auth')->group(function () {
             Route::get('{user}/status', 'getUserStatus')->name('get-status');
             Route::post('bulk-status-update', 'bulkUpdateStatus')->name('bulk-status-update');
             Route::get('status-stats', 'getStatusStats')->name('status-stats');
+            Route::get('/approve-kyc', 'approveKYC')->name('approve-kyc');
+            Route::post('/{customer}/kyc-status', 'updateKYCStatus')
+            ->name('customers.update-kyc-status');
 
             Route::delete('/{user}', 'destroy');
         });
@@ -218,9 +224,13 @@ Route::middleware('auth')->group(function () {
             Route::get('/pricing', 'pricing')->name('pricing')->middleware('role:customer');
             Route::get('/customer-dashboard', 'customerDashboard');
             Route::put('/update/{id}', 'updateCustomer')->name('update');
+            Route::put('/submit-kyc/{id}', 'submitKYC')->name('submit-kyc');
             Route::get('/download-onboarmanading-template', 'downloadTemplate')->name('download-onboarding-template');
             Route::post('/bulk-customer-upload', 'bulkUpload')->name('bulk-customer-upload');
             Route::post('/single-customer', 'store')->name('single-customer');
+            Route::get('/payment-history', 'paymentHistory')->name('payment-history');
+            Route::get('/get-payment-history', 'getPaymentHistory')->name('get-payment-history');
+            Route::get('/single-payment/{id}', 'getSinglePayment')->name('single-payment');
         });
 
         Route::controller(SupportController::class)

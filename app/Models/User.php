@@ -101,6 +101,11 @@ class User extends Authenticatable implements LaratrustUser
         return $this->hasMany(Rating::class);
     }
 
+    public function subscription()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
     public function administrator()
     {
         return $this->hasOne(Admin::class);

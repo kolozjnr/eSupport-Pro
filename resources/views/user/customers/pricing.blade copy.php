@@ -69,41 +69,6 @@
             transform: scale(0);
         }
         }
-        
-        /* Service selection styles */
-        .service-options {
-            margin: 20px 0;
-            text-align: left;
-        }
-        .service-option {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .service-option:hover {
-            background-color: #f5f5f5;
-        }
-        .service-option.selected {
-            background-color: #e6f7ff;
-            border-color: #1890ff;
-        }
-        .service-option input {
-            margin-right: 10px;
-        }
-        .service-details {
-            margin-left: 10px;
-        }
-        .service-name {
-            font-weight: bold;
-        }
-        .service-price {
-            color: #666;
-        }
         </style>
         @include('../layouts.top-header')
 
@@ -118,40 +83,7 @@
                 <p class="mb-4 text-sm text-center">
                     You are about to pay <span id="planPrice" class="font-bold text-lg">&#8358;0</span>
                 </p>
-                
-                <!-- Service Selection -->
-                <div class="service-options">
-                    <h3 class="font-semibold mb-2">Select Service(s)</h3>
-                    <div class="service-option" onclick="selectService(this, 'all')">
-                        <input type="radio" name="service" value="all" checked>
-                        <div class="service-details">
-                            <div class="service-name">All Services (Full Package)</div>
-                            <div class="service-price hidden" id="all-price">Base price: ₦0</div>
-                        </div>
-                    </div>
-                    <div class="service-option" onclick="selectService(this, 'call_center')">
-                        <input type="radio" name="service" value="call_center">
-                        <div class="service-details">
-                            <div class="service-name">Call Center Service Only</div>
-                            <div class="service-price hidden" id="call-center-price">Price: ₦0</div>
-                        </div>
-                    </div>
-                    <div class="service-option" onclick="selectService(this, 'general_support')">
-                        <input type="radio" name="service" value="general_support">
-                        <div class="service-details">
-                            <div class="service-name">General Support Only</div>
-                            <div class="service-price hidden" id="general-support-price">Price: ₦0</div>
-                        </div>
-                    </div>
-                    <div class="service-option" onclick="selectService(this, 'virtual_assistance')">
-                        <input type="radio" name="service" value="virtual_assistance">
-                        <div class="service-details">
-                            <div class="service-name">Virtual Assistance Only</div>
-                            <div class="service-price hidden" id="virtual-assistance-price">Price: ₦0</div>
-                        </div>
-                    </div>
-                </div>
-{{-- 
+
                 <div class="mb-4">
                     <h3 class="font-semibold mb-2">Bank Transfer Details</h3>
                     <ul class="text-sm space-y-1">
@@ -159,24 +91,27 @@
                         <li><strong>Account Name:</strong> E-Supportpro</li>
                         <li><strong>Account Number:</strong> 1310262889</li>
                     </ul>
-                </div> --}}
+                </div>
 
-                {{-- <div class="mb-6 text-sm">
+                <div class="mb-6 text-sm">
                     After successful payment, please send your proof of payment (screenshot or receipt) to:  
                     <a href="mailto:support@dictacare.org" class="text-blue-600 underline">billing@esupportpro.com</a>
-                </div> --}}
+                </div>
                 <form action="{{ route('monnify.pay') }}" method="POST">
                     @csrf
                     <input type="hidden" name="amount" value="" id="amount">
                     <input type="hidden" name="email" value="{{ auth()->user()->email}}" id="email">
                     <input type="hidden" name="plan" value="" id="plan">
                     <input type="hidden" name="frequency" value="" id="frequency">
-                    <input type="hidden" name="service_type" value="all" id="service-type">
                     <input type="hidden" name="virtual_assistance_points" value="" id="virtual_assistance_points">
                     <input type="hidden" name="call_center_points" value="" id="call_center_points">
                     <input type="hidden" name="general_support_points" value="" id="general_support_points">
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">Pay with Monnify</button>
                 </form>
+
+                {{-- <a href="{{route('invoices.create')}}" id="confirmPayment" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+                    I’ve Made the Payment
+                </a> --}}
             </div>
         </div>
 
@@ -211,7 +146,7 @@
                     <!-- Title -->
                     <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
                         <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Find the right plan for your your business</h2>
-                        <p class="mt-1 text-gray-600 dark:text-gray-400"> <b>NOTE:</b> The amount displayed on each plan is for total package, you may choose to select a single service when you click the proceed button.</p>
+                        {{-- <p class="mt-1 text-gray-600 dark:text-gray-400">Pay as you go service, cancel anytime.</p> --}}
                     </div>
                     <!-- End Title -->
 
@@ -467,6 +402,12 @@
                                     </li>
                                 </ul>
                             </div>
+
+                            {{-- <div class="bg-white py-8 px-8 dark:bg-gray-800">
+                                <a class="btn btn-lg border-primary text-primary hover:bg-primary hover:text-white proceed-button" data-base-price="{{$settings->premium_amount}}" href="#" data-general-support="100000" data-call-center="100000" data-virtual-assistance="100000">
+                                    Proceed
+                                </a>
+                            </div> --}}
                         </div>
                             <!-- End Card -->
                         </div>
@@ -498,143 +439,27 @@ New sub before the expiration of the previous one. The slots on the previous sub
                 });
 
            document.addEventListener("DOMContentLoaded", () => {
-    const openModalButton = document.getElementById("openModal");
-    const closeModalButton = document.getElementById("closeModal");
-    const modal = document.getElementById("modal");
-    const planPriceSpan = document.getElementById("planPrice");
-    var payableAmount = document.getElementById("amount");
-    var frequencyInput = document.getElementById("frequency");
-    var virtualAInput = document.getElementById("virtual_assistance_points");
-    var callCenterInput = document.getElementById("call_center_points");
-    var generalSupportInput = document.getElementById("general_support_points");
-    var serviceTypeInput = document.getElementById("service-type");
-    
-    // Store current pricing information
-    let currentPricing = {
-        basePrice: 0,
-        frequency: 'monthly',
-        callCenterPoints: 0,
-        virtualAPoints: 0,
-        generalSupportPoints: 0
-    };
-    
-    // Service weights (percentage of base price)
-    const serviceWeights = {
-        call_center: 0.4,  // 40% of base price
-        general_support: 0.3, // 30% of base price
-        virtual_assistance: 0.3 // 30% of base price
-    };
+            const openModalButton = document.getElementById("openModal");
+            const closeModalButton = document.getElementById("closeModal");
+            const modal = document.getElementById("modal");
+            const planPriceSpan = document.getElementById("planPrice");
+            var payableAmount = document.getElementById("amount");
+            var frequencyInput = document.getElementById("frequency");
+            var virtualAInput = document.getElementById("virtual_assistance_points");
+            var callCenterInput = document.getElementById("call_center_points");
+            var generalSupportInput = document.getElementById("general_support_points");
 
-    function selectService(element, serviceType) {
-        // Update UI
-        const serviceOptions = document.querySelectorAll('.service-option');
-        if (serviceOptions) {
-            serviceOptions.forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            element.classList.add('selected');
-        }
-        
-        // Update the selected service in the form
-        if (serviceTypeInput) {
-            serviceTypeInput.value = serviceType;
-        }
-        
-        // Recalculate price based on service selection
-        updatePriceForSelectedService();
-    }
-    
-    function updatePriceForSelectedService() {
-        let price = currentPricing.basePrice;
-        const serviceType = serviceTypeInput ? serviceTypeInput.value : 'all';
-        
-        // Apply frequency discount first
-        switch(currentPricing.frequency) {
-            case 'quarterly':
-                price = price * 3 * 0.95; // 5% discount
-                break;
-            case 'biannually':
-                price = price * 6 * 0.90; // 10% discount
-                break;
-            case 'annually':
-                price = price * 12 * 0.85; // 15% discount
-                break;
-        }
-        
-        // If not "all" services, adjust price based on service weights
-        if (serviceType !== 'all') {
-            price = price * serviceWeights[serviceType];
-            
-            // Update points based on selected service
-            if (serviceType === 'call_center') {
-                if (virtualAInput) virtualAInput.value = 0;
-                if (generalSupportInput) generalSupportInput.value = 0;
-            } else if (serviceType === 'general_support') {
-                if (callCenterInput) callCenterInput.value = 0;
-                if (virtualAInput) virtualAInput.value = 0;
-            } else if (serviceType === 'virtual_assistance') {
-                if (callCenterInput) callCenterInput.value = 0;
-                if (generalSupportInput) generalSupportInput.value = 0;
+            function showModalWithPrice(price, frequency, virtualA, callCenter, generalSupport) {
+                planPriceSpan.textContent = `₦${price.toLocaleString()}`;
+                payableAmount.value = price;
+                frequencyInput.value = frequency;
+                callCenterInput.value = callCenter;
+                generalSupportInput.value = generalSupport;
+                virtualAInput.value = virtualA;
+                //console.log("virtualA", virtualA);
+                modal.style.display = "flex";
+                modal.querySelector(".modal-content").style.animation = "blowUp 0.3s ease-out forwards";
             }
-        } else {
-            // For "all" services, keep all points
-            if (callCenterInput) callCenterInput.value = currentPricing.callCenterPoints;
-            if (virtualAInput) virtualAInput.value = currentPricing.virtualAPoints;
-            if (generalSupportInput) generalSupportInput.value = currentPricing.generalSupportPoints;
-        }
-        
-        // Update displayed price
-        const roundedPrice = Math.round(price);
-        if (planPriceSpan) planPriceSpan.textContent = `₦${roundedPrice.toLocaleString()}`;
-        if (payableAmount) payableAmount.value = roundedPrice;
-        
-        // Update service price displays
-        const allPriceEl = document.getElementById('all-price');
-        const callCenterPriceEl = document.getElementById('call-center-price');
-        const generalSupportPriceEl = document.getElementById('general-support-price');
-        const virtualAssistancePriceEl = document.getElementById('virtual-assistance-price');
-        
-        if (allPriceEl) allPriceEl.textContent = `Base price: ₦${Math.round(currentPricing.basePrice).toLocaleString()}`;
-        if (callCenterPriceEl) callCenterPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.call_center).toLocaleString()}`;
-        if (generalSupportPriceEl) generalSupportPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.general_support).toLocaleString()}`;
-        if (virtualAssistancePriceEl) virtualAssistancePriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.virtual_assistance).toLocaleString()}`;
-    }
-
-    function showModalWithPrice(price, frequency, virtualA, callCenter, generalSupport) {
-        // Store current pricing information
-        currentPricing = {
-            basePrice: parseFloat(price),
-            frequency: frequency,
-            callCenterPoints: callCenter,
-            virtualAPoints: virtualA,
-            generalSupportPoints: generalSupport
-        };
-        
-        // Reset service selection to "all"
-        if (serviceTypeInput) serviceTypeInput.value = 'all';
-        
-        const allServiceOption = document.querySelector('.service-option input[value="all"]');
-        if (allServiceOption) allServiceOption.checked = true;
-        
-        const serviceOptions = document.querySelectorAll('.service-option');
-        if (serviceOptions) {
-            serviceOptions.forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            const firstOption = document.querySelector('.service-option:first-child');
-            if (firstOption) firstOption.classList.add('selected');
-        }
-        
-        // Update prices
-        updatePriceForSelectedService();
-        
-        // Show modal
-        if (modal) {
-            modal.style.display = "flex";
-            const modalContent = modal.querySelector(".modal-content");
-            if (modalContent) modalContent.style.animation = "blowUp 0.3s ease-out forwards";
-        }
-    }
 
     // Attach to open button if it exists
     if (openModalButton) {
@@ -646,87 +471,78 @@ New sub before the expiration of the previous one. The slots on the previous sub
     // Attach to close button
     if (closeModalButton) {
         closeModalButton.addEventListener("click", () => {
-            if (modal) {
-                const modalContent = modal.querySelector(".modal-content");
-                if (modalContent) {
-                    modalContent.style.animation = "goBack 0.3s ease-out forwards";
-                    setTimeout(() => {
-                        modal.style.display = "none";
-                    }, 300);
-                }
-            }
+            const modalContent = modal.querySelector(".modal-content");
+            modalContent.style.animation = "goBack 0.3s ease-out forwards";
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 300);
         });
     }
 
     // Optional: Close modal when clicking outside content
-    if (modal) {
-        modal.addEventListener("click", (e) => {
-            if (e.target === modal) {
-                modal.style.display = "none";
-            }
-        });
-    }
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
 
     // Make `showModalWithPrice` globally accessible
     window.showModalWithPrice = showModalWithPrice;
-    window.selectService = selectService;
 });
 
-// Price calculation based on frequency
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all frequency selectors
-    const frequencySelectors = document.querySelectorAll('.subscription-frequency');
-    
-    frequencySelectors.forEach(selector => {
-        // Get related elements for each card
-        const card = selector.closest('.flex.flex-col');
-        if (!card) return;
+ // Price calculation based on frequency
+        document.addEventListener('DOMContentLoaded', function() {
+        // Get all frequency selectors
+        const frequencySelectors = document.querySelectorAll('.subscription-frequency');
         
-        const displayPrice = card.querySelector('.display-price');
-        const proceedButton = card.querySelector('.proceed-button');
-        if (!displayPrice || !proceedButton) return;
-        
-        const basePrice = parseFloat(proceedButton.getAttribute('data-base-price'));
-        const virtualA = proceedButton.getAttribute('data-virtual-assistance');
-        const callCenter = proceedButton.getAttribute('data-call-center');
-        const generalSupport = proceedButton.getAttribute('data-general-support');
-        
-        // Initial calculation
-        updatePrice(selector, displayPrice, proceedButton, basePrice, virtualA, callCenter, generalSupport);
-        
-        // Add event listener for changes
-        selector.addEventListener('change', function() {
+        frequencySelectors.forEach(selector => {
+            // Get related elements for each card
+            const card = selector.closest('.flex.flex-col');
+            const displayPrice = card.querySelector('.display-price');
+            const proceedButton = card.querySelector('.proceed-button');
+            const basePrice = parseFloat(proceedButton.getAttribute('data-base-price'));
+            const virtualA = proceedButton.getAttribute('data-virtual-assistance');
+            const callCenter = proceedButton.getAttribute('data-call-center');
+            const generalSupport = proceedButton.getAttribute('data-general-support');
+            
+            // Initial calculation
             updatePrice(selector, displayPrice, proceedButton, basePrice, virtualA, callCenter, generalSupport);
+            
+            // Add event listener for changes
+            selector.addEventListener('change', function() {
+                updatePrice(selector, displayPrice, proceedButton, basePrice, virtualA, callCenter, generalSupport);
+            });
         });
-    });
-    
-    function updatePrice(selector, displayElement, buttonElement, basePrice, virtualA, callCenter, generalSupport) {
-        let price = basePrice;
-        let frequency = selector.value;
         
-        // Calculate price based on frequency
-        switch(frequency) {
-            case 'monthly':
-                price = basePrice;
-                break;
-            case 'quarterly':
-                price = basePrice * 3 * 0.95; // 5% discount
-                break;
-            case 'biannually':
-                price = basePrice * 6 * 0.90; // 10% discount
-                break;
-            case 'annually':
-                price = basePrice * 12 * 0.85; // 15% discount
-                break;
+        function updatePrice(selector, displayElement, buttonElement, basePrice, virtualA, callCenter, generalSupport) {
+            let price = basePrice;
+            let frequency = selector.value;
+            
+            
+            // Calculate price based on frequency
+            switch(frequency) {
+                case 'monthly':
+                    price = basePrice;
+                    break;
+                case 'quarterly':
+                    price = basePrice * 3 * 0.95; // 5% discount
+                    break;
+                case 'biannually':
+                    price = basePrice * 6 * 0.90; // 10% discount
+                    break;
+                case 'annually':
+                    price = basePrice * 12 * 0.85; // 15% discount
+                    break;
+            }
+            
+            // Update displayed price (formatted with commas)
+            displayElement.textContent = Math.round(price).toLocaleString();
+            
+            // Update the proceed button
+            buttonElement.setAttribute('onclick', `showModalWithPrice(${Math.round(price)}, '${frequency}', '${virtualA}', '${callCenter}', '${generalSupport}')`);
         }
-        
-        // Update displayed price (formatted with commas)
-        displayElement.textContent = Math.round(price).toLocaleString();
-        
-        // Update the proceed button
-        buttonElement.setAttribute('onclick', `showModalWithPrice(${basePrice}, '${frequency}', '${virtualA}', '${callCenter}', '${generalSupport}')`);
-    }
-});
+    });
 
     </script>
 </x-app-layout>
+

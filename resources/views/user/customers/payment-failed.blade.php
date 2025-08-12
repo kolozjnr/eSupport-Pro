@@ -56,10 +56,10 @@
 
                     <!-- Action Buttons -->
                     <div class="flex flex-col sm:flex-row gap-3 mt-8">
-                        <a href="{{ route('payment.retry') }}" class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors duration-300 text-center font-medium">
+                        <a href="" class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors duration-300 text-center font-medium">
                             Try Payment Again
                         </a>
-                        <a href="{{ route('support.contact') }}" class="px-6 py-3 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-300 text-center font-medium text-gray-800 dark:text-gray-200">
+                        <a href="" class="px-6 py-3 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-300 text-center font-medium text-gray-800 dark:text-gray-200">
                             Contact Support
                         </a>
                     </div>

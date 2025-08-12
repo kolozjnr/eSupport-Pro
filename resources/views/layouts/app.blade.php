@@ -43,7 +43,7 @@
             <link href="{{ asset('assets/libs/gridjs/theme/mermaid.min.css') }}" rel="stylesheet" type="text/css" >
 
             {{-- Select2 --}}
-            {{-- <link href="{{ asset('assets/libs/nice-select2/css/nice-select2.css')}}" rel="stylesheet" type="text/css"> --}}
+            <link href="{{ asset('assets/libs/nice-select2/css/nice-select2.css')}}" rel="stylesheet" type="text/css">
 
              <!-- App css -->
              <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
@@ -74,6 +74,7 @@
 
                 <!-- Page Content -->
                 <main class="flex-grow p-6">
+                   
                     @if(session('success'))
                         <x-flash-message type="success" :message="session('success')" />
                     @endif

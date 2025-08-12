@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
             'fname' => ['required', 'string', 'max:255'],
             'mname' => ['string', 'max:255'],
             'lname' => ['string', 'max:255'],
-            'username' => ['string', 'max:255'],
+            'username' => ['string','unique:users', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -77,7 +77,8 @@ class RegisteredUserController extends Controller
 
             $customer = Customer::create([
                 'user_id' => $user->id,
-                'business_developer_id' => $refId
+                'business_developer_id' => $refId,
+                'is_kyced' => 0
 
             ]);
         }

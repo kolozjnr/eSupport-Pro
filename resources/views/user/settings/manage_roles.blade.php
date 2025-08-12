@@ -5,6 +5,7 @@
     <!-- ============================================================== -->
     
     <link href="{{ asset('assets/libs/gridjs/theme/mermaid.min.css')}}" rel="stylesheet" type="text/css" >
+
     <div class="page-content">
         @include('../layouts.top-header')
         <main class="flex-grow p-6">
@@ -69,7 +70,7 @@
                                         
                                         <div class="">
                                             <label for="role" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Roles</label>
-                                            <select id="search-select2" x-model="formData.role" name="role" id="role" class="search-select">
+                                            <select id="search-select2" x-model="formData.role" name="role" class="search-select2">
                                                 <option selected>Choose</option>
                                                
                                                 @foreach ($roles as $role)

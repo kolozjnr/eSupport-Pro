@@ -141,20 +141,20 @@
                     <div class="w-full px-4 sm:w-1/2">
                       <div class="mb-10">
                         <label
-                          for="email"
+                          for="login"
                           class="mb-3 block font-heading text-base text-dark dark:text-white"
                         >
-                          Email Address
+                          Email Address or Username
                         </label>
                         <input
-                          type="email"
-                          name="email"
-                          :value="old('email')" 
-                          required autofocus autocomplete="email"
-                          placeholder="jhonandrio@domain.com"
+                          type="text"
+                          name="login"
+                          :value="old('login')" 
+                          required autofocus autocomplete="login"
+                          placeholder=""
                           class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
                         />
-                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500" style="color: crimson;" />
+                        <x-input-error :messages="$errors->get('login')" class="mt-2 text-red-500" style="color: crimson;" />
                       </div>
                     </div>
                     <div class="w-full px-4 sm:w-1/2">
