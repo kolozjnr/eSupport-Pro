@@ -29,13 +29,16 @@
             <li class="menu-item">
                 <a href="{{ route('dashboard')}}" class="menu-link">
                     <span class="menu-icon"><i class="mgc_home_3_line"></i></span>
-                    <span class="menu-text"> Dashboard </span>
+                    
+                    <span class="menu-text"> Dashboardg
+                {{ "Usereee" . Auth::user()->is_kyced }} </span>
                 </a>
             </li>
 
                 @php
                 $isCustomer = auth()->user()->hasRole('customer');
                 $isKycBlocked = $isCustomer && auth()->user()->customer->is_kyced !== 2;
+
             @endphp
 
             <li class="menu-title">{{ $settings->short_name }}</li>
