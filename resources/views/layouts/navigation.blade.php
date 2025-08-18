@@ -37,7 +37,6 @@
             @php
                 $isCustomer = auth()->user()->hasRole('customer');
                 
-                // Fixed KYC blocking logic - handle both integer and string values
                 $isKycBlocked = false;
                 
                 if ($isCustomer) {
