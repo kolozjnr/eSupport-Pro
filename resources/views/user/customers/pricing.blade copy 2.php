@@ -122,63 +122,60 @@
                 <!-- Service Selection -->
                 <div class="service-options">
                     <h3 class="font-semibold mb-2">Select Service(s)</h3>
-                    
-                    <!-- All Services Option -->
                     <div class="service-option" onclick="selectService(this, 'all')">
-                        <input type="checkbox" name="service" value="all" checked>
+                        <input type="radio" name="service" value="all" checked>
                         <div class="service-details">
                             <div class="service-name">All Services (Full Package)</div>
-                            <div class="service-price" id="all-price">Base price: ₦0</div>
+                            <div class="service-price hidden" id="all-price">Base price: ₦0</div>
                         </div>
                     </div>
-                    
-                    <!-- Individual Service Options -->
                     <div class="service-option" onclick="selectService(this, 'call_center')">
-                        <input type="checkbox" name="service" value="call_center">
+                        <input type="radio" name="service" value="call_center">
                         <div class="service-details">
                             <div class="service-name">Call Center Service Only</div>
-                            <div class="service-price" id="call-center-price">Price: ₦0</div>
+                            <div class="service-price hidden" id="call-center-price">Price: ₦0</div>
                         </div>
                     </div>
-                    
                     <div class="service-option" onclick="selectService(this, 'general_support')">
-                        <input type="checkbox" name="service" value="general_support">
+                        <input type="radio" name="service" value="general_support">
                         <div class="service-details">
                             <div class="service-name">General Support Only</div>
-                            <div class="service-price" id="general-support-price">Price: ₦0</div>
+                            <div class="service-price hidden" id="general-support-price">Price: ₦0</div>
                         </div>
                     </div>
-                    
                     <div class="service-option" onclick="selectService(this, 'virtual_assistance')">
-                        <input type="checkbox" name="service" value="virtual_assistance">
+                        <input type="radio" name="service" value="virtual_assistance">
                         <div class="service-details">
                             <div class="service-name">Virtual Assistance Only</div>
-                            <div class="service-price" id="virtual-assistance-price">Price: ₦0</div>
+                            <div class="service-price hidden" id="virtual-assistance-price">Price: ₦0</div>
                         </div>
                     </div>
                 </div>
+{{-- 
+                <div class="mb-4">
+                    <h3 class="font-semibold mb-2">Bank Transfer Details</h3>
+                    <ul class="text-sm space-y-1">
+                        <li><strong>Bank:</strong> Zenith Bank plc</li>
+                        <li><strong>Account Name:</strong> E-Supportpro</li>
+                        <li><strong>Account Number:</strong> 1310262889</li>
+                    </ul>
+                </div> --}}
 
-                <!-- Total Selected Services Display -->
-                <div class="mb-4 p-3 bg-gray-100 rounded-lg">
-                    <h4 class="font-semibold text-sm mb-1">Selected Services:</h4>
-                    <div id="selectedServicesList" class="text-xs text-gray-600"></div>
-                </div>
-
-                <!-- Hidden form inputs -->
-                <form id="paymentForm" action="{{ route('monnify.pay') }}" method="POST">
+                {{-- <div class="mb-6 text-sm">
+                    After successful payment, please send your proof of payment (screenshot or receipt) to:  
+                    <a href="mailto:support@dictacare.org" class="text-blue-600 underline">billing@esupportpro.com</a>
+                </div> --}}
+                <form action="{{ route('monnify.pay') }}" method="POST">
                     @csrf
                     <input type="hidden" name="amount" value="" id="amount">
-                    <input type="hidden" name="email" value="user@example.com" id="email">
+                    <input type="hidden" name="email" value="{{ auth()->user()->email}}" id="email">
                     <input type="hidden" name="plan" value="" id="plan">
                     <input type="hidden" name="frequency" value="" id="frequency">
-                    <input type="hidden" name="service_types" value="" id="service-types">
+                    <input type="hidden" name="service_type" value="all" id="service-type">
                     <input type="hidden" name="virtual_assistance_points" value="" id="virtual_assistance_points">
                     <input type="hidden" name="call_center_points" value="" id="call_center_points">
                     <input type="hidden" name="general_support_points" value="" id="general_support_points">
-                    
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
-                        Pay with Monnify
-                    </button>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">Pay with Monnify</button>
                 </form>
             </div>
         </div>
@@ -439,7 +436,6 @@
                             </div>
                         </div>
                         <!-- End Card -->
-
                          <!-- SPECIAL Pricing Card -->
                         <div class="flex flex-col h-full text-center">
                             <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
@@ -487,6 +483,8 @@
                             </div>
                         </div>
                         <!-- End SPECIAL Pricing Card -->
+
+
 
                         <!-- Card -->
                         <div class="flex flex-col h-full text-center">
@@ -548,256 +546,180 @@ New sub before the expiration of the previous one. The slots on the previous sub
                     }));
                 });
 
-      document.addEventListener("DOMContentLoaded", () => {
-            const modal = document.getElementById("modal");
-            const closeModalButton = document.getElementById("closeModal");
-            const planPriceSpan = document.getElementById("planPrice");
-            const payableAmount = document.getElementById("amount");
-            const frequencyInput = document.getElementById("frequency");
-            const virtualAInput = document.getElementById("virtual_assistance_points");
-            const callCenterInput = document.getElementById("call_center_points");
-            const generalSupportInput = document.getElementById("general_support_points");
-            const serviceTypesInput = document.getElementById("service-types");
-            const selectedServicesList = document.getElementById("selectedServicesList");
+           document.addEventListener("DOMContentLoaded", () => {
+    const openModalButton = document.getElementById("openModal");
+    const closeModalButton = document.getElementById("closeModal");
+    const modal = document.getElementById("modal");
+    const planPriceSpan = document.getElementById("planPrice");
+    var payableAmount = document.getElementById("amount");
+    var frequencyInput = document.getElementById("frequency");
+    var virtualAInput = document.getElementById("virtual_assistance_points");
+    var callCenterInput = document.getElementById("call_center_points");
+    var generalSupportInput = document.getElementById("general_support_points");
+    var serviceTypeInput = document.getElementById("service-type");
+    
+    // Store current pricing information
+    let currentPricing = {
+        basePrice: 0,
+        frequency: 'monthly',
+        callCenterPoints: 0,
+        virtualAPoints: 0,
+        generalSupportPoints: 0
+    };
+    
+    // Service weights (percentage of base price)
+    const serviceWeights = {
+        call_center: 0.4,  // 40% of base price
+        general_support: 0.3, // 30% of base price
+        virtual_assistance: 0.3 // 30% of base price
+    };
+
+    function selectService(element, serviceType) {
+        // Update UI
+        const serviceOptions = document.querySelectorAll('.service-option');
+        if (serviceOptions) {
+            serviceOptions.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+        
+        // Update the selected service in the form
+        if (serviceTypeInput) {
+            serviceTypeInput.value = serviceType;
+        }
+        
+        // Recalculate price based on service selection
+        updatePriceForSelectedService();
+    }
+    
+    function updatePriceForSelectedService() {
+        let price = currentPricing.basePrice;
+        const serviceType = serviceTypeInput ? serviceTypeInput.value : 'all';
+        
+        // Apply frequency discount first
+        switch(currentPricing.frequency) {
+            case 'quarterly':
+                price = price * 3 * 0.95; // 5% discount
+                break;
+            case 'biannually':
+                price = price * 6 * 0.90; // 10% discount
+                break;
+            case 'annually':
+                price = price * 12 * 0.85; // 15% discount
+                break;
+        }
+        
+        // If not "all" services, adjust price based on service weights
+        if (serviceType !== 'all') {
+            price = price * serviceWeights[serviceType];
             
-            // Store current pricing information
-            let currentPricing = {
-                basePrice: 0,
-                frequency: 'monthly',
-                callCenterPoints: 0,
-                virtualAPoints: 0,
-                generalSupportPoints: 0
-            };
-            
-            // Service weights (percentage of base price)
-            const serviceWeights = {
-                call_center: 0.4,  // 40% of base price
-                general_support: 0.3, // 30% of base price
-                virtual_assistance: 0.3 // 30% of base price
-            };
-
-            function selectService(element, serviceType) {
-                const checkbox = element.querySelector('input[type="checkbox"]');
-                const allServiceCheckbox = document.querySelector('input[value="all"]');
-                const individualCheckboxes = document.querySelectorAll('input[name="service"]:not([value="all"])');
-                
-                // Handle checkbox state
-                if (serviceType === 'all') {
-                    // If "All Services" is being selected
-                    if (checkbox.checked) {
-                        // Uncheck all individual services
-                        individualCheckboxes.forEach(cb => {
-                            cb.checked = false;
-                            cb.closest('.service-option').classList.remove('selected');
-                        });
-                        element.classList.add('selected');
-                    } else {
-                        element.classList.remove('selected');
-                    }
-                } else {
-                    // If individual service is being selected
-                    if (checkbox.checked) {
-                        // Uncheck "All Services" and add selection
-                        if (allServiceCheckbox) {
-                            allServiceCheckbox.checked = false;
-                            allServiceCheckbox.closest('.service-option').classList.remove('selected');
-                        }
-                        element.classList.add('selected');
-                    } else {
-                        element.classList.remove('selected');
-                    }
-                }
-                
-                // Update price and UI
-                updatePriceForSelectedServices();
-                updateSelectedServicesList();
+            // Update points based on selected service
+            if (serviceType === 'call_center') {
+                if (virtualAInput) virtualAInput.value = 0;
+                if (generalSupportInput) generalSupportInput.value = 0;
+            } else if (serviceType === 'general_support') {
+                if (callCenterInput) callCenterInput.value = 0;
+                if (virtualAInput) virtualAInput.value = 0;
+            } else if (serviceType === 'virtual_assistance') {
+                if (callCenterInput) callCenterInput.value = 0;
+                if (generalSupportInput) generalSupportInput.value = 0;
             }
-            
-            function updatePriceForSelectedServices() {
-                const selectedServices = getSelectedServices();
-                let totalPrice = 0;
-                let selectedServiceTypes = [];
-                
-                if (selectedServices.includes('all')) {
-                    // All services selected
-                    totalPrice = currentPricing.basePrice;
-                    selectedServiceTypes = ['all'];
-                    
-                    // Set all points
-                    if (callCenterInput) callCenterInput.value = currentPricing.callCenterPoints;
-                    if (virtualAInput) virtualAInput.value = currentPricing.virtualAPoints;
-                    if (generalSupportInput) generalSupportInput.value = currentPricing.generalSupportPoints;
-                } else {
-                    // Individual services selected - sum their prices
-                    selectedServices.forEach(service => {
-                        totalPrice += currentPricing.basePrice * serviceWeights[service];
-                        selectedServiceTypes.push(service);
-                    });
-                    
-                    // Set points based on selected services
-                    if (callCenterInput) {
-                        callCenterInput.value = selectedServices.includes('call_center') ? currentPricing.callCenterPoints : 0;
-                    }
-                    if (virtualAInput) {
-                        virtualAInput.value = selectedServices.includes('virtual_assistance') ? currentPricing.virtualAPoints : 0;
-                    }
-                    if (generalSupportInput) {
-                        generalSupportInput.value = selectedServices.includes('general_support') ? currentPricing.generalSupportPoints : 0;
-                    }
-                }
-                
-                // Apply frequency discount
-                switch(currentPricing.frequency) {
-                    case 'quarterly':
-                        totalPrice = totalPrice * 3 * 0.95; // 5% discount
-                        break;
-                    case 'biannually':
-                        totalPrice = totalPrice * 6 * 0.90; // 10% discount
-                        break;
-                    case 'annually':
-                        totalPrice = totalPrice * 12 * 0.85; // 15% discount
-                        break;
-                }
-                
-                // Update displayed price
-                const roundedPrice = Math.round(totalPrice);
-                if (planPriceSpan) planPriceSpan.textContent = `₦${roundedPrice.toLocaleString()}`;
-                if (payableAmount) payableAmount.value = roundedPrice;
-                if (serviceTypesInput) serviceTypesInput.value = selectedServiceTypes.join(',');
-                
-                // Update individual service price displays
-                updateServicePriceDisplays();
-            }
+        } else {
+            // For "all" services, keep all points
+            if (callCenterInput) callCenterInput.value = currentPricing.callCenterPoints;
+            if (virtualAInput) virtualAInput.value = currentPricing.virtualAPoints;
+            if (generalSupportInput) generalSupportInput.value = currentPricing.generalSupportPoints;
+        }
+        
+        // Update displayed price
+        const roundedPrice = Math.round(price);
+        if (planPriceSpan) planPriceSpan.textContent = `₦${roundedPrice.toLocaleString()}`;
+        if (payableAmount) payableAmount.value = roundedPrice;
+        
+        // Update service price displays
+        const allPriceEl = document.getElementById('all-price');
+        const callCenterPriceEl = document.getElementById('call-center-price');
+        const generalSupportPriceEl = document.getElementById('general-support-price');
+        const virtualAssistancePriceEl = document.getElementById('virtual-assistance-price');
+        
+        if (allPriceEl) allPriceEl.textContent = `Base price: ₦${Math.round(currentPricing.basePrice).toLocaleString()}`;
+        if (callCenterPriceEl) callCenterPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.call_center).toLocaleString()}`;
+        if (generalSupportPriceEl) generalSupportPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.general_support).toLocaleString()}`;
+        if (virtualAssistancePriceEl) virtualAssistancePriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.virtual_assistance).toLocaleString()}`;
+    }
 
-            function updateServicePriceDisplays() {
-                const allPriceEl = document.getElementById('all-price');
-                const callCenterPriceEl = document.getElementById('call-center-price');
-                const generalSupportPriceEl = document.getElementById('general-support-price');
-                const virtualAssistancePriceEl = document.getElementById('virtual-assistance-price');
-                
-                if (allPriceEl) {
-                    allPriceEl.textContent = `Base price: ₦${Math.round(currentPricing.basePrice).toLocaleString()}`;
-                }
-                if (callCenterPriceEl) {
-                    callCenterPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.call_center).toLocaleString()}`;
-                }
-                if (generalSupportPriceEl) {
-                    generalSupportPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.general_support).toLocaleString()}`;
-                }
-                if (virtualAssistancePriceEl) {
-                    virtualAssistancePriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.virtual_assistance).toLocaleString()}`;
-                }
-            }
+    function showModalWithPrice(price, frequency, virtualA, callCenter, generalSupport) {
+        // Store current pricing information
+        currentPricing = {
+            basePrice: parseFloat(price),
+            frequency: frequency,
+            callCenterPoints: callCenter,
+            virtualAPoints: virtualA,
+            generalSupportPoints: generalSupport
+        };
+        
+        // Reset service selection to "all"
+        if (serviceTypeInput) serviceTypeInput.value = 'all';
+        
+        const allServiceOption = document.querySelector('.service-option input[value="all"]');
+        if (allServiceOption) allServiceOption.checked = true;
+        
+        const serviceOptions = document.querySelectorAll('.service-option');
+        if (serviceOptions) {
+            serviceOptions.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            const firstOption = document.querySelector('.service-option:first-child');
+            if (firstOption) firstOption.classList.add('selected');
+        }
+        
+        // Update prices
+        updatePriceForSelectedService();
+        
+        // Show modal
+        if (modal) {
+            modal.style.display = "flex";
+            const modalContent = modal.querySelector(".modal-content");
+            if (modalContent) modalContent.style.animation = "blowUp 0.3s ease-out forwards";
+        }
+    }
 
-            function getSelectedServices() {
-                const checkboxes = document.querySelectorAll('input[name="service"]:checked');
-                return Array.from(checkboxes).map(cb => cb.value);
-            }
-
-            function updateSelectedServicesList() {
-                const selectedServices = getSelectedServices();
-                const serviceNames = {
-                    'all': 'All Services (Full Package)',
-                    'call_center': 'Call Center Service',
-                    'general_support': 'General Support',
-                    'virtual_assistance': 'Virtual Assistance'
-                };
-
-                if (selectedServices.length === 0) {
-                    selectedServicesList.textContent = 'No services selected';
-                } else {
-                    const names = selectedServices.map(service => serviceNames[service]);
-                    selectedServicesList.textContent = names.join(', ');
-                }
-            }
-
-            function showModalWithPrice(price, frequency, virtualA, callCenter, generalSupport) {
-                // Store current pricing information
-                currentPricing = {
-                    basePrice: parseFloat(price),
-                    frequency: frequency,
-                    callCenterPoints: callCenter,
-                    virtualAPoints: virtualA,
-                    generalSupportPoints: generalSupport
-                };
-                
-                // Set frequency in form
-                if (frequencyInput) frequencyInput.value = frequency;
-                
-                // Reset to "All Services" selected by default
-                const allCheckbox = document.querySelector('input[value="all"]');
-                const individualCheckboxes = document.querySelectorAll('input[name="service"]:not([value="all"])');
-                
-                if (allCheckbox) {
-                    allCheckbox.checked = true;
-                    allCheckbox.closest('.service-option').classList.add('selected');
-                }
-                
-                individualCheckboxes.forEach(cb => {
-                    cb.checked = false;
-                    cb.closest('.service-option').classList.remove('selected');
-                });
-                
-                // Update prices and display
-                updatePriceForSelectedServices();
-                updateSelectedServicesList();
-                
-                // Show modal
-                if (modal) {
-                    modal.style.display = "flex";
-                    const modalContent = modal.querySelector(".modal-content");
-                    if (modalContent) modalContent.style.animation = "blowUp 0.3s ease-out forwards";
-                }
-            }
-
-            // Close modal functionality
-            if (closeModalButton) {
-                closeModalButton.addEventListener("click", () => {
-                    if (modal) {
-                        const modalContent = modal.querySelector(".modal-content");
-                        if (modalContent) {
-                            modalContent.style.animation = "goBack 0.3s ease-out forwards";
-                            setTimeout(() => {
-                                modal.style.display = "none";
-                            }, 300);
-                        }
-                    }
-                });
-            }
-
-            // Close modal when clicking outside
-            if (modal) {
-                modal.addEventListener("click", (e) => {
-                    if (e.target === modal) {
-                        modal.style.display = "none";
-                    }
-                });
-            }
-
-            // Form submission handler
-            // document.getElementById('paymentForm').addEventListener('submit', function(e) {
-            //     e.preventDefault();
-                
-            //     const selectedServices = getSelectedServices();
-            //     if (selectedServices.length === 0) {
-            //         alert('Please select at least one service');
-            //         return;
-            //     }
-                
-            //     // Log the form data for testing
-            //     const formData = new FormData(this);
-            //     console.log('Payment Form Data:');
-            //     for (let [key, value] of formData.entries()) {
-            //         console.log(key + ': ' + value);
-            //     }
-                
-            //     //alert('Form submitted! Check console for details.');
-            // });
-
-            // Make functions globally accessible
-            window.showModalWithPrice = showModalWithPrice;
-            window.selectService = selectService;
+    // Attach to open button if it exists
+    if (openModalButton) {
+        openModalButton.addEventListener("click", () => {
+            showModalWithPrice(10000); // default for testing
         });
+    }
+
+    // Attach to close button
+    if (closeModalButton) {
+        closeModalButton.addEventListener("click", () => {
+            if (modal) {
+                const modalContent = modal.querySelector(".modal-content");
+                if (modalContent) {
+                    modalContent.style.animation = "goBack 0.3s ease-out forwards";
+                    setTimeout(() => {
+                        modal.style.display = "none";
+                    }, 300);
+                }
+            }
+        });
+    }
+
+    // Optional: Close modal when clicking outside content
+    if (modal) {
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    }
+
+    // Make `showModalWithPrice` globally accessible
+    window.showModalWithPrice = showModalWithPrice;
+    window.selectService = selectService;
+});
 
 // Price calculation based on frequency
 document.addEventListener('DOMContentLoaded', function() {
@@ -854,30 +776,6 @@ document.addEventListener('DOMContentLoaded', function() {
         buttonElement.setAttribute('onclick', `showModalWithPrice(${basePrice}, '${frequency}', '${virtualA}', '${callCenter}', '${generalSupport}')`);
     }
 });
-
-function updateSpecialPlanPrice(selectElement) {
-    const prices = {
-        'bronze': 13000,
-        'silver': 25000,
-        'gold': 30000
-    };
-    
-    const selectedPlan = selectElement.value;
-    const price = prices[selectedPlan];
-    
-    // Update displayed price
-    const displayElement = selectElement.closest('.flex.flex-col').querySelector('.display-price');
-    if (displayElement) {
-        displayElement.textContent = price.toLocaleString();
-    }
-    
-    // Update proceed button
-    const proceedButton = selectElement.closest('.flex.flex-col').querySelector('.proceed-button');
-    if (proceedButton) {
-        proceedButton.setAttribute('data-base-price', price);
-        proceedButton.setAttribute('onclick', `showModalWithPrice(${price}, 'monthly', 0, 0, 0)`);
-    }
-}
 
     </script>
 </x-app-layout>

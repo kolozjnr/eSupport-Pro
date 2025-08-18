@@ -279,11 +279,16 @@ function openSendModal(draftId) {
             sort: true
           },
           {
+            name: 'File',
+            hidden: true
+          },
+          {
             name: 'Actions',
             width: '150px',
             formatter: (cell, row) => {
               const ticketId = row.cells[0].data;
               const status = row.cells[4].data?.toLowerCase();
+              const file = row.cells[6].data;
               
               // Base actions (edit, delete, view)
               let actionsHTML = `
@@ -294,7 +299,15 @@ function openSendModal(draftId) {
                   <a href="javascript:void(0);" onclick="deleteTicket('${ticketId}')" class="text-danger me-2" title="Delete">
                     <i class="mgc_delete_line text-xl"></i>
                   </a>
+                  
               `;
+                  if (file) {
+                actionsHTML += `
+                    <a href="${file}" target="_blank" class="text-info me-2" title="View Attachment">
+                    <i class="mgc_attachment_2_line text-xl"></i>
+                    </a>
+                `;
+                }
               
               // Add review button only for completed tickets
               if (status === 'resolved') {
@@ -326,6 +339,7 @@ function openSendModal(draftId) {
           ticket.phone_numbers || [],
           ticket.status,
           ticket.created_at,
+          ticket.attached?.[0]?.file || '',
           '' // Actions column
         ])
       }).render(tableContainer);

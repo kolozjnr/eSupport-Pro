@@ -31,6 +31,11 @@ class Ticket extends Model
     {
         return $this->hasMany(Rating::class);
     }
+
+    public function attached()
+    {
+        return $this->hasMany(TicketAttachment::class);
+    }
     
 
     protected $casts = [

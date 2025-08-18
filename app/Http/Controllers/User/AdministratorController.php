@@ -12,6 +12,9 @@ use App\Models\QualityControl;
 use App\Models\BusinessDeveloper;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\PasswordResetNotification;
 
 class AdministratorController extends Controller
 {
@@ -90,5 +93,74 @@ class AdministratorController extends Controller
             'total_pending' => $total_pending,
             'totalIncome' => $totalIncome
         ]);
+    }
+
+    public function verifiedCustomers()
+    {
+        return view('user.settings.verified-customers');
+    }
+
+    public function getVeriedCustomers()
+    {
+        $customers = Customer::with('user:id,fname,lname,email')
+            ->where('is_kyced', 2)
+            ->select('id', 'address', 'phone_number', 'business_name', 'nin', 'created_at')
+            ->cursorPaginate(15); // Or regular paginate()
+
+        return response()->json([
+            'data' => $customers->items(),
+            'next_cursor' => $customers->nextCursor()?->encode(),
+            // For regular pagination:
+            // 'total' => $customers->total(),
+            // 'per_page' => $customers->perPage(),
+            // 'current_page' => $customers->currentPage()
+        ]);
+    }
+
+    public function getResetPassword()
+    {
+          $user = Auth::user();
+        if($user->user_type != 'administrator')
+        {
+            return abort(403);
+        }
+        $customers = Customer::with('user')
+        ->where('is_kyced', 2)
+                    ->get();
+
+        return view('user.settings.reset-password', compact('customers'));
+    }
+
+    public function resetPassword($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->password = Hash::make('123456789');
+            $user->save();
+
+            $user->notify(new PasswordResetNotification($user));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Password reset successfully',
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email
+                ]
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error resetting password: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

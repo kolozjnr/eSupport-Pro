@@ -199,6 +199,10 @@ Route::middleware('auth')->group(function () {
         ->name('admin.')
         ->group(function(){
             Route::get('/admin-stats', 'adminStats')->name('admin-stats');
+            Route::get('/verified-customers', 'verifiedCustomers')->name('verified-customers');
+            Route::get('/get-verified-customers', 'getVeriedCustomers');
+            Route::get('/password-reset', 'getResetPassword')->name('password-reset');
+            Route::post('/{id}/reset-password', 'resetPassword');
         });
 
         Route::controller(BusinesDeveloperController::class)

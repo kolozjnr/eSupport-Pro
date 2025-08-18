@@ -203,6 +203,12 @@
                             <span class="menu-text">Approve KYC</span>
                         </a>
                     </li>
+
+                    <li class="menu-item">
+                        <a href="{{route('admin.password-reset')}}" class="menu-link">
+                            <span class="menu-text">Reset Password</span>
+                        </a>
+                    </li>
                     @endif
                 </ul>
             </li>
@@ -234,13 +240,13 @@
             @endif
 
             <!-- Help Box Widget -->
-            <div class="sticky bottom-0 fixed px-5 border-t border-gray-300 mx-2">
-                <div class="help-box p-6 bg-black/5 text-left rounded-md">
-                    <h5 class="mb-2 bold ">{{auth()->user()->fname .' '. auth()->user()->lname}}</h5>
-                    <p class="mb-3 text-sm">{{Str::ucfirst(auth()->user()->user_type)}}</p>
-                </div>
-            </div>
         </ul>
+    </div>
+     <div class="sticky bottom-0 bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700 mt-auto">
+        <div class="p-4 text-left">
+            <h5 class="font-bold">{{ auth()->user()->fname .' '. auth()->user()->lname }}</h5>
+            <p class="text-sm">{{ Str::ucfirst(auth()->user()->user_type) }}</p>
+        </div>
     </div>
 </div>
 <!-- Sidenav Menu End  -->

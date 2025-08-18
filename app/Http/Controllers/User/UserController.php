@@ -212,7 +212,6 @@ class UserController extends Controller
         {
             return abort(403);
         }
-        //  Get all users with their current status
         $customers = Customer::with('user')
         ->where('is_kyced', 1)
         //->orWhere('is_kyced')

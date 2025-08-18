@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Services\SupportPerformanceService;
 use App\Notifications\TaskAssignedNotification;
@@ -168,7 +169,7 @@ class TicketsController extends Controller
     public function getCustomerTickets()
     {
         try {
-            $query = Ticket::with('user', 'phoneNumbers', 'support.identity', 'support.user')
+            $query = Ticket::with('user', 'phoneNumbers', 'support.identity', 'support.user', 'attached')
                 ->where('user_id', auth()->id())
                 ->where('accepted_status', 1)
                 ->where('customer_id', auth()->user()->getCustomerId());
@@ -281,7 +282,7 @@ class TicketsController extends Controller
     public function getQualityControlTickets()
     {
         try {
-            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity' )
+            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity', 'attached' )
             ->where('accepted_status', 1)
             ->latest()
             ->get();
@@ -368,7 +369,7 @@ class TicketsController extends Controller
 
 public function viewSingleTicket($id)
 {
-    $ticket = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user' )->findOrFail($id);
+    $ticket = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'attached')->findOrFail($id);
     return view('user.tickets.view-single-ticket', compact('ticket'));
 }
 
@@ -377,7 +378,7 @@ public function getSupportTicket()
 {
     $supportId = auth()->user()->getSupportId();
     try {
-            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity' )
+            $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity', 'attached' )
             ->where('support_id', $supportId)
             ->where('accepted_status', 1)
             ->latest()
@@ -610,20 +611,27 @@ public function updateSupportTicket(Request $request, $id)
             }
 
             // Handle file upload
-            if ($request->hasFile('file')) {
+           if ($request->hasFile('file')) {
+                $uploadedFile = $request->file('file');
                 
-                    $uploadedFile = $request->file('file');
-                    $cloudinaryResponse = Cloudinary::upload($uploadedFile->getRealPath(), [
-                        'folder' => 'ticket_attachments',
-                        'resource_type' => 'auto'
-                    ]);
-                    
-                $upl =  TicketAttachment::create([
-                        'ticket_id' => $ticket->id,
-                        'public_id' => $cloudinaryResponse->getPublicId(),
-                        'file' => $cloudinaryResponse->getSecurePath()
-                    ]);
-                    //dd($upl);
+                // Generate a unique filename
+                $filename = time() . '_' . $uploadedFile->getClientOriginalName();
+                
+                // Store the file in Wasabi
+                $path = $uploadedFile->storeAs(
+                    'esupport', // folder within the bucket
+                    $filename,  // custom filename
+                    'wasabi'    // the disk name from config/filesystems.php
+                );
+
+                // Get the public URL
+                $url = Storage::disk('wasabi')->url($path);
+                
+                // Save to database
+                TicketAttachment::create([
+                    'ticket_id' => $ticket->id,
+                    'file' => $url,
+                ]);
             }
             $customer->user->notify(new TicketUploadedOnbehalfofCustomerNotification($userFname, $ticket->id));
 
@@ -645,6 +653,10 @@ public function updateSupportTicket(Request $request, $id)
                     'customer_id' => $ticket->customer_id
                 ]);
             }
+
+            // In a controller or tinker
+
+
                 // foreach ($phoneNumbers as $number) {
                 //     $ticket->phoneNumbers()->create([
                 //         'number' => $number,
@@ -654,25 +666,28 @@ public function updateSupportTicket(Request $request, $id)
                 // }
                 
                 // Handle file upload
-                if ($request->hasFile('file')) {
-                   //dd('i own it');
-                        $uploadedFile = $request->file('file');
-                        //dd($uploadedFile);
-                        if ($uploadedFile->isValid()) {
-                        $cloudinaryResponse = Cloudinary::upload($uploadedFile->getRealPath(), [
-                            'folder' => 'ticket_attachments',
-                            'resource_type' => 'auto'
-                        ]);
-                        
-                     TicketAttachment::create([
-                            'ticket_id' => $ticket->id,
-                            'public_id' => $cloudinaryResponse->getPublicId(),
-                            'file' => $cloudinaryResponse->getSecurePath()
-                        ]);
-                    }
-                        //dd($upl);
-                }
+             if ($request->hasFile('file')) {
+                $uploadedFile = $request->file('file');
                 
+                // Generate a unique filename
+                $filename = time() . '_' . $uploadedFile->getClientOriginalName();
+                
+                // Store the file in Wasabi
+                $path = $uploadedFile->storeAs(
+                    'esupport', // folder within the bucket
+                    $filename,  // custom filename
+                    'wasabi'    // the disk name from config/filesystems.php
+                );
+
+                // Get the public URL
+                $url = Storage::disk('wasabi')->url($path);
+                
+                // Save to database
+                TicketAttachment::create([
+                    'ticket_id' => $ticket->id,
+                    'file' => $url,
+                ]);
+            }
                 //$citizenBal - 5;
                 //auth()->user()->customer->decrement('general_support_points', $deduction);
             }
@@ -720,6 +735,7 @@ public function updateSupportTicket(Request $request, $id)
         ], 500);
     }
 }
+
     public function downloadTemplate()
     {
         $filename = "tickets_template.csv";
