@@ -53,7 +53,7 @@
                                          @csrf
                                         @method('PUT')
                                         <!-- Default row (always visible) -->
-                                        <div class="grid grid-cols-4 gap-4 mb-6">
+                                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                                             <div>
                                                 <label for="fname" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">First name</label>
                                                 <input type="text" class="form-input" x-model="formData.fname" name="fname" id="fname" placeholder="">
