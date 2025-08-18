@@ -73,8 +73,8 @@
                 @endisset --}}
 
                 <!-- Page Content -->
-                <main class="flex-grow p-6">
-                   
+                <main class="flex-grow md:p-4">
+                   {{-- the p-6 class was removed from the main tag because of the space on mobile --}}
                     @if(session('success'))
                         <x-flash-message type="success" :message="session('success')" />
                     @endif
