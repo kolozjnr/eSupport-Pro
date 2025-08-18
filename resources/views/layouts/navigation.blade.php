@@ -37,7 +37,7 @@
 
                 @php
                 $isCustomer = auth()->user()->hasRole('customer');
-                $isKycBlocked = $isCustomer && auth()->user()->customer->is_kyced !== 2;
+                $isKycBlocked = $isCustomer && auth()->user()->customer->is_kyced !== "2";
 
             @endphp
 
