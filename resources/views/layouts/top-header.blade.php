@@ -252,9 +252,35 @@
         </div>
     </div>
 </header>
- @if (auth()->user()->hasRole('customer') && auth()->user()->customer->is_kyced !== 2)
-                        <marquee behavior="" direction="left" scrollamount="5" class="text-red-500 text-xl"> Kindly submit your KYC for approval</marquee>
-                    @endif
+
+            @php
+                $isCustomer = auth()->user()->hasRole('customer');
+                
+                $isKycBlocked = false;
+                
+                if ($isCustomer) {
+                    $customer = auth()->user()->customer;
+                    if (!$customer || ($customer->is_kyced != 2)) {
+                        $isKycBlocked = true;
+                    }
+                }
+
+                // Debug information (remove this in production)
+                // dd([
+                //     'isCustomer' => $isCustomer,
+                //     'customer' => $customer ?? null,
+                //     'is_kyced' => $customer->is_kyced ?? 'null',
+                //     'is_kyced_type' => gettype($customer->is_kyced ?? null),
+                //     'isKycBlocked' => $isKycBlocked
+                // ]);
+            @endphp
+           @if($isKycBlocked)
+                <marquee behavior="scroll" direction="left" scrollamount="5" class="text-red-500 text-xl">
+                    Kindly submit your KYC for approval
+                </marquee>
+            @endif
+
+                        
 <!-- Topbar End -->
 
 <!-- Topbar Search Modal -->
