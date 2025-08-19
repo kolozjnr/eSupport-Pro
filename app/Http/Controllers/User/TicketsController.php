@@ -229,9 +229,14 @@ class TicketsController extends Controller
         $citizenBal = auth()->user()->customer->general_support_points;
 
         $validate = Validator::make($request->all(), [
-            'ticket_ids' => 'required',
+            'service_type' => 'required_if:accept_reject,1',
+            'ticket_ids'   => 'required',
             'ticket_ids.*' => 'required|exists:tickets,id',
-            'accept_reject' => 'nullable|numeric',
+            'accept_reject'=> 'nullable|numeric',
+        ], [
+            'service_type.required_if' => 'You must select a service to accept a ticket.',
+            'ticket_ids.required'      => 'Please select at least one ticket.',
+            'ticket_ids.*.exists'      => 'One or more selected tickets do not exist.',
         ]);
 
         if ($validate->fails()) {
@@ -240,6 +245,52 @@ class TicketsController extends Controller
                 'message' => $validate->errors()->first()
             ], 422);
         }
+
+        if($request->accept_reject == '1'  && empty($request->service_type))
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'You must select a service to accept a Ticket'
+            ], 422);
+        }
+
+        // Check customer balance if user is a customer
+    if (auth()->user()->hasRole('customer')) {
+        $customer = auth()->user()->customer;
+        $serviceType = $request->service_type;
+        
+        $balanceField = match($serviceType) {
+            'call_service_points' => 'call_service_points',
+            'general_support_points' => 'general_support_points',
+            'virtual_assistance_points' => 'virtual_assistance_points',
+            default => null
+        };
+
+        
+
+            if($request->service_type == 'special')
+            {
+                $specialPoints = $customer->special_points;
+                    if($specialPoints < 1){
+                        return response()->json([
+                        'success' => false,
+                        'message' => 'Insufficient special points to create ticket.'
+                    ], 400);
+                }
+                $customer->decrement('special_points', 1);
+            }
+            else{
+                if (!$balanceField || $customer->$balanceField < $deduction) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Insufficient service points to create ticket.'
+                    ], 400);
+                }
+                $customer->decrement($balanceField, $deduction);
+            }
+
+        }
+
 
         try {
             DB::beginTransaction();
@@ -539,8 +590,6 @@ public function updateSupportTicket(Request $request, $id)
             default => null
         };
 
-     return response()->json($serviceType);
-     return;
 
         if($request->service_type == 'special')
         {

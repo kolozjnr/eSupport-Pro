@@ -565,13 +565,13 @@ window.updateSelectedTickets = async function() {
                     </div>
                     
                     <!-- Modal body -->
-                    <div class="p-4">
+                    <div class="p-4" x-data="{ status: '' }">
                         <form id="bulkUpdateForm">
                             <input type="hidden" name="ticket_ids" value="${selectedIds.join(',')}">
                             
                             <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Support Staff</label>
-                                <select name="accept_reject" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Action</label>
+                                <select name="accept_reject" x-model="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
                                     <option value="" disabled selected>Choose Action</option>
                                     
                                         <option value="1" class="dark:bg-gray-700">Accept</option>
@@ -579,8 +579,22 @@ window.updateSelectedTickets = async function() {
                                    
                                 </select>
                             </div>
+
+                            <div class="mb-4" x-show="status === '1'" x-transition>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Service Type</label>
+                                <select name="service_type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                                    <option value="" disabled selected>Choose Service</option>
+                                    
+                                        <option value="call_service_points">Call Service</option>
+                                            <option value="general_support_points">General Support</option>
+                                            <option value="virtual_assistance_points">Virtual Assistant</option>
+                                            <option value="special">Special</option>
+                                   
+                                </select>
+                            </div>
+
                             
-                            <div class="mb-4">
+                            <div class="mb-4" >
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Accept  Notes</label>
                                 <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Optional notes about"></textarea>
                             </div>
@@ -634,6 +648,7 @@ window.submitBulkUpdate = async function() {
 
     // Convert FormData to JSON
     const jsonData = {
+        service_type: formData.get('service_type'),
         ticket_ids: formData.get('ticket_ids').split(',').map(id => parseInt(id)),
         accept_reject: parseInt(accept_reject)
     };
@@ -668,7 +683,7 @@ window.submitBulkUpdate = async function() {
         window.hideTailwindModal();
 
         // Show success message
-        alert('Tickets assigned successfully!');
+        alert('Tickets accepted successfully!');
         
         // Refresh the table
         if (typeof initializeQualityControlTicketsTable === 'function') {
@@ -680,8 +695,9 @@ window.submitBulkUpdate = async function() {
         window.updateBulkActionButton();
 
     } catch (error) {
-        console.error(error.message);
-        alert('Error: ' + error.message);
+        console.error(error);
+        //alert('Error: ' + error.message);
+        alert("something went wrong"); 
     } finally {
         // Reset button state
         const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
@@ -707,6 +723,8 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.open(ticketId);
         }
     };
+
+   
 });
 
 
