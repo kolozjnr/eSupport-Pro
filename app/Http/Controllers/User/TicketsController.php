@@ -191,6 +191,9 @@ class TicketsController extends Controller
             if (request()->has('sort')) {
                 $query->orderBy(request('sort'), request('order', 'asc'));
             }
+            else{
+                $query->latest();
+            }
             
             $tickets = $query->get();
                 
