@@ -536,6 +536,9 @@ public function updateSupportTicket(Request $request, $id)
             default => null
         };
 
+     return response()->json($serviceType);
+     return;
+
         if($request->service_type == 'special')
         {
             $specialPoints = $customer->special_points;

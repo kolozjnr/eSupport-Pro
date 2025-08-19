@@ -179,7 +179,7 @@
         document.addEventListener('alpine:init', () => {
     Alpine.data('ticketSystem', () => ({
         ticket: {
-            service_type: 'call_center',
+            service_type: '',
             name: '',
             description: '',
             phone_numbers: [{ number: '' }],
@@ -257,7 +257,7 @@
                     this.message = data.message || 'Ticket created successfully!';
                     // Reset form
                     this.ticket = {
-                        service_type: 'call_center',
+                        service_type: '',
                         name: '',
                         description: '',
                         phone_numbers: [{ number: '' }],
