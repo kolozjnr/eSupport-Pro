@@ -175,6 +175,7 @@
                     <input type="hidden" name="virtual_assistance_points" value="" id="virtual_assistance_points">
                     <input type="hidden" name="call_center_points" value="" id="call_center_points">
                     <input type="hidden" name="general_support_points" value="" id="general_support_points">
+                    <input type="hidden" name="specialPlans" id="specialPlans" value="">
                     
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
                         Pay with Monnify
@@ -450,9 +451,9 @@
                                 <!-- Price display with dropdown -->
                                 <div class="mb-4">
                                     <select class="special-plan-select w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white" onchange="updateSpecialPlanPrice(this)">
-                                        <option value="bronze">BRONZE - ₦13,000</option>
-                                        <option value="silver">SILVER - ₦25,000</option>
-                                        <option value="gold">GOLD - ₦30,000</option>
+                                        <option value="bronze">BRONZE - {{$settings->special_bronze_amount}}</option>
+                                        <option value="silver">SILVER - {{$settings->special_silver_amount}}</option>
+                                        <option value="gold">GOLD - {{$settings->special_gold_amount}}</option>
                                     </select>
                                 </div>
                                 
@@ -856,11 +857,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function updateSpecialPlanPrice(selectElement) {
-    const prices = {
-        'bronze': 13000,
-        'silver': 25000,
-        'gold': 30000
-    };
+    document.getElementById('specialPlans').value = selectElement.value;
+    // const prices = {
+    //     'bronze': 13000,
+    //     'silver': 25000,
+    //     'gold': 30000
+    // };
+
+      const prices = {
+            'bronze': {{ $settings->special_bronze_amount }},
+            'silver': {{ $settings->special_silver_amount }},
+            'gold':   {{ $settings->special_gold_amount }},
+        };
     
     const selectedPlan = selectElement.value;
     const price = prices[selectedPlan];

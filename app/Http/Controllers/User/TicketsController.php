@@ -536,14 +536,27 @@ public function updateSupportTicket(Request $request, $id)
             default => null
         };
 
-        if (!$balanceField || $customer->$balanceField < $deduction) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Insufficient service points to create ticket.'
-            ], 400);
+        if($request->service_type == 'special')
+        {
+            $specialPoints = $customer->special_points;
+                if($specialPoints < 1){
+                    return response()->json([
+                    'success' => false,
+                    'message' => 'Insufficient special points to create ticket.'
+                ], 400);
+            }
+             $customer->decrement('special_points', 1);
+        }
+        else{
+            if (!$balanceField || $customer->$balanceField < $deduction) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Insufficient service points to create ticket.'
+                ], 400);
+            }
+            $customer->decrement($balanceField, $deduction);
         }
 
-        $customer->decrement($balanceField, $deduction);
     }
 
     try {

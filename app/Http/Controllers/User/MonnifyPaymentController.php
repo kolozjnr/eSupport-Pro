@@ -22,6 +22,7 @@ class MonnifyPaymentController extends Controller
 
     public function pay(Request $request)
     {
+        //dd($request->all());
         $userId = auth()->user()->id;
         $customerId = auth()->user()->getCustomerId();
         $reference =  Subscription::generateTrx(10);
@@ -29,8 +30,9 @@ class MonnifyPaymentController extends Controller
         try {
             $response = $this->monnify->initializeTransaction([
             'amount' => $request->amount,
+            // 'plan_name'=> $request->specialPlans ?? '',
             'name' => auth()->user()->lname ?? 'Guest',
-            'email' => auth()->user()->email ?? 'guest@example.com',
+            'email' => auth()->user()->email ?? '',
             'reference' => $reference,
             // 'reference' => $reference,
             //'description' => 'Payment for Order #' . $reference,
@@ -48,6 +50,7 @@ class MonnifyPaymentController extends Controller
                 'paymentReference' => $response['responseBody']['paymentReference'],
                 'reference' => $reference,
                 'amount' => $request->amount,
+                'plan_name'=> $request->specialPlans ?? '',
                 'payment_method' => 'Monnify',
                 'virtual_assistance_points' => $request->virtual_assistance_points,
                 'frequency'=> $request->frequency,
@@ -203,71 +206,90 @@ class MonnifyPaymentController extends Controller
                 isset($response['responseBody']['paymentStatus']) &&
                 $response['responseBody']['paymentStatus'] === 'PAID'
             ) {
-                //dd($response);
-                $subscription->update([
-                    'status' => 'successful',
-                    'reference' => $response['responseBody']['paymentReference'],
-                    //'payment_method' => $response['responseBody']['channel'],
-                    'currency' => $response['responseBody']['currency'],
-                    'amount' => $response['responseBody']['amountPaid'],
-                ]);
 
-               // dd($response);
-                $frequency = $subscription->frequency;
-                $subEnddate = Carbon::parse($customer->subscription_date);
-                $now = Carbon::now();
-                $newEndDate  = $now->copy();
+                 //dd($response);
+                    $subscription->update([
+                        'status' => 'successful',
+                        'reference' => $response['responseBody']['paymentReference'],
+                        //'payment_method' => $response['responseBody']['channel'],
+                        'currency' => $response['responseBody']['currency'],
+                        'amount' => $response['responseBody']['amountPaid'],
+                    ]);
 
-                switch ($frequency) {
-                    case 'monthly':
-                        $newEndDate->addMonth();
-                        break;
-                    case 'quarterly':
-                        $newEndDate->addMonths(3);
-                    case 'biannually':
-                        $newEndDate->addMonths(6);
-                        break;
-                    case 'yearly':
-                        $newEndDate->addYear();
-                        break;
-                    default:
-                        $newEndDate  = $now->copy();
-                        break;
+                if($subscription->plan_name != null){
+                    //dd($subscription->plan_name);
+                    $subEnddate = Carbon::parse($customer->subscription_date);
+                    $now = Carbon::now();
+                    $newEndDate  = $now->copy();
+
+
+                    $customer->update([
+                        'is_subscribed' => 1,
+                        'subscription_date' => $now,
+                        'subscription_due_date' => $newEndDate,
+                        'special_points' => +1,
+                    ]);
                 }
-                // $customer->update([
-                //     'subscription_date' => $now,
-                //     'subscription_due_date' => $newEndDate,
-                // ]);
+                else{
+
+                // dd($response);
+                    $frequency = $subscription->frequency;
+                    $subEnddate = Carbon::parse($customer->subscription_date);
+                    $now = Carbon::now();
+                    $newEndDate  = $now->copy();
+
+                    switch ($frequency) {
+                        case 'monthly':
+                            $newEndDate->addMonth();
+                            break;
+                        case 'quarterly':
+                            $newEndDate->addMonths(3);
+                        case 'biannually':
+                            $newEndDate->addMonths(6);
+                            break;
+                        case 'yearly':
+                            $newEndDate->addYear();
+                            break;
+                        default:
+                            $newEndDate  = $now->copy();
+                            break;
+                    }
+                    // $customer->update([
+                    //     'subscription_date' => $now,
+                    //     'subscription_due_date' => $newEndDate,
+                    // ]);
 
 
-               $baseVirtualPoints = $subscription->virtual_assistance_points ?? 0;
-                $baseCallPoints = $subscription->call_service_points ?? 0;
-                $baseGeneralPoints = $subscription->general_support_points ?? 0;
+                    $baseVirtualPoints = $subscription->virtual_assistance_points ?? 0;
+                    $baseCallPoints = $subscription->call_service_points ?? 0;
+                    $baseGeneralPoints = $subscription->general_support_points ?? 0;
 
-                // Check if renewal is within 48 hours of current subscription end date
-                $subEndDate = Carbon::parse($customer->subscription_due_date);
-                $shouldApplyBonus = $now->diffInHours($subEndDate) <= 48;
+                    // Check if renewal is within 48 hours of current subscription end date
+                    $subEndDate = Carbon::parse($customer->subscription_due_date);
+                    $shouldApplyBonus = $now->diffInHours($subEndDate) <= 48;
 
-                // Calculate points with 30% bonus if applicable
-                $virtualPoints = $baseVirtualPoints;
-                $callPoints = $baseCallPoints;
-                $generalPoints = $baseGeneralPoints;
+                    // Calculate points with 30% bonus if applicable
+                    $virtualPoints = $baseVirtualPoints;
+                    $callPoints = $baseCallPoints;
+                    $generalPoints = $baseGeneralPoints;
 
-                if ($shouldApplyBonus) {
-                    $virtualPoints += $baseVirtualPoints * 0.3;
-                    $callPoints += $baseCallPoints * 0.3;
-                    $generalPoints += $baseGeneralPoints * 0.3;
+                    if ($shouldApplyBonus) {
+                        $virtualPoints += $baseVirtualPoints * 0.3;
+                        $callPoints += $baseCallPoints * 0.3;
+                        $generalPoints += $baseGeneralPoints * 0.3;
+                    }
+
+                    // Update customer subscription and points
+                    $customer->update([
+                        'is_subscribed' => 1,
+                        'subscription_date' => $now,
+                        'subscription_due_date' => $newEndDate,
+                        'virtual_assistance_points' => ($customer->virtual_assistance_points ?? 0) + $virtualPoints,
+                        'call_service_points' => ($customer->call_service_points ?? 0) + $callPoints,
+                        'general_support_points' => ($customer->general_support_points ?? 0) + $generalPoints,
+                    ]);
                 }
-
-                // Update customer subscription and points
-                $customer->update([
-                    'is_subscribed' => 1,
-                    'subscription_date' => $now,
-                    'subscription_due_date' => $newEndDate,
-                    'virtual_assistance_points' => ($customer->virtual_assistance_points ?? 0) + $virtualPoints,
-                    'call_service_points' => ($customer->call_service_points ?? 0) + $callPoints,
-                    'general_support_points' => ($customer->general_support_points ?? 0) + $generalPoints,
-                ]);
+                
 
 
                 return view('user.customers.payment-success', ['data' => $response['responseBody']]);

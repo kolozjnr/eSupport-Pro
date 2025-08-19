@@ -55,6 +55,10 @@ class SettingsController extends Controller
             'virtual_support_business' => 'nullable|numeric',
             'general_support_business' => 'nullable|numeric',
 
+            'special_bronze_amount' => 'nullable|numeric',
+            'special_gold_amount' => 'nullable|numeric',
+            'special_silver_amount' => 'nullable|numeric',
+
         ]);
 
         $settings = Setting::first();

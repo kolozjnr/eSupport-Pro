@@ -210,6 +210,22 @@
                                             <input type="text" class="form-input w-full" x-model="formData.general_support_business" name="general_support_business" id="general_support_business" placeholder="">
                                         </div>
                                     </div>
+
+                                    <h4 class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Special Price settings</h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                                        <div>
+                                            <label for="call_center_business" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Gold</label>
+                                            <input type="number" class="form-input w-full" x-model="formData.special_gold_amount" name="special_gold_amount" id="special_gold_amount" value="">
+                                        </div>
+                                        <div>
+                                            <label for="virtual_support_business" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Silver</label>
+                                            <input type="text" class="form-input w-full" x-model="formData.special_silver_amount" name="special_silver_amount" id="special_silver_amount" placeholder="">
+                                        </div>
+                                        <div>
+                                            <label for="general_support_business" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Bronze</label>
+                                            <input type="text" class="form-input w-full" x-model="formData.special_bronze_amount" name="special_bronze_amount" id="special_bronze_amount" placeholder="">
+                                        </div>
+                                    </div>
                                 
                                     
                                     <div class="flex gap-4 mt-4">
@@ -262,6 +278,10 @@
                             call_center_standard: @json($settings->call_center_standard ?? ''),
                             virtual_support_standard: @json($settings->virtual_support_standard ?? ''),
                             general_support_standard: @json($settings->general_support_standard ?? ''),
+
+                            special_gold_amount: @json($settings->special_gold_amount ?? ''),
+                            special_silver_amount: @json($settings->special_silver_amount ?? ''),
+                            special_bronze_amount: @json($settings->special_bronze_amount ?? ''),
 
                         
                             user_type: @json($settings->user_type ?? ''),

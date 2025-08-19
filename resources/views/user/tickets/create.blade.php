@@ -36,6 +36,7 @@
                                             <option value="call_service_points">Call Service</option>
                                             <option value="general_support_points">General Support</option>
                                             <option value="virtual_assistance_points">Virtual Assistant</option>
+                                            <option value="special">Special</option>
                                         </select>
                                     </div>
                                 </div>
