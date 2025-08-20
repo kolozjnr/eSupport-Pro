@@ -442,7 +442,7 @@
                         <!-- End Card -->
 
                          <!-- SPECIAL Pricing Card -->
-                        <div class="flex flex-col h-full text-center mt-10">
+                        <div class="flex flex-col h-full text-center">
                             <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
                                 <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">SPECIAL</h4>
                             </div>
@@ -490,7 +490,7 @@
                         <!-- End SPECIAL Pricing Card -->
 
                         <!-- Card -->
-                        <div class="flex flex-col h-full text-center mt-10">
+                        <div class="flex flex-col h-full text-center">
                             <div class="bg-white pt-8 pb-5 px-8 dark:bg-gray-800">
                                 <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">Enterprise</h4>
                             </div>
@@ -508,22 +508,16 @@
                                 
                                 <span class="font-bold text-4xl text-gray-800 dark:text-gray-200">
                                     {{-- <span class="font-bold text-2xl -me-2">&#8358;</span> --}}
-                                    <span class="display-price text-lg">Contact Sales</span>
-
-                                    <ul class="space-y-2.5 text-center text-sm">
-                                    <li class="text-gray-800 dark:text-gray-400 pt-10">
-                                        Kindly contact our sales team. for this plan
-                                    </li>
-                                </ul>
+                                    <span class="display-price">Contact Sales</span>
                                 </span>
                             </div>
 
                             <div class="bg-white flex justify-center lg:mt-px pt-7 px-8 dark:bg-gray-800">
-                                {{-- <ul class="space-y-2.5 text-center text-sm">
+                                <ul class="space-y-2.5 text-center text-sm">
                                     <li class="text-gray-800 dark:text-gray-400">
                                         Kindly contact our sales team. for this plan
                                     </li>
-                                </ul> --}}
+                                </ul>
                             </div>
                         </div>
                             <!-- End Card -->
@@ -578,9 +572,9 @@ New sub before the expiration of the previous one. The slots on the previous sub
             
             // Service weights (percentage of base price)
             const serviceWeights = {
-                call_center: 1,  // 40% of base price
-                general_support: 1, // 30% of base price
-                virtual_assistance: 1 // 30% of base price
+                call_center: 0.4,  // 40% of base price
+                general_support: 0.3, // 30% of base price
+                virtual_assistance: 0.3 // 30% of base price
             };
 
             function selectService(element, serviceType) {
@@ -627,7 +621,7 @@ New sub before the expiration of the previous one. The slots on the previous sub
                 
                 if (selectedServices.includes('all')) {
                     // All services selected
-                    totalPrice = currentPricing.basePrice * 3;
+                    totalPrice = currentPricing.basePrice;
                     selectedServiceTypes = ['all'];
                     
                     // Set all points
@@ -686,13 +680,13 @@ New sub before the expiration of the previous one. The slots on the previous sub
                     allPriceEl.textContent = `Base price: ₦${Math.round(currentPricing.basePrice).toLocaleString()}`;
                 }
                 if (callCenterPriceEl) {
-                    callCenterPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice).toLocaleString()}`;
+                    callCenterPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.call_center).toLocaleString()}`;
                 }
                 if (generalSupportPriceEl) {
-                    generalSupportPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice).toLocaleString()}`;
+                    generalSupportPriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.general_support).toLocaleString()}`;
                 }
                 if (virtualAssistancePriceEl) {
-                    virtualAssistancePriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice).toLocaleString()}`;
+                    virtualAssistancePriceEl.textContent = `Price: ₦${Math.round(currentPricing.basePrice * serviceWeights.virtual_assistance).toLocaleString()}`;
                 }
             }
 
