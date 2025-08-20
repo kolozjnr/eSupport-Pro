@@ -455,9 +455,9 @@ public function updateSupportTicket(Request $request, $id)
         'status' => 'required|in:open,assigned,pending,resolved,rejected'
     ]);
 
-    $deduction = Cache::rememberForever('deduction', function () {
-        return Setting::first();
-    });
+    // $deduction = Cache::rememberForever('deduction', function () {
+    //     return Setting::first();
+    // });
 
     //dd($deduction);
     
@@ -488,7 +488,7 @@ public function updateSupportTicket(Request $request, $id)
                 //$updates['resolution_time'] = now()->addHour()->diffInMinutes($ticket->assigned_at, false);
 
                 $ticket->update($updates);
-                $ticket->customer->decrement('call_service_points', $deduction->call_center_charge);
+                //$ticket->customer->decrement('call_service_points', $deduction->call_center_charge);
                 // Fixed: Changed $performanceService to $this->performanceService
                 $this->performanceService->updateSupportPerformance($ticket->support_id, $ticket->id);
             }
@@ -500,7 +500,7 @@ public function updateSupportTicket(Request $request, $id)
                     'response_time' => Carbon::parse($ticket->assigned_at)->diffInMinutes(now()->addHour()),
                     
                 ]);
-                $ticket->customer->decrement('call_service_points', $deduction->call_center_charge);
+                //$ticket->customer->decrement('call_service_points', $deduction->call_center_charge);
                 if (!$updatedTicket) {
                     throw new \Exception('Failed to update ticket status');
                 }
