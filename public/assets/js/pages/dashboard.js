@@ -238,41 +238,35 @@ function loadChartData() {
             if (data.success && data.chartData) {
                 console.log(data);
                 
-                const series = [];
-                const labels = [];
-                
-                data.chartData.forEach(support => {
-                    // Use average_resolution_time in minutes
-                    series.push(support.average_resolution_time);
-                    
-                    // Create label with support name and resolved tickets count
-                    const supportName = support.support?.user?.fname + ' ' + support.support?.user?.lname;
-                    labels.push(`${supportName} (${support.total_tickets_resolved} resolved)`);
-                });
-                
-                // Update the chart
-                chart.updateOptions({
-                    series: series,
-                    labels: labels
-                });
-                
-                // Update stats display 
-                document.getElementById('total_tickets').textContent = data.totalTicketCount || 0;
-                document.getElementById('active_customers').textContent = data.totalActiveCustomerCount || 0;
-                document.getElementById('total_customers').textContent = data.totalCustomerCount || 0;
-                document.getElementById('total_supports').textContent = data.totalSupportCount || 0;
-                document.getElementById('total_sas').textContent = data.totalSupportCount || 0;
-                document.getElementById('ticket_reviews').textContent = data.reviewedTicketCount || 0;
-                document.getElementById('pending_tickets_mid').textContent = data.totalPendingTickets || 0;
-                
-                document.getElementById("open_tickets_this_month").textContent = data.openTicketCount || 0;;
-                document.getElementById("resolved_tickets_this_month").textContent = data.resolvedTicketCount || 0;;
-                document.getElementById("total_tickets_this_month").textContent = data.totalTicketThisMonth || 0;
+                 data.chartData.forEach(support => {
+            // Use average_resolution_time in minutes
+            series.push(support.average_resolution_time);
+            
+            // Create label with support name and resolved tickets count
+            const supportName = support.support?.user?.fname + ' ' + support.support?.user?.lname;
+            labels.push(`${supportName} (${support.total_tickets_resolved} resolved)`);
+        });
 
-            //console.log('tickets', data.totalTicketThisMonth)
+        // ✅ Update series and labels properly (replace instead of merging)
+        chart.updateOptions({
+            labels: labels
+        });
 
-                
-            }
+        chart.updateSeries(series);
+
+        // Update stats display 
+        document.getElementById('total_tickets').textContent = data.totalTicketCount || 0;
+        document.getElementById('active_customers').textContent = data.totalActiveCustomerCount || 0;
+        document.getElementById('total_customers').textContent = data.totalCustomerCount || 0;
+        document.getElementById('total_supports').textContent = data.totalSupportCount || 0;
+        document.getElementById('total_sas').textContent = data.totalSupportCount || 0;
+        document.getElementById('ticket_reviews').textContent = data.reviewedTicketCount || 0;
+        document.getElementById('pending_tickets_mid').textContent = data.totalPendingTickets || 0;
+
+        document.getElementById("open_tickets_this_month").textContent = data.openTicketCount || 0;
+        document.getElementById("resolved_tickets_this_month").textContent = data.resolvedTicketCount || 0;
+        document.getElementById("total_tickets_this_month").textContent = data.totalTicketThisMonth || 0;
+    }
         })
         .catch(error => {
             console.error('Error fetching data:', error);
