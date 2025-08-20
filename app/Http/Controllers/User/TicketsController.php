@@ -222,11 +222,13 @@ class TicketsController extends Controller
     public function actionOnTicketByCustomerOnbehalf(Request $request)
     {
         
-        $deduction = Cache::rememberForever('deduction', function(){
-            return Setting::first();
-        });
-        $deduction = $deduction->general_support_charge;
-        $citizenBal = auth()->user()->customer->general_support_points;
+        // $deduction = Cache::rememberForever('deduction', function(){
+        //     return Setting::first();
+        // });
+        // $deduction = $deduction->general_support_charge;
+        // $citizenBal = auth()->user()->customer->general_support_points;
+
+        $deduction = 1;
 
         $validate = Validator::make($request->all(), [
             'service_type' => 'required_if:accept_reject,1',
