@@ -549,9 +549,11 @@ public function updateSupportTicket(Request $request, $id)
     public function store(Request $request)
 {
     // Get deduction from settings
-    $deduction = Cache::rememberForever('deduction', function() {
-        return Setting::first();
-    })->general_support_charge;
+    // $deduction = Cache::rememberForever('deduction', function() {
+    //     return Setting::first();
+    // })->general_support_charge;
+
+    $deduction = 1;
 
     $userId = auth()->id();
     $customerId = auth()->user()->getCustomerId();
