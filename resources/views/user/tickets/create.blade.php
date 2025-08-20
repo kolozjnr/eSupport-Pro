@@ -33,6 +33,7 @@
                                     <div>
                                         <label for="ticket-name" class="block text-sm font-medium mb-1">Service</label>
                                         <select x-model="ticket.service_type" class="search-select" id="search-select" required>
+                                            <option value="" selected disabled>Choose Service</option>
                                             <option value="call_service_points">Call Service</option>
                                             <option value="general_support_points">General Support</option>
                                             <option value="virtual_assistance_points">Virtual Assistant</option>
