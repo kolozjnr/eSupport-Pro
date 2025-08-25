@@ -265,19 +265,44 @@ class MonnifyPaymentController extends Controller
                     $baseGeneralPoints = $subscription->general_support_points ?? 0;
 
                     // Check if renewal is within 48 hours of current subscription end date
+                    //this is remove because the customer request its 48hrs after sub expred
+                    // $subEndDate = Carbon::parse($customer->subscription_due_date);
+                    // $shouldApplyBonus = $now->diffInHours($subEndDate) <= 48;
+
                     $subEndDate = Carbon::parse($customer->subscription_due_date);
-                    $shouldApplyBonus = $now->diffInHours($subEndDate) <= 48;
+
+                    // Check if renewal is within 48 hours AFTER expiration
+                    $hoursSinceExpiry = $subEndDate->diffInHours($now, false); // false = signed diff
+                    $shouldApplyBonus = $hoursSinceExpiry >= 0 && $hoursSinceExpiry <= 48;
+
 
                     // Calculate points with 30% bonus if applicable
                     $virtualPoints = $baseVirtualPoints;
                     $callPoints = $baseCallPoints;
                     $generalPoints = $baseGeneralPoints;
 
+                    $currentVirtualPoints = $customer->virtual_assistance_points ?? 0;
+                    $currentCallPoints = $customer->call_service_points ?? 0;
+                    $currentGeneralPoints = $customer->general_support_points ?? 0;
+
                     if ($shouldApplyBonus) {
-                        $virtualPoints += $baseVirtualPoints * 0.3;
-                        $callPoints += $baseCallPoints * 0.3;
-                        $generalPoints += $baseGeneralPoints * 0.3;
+                        // bonus % is based on current balance
+                        $virtualBonusPercent = $currentVirtualPoints; // e.g., 50 means 50%
+                        $callBonusPercent = $currentCallPoints;
+                        $generalBonusPercent = $currentGeneralPoints;
+
+                        // apply bonus dynamically
+                        $virtualPoints += $baseVirtualPoints * ($virtualBonusPercent / 100);
+                        $callPoints += $baseCallPoints * ($callBonusPercent / 100);
+                        $generalPoints += $baseGeneralPoints * ($generalBonusPercent / 100);
                     }
+
+                    //this is removed because the customer suggested we use the points from the last subscription
+                    // if ($shouldApplyBonus) {
+                    //     $virtualPoints += $baseVirtualPoints * 0.3;
+                    //     $callPoints += $baseCallPoints * 0.3;
+                    //     $generalPoints += $baseGeneralPoints * 0.3;
+                    // }
 
                     // Update customer subscription and points
                     $customer->update([

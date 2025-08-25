@@ -263,8 +263,8 @@
                         </div>
                     </div>
                     <div class="flex-grow">
-                        <h5 class="font-semibold mb-1">Project Discussion</h5>
-                        <p class="text-gray-400">6 Person</p>
+                        <h5 class="font-semibold mb-1">Resolved</h5>
+                        <p class="text-gray-400">0</p>
                     </div>
                     <div>
                         <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top">
@@ -283,8 +283,8 @@
                         </div>
                     </div>
                     <div class="flex-grow">
-                        <h5 class="fw-semibold my-0">In Progress</h5>
-                        <p>16 Projects</p>
+                        <h5 class="fw-semibold my-0">Rejected</h5>
+                        <p>0</p>
                     </div>
                     <div>
                         <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top">
@@ -303,8 +303,8 @@
                         </div>
                     </div>
                     <div class="flex-grow">
-                        <h5 class="fw-semibold my-0">Completed Projects</h5>
-                        <p>24</p>
+                        <h5 class="fw-semibold my-0">Open</h5>
+                        <p>0</p>
                     </div>
                     <div>
                         <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top">
@@ -323,7 +323,7 @@
                         </div>
                     </div>
                     <div class="flex-grow">
-                        <h5 class="fw-semibold my-0">Delivery Projects</h5>
+                        <h5 class="fw-semibold my-0">Pending</h5>
                         <p>20</p>
                     </div>
                     <div>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnivController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\TaskController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\DraftController;
@@ -47,7 +48,7 @@ Route::post('/contact-email', [UnivController::class, 'contactEmail'])->name('co
 Route::post('/pay/monnify', [MonnifyPaymentController::class, 'pay'])->name('monnify.pay');
 Route::get('/monnify/callback', [MonnifyPaymentController::class, 'callback'])->name('monnify.callback');
 Route::post('/monnify/webhook', [MonnifyPaymentController::class, 'webhook']);
-Route::get('/payment/retry/{id}', [PaymentController::class, 'retry'])->name('payment.retry');
+Route::get('/payment/retry/{id}', [MonnifyPaymentController::class, 'retry'])->name('payment.retry');
 Route::get('/monnify/requery', [MonnifyPaymentController::class, 'requery'])->name('monnify.requery');
 
 
@@ -125,6 +126,19 @@ Route::middleware('auth')->group(function () {
                 Route::get('/view-tickets-onbehalf', 'viewOnbehalfTicket')->name('view-tickets-onbehalf');
                 Route::post('/update-onbehalf', 'actionOnTicketByCustomerOnbehalf')->name('update-onbehalf');
             });
+            Route::controller(ChatController::class)
+            ->prefix('chat')
+            ->name('chat.')
+            ->group(function () {
+                Route::get('/ticket/{ticket}', 'index')->name('ticket');
+                Route::get('/conversations', 'getConversations')->name('conversations');
+                 Route::get('/ticket/{ticket}/conversation', 'getTicketConversation');
+                Route::get('/ticket/{ticket}/messages',  'getTicketMessages');
+                Route::post('/ticket/{ticket}/message', 'sendTicketMessage');
+                Route::post('/ticket/{ticket}/read', 'markTicketAsRead');
+                Route::post('/ticket/{ticket}/typing', 'sendTypingIndicator');
+            });
+
             Route::controller(DraftController::class)
             ->prefix('support')
             ->name('support.')

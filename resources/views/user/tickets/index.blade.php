@@ -177,7 +177,7 @@
    <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" defer></script>
      
          <!-- Gridjs Demo js -->
-         <script src="{{ asset('assets/js/pages/table-gridjs.js') }}" defer></script>
+         <script src="{{ asset('assets/js/pages/tickets-gridjs.js') }}" defer></script>
 
 
          
@@ -185,382 +185,310 @@
 <script src="https://unpkg.com/gridjs-plugins/dist/gridjs-plugins.umd.js"></script>
 
          <script>
-    document.addEventListener('alpine:init', () => {
-    Alpine.data('reviewModal', () => ({
-        isOpen: false,
-        isLoading: false,
-        isSuccess: false,
-        errorMessage: '',
-        ticketId: null,
-        rating: 0,
-        review: '',
-        status: '',
-        errors: {
-            rating: '',
-            review: ''
-        },
-        
-        selectedTickets: new Set(),
-        
-        open(ticketId) {
-            this.resetState();
-            this.ticketId = ticketId;
-            this.isOpen = true;
-            setTimeout(() => {
-                const firstStar = document.querySelector('[aria-label="Rating"] button');
-                if (firstStar) firstStar.focus();
-            }, 100);
-        },
-        
-        close() {
-            this.isOpen = false;
-            setTimeout(() => {
-                if (!this.isOpen) {
-                    this.resetState();
-                }
-            }, 300);
-        },
-        
-        resetState() {
-            this.rating = 0;
-            this.review = '';
-            this.isLoading = false;
-            this.isSuccess = false;
-            this.errorMessage = '';
-            this.errors = { rating: '', review: '' };
-        },
-        
-        validate() {
-            let valid = true;
-            this.errors = { rating: '', review: '' };
-            
-            if (this.rating <= 0) {
-                this.errors.rating = 'Please select a rating';
-                valid = false;
-            }
-            
-            if (!this.review.trim()) {
-                this.errors.review = 'Please write your review';
-                valid = false;
-            } else if (this.review.length < 10) {
-                this.errors.review = 'Review must be at least 10 characters';
-                valid = false;
-            }
-            
-            return valid;
-        },
-        
-        async submitReview() {
-            if (!this.validate()) return;
-            
-            this.isLoading = true;
-            this.isSuccess = false;
-            this.errorMessage = '';
-            
-            try {
-                const response = await fetch('/dashboard/reviews/post-review', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        ticket_id: this.ticketId,
-                        rating: this.rating,
-                        review: this.review
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Failed to submit review');
-                }
-                
-                this.isSuccess = true;
-                this.rating = 0;
-                this.review = '';
-                
-                setTimeout(() => {
-                    this.close();
-                    if (typeof initializeCustomerTicketsTable === 'function') {
-                        initializeCustomerTicketsTable();
-                    }
-                }, 2000);
-            } catch (error) {
-                console.error('Error submitting review:', error);
-                this.errorMessage = error.message || 'An error occurred while submitting your review. Please try again.';
-            } finally {
-                this.isLoading = false;
-            }
-        },
-
-        
-        openModal(ticketId, currentStatus = '') {
-            this.ticketId = ticketId;
-            this.status = currentStatus.toLowerCase();
-            this.isOpen = true;
-        },
-        
-        closeModal() {
-            this.isOpen = false;
-            this.resetForm();
-        },
-        
-        resetForm() {
-            this.ticketId = null;
-            this.status = '';
-            this.isLoading = false;
-        },
-        
-        async updateStatus() {
-            if (!this.status) {
-                alert('Please select a status');
-                return;
-            }
-            
-            this.isLoading = true;
-            
-            try {
-                const response = await fetch(`/tickets/${this.ticketId}/update-status`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
-                    },
-                    body: JSON.stringify({
-                        status: this.status
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to update status');
-                }
-                
-                const data = await response.json();
-                
-                // Show success message
-                alert(data.message || 'Status updated successfully');
-                
-                // Close modal and refresh table
-                this.closeModal();
-                initializeSupportTicketsTable();
-                
-            } catch (error) {
-                console.error('Error updating status:', error);
-                alert(error.message || 'An error occurred while updating status');
-            } finally {
-                this.isLoading = false;
-            }
-        },
-
-
-
-
-        ///QA
-
-         selectedTickets: new Set(),
-        
-        toggleTicketSelection(ticketId) {
-            if (this.selectedTickets.has(ticketId)) {
-                this.selectedTickets.delete(ticketId);
-            } else {
-                this.selectedTickets.add(ticketId);
-            }
-            this.updateBulkActionButton();
-        },
-        
-        updateBulkActionButton() {
-            const bulkActionBtn = document.getElementById('bulk-action-btn');
-            if (bulkActionBtn) {
-                if (this.selectedTickets.size >= 2) {
-                    bulkActionBtn.classList.remove('hidden');
-                    bulkActionBtn.innerHTML = `
-                        <i class="mgc_check_line me-1"></i> Update Selected (${this.selectedTickets.size})
-                    `;
-                } else {
-                    bulkActionBtn.classList.add('hidden');
-                }
-            }
-        },
-        
-        async updateSelectedTickets() {
-            if (this.selectedTickets.size === 0) {
-                alert('Please select at least one ticket');
-                return;
-            }
-            
-            if (!confirm(`Are you sure you want to update ${this.selectedTickets.size} selected tickets?`)) {
-                return;
-            }
-            
-            try {
-                const response = await fetch('/api/tickets/bulk-update', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
-                    },
-                    body: JSON.stringify({
-                        ticket_ids: Array.from(this.selectedTickets),
-                        status: 'completed'
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to update tickets');
-                }
-                
-                alert('Tickets updated successfully!');
-                this.selectedTickets.clear();
-                initializeQualityControlTicketsTable(); // Refresh table
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Failed to update tickets: ' + error.message);
-            }
-        },
-        
-    }));
-    
-
-
-
-    // Global functions for ticket selection
-
-window.toggleTicketSelection = function(ticketId) {
-    if (window.selectedTickets.has(ticketId)) {
-        window.selectedTickets.delete(ticketId);
-    } else {
-        window.selectedTickets.add(ticketId);
+              if (!window.selectedTickets) {
+        window.selectedTickets = new Set();
     }
-    window.updateBulkActionButton();
-}
 
-window.updateBulkActionButton = function() {
-    const bulkActionBtn = document.getElementById('bulk-action-btn');
-    if (bulkActionBtn) {
-        if (window.selectedTickets.size >= 1) {
-            bulkActionBtn.classList.remove('hidden');
-            bulkActionBtn.innerHTML = `
-                <i class="mgc_check_line me-1"></i> 
-                Assign Tickets (${window.selectedTickets.size})
-            `;
+    window.toggleTicketSelection = function(ticketId) {
+        if (window.selectedTickets.has(ticketId)) {
+            window.selectedTickets.delete(ticketId);
         } else {
-            bulkActionBtn.classList.add('hidden');
+            window.selectedTickets.add(ticketId);
         }
-    }
-}
-
-window.fetchSupportStaff = async function() {
-    try {
-        const response = await fetch('users/support', {
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch support staff');
-        }
-        
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching support staff:', error);
-        return [];
-    }
-}
-
-window.showTailwindModal = function(modalHTML) {
-    // Remove existing modal if any
-    const existingModal = document.getElementById('bulkAssignModal');
-    if (existingModal) existingModal.remove();
-    
-    // Create backdrop
-    const backdrop = document.createElement('div');
-    backdrop.id = 'bulkAssignBackdrop';
-    backdrop.className = 'fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity';
-    
-    // Add modal to body
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-    document.body.appendChild(backdrop);
-    
-    // Show modal with animation
-    setTimeout(() => {
-        const modal = document.getElementById('bulkAssignModal');
-        if (modal) {
-            modal.classList.remove('opacity-0', 'translate-y-4');
-            modal.classList.add('opacity-100', 'translate-y-0');
-        }
-        backdrop.classList.remove('opacity-0');
-        backdrop.classList.add('opacity-50');
-    }, 10);
-    
-    // Close modal when clicking backdrop
-    backdrop.addEventListener('click', () => {
-        window.hideTailwindModal();
-    });
-}
-
-window.hideTailwindModal = function() {
-    const modal = document.getElementById('bulkAssignModal');
-    const backdrop = document.getElementById('bulkAssignBackdrop');
-    
-    if (modal) {
-        modal.classList.remove('opacity-100', 'translate-y-0');
-        modal.classList.add('opacity-0', 'translate-y-4');
-    }
-    
-    if (backdrop) {
-        backdrop.classList.remove('opacity-50');
-        backdrop.classList.add('opacity-0');
-    }
-    
-    // Remove elements after animation
-    setTimeout(() => {
-        if (modal) modal.remove();
-        if (backdrop) backdrop.remove();
-    }, 200);
-}
-
-window.updateSelectedTickets = async function() {
-    const selectedIds = Array.from(window.selectedTickets);
-    if (selectedIds.length === 0) {
-        alert('Please select at least one ticket');
-        return;
+        window.updateBulkActionButton();
     }
 
-    try {
-        // Show loading state
+    window.updateBulkActionButton = function() {
         const bulkActionBtn = document.getElementById('bulk-action-btn');
         if (bulkActionBtn) {
-            bulkActionBtn.disabled = true;
-            bulkActionBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
+            if (window.selectedTickets.size >= 1) {
+                bulkActionBtn.classList.remove('hidden');
+                bulkActionBtn.innerHTML = `
+                    <i class="mgc_check_line me-1"></i> 
+                    Assign Tickets (${window.selectedTickets.size})
+                `;
+            } else {
+                bulkActionBtn.classList.add('hidden');
+            }
         }
+    }
 
-        // Fetch support staff before showing modal
-        const supportStaff = await window.fetchSupportStaff();
+    window.fetchSupportStaff = async function() {
+        try {
+            const response = await fetch('users/support', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch support staff');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching support staff:', error);
+            return [];
+        }
+    }
+
+    window.showTailwindModal = function(modalHTML) {
+        // Remove existing modal if any
+        const existingModal = document.getElementById('bulkAssignModal');
+        if (existingModal) existingModal.remove();
         
-        if (supportStaff.length === 0) {
-            throw new Error('No support staff available');
+        // Create backdrop
+        const backdrop = document.createElement('div');
+        backdrop.id = 'bulkAssignBackdrop';
+        backdrop.className = 'fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity';
+        
+        // Add modal to body
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        document.body.appendChild(backdrop);
+        
+        // Show modal with animation
+        setTimeout(() => {
+            const modal = document.getElementById('bulkAssignModal');
+            if (modal) {
+                modal.classList.remove('opacity-0', 'translate-y-4');
+                modal.classList.add('opacity-100', 'translate-y-0');
+            }
+            backdrop.classList.remove('opacity-0');
+            backdrop.classList.add('opacity-50');
+        }, 10);
+        
+        // Close modal when clicking backdrop
+        backdrop.addEventListener('click', () => {
+            window.hideTailwindModal();
+        });
+    }
+
+    window.hideTailwindModal = function() {
+        const modal = document.getElementById('bulkAssignModal');
+        const backdrop = document.getElementById('bulkAssignBackdrop');
+        
+        if (modal) {
+            modal.classList.remove('opacity-100', 'translate-y-0');
+            modal.classList.add('opacity-0', 'translate-y-4');
+        }
+        
+        if (backdrop) {
+            backdrop.classList.remove('opacity-50');
+            backdrop.classList.add('opacity-0');
+        }
+        
+        // Remove elements after animation
+        setTimeout(() => {
+            if (modal) modal.remove();
+            if (backdrop) backdrop.remove();
+        }, 200);
+    }
+
+    window.updateSelectedTickets = async function() {
+        const selectedIds = Array.from(window.selectedTickets);
+        if (selectedIds.length === 0) {
+            alert('Please select at least one ticket');
+            return;
         }
 
-        console.log("support staffs", supportStaff)
+        try {
+            // Show loading state
+            const bulkActionBtn = document.getElementById('bulk-action-btn');
+            if (bulkActionBtn) {
+                bulkActionBtn.disabled = true;
+                bulkActionBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
+            }
 
-        // Create modal HTML with Tailwind classes
+            // Fetch support staff before showing modal
+            const supportStaff = await window.fetchSupportStaff();
+            
+            if (supportStaff.length === 0) {
+                throw new Error('No support staff available');
+            }
+
+            // Create modal HTML with Tailwind classes
+            const modalHTML = `
+                <div id="bulkAssignModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 translate-y-4 transition-all duration-200">
+                    <div class="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                Assign ${selectedIds.length} Ticket(s)
+                            </h3>
+                            <button type="button" onclick="hideTailwindModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                                <span class="sr-only">Close</span>
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Modal body -->
+                        <div class="p-4">
+                            <form id="bulkUpdateForm">
+                                <input type="hidden" name="ticket_ids" value="${selectedIds.join(',')}">
+                                
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Support Staff</label>
+                                    <select name="staff_id" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                                        <option value="" disabled selected>Select Support Staff</option>
+                                        ${supportStaff.map(staff => `
+                                            <option value="${staff.id}" class="dark:bg-gray-700">${staff.user.fname + ' '  + staff.user.lname}   (${staff.assigned_tickets_count})</option>
+                                        `).join('')}
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Assignment Notes</label>
+                                    <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Optional notes about this assignment"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Modal footer -->
+                        <div class="flex items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700">
+                            <button type="button" onclick="hideTailwindModal()" class="mr-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
+                                Cancel
+                            </button>
+                            <button type="button" onclick="submitBulkUpdate()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
+                                Assign Tickets
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Show the modal
+            window.showTailwindModal(modalHTML);
+            
+        } catch (error) {
+            alert('Error: ' + error.message);
+        } finally {
+            // Reset button state
+            const bulkActionBtn = document.getElementById('bulk-action-btn');
+            if (bulkActionBtn) {
+                bulkActionBtn.disabled = false;
+                bulkActionBtn.innerHTML = `
+                    <i class="mgc_check_line me-1"></i> 
+                    Assign Tickets (${window.selectedTickets.size})
+                `;
+            }
+        }
+    }
+
+    window.submitBulkUpdate = async function() {
+        const form = document.getElementById('bulkUpdateForm');
+        if (!form) {
+            alert('Form not found');
+            return;
+        }
+
+        const formData = new FormData(form);
+        const staffId = formData.get('staff_id');
+        if (!staffId) {
+            alert('Please select a support staff member');
+            return;
+        }
+
+        // Convert FormData to JSON
+        const jsonData = {
+            ticket_ids: formData.get('ticket_ids').split(',').map(id => parseInt(id)),
+            staff_id: parseInt(staffId),
+            notes: formData.get('notes') || ''
+        };
+
+        // Show loading state
+        const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-r-transparent"></span>
+                Assigning...
+            `;
+        }
+
+        try {
+            // Send request to server
+            const response = await fetch('tickets/bulk-assign-ticket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify(jsonData)
+            });
+            
+            if (!response.ok) {
+                throw new Error(await response.text() || 'Failed to assign tickets');
+            }
+
+            // Close modal
+            window.hideTailwindModal();
+
+            // Show success message
+            alert('Tickets assigned successfully!');
+            
+            // Refresh the table
+            if (typeof initializeQualityControlTicketsTable === 'function') {
+                initializeQualityControlTicketsTable();
+            }
+
+            // Clear selections
+            window.selectedTickets.clear();
+            window.updateBulkActionButton();
+
+        } catch (error) {
+            console.error(error.message);
+            alert('Error: ' + error.message);
+        } finally {
+            // Reset button state
+            const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Assign Tickets';
+            }
+        }
+    }
+
+    // Make the open function globally available
+    window.openReviewModal = function(ticketId) {
+        const modalElement = document.querySelector('[x-data="reviewModal"]');
+        if (modalElement) {
+            const modal = Alpine.$data(modalElement);
+            modal.open(ticketId);
+        }
+    };
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof initializeQualityControlTicketsTable === 'function') {
+            initializeQualityControlTicketsTable();
+        }
+    });
+
+    // Status Update Modal Functions
+    window.showStatusUpdateModal = async function(ticketId, currentStatus = '') {
+        // Remove existing modal if any
+        const existingModal = document.getElementById('statusUpdateModal');
+        if (existingModal) existingModal.remove();
+        
+        // Create backdrop
+        const backdrop = document.createElement('div');
+        backdrop.id = 'statusUpdateBackdrop';
+        backdrop.className = 'fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity';
+        
+        // Create modal HTML
         const modalHTML = `
-            <div id="bulkAssignModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 translate-y-4 transition-all duration-200">
+            <div id="statusUpdateModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 translate-y-4 transition-all duration-200">
                 <div class="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700">
                     <!-- Modal header -->
                     <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                            Assign ${selectedIds.length} Ticket(s)
+                            Update Ticket Status
                         </h3>
-                        <button type="button" onclick="hideTailwindModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <button type="button" onclick="hideStatusUpdateModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
                             <span class="sr-only">Close</span>
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -570,329 +498,323 @@ window.updateSelectedTickets = async function() {
                     
                     <!-- Modal body -->
                     <div class="p-4">
-                        <form id="bulkUpdateForm">
-                            <input type="hidden" name="ticket_ids" value="${selectedIds.join(',')}">
+                        <form id="statusUpdateForm">
+                            <input type="hidden" name="ticket_id" value="${ticketId}">
                             
                             <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Support Staff</label>
-                                <select name="staff_id" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
-                                    <option value="" disabled selected>Select Support Staff</option>
-                                    ${supportStaff.map(staff => `
-                                        <option value="${staff.id}" class="dark:bg-gray-700">${staff.user.fname + ' '  + staff.user.lname}   (${staff.assigned_tickets_count})</option>
-                                    `).join('')}
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                                <select name="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="assigned" ${currentStatus === 'assigned' ? 'selected' : ''}>Accept</option>
+                                    <option value="rejected" ${currentStatus === 'rejected' ? 'selected' : ''}>Reject</option>
+                                    <option value="resolved" ${currentStatus === 'resolved' ? 'selected' : ''}>Resolved</option>
                                 </select>
                             </div>
                             
                             <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Assignment Notes</label>
-                                <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Optional notes about this assignment"></textarea>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Update Notes</label>
+                                <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Optional notes about this status change"></textarea>
                             </div>
                         </form>
                     </div>
                     
                     <!-- Modal footer -->
                     <div class="flex items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700">
-                        <button type="button" onclick="hideTailwindModal()" class="mr-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
+                        <button type="button" onclick="hideStatusUpdateModal()" class="mr-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
                             Cancel
                         </button>
-                        <button type="button" onclick="submitBulkUpdate()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
-                            Assign Tickets
+                        <button type="button" onclick="submitStatusUpdate()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
+                            Update Status
                         </button>
                     </div>
                 </div>
             </div>
         `;
         
-        // Show the modal
-        window.showTailwindModal(modalHTML);
+        // Add modal to body
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        document.body.appendChild(backdrop);
         
-    } catch (error) {
-        alert('Error: ' + error.message);
-    } finally {
-        // Reset button state
-        const bulkActionBtn = document.getElementById('bulk-action-btn');
-        if (bulkActionBtn) {
-            bulkActionBtn.disabled = false;
-            bulkActionBtn.innerHTML = `
-                <i class="mgc_check_line me-1"></i> 
-                Assign Tickets (${window.selectedTickets.size})
-            `;
-        }
-    }
-}
-
-window.submitBulkUpdate = async function() {
-    const form = document.getElementById('bulkUpdateForm');
-    if (!form) {
-        alert('Form not found');
-        return;
-    }
-
-    const formData = new FormData(form);
-    const staffId = formData.get('staff_id');
-    if (!staffId) {
-        alert('Please select a support staff member');
-        return;
-    }
-
-    // Convert FormData to JSON
-    const jsonData = {
-        ticket_ids: formData.get('ticket_ids').split(',').map(id => parseInt(id)),
-        staff_id: parseInt(staffId),
-        notes: formData.get('notes') || ''
-    };
-
-    // Show loading state
-    const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
-    if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `
-            <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-r-transparent"></span>
-            Assigning...
-        `;
-    }
-
-    try {
-        // Send request to server
-        const response = await fetch('tickets/bulk-assign-ticket', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            },
-            body: JSON.stringify(jsonData)
+        // Show modal with animation
+        setTimeout(() => {
+            const modal = document.getElementById('statusUpdateModal');
+            if (modal) {
+                modal.classList.remove('opacity-0', 'translate-y-4');
+                modal.classList.add('opacity-100', 'translate-y-0');
+            }
+            backdrop.classList.remove('opacity-0');
+            backdrop.classList.add('opacity-50');
+        }, 10);
+        
+        // Close modal when clicking backdrop
+        backdrop.addEventListener('click', () => {
+            window.hideStatusUpdateModal();
         });
-        
-        if (!response.ok) {
-            throw new Error(await response.text() || 'Failed to assign tickets');
-        }
-
-        // Close modal
-        window.hideTailwindModal();
-
-        // Show success message
-        alert('Tickets assigned successfully!');
-        
-        // Refresh the table
-        if (typeof initializeQualityControlTicketsTable === 'function') {
-            initializeQualityControlTicketsTable();
-        }
-
-        // Clear selections
-        window.selectedTickets.clear();
-        window.updateBulkActionButton();
-
-    } catch (error) {
-        console.error(error.message);
-        alert('Error: ' + error.message);
-    } finally {
-        // Reset button state
-        const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Assign Tickets';
-        }
     }
-}
 
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof initializeQualityControlTicketsTable === 'function') {
-        initializeQualityControlTicketsTable();
-    }
-});
-    
-    // Make the open function globally available
-    window.openReviewModal = function(ticketId) {
-        const modalElement = document.querySelector('[x-data="reviewModal"]');
-        if (modalElement) {
-            const modal = Alpine.$data(modalElement);
-            modal.open(ticketId);
-        }
-    };
-});
-
-
-// support ticket update modal
-
-// Status Update Modal Functions
-window.showStatusUpdateModal = async function(ticketId, currentStatus = '') {
-    // Remove existing modal if any
-    const existingModal = document.getElementById('statusUpdateModal');
-    if (existingModal) existingModal.remove();
-    
-    // Create backdrop
-    const backdrop = document.createElement('div');
-    backdrop.id = 'statusUpdateBackdrop';
-    backdrop.className = 'fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity';
-    
-    // Create modal HTML
-    const modalHTML = `
-        <div id="statusUpdateModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 translate-y-4 transition-all duration-200">
-            <div class="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        Update Ticket Status
-                    </h3>
-                    <button type="button" onclick="hideStatusUpdateModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
-                        <span class="sr-only">Close</span>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                    </button>
-                </div>
-                
-                <!-- Modal body -->
-                <div class="p-4">
-                    <form id="statusUpdateForm">
-                        <input type="hidden" name="ticket_id" value="${ticketId}">
-                        
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                            <select name="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" required>
-                                <option value="" disabled selected>Select Status</option>
-                                <option value="assigned" ${currentStatus === 'assigned' ? 'selected' : ''}>Accept</option>
-                                <option value="rejected" ${currentStatus === 'rejected' ? 'selected' : ''}>Reject</option>
-                                <option value="resolved" ${currentStatus === 'resolved' ? 'selected' : ''}>Resolved</option>
-                            </select>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Update Notes</label>
-                            <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" placeholder="Optional notes about this status change"></textarea>
-                        </div>
-                    </form>
-                </div>
-                
-                <!-- Modal footer -->
-                <div class="flex items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700">
-                    <button type="button" onclick="hideStatusUpdateModal()" class="mr-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
-                        Cancel
-                    </button>
-                    <button type="button" onclick="submitStatusUpdate()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600">
-                        Update Status
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Add modal to body
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-    document.body.appendChild(backdrop);
-    
-    // Show modal with animation
-    setTimeout(() => {
+    window.hideStatusUpdateModal = function() {
         const modal = document.getElementById('statusUpdateModal');
+        const backdrop = document.getElementById('statusUpdateBackdrop');
+        
         if (modal) {
-            modal.classList.remove('opacity-0', 'translate-y-4');
-            modal.classList.add('opacity-100', 'translate-y-0');
+            modal.classList.remove('opacity-100', 'translate-y-0');
+            modal.classList.add('opacity-0', 'translate-y-4');
         }
-        backdrop.classList.remove('opacity-0');
-        backdrop.classList.add('opacity-50');
-    }, 10);
-    
-    // Close modal when clicking backdrop
-    backdrop.addEventListener('click', () => {
-        window.hideStatusUpdateModal();
-    });
-}
-
-window.hideStatusUpdateModal = function() {
-    const modal = document.getElementById('statusUpdateModal');
-    const backdrop = document.getElementById('statusUpdateBackdrop');
-    
-    if (modal) {
-        modal.classList.remove('opacity-100', 'translate-y-0');
-        modal.classList.add('opacity-0', 'translate-y-4');
-    }
-    
-    if (backdrop) {
-        backdrop.classList.remove('opacity-50');
-        backdrop.classList.add('opacity-0');
-    }
-    
-    // Remove elements after animation
-    setTimeout(() => {
-        if (modal) modal.remove();
-        if (backdrop) backdrop.remove();
-    }, 200);
-}
-
-window.submitStatusUpdate = async function() {
-    const form = document.getElementById('statusUpdateForm');
-    if (!form) {
-        alert('Form not found');
-        return;
-    }
-
-    const formData = new FormData(form);
-    const status = formData.get('status');
-    if (!status) {
-        alert('Please select a status');
-        return;
-    }
-
-    // Convert FormData to JSON
-    const jsonData = {
-        ticket_id: formData.get('ticket_id'),
-        status: status,
-        notes: formData.get('notes') || ''
-    };
-
-    // Show loading state
-    const submitBtn = document.querySelector('#statusUpdateModal button[onclick="submitStatusUpdate()"]');
-    if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `
-            <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-r-transparent"></span>
-            Updating...
-        `;
-    }
-
-    try {
-        // Send request to server
-        const response = await fetch('tickets/tickets/update-status/' + jsonData.ticket_id + '', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            },
-            body: JSON.stringify(jsonData)
-        });
-        //console.log(jsonData);
         
-        if (!response.ok) {
-            throw new Error(await response.text() || 'Failed to update status');
+        if (backdrop) {
+            backdrop.classList.remove('opacity-50');
+            backdrop.classList.add('opacity-0');
         }
-
-        // Close modal
-        window.hideStatusUpdateModal();
-
-        // Show success message
-        alert('Status updated successfully!');
         
-        // Refresh the table
-        if (typeof initializeSupportTicketsTable === 'function') {
-            initializeSupportTicketsTable();
+        // Remove elements after animation
+        setTimeout(() => {
+            if (modal) modal.remove();
+            if (backdrop) backdrop.remove();
+        }, 200);
+    }
+
+    window.submitStatusUpdate = async function() {
+        const form = document.getElementById('statusUpdateForm');
+        if (!form) {
+            alert('Form not found');
+            return;
         }
 
-    } catch (error) {
-        console.error(error.message);
-        alert('Error: ' + error.message);
-    } finally {
-        // Reset button state
+        const formData = new FormData(form);
+        const status = formData.get('status');
+        if (!status) {
+            alert('Please select a status');
+            return;
+        }
+
+        // Convert FormData to JSON
+        const jsonData = {
+            ticket_id: formData.get('ticket_id'),
+            status: status,
+            notes: formData.get('notes') || ''
+        };
+
+        // Show loading state
         const submitBtn = document.querySelector('#statusUpdateModal button[onclick="submitStatusUpdate()"]');
         if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Update Status';
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-r-transparent"></span>
+                Updating...
+            `;
+        }
+
+        try {
+            // Send request to server
+            const response = await fetch('tickets/tickets/update-status/' + jsonData.ticket_id + '', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify(jsonData)
+            });
+            
+            if (!response.ok) {
+                throw new Error(await response.text() || 'Failed to update status');
+            }
+
+            // Close modal
+            window.hideStatusUpdateModal();
+
+            // Show success message
+            alert('Status updated successfully!');
+            
+            // Refresh the table
+            if (typeof initializeSupportTicketsTable === 'function') {
+                initializeSupportTicketsTable();
+            }
+
+        } catch (error) {
+            console.error(error.message);
+            alert('Error: ' + error.message);
+        } finally {
+            // Reset button state
+            const submitBtn = document.querySelector('#statusUpdateModal button[onclick="submitStatusUpdate()"]');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Update Status';
+            }
         }
     }
-}
 
+    // Alpine.js component
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('reviewModal', () => ({
+            isOpen: false,
+            isLoading: false,
+            isSuccess: false,
+            errorMessage: '',
+            ticketId: null,
+            rating: 0,
+            review: '',
+            status: '',
+            errors: {
+                rating: '',
+                review: ''
+            },
+            
+            open(ticketId) {
+                this.resetState();
+                this.ticketId = ticketId;
+                this.isOpen = true;
+                setTimeout(() => {
+                    const firstStar = document.querySelector('[aria-label="Rating"] button');
+                    if (firstStar) firstStar.focus();
+                }, 100);
+            },
+            
+            close() {
+                this.isOpen = false;
+                setTimeout(() => {
+                    if (!this.isOpen) {
+                        this.resetState();
+                    }
+                }, 300);
+            },
+            
+            resetState() {
+                this.rating = 0;
+                this.review = '';
+                this.isLoading = false;
+                this.isSuccess = false;
+                this.errorMessage = '';
+                this.errors = { rating: '', review: '' };
+            },
+            
+            validate() {
+                let valid = true;
+                this.errors = { rating: '', review: '' };
+                
+                if (this.rating <= 0) {
+                    this.errors.rating = 'Please select a rating';
+                    valid = false;
+                }
+                
+                if (!this.review.trim()) {
+                    this.errors.review = 'Please write your review';
+                    valid = false;
+                } else if (this.review.length < 10) {
+                    this.errors.review = 'Review must be at least 10 characters';
+                    valid = false;
+                }
+                
+                return valid;
+            },
+            
+            async submitReview() {
+                if (!this.validate()) return;
+                
+                this.isLoading = true;
+                this.isSuccess = false;
+                this.errorMessage = '';
+                
+                try {
+                    const response = await fetch('/dashboard/reviews/post-review', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ticket_id: this.ticketId,
+                            rating: this.rating,
+                            review: this.review
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Failed to submit review');
+                    }
+                    
+                    this.isSuccess = true;
+                    this.rating = 0;
+                    this.review = '';
+                    
+                    setTimeout(() => {
+                        this.close();
+                        if (typeof initializeCustomerTicketsTable === 'function') {
+                            initializeCustomerTicketsTable();
+                        }
+                    }, 2000);
+                } catch (error) {
+                    console.error('Error submitting review:', error);
+                    this.errorMessage = error.message || 'An error occurred while submitting your review. Please try again.';
+                } finally {
+                    this.isLoading = false;
+                }
+            },
+            
+            openModal(ticketId, currentStatus = '') {
+                this.ticketId = ticketId;
+                this.status = currentStatus.toLowerCase();
+                this.isOpen = true;
+            },
+            
+            closeModal() {
+                this.isOpen = false;
+                this.resetForm();
+            },
+            
+            resetForm() {
+                this.ticketId = null;
+                this.status = '';
+                this.isLoading = false;
+            },
+            
+            async updateStatus() {
+                if (!this.status) {
+                    alert('Please select a status');
+                    return;
+                }
+                
+                this.isLoading = true;
+                
+                try {
+                    const response = await fetch(`/tickets/${this.ticketId}/update-status`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                        },
+                        body: JSON.stringify({
+                            status: this.status
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to update status');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Show success message
+                    alert(data.message || 'Status updated successfully');
+                    
+                    // Close modal and refresh table
+                    this.closeModal();
+                    initializeSupportTicketsTable();
+                    
+                } catch (error) {
+                    console.error('Error updating status:', error);
+                    alert(error.message || 'An error occurred while updating status');
+                } finally {
+                    this.isLoading = false;
+                }
+            }
+        }));
+    });
 
 
 

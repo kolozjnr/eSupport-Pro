@@ -108,8 +108,7 @@ async function loadUserRole() {
     else if (role === 'qualitycontrol') {
         
         // Quality Control performance metrics
-
-        var options = {
+ var options = {
     chart: {
         height: 500,  
         type: 'pie',
@@ -281,6 +280,7 @@ function loadChartData() {
 
 // Initial load
 loadChartData();
+       
 
 
     }

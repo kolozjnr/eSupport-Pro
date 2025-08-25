@@ -77,7 +77,7 @@
 
     <!-- Notification Bell Button -->
  <div class="relative md:flex hidden" x-data="notificationSystem()" x-init="init()">
-    <button @click="toggleDropdown()" type="button" class="nav-link p-2 relative">
+    {{-- <button @click="toggleDropdown()" type="button" class="nav-link p-2 relative">
         <span class="sr-only">View notifications</span>
         <span class="flex items-center justify-center h-6 w-6">
             <i class="mgc_notification_line text-2xl"></i>
@@ -87,12 +87,24 @@
             class="absolute top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"
             x-text="unreadCount"
         ></span>
-    </button>
+    </button> --}}
+
+      <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2">
+                        <span class="sr-only">View notifications</span>
+                        <span class="flex items-center justify-center h-6 w-6">
+                            <i class="mgc_notification_line text-2xl"></i>
+                        </span>
+                        <span 
+            x-show="unreadCount > 0"
+            class="absolute top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"
+            x-text="unreadCount"
+        ></span>
+                    </button>
     
 <div 
         x-show="isOpen" 
         @click.away="isOpen = false"
-        class="absolute right-0 mt-8 w-80 origin-top-right z-50 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none"
+        class="hidden absolute right-0 mt-8 w-80 origin-top-right z-50 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none"
         x-transition:enter="transition ease-out duration-100"
         x-transition:enter-start="transform opacity-0 scale-95"
         x-transition:enter-end="transform opacity-100 scale-100"
@@ -343,6 +355,7 @@ function notificationSystem() {
         
         async fetchNotifications() {
             try {
+                console.log('fetch');
                 const response = await fetch('/dashboard/notifications/notifications');
                 const data = await response.json();
                 console.log("Notification", data)

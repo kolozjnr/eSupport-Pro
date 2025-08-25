@@ -289,8 +289,11 @@ function openSendModal(draftId) {
               const ticketId = row.cells[0].data;
               const status = row.cells[4].data?.toLowerCase();
               const file = row.cells[6].data;
+              const supportData = row.cells[1].data;
+              const assignedTo = supportData && supportData.user && supportData.user.id 
+              ? supportData.user 
+              : null;
               
-              // Base actions (edit, delete, view)
               let actionsHTML = `
                 <div class="flex items-center">
                   <a href="/dashboard/tickets/${ticketId}/edit-ticket" class="text-warning me-2" title="Edit">
@@ -299,8 +302,15 @@ function openSendModal(draftId) {
                   <a href="javascript:void(0);" onclick="deleteTicket('${ticketId}')" class="text-danger me-2" title="Delete">
                     <i class="mgc_delete_line text-xl"></i>
                   </a>
-                  
               `;
+              if(assignedTo){
+                actionsHTML += `
+                  <a href="/dashboard/chat/ticket/${ticketId}" class="text-primary me-2" title="Chat">
+                    <i class="mgc_chat_2_line text-xl"></i>
+                  </a>
+                  
+                `
+              }
                   if (file) {
                 actionsHTML += `
                     <a href="${file}" target="_blank" class="text-info me-2" title="View Attachment">

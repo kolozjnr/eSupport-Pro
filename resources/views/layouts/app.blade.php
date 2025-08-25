@@ -13,6 +13,11 @@
 
          <!-- App favicon -->
         <link rel="shortcut icon" href="{{asset('storage/'. $settings->favicon)}}">
+        <script>
+            window.PUSHER_APP_KEY = "{{ config('broadcasting.connections.pusher.key') }}";
+            window.PUSHER_APP_CLUSTER = "{{ config('broadcasting.connections.pusher.options.cluster') }}";
+        </script>
+
 
         
         <!-- quill css -->
