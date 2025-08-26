@@ -221,10 +221,19 @@ class ChatController extends Controller
     private function hasAccessToTicket(Ticket $ticket)
     {
         $userId = auth()->id();
-        //dd($ticket->support);
+        $customerUserId = (int)$ticket->customer->user_id;
+        $supportUserId = (int)$ticket->support->user_id;
         
-        return $ticket->customer->user_id === $userId || 
-               $ticket->support->user_id === $userId;
+        \Log::debug('hasAccessToTicket check', [
+            'user_id' => $userId,
+            'customer_user_id' => $customerUserId,
+            'support_user_id' => $supportUserId,
+            'is_customer' => $customerUserId === $userId,
+            'is_support' => $supportUserId === $userId
+        ]);
+        
+        return $customerUserId === $userId || 
+               $supportUserId === $userId;
     }
 
     private function getOrCreateTicketConversation(Ticket $ticket)

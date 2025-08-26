@@ -2,6 +2,7 @@
     <!-- Make sure Alpine.js is loaded -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    @vite(['resources/js/app.js'])
     <style>
         /* ... (your existing styles remain the same) ... */
     </style>
@@ -287,6 +288,12 @@
                         this.loadMessages();
                         this.initializeRealtimeConnection();
                     }, 10);
+
+                    // setInterval(() => {
+                    //     this.loadOtherUserInfo();
+                    //     this.loadMessages();
+                    //     this.initializeRealtimeConnection();
+                    // }, 10000)
                 },
 
                 // Error handling
@@ -334,114 +341,37 @@
                         .substring(0, 2);
                 },
 
-                // Initialize real-time connection with fallback
+               
                 initializeRealtimeConnection() {
-                    if (window.ChatConfig.pusherKey && window.ChatConfig.pusherKey.trim()) {
-                        this.initializePusher();
-                    } else {
-                        console.log('Pusher not configured, using polling fallback');
-                        this.setupPolling();
-                    }
-                },
+                    console.log("Initializing Echo listener...");
 
-                // Pusher Setup
-                initializePusher() {
-                    this.connectionStatus = 'connecting';
-                    
-                    try {
-                        this.pusher = new Pusher(window.ChatConfig.pusherKey, {
-                            cluster: window.ChatConfig.pusherCluster,
-                            forceTLS: true,
-                            enabledTransports: ['ws', 'wss'],
-                            disabledTransports: ['xhr_polling', 'xhr_streaming', 'sockjs'],
-                            authEndpoint: `${window.ChatConfig.baseUrl}/broadcasting/auth`,
-                            auth: {
-                                headers: {
-                                    'X-CSRF-TOKEN': window.ChatConfig.csrfToken,
-                                    'Authorization': `Bearer ${window.ChatConfig}`
-                                }
+                    if (!window.Echo) {
+                        console.error("Echo is not initialized, falling back to polling...");
+                        this.setupPolling();
+                        return;
+                    }
+
+                    const channelName = `conversation.${this.ticketId}`;
+
+                    window.Echo.private(channelName)
+                        .listen("MessageSent", (e) => {
+                            console.log("Echo received new message:", e.message);
+                            this.handleNewMessage(e.message);
+                        })
+                        .listen("UserTyping", (e) => {
+                            console.log("Echo received typing event:", e);
+                            if (e.user_id !== this.currentUserId) {
+                                this.handleTypingIndicator(e);
                             }
                         });
 
-                        this.pusher.connection.bind('connected', () => {
-                            console.log('Pusher connected');
-                            this.connectionStatus = 'connected';
-                            this.clearPolling();
-                        });
-
-                        this.pusher.connection.bind('disconnected', () => {
-                            console.log('Pusher disconnected');
-                            this.connectionStatus = 'disconnected';
-                            this.setupPolling(); // Fallback to polling
-                        });
-
-                        this.pusher.connection.bind('error', (error) => {
-                            console.error('Pusher connection error:', error);
-                            this.connectionStatus = 'disconnected';
-                            this.setupPolling(); // Fallback to polling
-                        });
-
-                        // Subscribe to ticket channel - try different channel naming patterns
-                        const channelNames = [
-                            `ticket.${this.ticketId}`,
-                            `private-ticket.${this.ticketId}`,
-                            `presence-ticket.${this.ticketId}`
-                        ];
-                        
-                        // Try each channel name until one works
-                        for (const channelName of channelNames) {
-                            try {
-                                this.channel = this.pusher.subscribe(channelName);
-                                console.log(`Subscribed to channel: ${channelName}`);
-                                
-                                // Listen for different event name patterns
-                                this.channel.bind('App\\Events\\NewMessage', (data) => {
-                                    console.log('Received NewMessage event:', data);
-                                    this.handleNewMessage(data);
-                                });
-                                
-                                this.channel.bind('new-message', (data) => {
-                                    console.log('Received new-message event:', data);
-                                    this.handleNewMessage(data);
-                                });
-                                
-                                this.channel.bind('NewMessage', (data) => {
-                                    console.log('Received NewMessage event:', data);
-                                    this.handleNewMessage(data);
-                                });
-                                
-                                this.channel.bind('user-typing', (data) => {
-                                    console.log('Received typing event:', data);
-                                    if (data.user_id !== this.currentUserId) {
-                                        this.handleTypingIndicator(data);
-                                    }
-                                });
-                                
-                                this.channel.bind('pusher:subscription_succeeded', () => {
-                                    console.log('Successfully subscribed to channel');
-                                });
-                                
-                                this.channel.bind('pusher:subscription_error', (error) => {
-                                    console.error('Pusher subscription error:', error);
-                                    // Try next channel name
-                                });
-                                
-                                // If we successfully subscribed, break the loop
-                                break;
-                                
-                            } catch (error) {
-                                console.error(`Failed to subscribe to ${channelName}:`, error);
-                                continue;
-                            }
-                        }
-
-                    } catch (error) {
-                        console.error('Error initializing Pusher:', error);
-                        this.connectionStatus = 'disconnected';
-                        this.setupPolling();
-                    }
+                    console.log(`✅ Subscribed to Echo channel: ${channelName}`);
+                    this.connectionStatus = "connected";
+                    this.clearPolling();
                 },
 
+
+                
                 // Fallback polling mechanism
                 setupPolling() {
                     if (this.pollingInterval) return; // Already polling
