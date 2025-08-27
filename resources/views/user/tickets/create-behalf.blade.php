@@ -139,9 +139,9 @@
                             </p>
 
                             <form method="POST" action="{{ route('tickets.bulk-upload') }}" 
-                            enctype="multipart/form-data" 
-                            x-data="{ isUploading: false }" 
-                            @submit.prevent="isUploading = true; $el.submit()">
+                                enctype="multipart/form-data" 
+                                x-data="bulkUpload()" 
+                                @submit.prevent="isUploading = true; $el.submit()">
                             @csrf
                             <div class="space-y-4">
                                 <!-- File Upload and Customer Select - Side by Side -->
@@ -207,70 +207,143 @@
          <script src="{{ asset('assets/js/pages/form-select.js') }}" defer></script> 
 
         <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('ticketSystem', () => ({
-                ticket: {
-                    name: '',
-                    description: '',
-                    customer_id: '',
-                    service_type: '',
-                    phone_numbers: [{ number: '' }]
-                },
-                isLoading: false,
-                isUploading: false,
-                isSuccess: false,
-                message: '',
-                
-                addPhoneNumber() {
-                    this.ticket.phone_numbers.push({ number: '' });
-                },
-                
-                removePhoneNumber(index) {
-                    this.ticket.phone_numbers.splice(index, 1);
-                },
-                
-                async submitTicket() {
-                    this.isLoading = true;
-                    this.message = '';
-
-                    // console.log(this.ticket);
-                    // return
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('ticketSystem', () => ({
+                    ticket: {
+                        name: '',
+                        description: '',
+                        customer_id: '',
+                        service_type: '',
+                        phone_numbers: [{ number: '' }]
+                    },
+                    isLoading: false,
+                    isSuccess: false,
+                    message: '',
                     
-                    try {
-                        const response = await fetch('{{ route("tickets.store") }}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                                'Accept': 'application/json'
-                            },
-                            body: JSON.stringify(this.ticket)
-                        });
+                    addPhoneNumber() {
+                        this.ticket.phone_numbers.push({ number: '' });
+                    },
+                    
+                    removePhoneNumber(index) {
+                        this.ticket.phone_numbers.splice(index, 1);
+                    },
+                    
+                    async submitTicket() {
+                        this.isLoading = true;
+                        this.message = '';
                         
-                        const data = await response.json();
-                        
-                        if (response.ok) {
-                            this.isSuccess = true;
-                            this.message = data.message || 'Ticket created successfully!';
-                            // Reset form after successful submission
-                            this.ticket = {
-                                name: '',
-                                description: '',
-                                customer_id: '',
-                                phone_numbers: [{ number: '' }]
-                            };
-                        } else {
-                            throw new Error(data.message || 'Failed to create ticket');
+                        try {
+                            const response = await fetch('{{ route("tickets.store") }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify(this.ticket)
+                            });
+                            
+                            const data = await response.json();
+                            
+                            if (response.ok) {
+                                this.isSuccess = true;
+                                this.message = data.message || 'Ticket created successfully!';
+                                this.ticket = {
+                                    name: '',
+                                    description: '',
+                                    customer_id: '',
+                                    service_type: '',
+                                    phone_numbers: [{ number: '' }]
+                                };
+                            } else {
+                                throw new Error(data.message || 'Failed to create ticket');
+                            }
+                        } catch (error) {
+                            this.isSuccess = false;
+                            this.message = error.message;
+                        } finally {
+                            this.isLoading = false;
                         }
-                    } catch (error) {
-                        this.isSuccess = false;
-                        this.message = error.message;
-                    } finally {
-                        this.isLoading = false;
                     }
-                }
-            }));
-        });
+                }));
+
+                // ✅ New Alpine component just for Bulk Upload
+                Alpine.data('bulkUpload', () => ({
+                    isUploading: false,
+                    formData: {
+                        customer_id: ''
+                    }
+                }));
+            });
+
+
+
+
+
+        // document.addEventListener('alpine:init', () => {
+        //     Alpine.data('ticketSystem', () => ({
+        //         ticket: {
+        //             name: '',
+        //             description: '',
+        //             customer_id: '',
+        //             service_type: '',
+        //             phone_numbers: [{ number: '' }]
+        //         },
+        //         isLoading: false,
+        //         isUploading: false,
+        //         isSuccess: false,
+        //         message: '',
+                
+        //         addPhoneNumber() {
+        //             this.ticket.phone_numbers.push({ number: '' });
+        //         },
+                
+        //         removePhoneNumber(index) {
+        //             this.ticket.phone_numbers.splice(index, 1);
+        //         },
+                
+        //         async submitTicket() {
+        //             this.isLoading = true;
+        //             this.message = '';
+
+        //             // console.log(this.ticket);
+        //             // return
+                    
+        //             try {
+        //                 const response = await fetch('{{ route("tickets.store") }}', {
+        //                     method: 'POST',
+        //                     headers: {
+        //                         'Content-Type': 'application/json',
+        //                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        //                         'Accept': 'application/json'
+        //                     },
+        //                     body: JSON.stringify(this.ticket)
+        //                 });
+                        
+        //                 const data = await response.json();
+                        
+        //                 if (response.ok) {
+        //                     this.isSuccess = true;
+        //                     this.message = data.message || 'Ticket created successfully!';
+        //                     // Reset form after successful submission
+        //                     this.ticket = {
+        //                         name: '',
+        //                         description: '',
+        //                         customer_id: '',
+        //                         phone_numbers: [{ number: '' }]
+        //                     };
+        //                 } else {
+        //                     throw new Error(data.message || 'Failed to create ticket');
+        //                 }
+        //             } catch (error) {
+        //                 this.isSuccess = false;
+        //                 this.message = error.message;
+        //             } finally {
+        //                 this.isLoading = false;
+        //             }
+        //         }
+        //     }));
+        // });
         </script>
 
         @include('layouts.footer')

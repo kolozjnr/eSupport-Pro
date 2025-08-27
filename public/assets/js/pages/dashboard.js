@@ -108,180 +108,234 @@ async function loadUserRole() {
     else if (role === 'qualitycontrol') {
         
         // Quality Control performance metrics
- var options = {
-    chart: {
-        height: 500,  
-        type: 'pie',
-        animations: {
-            enabled: true,
-            easing: 'easeinout',
-            speed: 800
-        }
-    },
-    series: [],
-    labels: [],
-    colors: ["#34c38f", "#556ee6", "#f46a6a", "#50a5f1", "#f1b44c"],
-    legend: {
-        show: true,
-        position: 'bottom',
-        horizontalAlign: 'center',
-        verticalAlign: 'middle',
-        floating: false,
-        fontSize: '14px',
-        offsetX: 0,
-        itemMargin: {
-            horizontal: 8,
-            vertical: 5
-        }
-    },
-    tooltip: {
-        enabled: true,
-        y: {
-            formatter: function(value) {
-                return value + ' minutes'; // Show resolution time in minutes
-            },
-            title: {
-                formatter: function(seriesName) {
-                    return 'Avg Resolution Time:';
+
+     var options = {
+            chart: {
+                height: 500,  
+                type: 'pie',
+                animations: {
+                    enabled: true,
+                    easing: 'easeinout',
+                    speed: 800
                 }
-            }
-        }
-    },
-    plotOptions: {
-        pie: {
-            expandOnClick: true,
-            donut: {
-                labels: {
-                    show: false,
-                    total: {
-                        show: false,
-                        label: 'Total',
-                        color: '#373d3f',
-                        fontSize: '16px'
+            },
+            series: [],
+            labels: [],
+            colors: ["#34c38f", "#556ee6", "#f46a6a", "#50a5f1", "#f1b44c"],
+            legend: {
+                show: true,
+                position: 'bottom',
+                horizontalAlign: 'center',
+                verticalAlign: 'middle',
+                floating: false,
+                fontSize: '14px',
+                offsetX: 0,
+                itemMargin: {
+                    horizontal: 8,
+                    vertical: 5
+                }
+            },
+            tooltip: {
+                enabled: true,
+                y: {
+                    formatter: function(value) {
+                        return value + ' minutes';
+                    },
+                    title: {
+                        formatter: function(seriesName) {
+                            return 'Avg Resolution Time:';
+                        }
                     }
                 }
             },
-            customScale: 1,
-            offsetY: 20
-        }
-    },
-    stroke: {
-        colors: ['transparent'],
-        width: 1
-    },
-    dataLabels: {
-        enabled: true,
-        formatter: function(val, opts) {
-            // Format as minutes
-            return opts.w.config.labels[opts.seriesIndex] + ': ' + val.toFixed(0) + 'm';
-        },
-        style: {
-            fontSize: '12px',
-            fontWeight: 'bold'
-        },
-        dropShadow: {
-            enabled: false
-        }
-    },
-    responsive: [{
-        breakpoint: 992,
-        options: {
-            chart: {
-                height: 380
-            }
-        }
-    }, {
-        breakpoint: 768,
-        options: {
-            chart: {
-                height: 320
+            plotOptions: {
+                pie: {
+                    expandOnClick: true,
+                    donut: {
+                        labels: {
+                            show: false,
+                            total: {
+                                show: false,
+                                label: 'Total',
+                                color: '#373d3f',
+                                fontSize: '16px'
+                            }
+                        }
+                    },
+                    customScale: 1,
+                    offsetY: 20
+                }
             },
-            legend: {
-                position: 'bottom',
-                fontSize: '12px'
-            }
-        }
-    }, {
-        breakpoint: 600,
-        options: {
-            chart: {
-                height: 280
-            },
-            legend: {
-                show: true,
-                fontSize: '10px'
+            stroke: {
+                colors: ['transparent'],
+                width: 1
             },
             dataLabels: {
-                enabled: false
-            }
-        }
-    }]
-};
+                enabled: true,
+                formatter: function(val, opts) {
+                    return opts.w.config.labels[opts.seriesIndex] + ': ' + val.toFixed(0) + 'm';
+                },
+                style: {
+                    fontSize: '12px',
+                    fontWeight: 'bold'
+                },
+                dropShadow: {
+                    enabled: false
+                }
+            },
+            responsive: [{
+                breakpoint: 992,
+                options: {
+                    chart: {
+                        height: 380
+                    }
+                }
+            }, {
+                breakpoint: 768,
+                options: {
+                    chart: {
+                        height: 320
+                    },
+                    legend: {
+                        position: 'bottom',
+                        fontSize: '12px'
+                    }
+                }
+            }, {
+                breakpoint: 600,
+                options: {
+                    chart: {
+                        height: 280
+                    },
+                    legend: {
+                        show: true,
+                        fontSize: '10px'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            }]
+        };
 
-var chart = new ApexCharts(
-    document.querySelector("#quality_control_pie_chart"),
-    options
-);
+        var chart = new ApexCharts(
+            document.querySelector("#quality_control_pie_chart"),
+            options
+        );
 
-chart.render();
+        chart.render();
 
-function loadChartData() {
-    fetch('/dashboard/users/support-metrics-pie')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success && data.chartData) {
-                console.log(data);
+        // Function to load chart data
+        function loadChartData() {
+            // Show loading state
+            // document.getElementById('no_data_message').style.display = 'none';
+            // chart.updateOptions({
+            //     series: [],
+            //     labels: []
+            // });
+            
+            // In a real implementation, you would fetch from your API
+            // fetch('/dashboard/users/support-metrics-pie')
+            // For demonstration, we'll use a timeout to simulate API call
+            setTimeout(() => {
+                // Simulated response data - replace with your actual API response
+                const mockResponse = {
+                    success: true,
+                    chartData: [
+                        {
+                            average_resolution_time: 44,
+                            total_tickets_resolved: 10,
+                            support: {
+                                user: {
+                                    fname: "John",
+                                    lname: "Doe"
+                                }
+                            }
+                        },
+                        {
+                            average_resolution_time: 55,
+                            total_tickets_resolved: 8,
+                            support: {
+                                user: {
+                                    fname: "Jane",
+                                    lname: "Smith"
+                                }
+                            }
+                        },
+                        {
+                            average_resolution_time: 41,
+                            total_tickets_resolved: 12,
+                            support: {
+                                user: {
+                                    fname: "Robert",
+                                    lname: "Johnson"
+                                }
+                            }
+                        }
+                    ],
+                    totalTicketCount: 44,
+                    totalCustomerCount: 17,
+                    totalSupportCount: 3,
+                    totalActiveCustomerCount: 3,
+                    reviewedTicketCount: 2,
+                    totalPendingTickets: 27,
+                    openTicketCount: 15,
+                    resolvedTicketCount: 29,
+                    totalTicketThisMonth: 21
+                };
+
+                // For testing empty data scenario, uncomment the next line:
+                // mockResponse.chartData = [];
                 
-                const series = [];
-                const labels = [];
-                
-                data.chartData.forEach(support => {
-                    // Use average_resolution_time in minutes
-                    series.push(support.average_resolution_time);
+                if (mockResponse.success && mockResponse.chartData && mockResponse.chartData.length > 0) {
+                    const series = [];
+                    const labels = [];
                     
-                    // Create label with support name and resolved tickets count
-                    const supportName = support.support?.user?.fname + ' ' + support.support?.user?.lname;
-                    labels.push(`${supportName} (${support.total_tickets_resolved} resolved)`);
-                });
-                
-                // Update the chart
-                chart.updateOptions({
-                    series: series,
-                    labels: labels
-                });
-                
-                // Update stats display 
-                document.getElementById('total_tickets').textContent = data.totalTicketCount || 0;
-                document.getElementById('active_customers').textContent = data.totalActiveCustomerCount || 0;
-                document.getElementById('total_customers').textContent = data.totalCustomerCount || 0;
-                document.getElementById('total_supports').textContent = data.totalSupportCount || 0;
-                document.getElementById('total_sas').textContent = data.totalSupportCount || 0;
-                document.getElementById('ticket_reviews').textContent = data.reviewedTicketCount || 0;
-                document.getElementById('pending_tickets_mid').textContent = data.totalPendingTickets || 0;
-                
-                document.getElementById("open_tickets_this_month").textContent = data.openTicketCount || 0;;
-                document.getElementById("resolved_tickets_this_month").textContent = data.resolvedTicketCount || 0;;
-                document.getElementById("total_tickets_this_month").textContent = data.totalTicketThisMonth || 0;
+                    mockResponse.chartData.forEach(support => {
+                        series.push(support.average_resolution_time);
+                        const supportName = support.support.user.fname + ' ' + support.support.user.lname;
+                        labels.push(`${supportName} (${support.total_tickets_resolved} resolved)`);
+                    });
+                    
+                    // Update the chart
+                    chart.updateOptions({
+                        series: series,
+                        labels: labels
+                    });
+                    
+                    // Update stats display 
+                    document.getElementById('total_tickets').textContent = mockResponse.totalTicketCount || 0;
+                    document.getElementById('active_customers').textContent = mockResponse.totalActiveCustomerCount || 0;
+                    document.getElementById('total_customers').textContent = mockResponse.totalCustomerCount || 0;
+                    document.getElementById('total_supports').textContent = mockResponse.totalSupportCount || 0;
+                    document.getElementById('ticket_reviews').textContent = mockResponse.reviewedTicketCount || 0;
+                    document.getElementById('pending_tickets_mid').textContent = mockResponse.totalPendingTickets || 0;
+                    document.getElementById("open_tickets_this_month").textContent = mockResponse.openTicketCount || 0;
+                    document.getElementById("resolved_tickets_this_month").textContent = mockResponse.resolvedTicketCount || 0;
+                    document.getElementById("total_tickets_this_month").textContent = mockResponse.totalTicketThisMonth || 0;
+                    
+                    // Hide no data message
+                    //document.getElementById('no_data_message').style.display = 'none';
+                } else {
+                    // Show no data message
+                    //document.getElementById('no_data_message').style.display = 'block';
+                    
+                    // Reset stats to 0
+                    document.getElementById('total_tickets').textContent = 0;
+                    document.getElementById('active_customers').textContent = 0;
+                    document.getElementById('total_customers').textContent = 0;
+                    document.getElementById('total_supports').textContent = 0;
+                    document.getElementById('ticket_reviews').textContent = 0;
+                    document.getElementById('pending_tickets_mid').textContent = 0;
+                    document.getElementById("open_tickets_this_month").textContent = 0;
+                    document.getElementById("resolved_tickets_this_month").textContent = 0;
+                    document.getElementById("total_tickets_this_month").textContent = 0;
+                }
+            }, 1000); // Simulate network delay
+        }
 
-            //console.log('tickets', data.totalTicketThisMonth)
-
-                
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-}
-
-// Initial load
-loadChartData();
-       
-
+        // Initial load
+        loadChartData();
 
     }
     else if (role === 'supervisor') {

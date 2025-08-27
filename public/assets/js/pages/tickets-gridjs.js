@@ -434,9 +434,9 @@ async function initializeCustomerOnbehalfTicketsTable() {
                 if (e.target.classList.contains('ticket-checkbox')) {
                     const ticketId = e.target.dataset.id;
                     if (e.target.checked) {
-                        //selectedTickets.add(ticketId);
+                        selectedTickets.add(ticketId);
                         
-                        selectedTickets+ticketId;
+                        //selectedTickets+ticketId;
                     } else {
                         selectedTickets.delete(ticketId);
                     }
@@ -602,10 +602,34 @@ async function initializeCustomerOnbehalfTicketsTable() {
                         id: 'assigned_to',
                         name: 'Assigned To',
                         formatter: (cell) => {
-                            const userName = cell?.user?.fname + ' ' + cell?.user?.lname || cell?.fname || 'N/A';
+                            // Safely get the user name with multiple fallbacks
+                            let userName = 'N/A';
+                            
+                            if (cell?.user) {
+                                userName = [cell.user.fname, cell.user.lname]
+                                    .filter(Boolean) // Remove null/undefined values
+                                    .join(' ')
+                                    .trim() || 'N/A';
+                            } else if (cell?.fname) {
+                                userName = [cell.fname, cell.lname]
+                                    .filter(Boolean)
+                                    .join(' ')
+                                    .trim() || cell.fname || 'N/A';
+                            } else if (cell?.name) {
+                                userName = cell.name || 'N/A';
+                            }
+                            
                             return gridjs.html(`<span>${userName}</span>`);
                         }
                     },
+                    // {
+                    //     id: 'assigned_to',
+                    //     name: 'Assigned To',
+                    //     formatter: (cell) => {
+                    //         const userName = cell?.user?.fname + ' ' + cell?.user?.lname || cell?.fname || 'N/A';
+                    //         return gridjs.html(`<span>${userName}</span>`);
+                    //     }
+                    // },
                     {
                         id: 'status',
                         name: 'Status',
@@ -923,7 +947,23 @@ async function initializeTicketsPollTable() {
                         id: 'assigned_to',
                         name: 'Assigned To',
                         formatter: (cell) => {
-                            const userName = cell?.user?.fname + ' ' + cell?.user?.lname || cell?.fname || 'N/A';
+                            // Safely get the user name with multiple fallbacks
+                            let userName = 'N/A';
+                            
+                            if (cell?.user) {
+                                userName = [cell.user.fname, cell.user.lname]
+                                    .filter(Boolean) // Remove null/undefined values
+                                    .join(' ')
+                                    .trim() || 'N/A';
+                            } else if (cell?.fname) {
+                                userName = [cell.fname, cell.lname]
+                                    .filter(Boolean)
+                                    .join(' ')
+                                    .trim() || cell.fname || 'N/A';
+                            } else if (cell?.name) {
+                                userName = cell.name || 'N/A';
+                            }
+                            
                             return gridjs.html(`<span>${userName}</span>`);
                         }
                     },
@@ -1060,7 +1100,7 @@ async function initializeTicketsPollTable() {
                     ticket.customer || { fname: 'N/A' },
                     ticket.review || [],
                     ticket.review || [],
-                    ticket.support || { fname: 'N/A' },
+                    ticket.support?.fname || 'N/A',
                     ticket.status || 'N/A',
                     ticket.created_at || 'N/A',
                     '', // Actions column
@@ -1466,6 +1506,252 @@ async function initializeSupportTicketsTable() {
         if (loadingIndicator) loadingIndicator.classList.add('hidden');
     }
 }
+
+async function initializeCustomerOnbehalfTicketsTable() {
+    const tableContainer = document.getElementById("customer-tickets-onbehalf");
+    const loadingIndicator = document.getElementById("loading-indicator");
+    const bulkActionBtn = document.getElementById("bulk-action-btn");;
+    
+    try {
+        // Show loading indicator
+        if (loadingIndicator) loadingIndicator.classList.remove('hidden');
+        if (tableContainer) tableContainer.innerHTML = '';
+        
+        // Hide bulk action button initially
+        if (bulkActionBtn) bulkActionBtn.classList.add('hidden');
+        
+        // Fetch tickets from your Laravel endpoint
+        const response = await fetch('/dashboard/tickets/get-tickets-onbehalf', {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch tickets: ' + response.statusText);
+        }
+        
+        const tickets = await response.json();
+        console.log('Tickets UPLO ONBELAH:', tickets);
+        
+        // Track selected ticket IDs
+        // const selectedQualityControlTickets = new Set();
+         // Initialize selected tickets set on window object if it doesn't exist
+        if (!window.selectedTickets) {
+            window.selectedTickets = new Set();
+        }
+        
+        // Initialize GridJS table if element exists
+        if (tableContainer) {
+            const grid = new gridjs.Grid({
+                columns: [
+                    
+                    {
+                        name: '#',
+                        formatter: (cell) => gridjs.html(`<span class="fw-semibold">${cell}</span>`),
+                        sort: true,
+                        width: '80px'
+                    },
+                    {
+                        name: 'Description',
+                        formatter: (cell) => gridjs.html(`<span>${cell || 'N/A'}</span>`),
+                        sort: true
+                    },
+                    {
+                        name: 'Status',
+                        formatter: (cell) => {
+                            let bgClass, textClass, displayStatus;
+                            const status = cell?.toLowerCase();
+                            if (status === 'assigned') {
+                                displayStatus = 'Awaiting Response';
+                            }else if(status === 'open'){
+
+                                displayStatus = 'Open';
+                            } else if(status === 'resolved'){
+
+                                displayStatus = 'Resolved';
+                            } else if(status === 'processing'){
+
+                                displayStatus = 'Processing';
+                            }
+                            else {
+                                displayStatus = cell || 'N/A';
+                            }
+                            switch (cell?.toLowerCase()) {
+                                case 'open': 
+                                    bgClass = 'bg-primary-subtle'; 
+                                    textClass = 'text-primary';
+                                    break;
+                                case 'assigned':
+                                    bgClass = 'bg-success-subtle';
+                                    textClass = 'text-primary';
+                                    break;
+                                case 'processing':
+                                    bgClass = 'bg-warning-subtle';
+                                    textClass = 'text-warning';
+                                    break;
+                                case 'rejected':
+                                    bgClass = 'bg-warning-subtle';
+                                    textClass = 'text-error';
+                                    break;
+                                case 'resolved':
+                                    bgClass = 'bg-success-subtle';
+                                    textClass = 'text-success';
+                                    break;
+                                default:
+                                    bgClass = 'bg-secondary-subtle';
+                                    textClass = 'text-secondary';
+                            }
+                            return gridjs.html(`<span class="badge ${bgClass} ${textClass}">${displayStatus}</span>`);
+                        },
+                        sort: {
+                            compare: (a, b) => {
+                                const statusOrder = { assign: 1, resolved: 2, processing: 3, open: 4, rejected: 5 };
+                                return (statusOrder[a?.charAt(0).toUpperCase() + text.slice(1)] || 99) - (statusOrder[b?.charAt(0).toUpperCase() + text.slice(1)] || 99);
+                            }
+                        }
+                    },
+                    {
+                        name: 'Created At',
+                        formatter: (cell) => cell ? new Date(cell).toLocaleDateString() : 'N/A',
+                        sort: true
+                    },
+                    {
+                        name: 'Actions',
+                        width: '100px',
+                        formatter: (cell, row) => {
+                            const ticketId = row.cells[5].data;
+                            
+                            // <a href="/dashboard/tickets/${ticketId}/edit-ticket" class="text-warning me-2" title="Edit">
+                            //             <i class="mgc_edit_line text-lg"></i>
+                            //         </a>
+                            let actionsHTML = `
+                                <div class="flex items-center">
+                                   
+                                    <a href="/dashboard/tickets/view-single-ticket/${ticketId}" class="text-primary me-2" title="View">
+                                        <i class="mgc_eye_2_line text-xl"></i>
+                                    </a>
+                            `;
+                            
+                            // if (status === 'completed') {
+                            //     actionsHTML += `
+                            //         <a href="javascript:void(0);" onclick="openReviewModal('${ticketId}')" class="text-purple-600" title="Write Review">
+                            //             <i class="mgc_star_line text-xl"></i>
+                            //         </a>
+                            //     `;
+                            // }
+                            
+                            actionsHTML += `</div>`;
+                            return gridjs.html(actionsHTML);
+                        }
+                    },
+                    // Checkbox column for multi-select
+                     {
+                        name: '',
+                        width: '40px',
+                        formatter: (cell, row) => {
+                            const ticketId = row.cells[5].data; // First column has the ID
+                            return gridjs.html(`
+                                <input type="checkbox" 
+                                    class="ticket-checkbox" 
+                                    data-id="${ticketId}"
+                                    onclick="window.toggleTicketSelection(${ticketId})"
+                                    ${window.selectedTickets.has(ticketId) ? 'checked' : ''}>
+                            `);
+                        }
+                    },
+                    // Hidden ID column (not visible but in data)
+                    {
+                        name: 'ID',
+                        hidden: true,
+                        id: 'ticketId'
+                    },
+                ],
+                pagination: {
+                    limit: 10
+                },
+                sort: true,
+                search: true,
+                data: tickets.map((ticket, index) => [
+                    //'', // Empty cell for checkbox
+                    index + 1,
+                    ticket.description || 'N/A',
+                    ticket.status || 'N/A',
+                    ticket.created_at || 'N/A',
+                    '', // Actions column
+                     ticket.id, // First column - ID (used in checkbox)
+                     ticket.id, // Second column - hidden ID
+                ])
+            }).render(tableContainer);
+            
+            // Add event listener for checkboxes
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('ticket-checkbox')) {
+                    const ticketId = e.target.dataset.id;
+                    if (e.target.checked) {
+                        selectedTickets.add(ticketId);
+                    } else {
+                        selectedTickets.delete(ticketId);
+                    }
+                    
+                    // Show/hide bulk action button based on selection count
+                    if (bulkActionBtn) {
+                        if (selectedTickets.size >= 2) {
+                            bulkActionBtn.classList.remove('hidden');
+                        } else {
+                            bulkActionBtn.classList.add('hidden');
+                        }
+                    }
+                }
+            });
+            
+            // Add custom export buttons
+            const exportButtons = document.createElement('div');
+            exportButtons.className = 'mb-3 flex gap-2';
+            exportButtons.innerHTML = `
+                <button class="btn btn-outline-primary btn-sm export-csv">
+                    <i class="mgc_download_2_line me-1"></i> Export CSV
+                </button>
+                <button class="btn btn-outline-danger btn-sm export-pdf">
+                    <i class="mgc_download_2_line me-1"></i> Export PDF
+                </button>
+                <button id="bulk-action-btn" class="btn btn-outline-success btn-sm hidden" 
+                        onclick="updateSelectedTickets()">
+                    <i class="mgc_check_line me-1"></i> Update Selected (${selectedTickets.size})
+                </button>
+            `;
+            tableContainer.prepend(exportButtons);
+
+           
+            
+            // // Export functionality
+            document.querySelector('.export-csv').addEventListener('click', () => {
+                grid.plugins.export.csv();
+            });
+            
+            document.querySelector('.export-pdf').addEventListener('click', () => {
+                grid.plugins.export.pdf();
+            });
+        }
+    } catch (error) {
+        console.error('Error initializing tickets table:', error);
+        if (tableContainer) {
+            tableContainer.innerHTML = `
+                <div class="alert alert-danger p-4">
+                    <h4 class="alert-heading">Failed to load tickets</h4>
+                    <p>${error.message}</p>
+                    <button onclick="initializeCustomerOnbehalfTicketsTable()" class="btn btn-sm btn-primary mt-2">
+                        Retry
+                    </button>
+                </div>
+            `;
+        }
+    } finally {
+        if (loadingIndicator) loadingIndicator.classList.add('hidden');
+    }
+}
+
 
 
 // Call this when the page loads  
