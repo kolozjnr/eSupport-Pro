@@ -378,81 +378,89 @@
     }
 
     window.submitBulkUpdatePoll = async function() {
-        var selectedIds = Array.from(window.selectedTickets);
-        const treatedIds = selectedIds.join(',');
-        //alert({{ auth()->user()->support->id }})
-        //return;
-        if (!selectedIds) {
-            alert('Please select at least one ticket');
-            return;
+    var selectedIds = Array.from(window.selectedTickets);
+    const treatedIds = selectedIds.join(',');
+    
+    if (selectedIds.length === 0) {
+        alert('Please select at least one ticket');
+        return;
+    }
+
+    // Convert FormData to JSON
+    const jsonData = {
+        ticket_ids: treatedIds.split(',').map(id => parseInt(id)),
+        staff_id: parseInt({{ optional(auth()->user()->support)->id ?? auth()->id() }}),
+        //notes: formData.get('notes') || ''
+    };
+
+    // Get the button and show loading state
+    const submitBtn = document.getElementById('bulk-action-btn');
+    const originalBtnText = submitBtn.innerHTML; // Store original content
+    
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-r-transparent"></span>
+            Assigning ${selectedIds.length} tickets...
+        `;
+    }
+
+    // Also disable all checkboxes to prevent changes during processing
+    const checkboxes = document.querySelectorAll('.ticket-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.disabled = true;
+    });
+
+    try {
+        // Send request to server
+        const response = await fetch('/dashboard/tickets/bulk-assign-from-poll', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify(jsonData)
+        });
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || 'Failed to assign tickets');
+        }
+
+        const result = await response.json();
+        
+        // Show success message
+        alert(`Successfully assigned ${selectedIds.length} tickets!`);
+        
+        // Refresh the table
+        if (typeof initializeTicketsPollTable === 'function') {
+            initializeTicketsPollTable();
+        }
+
+        // Clear selections
+        window.selectedTickets.clear();
+        window.updateBulkActionButton();
+
+        // Close modal if you have one
+        // window.hideTailwindModal();
+
+    } catch (error) {
+        console.error('Assignment error:', error.message);
+        alert('Error: ' + error.message);
+    } finally {
+        // Reset button state
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText; // Restore original content
         }
         
-
-     
-
-        // Convert FormData to JSON
-        const jsonData = {
-            ticket_ids: treatedIds.split(',').map(id => parseInt(id)),
-            staff_id: parseInt({{ auth()->user()->support->id }}),
-            //notes: formData.get('notes') || ''
-        };
-
-        // console.log(jsonData);
-        // return
-
-        // Show loading state
-        const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `
-                <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-r-transparent"></span>
-                Assigning...
-            `;
-        }
-
-        try {
-            // Send request to server
-            const response = await fetch('/dashboard/tickets/bulk-assign-from-poll', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify(jsonData)
-            });
-            
-            if (!response.ok) {
-                throw new Error(await response.text() || 'Failed to assign tickets');
-            }
-
-            // Close modal
-            //window.hideTailwindModal();
-
-            // Show success message
-            alert('Tickets assigned successfully!');
-            
-            // Refresh the table
-            if (typeof initializeTicketsPollTable === 'function') {
-                initializeTicketsPollTable();
-            }
-
-            // Clear selections
-            window.selectedTickets.clear();
-            window.updateBulkActionButton();
-
-        } catch (error) {
-            console.error(error.message);
-            alert('Error: ' + error.message);
-        } finally {
-            // Reset button state
-            const submitBtn = document.querySelector('#bulkAssignModal button[onclick="submitBulkUpdate()"]');
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Assign Tickets';
-            }
-        }
+        // Re-enable all checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.disabled = false;
+        });
     }
+}
 
     // Make the open function globally available
     window.openReviewModal = function(ticketId) {

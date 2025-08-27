@@ -1103,8 +1103,7 @@ async function initializeTicketsPollTable() {
                 </button>
                 <button class="btn btn-outline-danger btn-sm export-pdf">
                     <i class="mgc_download_2_line me-1"></i> Export PDF
-                </button>
-                <button id="bulk-action-btn" class="btn btn-outline-success btn-sm hidden" 
+                </button><button id="bulk-action-btn" class="btn btn-outline-success btn-sm hidden" 
                         onclick="submitBulkUpdatePoll()">
                     <i class="mgc_check_line me-1"></i> Update Selected (${selectedTickets.size})
                 </button>
