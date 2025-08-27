@@ -107,290 +107,180 @@ async function loadUserRole() {
     }
     else if (role === 'qualitycontrol') {
         
- 
-         var options = {
-            chart: {
-                height: 500,  
-                type: 'pie',
-                animations: {
-                    enabled: true,
-                    easing: 'easeinout',
-                    speed: 800
-                },
-                toolbar: {
-                    show: true,
-                    tools: {
-                        download: true,
-                        selection: false,
-                        zoom: false,
-                        zoomin: false,
-                        zoomout: false,
-                        pan: false,
-                        reset: false
+        // Quality Control performance metrics
+ var options = {
+    chart: {
+        height: 500,  
+        type: 'pie',
+        animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800
+        }
+    },
+    series: [],
+    labels: [],
+    colors: ["#34c38f", "#556ee6", "#f46a6a", "#50a5f1", "#f1b44c"],
+    legend: {
+        show: true,
+        position: 'bottom',
+        horizontalAlign: 'center',
+        verticalAlign: 'middle',
+        floating: false,
+        fontSize: '14px',
+        offsetX: 0,
+        itemMargin: {
+            horizontal: 8,
+            vertical: 5
+        }
+    },
+    tooltip: {
+        enabled: true,
+        y: {
+            formatter: function(value) {
+                return value + ' minutes'; // Show resolution time in minutes
+            },
+            title: {
+                formatter: function(seriesName) {
+                    return 'Avg Resolution Time:';
+                }
+            }
+        }
+    },
+    plotOptions: {
+        pie: {
+            expandOnClick: true,
+            donut: {
+                labels: {
+                    show: false,
+                    total: {
+                        show: false,
+                        label: 'Total',
+                        color: '#373d3f',
+                        fontSize: '16px'
                     }
                 }
             },
-            series: [],
-            labels: [],
-            colors: ["#34c38f", "#556ee6", "#f46a6a", "#50a5f1", "#f1b44c", "#9c27b0", "#ff9800", "#795548"],
+            customScale: 1,
+            offsetY: 20
+        }
+    },
+    stroke: {
+        colors: ['transparent'],
+        width: 1
+    },
+    dataLabels: {
+        enabled: true,
+        formatter: function(val, opts) {
+            // Format as minutes
+            return opts.w.config.labels[opts.seriesIndex] + ': ' + val.toFixed(0) + 'm';
+        },
+        style: {
+            fontSize: '12px',
+            fontWeight: 'bold'
+        },
+        dropShadow: {
+            enabled: false
+        }
+    },
+    responsive: [{
+        breakpoint: 992,
+        options: {
+            chart: {
+                height: 380
+            }
+        }
+    }, {
+        breakpoint: 768,
+        options: {
+            chart: {
+                height: 320
+            },
+            legend: {
+                position: 'bottom',
+                fontSize: '12px'
+            }
+        }
+    }, {
+        breakpoint: 600,
+        options: {
+            chart: {
+                height: 280
+            },
             legend: {
                 show: true,
-                position: 'bottom',
-                horizontalAlign: 'center',
-                verticalAlign: 'middle',
-                floating: false,
-                fontSize: '14px',
-                fontWeight: 500,
-                offsetX: 0,
-                offsetY: 10,
-                itemMargin: {
-                    horizontal: 8,
-                    vertical: 5
-                },
-                markers: {
-                    width: 12,
-                    height: 12,
-                    radius: 6
-                }
-            },
-            tooltip: {
-                enabled: true,
-                y: {
-                    formatter: function(value) {
-                        return value + ' minutes'; // Show resolution time in minutes
-                    },
-                    title: {
-                        formatter: function(seriesName) {
-                            return 'Avg Resolution Time:';
-                        }
-                    }
-                },
-                style: {
-                    fontSize: '12px',
-                    fontFamily: 'Segoe UI, sans-serif'
-                }
-            },
-            plotOptions: {
-                pie: {
-                    expandOnClick: true,
-                    donut: {
-                        labels: {
-                            show: false,
-                            total: {
-                                show: false,
-                                label: 'Total',
-                                color: '#373d3f',
-                                fontSize: '16px'
-                            }
-                        }
-                    },
-                    customScale: 1,
-                    offsetY: 20
-                }
-            },
-            stroke: {
-                colors: ['transparent'],
-                width: 1
+                fontSize: '10px'
             },
             dataLabels: {
-                enabled: true,
-                formatter: function(val, opts) {
-                    // Format as minutes with percentage
-                    const value = opts.w.config.series[opts.seriesIndex];
-                    return value.toFixed(0) + 'm (' + val.toFixed(1) + '%)';
-                },
-                style: {
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                    colors: ['#fff']
-                },
-                dropShadow: {
-                    enabled: true,
-                    top: 1,
-                    left: 1,
-                    blur: 1,
-                    opacity: 0.45
-                }
-            },
-            responsive: [{
-                breakpoint: 992,
-                options: {
-                    chart: {
-                        height: 380
-                    }
-                }
-            }, {
-                breakpoint: 768,
-                options: {
-                    chart: {
-                        height: 320
-                    },
-                    legend: {
-                        position: 'bottom',
-                        fontSize: '12px'
-                    }
-                }
-            }, {
-                breakpoint: 600,
-                options: {
-                    chart: {
-                        height: 280
-                    },
-                    legend: {
-                        show: true,
-                        fontSize: '10px'
-                    },
-                    dataLabels: {
-                        enabled: false
-                    }
-                }
-            }]
-        };
+                enabled: false
+            }
+        }
+    }]
+};
 
-        var chart = new ApexCharts(
-            document.querySelector("#quality_control_pie_chart"),
-            options
-        );
+var chart = new ApexCharts(
+    document.querySelector("#quality_control_pie_chart"),
+    options
+);
 
-        chart.render();
+chart.render();
 
-        function loadChartData() {
-            const refreshBtn = document.querySelector('.refresh-btn');
-            const errorMessage = document.getElementById('errorMessage');
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            const noDataMessage = document.getElementById('noDataMessage');
-            
-            // Show loading state
-            refreshBtn.classList.add('loading');
-            refreshBtn.disabled = true;
-            refreshBtn.textContent = 'Loading...';
-            loadingSpinner.style.display = 'block';
-            errorMessage.style.display = 'none';
-            noDataMessage.style.display = 'none';
-
-            fetch('/dashboard/users/support-metrics-pie')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Network response was not ok (${response.status})`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('API Response:', data);
+function loadChartData() {
+    fetch('/dashboard/users/support-metrics-pie')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success && data.chartData) {
+                console.log(data);
+                
+                const series = [];
+                const labels = [];
+                
+                data.chartData.forEach(support => {
+                    // Use average_resolution_time in minutes
+                    series.push(support.average_resolution_time);
                     
-                    if (data.success && data.chartData && data.chartData.length > 0) {
-                        const series = [];
-                        const labels = [];
-                        
-                        data.chartData.forEach(support => {
-                            // Use average_resolution_time in minutes
-                            const resolutionTime = parseFloat(support.average_resolution_time) || 0;
-                            series.push(resolutionTime);
-                            
-                            // Create label with support name and resolved tickets count
-                            let supportName = 'Unknown Support';
-                            if (support.support?.user?.fname && support.support?.user?.lname) {
-                                supportName = `${support.support.user.fname} ${support.support.user.lname}`;
-                            }
-                            
-                            const resolvedCount = support.total_tickets_resolved || 0;
-                            labels.push(`${supportName} (${resolvedCount} resolved)`);
-                        });
-                        
-                        // Update the chart only if we have data
-                        if (series.length > 0 && series.some(val => val > 0)) {
-                            chart.updateOptions({
-                                series: series,
-                                labels: labels
-                            });
-                            noDataMessage.style.display = 'none';
-                        } else {
-                            noDataMessage.style.display = 'block';
-                        }
-                        
-                        // Update stats display 
-                        document.getElementById('total_tickets').textContent = data.totalTicketCount || 0;
-                        document.getElementById('active_customers').textContent = data.totalActiveCustomerCount || 0;
-                        document.getElementById('total_customers').textContent = data.totalCustomerCount || 0;
-                        document.getElementById('total_supports').textContent = data.totalSupportCount || 0;
-                        document.getElementById('total_sas').textContent = data.totalSupportCount || 0;
-                        document.getElementById('ticket_reviews').textContent = data.reviewedTicketCount || 0;
-                        document.getElementById('pending_tickets_mid').textContent = data.totalPendingTickets || 0;
-                        document.getElementById('open_tickets_this_month').textContent = data.openTicketCount || 0;
-                        document.getElementById('resolved_tickets_this_month').textContent = data.resolvedTicketCount || 0;
-                        document.getElementById('total_tickets_this_month').textContent = data.totalTicketThisMonth || 0;
-
-                        // Update last updated timestamp
-                        updateLastUpdated();
-                        
-                    } else {
-                        console.warn('No chart data available or invalid response structure');
-                        noDataMessage.style.display = 'block';
-                        showError('No performance data available');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    showError('Failed to load data: ' + error.message);
-                    noDataMessage.style.display = 'block';
-                })
-                .finally(() => {
-                    // Reset loading state
-                    refreshBtn.classList.remove('loading');
-                    refreshBtn.disabled = false;
-                    refreshBtn.textContent = 'Refresh Data';
-                    loadingSpinner.style.display = 'none';
+                    // Create label with support name and resolved tickets count
+                    const supportName = support.support?.user?.fname + ' ' + support.support?.user?.lname;
+                    labels.push(`${supportName} (${support.total_tickets_resolved} resolved)`);
                 });
-        }
+                
+                // Update the chart
+                chart.updateOptions({
+                    series: series,
+                    labels: labels
+                });
+                
+                // Update stats display 
+                document.getElementById('total_tickets').textContent = data.totalTicketCount || 0;
+                document.getElementById('active_customers').textContent = data.totalActiveCustomerCount || 0;
+                document.getElementById('total_customers').textContent = data.totalCustomerCount || 0;
+                document.getElementById('total_supports').textContent = data.totalSupportCount || 0;
+                document.getElementById('total_sas').textContent = data.totalSupportCount || 0;
+                document.getElementById('ticket_reviews').textContent = data.reviewedTicketCount || 0;
+                document.getElementById('pending_tickets_mid').textContent = data.totalPendingTickets || 0;
+                
+                document.getElementById("open_tickets_this_month").textContent = data.openTicketCount || 0;;
+                document.getElementById("resolved_tickets_this_month").textContent = data.resolvedTicketCount || 0;;
+                document.getElementById("total_tickets_this_month").textContent = data.totalTicketThisMonth || 0;
 
-        function showError(message) {
-            const errorMessage = document.getElementById('errorMessage');
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-            
-            // Auto-hide error after 5 seconds
-            setTimeout(() => {
-                errorMessage.style.display = 'none';
-            }, 5000);
-        }
+            //console.log('tickets', data.totalTicketThisMonth)
 
-        function updateLastUpdated() {
-            const now = new Date();
-            const formatted = now.toLocaleString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            document.getElementById('lastUpdated').textContent = `Last updated: ${formatted}`;
-        }
-
-        // Auto-refresh every 5 minutes
-        function startAutoRefresh() {
-            setInterval(loadChartData, 300000); // 5 minutes
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadChartData();
-            startAutoRefresh();
+                
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
         });
+}
 
-        // Handle window resize
-        // window.addEventListener('resize', function() {
-        //     if (chart) {
-        //         chart.resize();
-        //     }
-        // });
-
-        // Handle visibility change (pause auto-refresh when tab is not visible)
-        // document.addEventListener('visibilitychange', function() {
-        //     if (document.visibilityState === 'visible') {
-        //         loadChartData(); // Refresh when tab becomes visible again
-        //     }
-        // });
+// Initial load
+loadChartData();
+       
 
 
     }
