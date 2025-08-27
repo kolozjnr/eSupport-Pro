@@ -29,7 +29,7 @@
             <li class="menu-item">
                 <a href="{{ route('dashboard')}}" class="menu-link">
                     <span class="menu-icon"><i class="mgc_home_3_line"></i></span>
-                    
+
                     <span class="menu-text"> Dashboard </span>
                 </a>
             </li>
@@ -80,6 +80,15 @@
                         <li class="menu-item">
                             <a href="{{ route('tickets.create-onbehalf') }}" class="menu-link">
                                 <span class="menu-text">Create Ticket</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    
+                    @if (Auth::user()->hasRole('support'))
+                        <li class="menu-item">
+                            <a href="{{ route('tickets.polls') }}" class="menu-link">
+                                <span class="menu-text">Tickets Poll</span>
                             </a>
                         </li>
                     @endif

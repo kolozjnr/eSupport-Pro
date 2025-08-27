@@ -125,6 +125,11 @@ Route::middleware('auth')->group(function () {
                 Route::get('/get-tickets-onbehalf', 'getCustomerTicketsOnBehalf')->name('get-tickets-onbehalf');
                 Route::get('/view-tickets-onbehalf', 'viewOnbehalfTicket')->name('view-tickets-onbehalf');
                 Route::post('/update-onbehalf', 'actionOnTicketByCustomerOnbehalf')->name('update-onbehalf');
+
+                //Ticket  polls
+                Route::get('/polls', 'polls')->name('polls');
+                Route::get('/get-tickets-poll', 'getPollOfOpenTickets')->name('get-polls');
+                Route::post('/bulk-assign-from-poll', 'assignTicketFromPoll')->name('bulk-assign-from-poll');
             });
             Route::controller(ChatController::class)
             ->prefix('chat')

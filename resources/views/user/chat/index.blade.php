@@ -67,15 +67,15 @@
                                             <div class="flex items-center space-x-2">
                                                 <div x-show="connectionStatus === 'connected'" class="flex items-center text-green-600" style="display: none;">
                                                     <i class="fas fa-circle text-xs"></i>
-                                                    <span class="ml-1 text-xs">Connected</span>
+                                                    {{-- <span class="ml-1 text-xs">Connected</span> --}}
                                                 </div>
                                                 <div x-show="connectionStatus === 'connecting'" class="flex items-center text-yellow-600" style="display: none;">
                                                     <i class="fas fa-circle text-xs animate-pulse"></i>
-                                                    <span class="ml-1 text-xs">Connecting...</span>
+                                                    {{-- <span class="ml-1 text-xs">Connecting...</span> --}}
                                                 </div>
                                                 <div x-show="connectionStatus === 'disconnected'" class="flex items-center text-red-600" style="display: none;">
                                                     <i class="fas fa-circle text-xs"></i>
-                                                    <span class="ml-1 text-xs">Offline Mode</span>
+                                                    {{-- <span class="ml-1 text-xs">Offline Mode</span> --}}
                                                 </div>
                                             </div>
                                         </div>
