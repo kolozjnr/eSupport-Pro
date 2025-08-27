@@ -27,7 +27,7 @@ class SupportPerfomanceController extends Controller
 
         //Log::info('Support Performance Metrics:', $stats);
         //OR dump-and-die to inspect immediately
-       // dd($stats);
+       //dd($stats);
 
         //Payment failed to initialize. Array to string conversion (Connection: mysql, SQL: insert into `subscriptions` (`user_id`, `customer_id`, `payment_gateway_ref`, `paymentReference`, `reference`, `amount`, `status`, `updated_at`, `created_at`) values (1, 1, MNFY|10|20250618232811|000107, xWzuH5LmhO, ?, 10000, pending, 2025-06-18 22:28:09, 2025-06-18 22:28:09))
 

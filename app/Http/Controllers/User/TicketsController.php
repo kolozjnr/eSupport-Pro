@@ -484,7 +484,11 @@ public function updateSupportTicket(Request $request, $id)
             else if($validated['status'] === 'resolved')
             {
                 $updates['resolved_at'] = now()->addHour();
-                $updates['resolution_time'] = $ticket->assigned_at->diffInMinutes(now()->addHour());
+                $updates['resolution_time'] = $ticket->assigned_at 
+                    ? Carbon::parse($ticket->assigned_at)->diffInMinutes(now()->addHour()) 
+                    : 0;
+
+                //$updates['resolution_time'] = $ticket->assigned_at->diffInMinutes(now()->addHour());
                 //$updates['resolution_time'] = now()->addHour()->diffInMinutes($ticket->assigned_at, false);
 
                 $ticket->update($updates);
@@ -497,7 +501,11 @@ public function updateSupportTicket(Request $request, $id)
                $updatedTicket = $ticket->update([
                     'status' => $validated['status'],
                     'first_response_at' => $validated['status'] === 'assigned' ? now()->addHour() : $ticket->first_response_at,
-                    'response_time' => Carbon::parse($ticket->assigned_at)->diffInMinutes(now()->addHour()),
+                    'response_time' => $ticket->assigned_at 
+                    ? Carbon::parse($ticket->assigned_at)->diffInMinutes(now()->addHour()) 
+                    : 0,
+
+                    //'response_time' => Carbon::parse($ticket->assigned_at)->diffInMinutes(now()->addHour()),
                     
                 ]);
                 //$ticket->customer->decrement('call_service_points', $deduction->call_center_charge);
