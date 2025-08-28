@@ -494,7 +494,14 @@ public function updateSupportTicket(Request $request, $id)
                 $ticket->update($updates);
                 //$ticket->customer->decrement('call_service_points', $deduction->call_center_charge);
                 // Fixed: Changed $performanceService to $this->performanceService
-                $this->performanceService->updateSupportPerformance($ticket->support_id, $ticket->id);
+                if ($ticket->support_id) {
+                        $this->performanceService->updateSupportPerformance(
+                            (int) $ticket->support_id,
+                            $ticket->id
+                        );
+                    }
+
+                //$this->performanceService->updateSupportPerformance($ticket->support_id, $ticket->id);
             }
             else
             {
