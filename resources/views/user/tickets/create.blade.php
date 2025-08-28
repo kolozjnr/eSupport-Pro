@@ -31,7 +31,8 @@
                                 <!-- Ticket Information -->
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
-                                        <label for="ticket-name" class="block text-sm font-medium mb-1">Service</label>
+                                        <label for="ticket-name" class="block text-sm font-medium mb-1">Service <span class="text-red-600 text-xl font-semibold drop-shadow-sm">*</span>
+</label>
                                         <select x-model="ticket.service_type" class="search-select w-full" id="search-select" required>
                                             <option value="" selected disabled>Choose Service</option>
                                             <option value="call_service_points">Call Service</option>
@@ -45,12 +46,14 @@
                                 <!-- Ticket Name / Description / File -->
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
-                                        <label for="ticket-name" class="block text-sm font-medium mb-1">Ticket Name</label>
+                                        <label for="ticket-name" class="block text-sm font-medium mb-1">Ticket Subject <span class="text-red-600 text-xl font-semibold drop-shadow-sm">*</span>
+</label>
                                         <input type="text" id="ticket-name" class="form-input w-full" 
-                                            x-model="ticket.name" placeholder="Ticket name" required>
+                                            x-model="ticket.name" placeholder="Ticket subject" required>
                                     </div>
                                     <div>
-                                        <label for="ticket-description" class="block text-sm font-medium mb-1">Description</label>
+                                        <label for="ticket-description" class="block text-sm font-medium mb-1">Description <span class="text-red-600 text-xl font-semibold drop-shadow-sm">*</span>
+</label>
                                         <textarea x-model="ticket.description" class="form-input w-full" id="ticket-description" rows="2" placeholder="Description"></textarea>
                                     </div>
                                     <div>
@@ -63,7 +66,8 @@
 
                                 <!-- Phone Numbers Section -->
                                 <div class="mt-4">
-                                    <label class="block text-sm font-medium mb-2">Phone Numbers</label>
+                                    <label class="block text-sm font-medium mb-2">Phone Numbers <span class="text-red-600 text-xl font-semibold drop-shadow-sm">*</span>
+</label>
                                     <template x-for="(phone, index) in ticket.phone_numbers" :key="index">
                                         <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-4 items-end mb-2">
                                             <div class="sm:col-span-3">
