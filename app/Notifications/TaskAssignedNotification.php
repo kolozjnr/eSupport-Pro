@@ -46,6 +46,8 @@ class TaskAssignedNotification extends Notification
             'message' => 'New tickets have been assigned to you.',
             'ticket_ids' => $this->ticketIds,
             'assigned_at' => now(),
+            'user_id' => $notifiable->id,
+            'url' => url('dashboard/tickets/view-single-ticket/' . $this->ticketId),
         ];
     }
 }

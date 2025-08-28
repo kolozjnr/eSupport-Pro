@@ -37,7 +37,9 @@ class KYCSubmissionNotification extends Notification
     {
         return [
             'message' => 'New KYC submission from ' . $this->customer->user->fname . ' ' . $this->customer->user->lname,
-            'customer_id' => $this->customer->id
+            'customer_id' => $this->customer->id,
+            'url' => url('/admin/kyc-verification/' . $this->customer->id),
+
         ];
     }
 }
