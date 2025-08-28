@@ -29,10 +29,10 @@
                 
                             <form class="grid gap-4 mb-6" @submit.prevent="submitTicket" enctype="multipart/form-data">
                                 <!-- Ticket Information -->
-                                <div class="grid grid-cols-3 gap-4">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
                                         <label for="ticket-name" class="block text-sm font-medium mb-1">Service</label>
-                                        <select x-model="ticket.service_type" class="search-select" id="search-select" required>
+                                        <select x-model="ticket.service_type" class="search-select w-full" id="search-select" required>
                                             <option value="" selected disabled>Choose Service</option>
                                             <option value="call_service_points">Call Service</option>
                                             <option value="general_support_points">General Support</option>
@@ -41,45 +41,38 @@
                                         </select>
                                     </div>
                                 </div>
-                                
 
-                                <div class="grid grid-cols-3 gap-4">
+                                <!-- Ticket Name / Description / File -->
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
                                         <label for="ticket-name" class="block text-sm font-medium mb-1">Ticket Name</label>
                                         <input type="text" id="ticket-name" class="form-input w-full" 
-                                               x-model="ticket.name" placeholder="Ticket name" required>
+                                            x-model="ticket.name" placeholder="Ticket name" required>
                                     </div>
                                     <div>
                                         <label for="ticket-description" class="block text-sm font-medium mb-1">Description</label>
-                                        <textarea x-model="ticket.description"  class="form-input w-full" id="" cols="1" rows="1"></textarea>
-                                        {{-- <input type="text" id="ticket-description" class="form-input w-full" 
-                                               x-model="ticket.description" placeholder="Description" required> --}}
+                                        <textarea x-model="ticket.description" class="form-input w-full" id="ticket-description" rows="2" placeholder="Description"></textarea>
                                     </div>
-                                    
                                     <div>
                                         <label for="ticket-file" class="block text-sm font-medium mb-1">Attach File (Optional)</label>
                                         <input type="file" id="ticket-file" class="form-input w-full" 
-                                                @change="ticket.file = $event.target.files[0]" 
+                                            @change="ticket.file = $event.target.files[0]" 
                                             accept=".jpg,.jpeg,.png">
                                     </div>
                                 </div>
-                                
+
                                 <!-- Phone Numbers Section -->
                                 <div class="mt-4">
                                     <label class="block text-sm font-medium mb-2">Phone Numbers</label>
                                     <template x-for="(phone, index) in ticket.phone_numbers" :key="index">
-                                        <div class="grid grid-cols-4 gap-4 items-end mb-2">
-                                            <div class="col-span-3">
+                                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-4 items-end mb-2">
+                                            <div class="sm:col-span-3">
                                                 <input type="text" 
-                                                class="form-input w-full" 
-                                                x-model="phone.number" 
-                                                :name="'phone_numbers[' + index + '][number]'" 
-                                                :placeholder="'Phone Number ' + (index + 1)" 
-                                                required>
-
-                                                {{-- <input type="text" class="form-input w-full" 
-                                                       x-model="phone.number" 
-                                                       :placeholder="'Phone Number ' + (index + 1)" required> --}}
+                                                    class="form-input w-full" 
+                                                    x-model="phone.number" 
+                                                    :name="'phone_numbers[' + index + '][number]'" 
+                                                    :placeholder="'Phone Number ' + (index + 1)" 
+                                                    required>
                                             </div>
                                             <div>
                                                 <button type="button" class="btn bg-red-500 text-white w-full" 
@@ -90,15 +83,15 @@
                                             </div>
                                         </div>
                                     </template>
-                                    <button type="button" class="btn bg-gray-200 text-gray-700 mt-2" 
+                                    <button type="button" class="btn bg-gray-200 text-gray-700 mt-2 w-full sm:w-auto" 
                                             @click="addPhoneNumber">
                                         + Add Phone Number
                                     </button>
                                 </div>
-                
+
                                 <!-- Submit Button with Loader -->
-                                <div class="mt-6 flex items-center gap-3">
-                                    <button type="submit" class="btn bg-primary text-white" :disabled="isLoading">
+                                <div class="mt-6 flex flex-col sm:flex-row items-center gap-3">
+                                    <button type="submit" class="btn bg-primary text-white w-full sm:w-auto" :disabled="isLoading">
                                         <span x-show="!isLoading">Create Ticket</span>
                                         <span x-show="isLoading">Processing...</span>
                                     </button>
@@ -108,12 +101,13 @@
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
                                 </div>
-                                
+
                                 <!-- Success/Error Message -->
                                 <div x-show="message" x-text="message" 
-                                     :class="{'text-green-600': isSuccess, 'text-red-600': !isSuccess}" 
-                                     class="mt-2 text-sm"></div>
+                                    :class="{'text-green-600': isSuccess, 'text-red-600': !isSuccess}" 
+                                    class="mt-2 text-sm"></div>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -139,30 +133,40 @@
                             </p>
 
                             <form method="POST" action="{{ route('tickets.download-template') }}" 
-                                  enctype="multipart/form-data" 
-                                  x-data="{ isUploading: false }" 
-                                  @submit.prevent="isUploading = true; $el.submit()">
+                                enctype="multipart/form-data" 
+                                x-data="{ isUploading: false }" 
+                                @submit.prevent="isUploading = true; $el.submit()">
                                 @csrf
+
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- CSV Upload -->
                                     <div>
                                         <label for="csv-upload" class="block text-sm font-medium mb-1">CSV File</label>
                                         <input type="file" name="tickets_file" id="csv-upload" 
-                                               class="form-input" accept=".csv" required>
+                                            class="form-input w-full rounded-md border-gray-300 focus:border-primary focus:ring focus:ring-primary/30" 
+                                            accept=".csv" required>
                                         <p class="text-xs text-gray-500 mt-1">Max 5MB. CSV format only.</p>
                                     </div>
 
-                                    <div class="flex items-center gap-3">
-                                        <button type="submit" class="btn bg-primary text-white w-40" :disabled="isUploading">
+                                    <!-- Upload Button -->
+                                    <div class="flex flex-col sm:flex-row items-center gap-3">
+                                        <button type="submit" 
+                                                class="btn bg-primary text-white w-full sm:w-40 flex items-center justify-center py-2 rounded-md"
+                                                :disabled="isUploading"
+                                                :class="{'opacity-75 cursor-not-allowed': isUploading}">
                                             <span x-show="!isUploading">Upload</span>
-                                            <span x-show="isUploading">Uploading...</span>
+                                            <span x-show="isUploading" class="flex items-center gap-2">
+                                                <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Uploading...
+                                            </span>
                                         </button>
-                                        <svg x-show="isUploading" class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
                                     </div>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>

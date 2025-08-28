@@ -29,91 +29,96 @@
                 
                             <form class="grid gap-4 mb-6" @submit.prevent="submitTicket">
                                 <!-- Ticket Information -->
-                                    <div class="grid grid-cols-3 gap-4">
-                                        <div>
-                                            <label for="ticket-name" class="block text-sm font-medium mb-1">Service</label>
-                                            <select x-model="ticket.service_type" class="form-select w-full" required>
-                                                <option value="call_service_points">Call Service</option>
-                                                <option value="general_support_points">General Support</option>
-                                                <option value="virtual_assistance_points">Virtual Assistant</option>
-                                            </select>
-                                        </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <div>
+                                        <label for="ticket-name" class="block text-sm font-medium mb-1">Service</label>
+                                        <select x-model="ticket.service_type" class="form-select w-full" required>
+                                            <option value="call_service_points">Call Service</option>
+                                            <option value="general_support_points">General Support</option>
+                                            <option value="virtual_assistance_points">Virtual Assistant</option>
+                                        </select>
                                     </div>
-                                
-                                <div class="grid grid-cols-2 gap-4">
+                                </div>
+
+                                <!-- Ticket Name & Description -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label for="ticket-name" class="block text-sm font-medium mb-1">Ticket Name</label>
-                                        <input type="text" id="ticket-name" class="form-input w-full" 
-                                               x-model="ticket.name" placeholder="Ticket name" required>
+                                        <input type="text" id="ticket-name" class="form-input w-full"
+                                            x-model="ticket.name" placeholder="Ticket name" required>
                                     </div>
                                     <div>
                                         <label for="ticket-description" class="block text-sm font-medium mb-1">Description</label>
-                                        {{-- <input type="text" id="ticket-description" class="form-input w-full" 
-                                               x-model="ticket.description" placeholder="Description" required> --}}
-
-                                               <textarea id="ticket-description" cols="1" rows="1" class="form-input w-full" 
+                                        <textarea id="ticket-description" cols="1" rows="1" 
+                                            class="form-input w-full"
                                             x-model="ticket.description" placeholder="Description" required></textarea>
                                     </div>
                                 </div>
-                                
-                                <!-- Phone Numbers Section -->
-                               <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <!-- Phone Numbers Section (Left Column) -->
+
+                                <!-- Phone Numbers & Customer -->
+                                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- Phone Numbers Section -->
                                     <div class="space-y-2">
                                         <label class="block text-sm font-medium mb-2">Phone Numbers</label>
                                         <template x-for="(phone, index) in ticket.phone_numbers" :key="index">
-                                            <div class="grid grid-cols-4 gap-2 items-end">
-                                                <div class="col-span-3">
-                                                    <input type="text" class="form-input w-full" 
-                                                        x-model="phone.number" 
+                                            <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 items-end">
+                                                <div class="sm:col-span-3">
+                                                    <input type="text" class="form-input w-full"
+                                                        x-model="phone.number"
                                                         :placeholder="'Phone Number ' + (index + 1)" required>
                                                 </div>
                                                 <div>
-                                                    <button type="button" class="btn bg-red-500 text-white w-full py-2 px-3 text-sm" 
-                                                            @click="removePhoneNumber(index)" 
+                                                    <button type="button" 
+                                                            class="btn bg-red-500 text-white w-full py-2 px-3 text-sm"
+                                                            @click="removePhoneNumber(index)"
                                                             x-show="ticket.phone_numbers.length > 1">
                                                         Remove
                                                     </button>
                                                 </div>
                                             </div>
                                         </template>
-                                        <button type="button" class="btn bg-gray-200 text-gray-700 mt-4 w-52 text-sm" 
-                                                @click="addPhoneNumber">
+                                        <button type="button" 
+                                            class="btn bg-gray-200 text-gray-700 mt-4 w-full sm:w-52 text-sm"
+                                            @click="addPhoneNumber">
                                             + Add Phone Number
                                         </button>
                                     </div>
 
-                                    <!-- Description Section (Right Column) -->
+                                    <!-- Customer Section -->
                                     <div>
-
-                                            <label for="customer_id" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Customer</label>
-                                            <select id="search-select" x-model="ticket.customer_id" name="customer_id" id="customer_id" class="search-select" required>
-                                                <option selected>Choose</option>
-                                                @foreach ($customers as $customer)
-                                                    <option value="{{ $customer->id }}">{{ $customer->user->fname }}</option>
-                                                @endforeach
-                                            </select>
+                                        <label for="customer_id" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Customer
+                                        </label>
+                                        <select id="customer_id" x-model="ticket.customer_id" name="customer_id"
+                                            class="form-select w-full" required>
+                                            <option selected>Choose</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->user->fname }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                
+
                                 <!-- Submit Button with Loader -->
-                                <div class="mt-6 flex items-center gap-3">
-                                    <button type="submit" class="btn bg-primary text-white" :disabled="isLoading">
+                                <div class="mt-6 flex flex-col sm:flex-row items-center gap-3">
+                                    <button type="submit" class="btn bg-primary text-white w-full sm:w-auto" :disabled="isLoading">
                                         <span x-show="!isLoading">Create Ticket</span>
                                         <span x-show="isLoading">Processing...</span>
                                     </button>
-                                    
+
                                     <svg x-show="isLoading" class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
                                 </div>
-                                
+
                                 <!-- Success/Error Message -->
-                                <div x-show="message" x-text="message" 
-                                     :class="{'text-green-600': isSuccess, 'text-red-600': !isSuccess}" 
-                                     class="mt-2 text-sm"></div>
+                                <div x-show="message" x-text="message"
+                                    :class="{'text-green-600': isSuccess, 'text-red-600': !isSuccess}"
+                                    class="mt-2 text-sm"></div>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -142,60 +147,66 @@
                                 enctype="multipart/form-data" 
                                 x-data="bulkUpload()" 
                                 @submit.prevent="isUploading = true; $el.submit()">
-                            @csrf
-                            <div class="space-y-4">
-                                <!-- File Upload and Customer Select - Side by Side -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <!-- File Upload -->
-                                    <div class="space-y-2">
-                                        <label for="csv-upload" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            CSV File
-                                        </label>
-                                        <div class="flex items-center gap-2">
-                                            <input type="file" name="tickets_file" id="csv-upload"
-                                                class="block w-full text-sm text-gray-500
+                                @csrf
+
+                                <div class="space-y-6">
+                                    <!-- File Upload and Customer Select -->
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        <!-- File Upload -->
+                                        <div class="space-y-2">
+                                            <label for="csv-upload" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                CSV File
+                                            </label>
+                                            <div>
+                                                <input type="file" name="tickets_file" id="csv-upload"
+                                                    class="block w-full text-sm text-gray-600
                                                         file:mr-4 file:py-2 file:px-4
-                                                        file:rounded-md file:border-0
-                                                        file:text-sm file:font-semibold
+                                                        file:rounded-lg file:border-0
+                                                        file:text-sm file:font-medium
                                                         file:bg-primary file:text-white
-                                                        hover:file:bg-primary-dark"
-                                                accept=".csv" required>
+                                                        hover:file:bg-primary-dark
+                                                        focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                                    accept=".csv" required>
+                                            </div>
+                                            <p class="text-xs text-gray-500">Max 5MB. CSV format only.</p>
                                         </div>
-                                        <p class="text-xs text-gray-500">Max 5MB. CSV format only.</p>
+
+                                        <!-- Customer Select -->
+                                        <div class="space-y-2">
+                                            <label for="customer_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                Customer
+                                            </label>
+                                            <select x-model="formData.customer_id" name="customer_id" id="search-select2"
+                                                    class="form-select w-full rounded-lg border-gray-300 focus:border-primary focus:ring focus:ring-primary/30"
+                                                    required>
+                                                <option value="">Choose customer</option>
+                                                @foreach ($customers as $customer)
+                                                    <option value="{{ $customer->id }}">{{ $customer->user->fname }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
 
-                                    <!-- Customer Select -->
-                                    <div class="space-y-2">
-                                        <label for="customer_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Customer
-                                        </label>
-                                        <select x-model="formData.customer_id" name="customer_id" id="search-select2" 
-                                                class="search-select" required>
-                                            <option value="">Choose customer</option>
-                                            @foreach ($customers as $customer)
-                                                <option value="{{ $customer->id }}">{{ $customer->user->fname }}</option>
-                                            @endforeach
-                                        </select>
+                                    <!-- Submit Button -->
+                                    <div class="flex flex-col sm:flex-row items-center gap-3 pt-4">
+                                        <button type="submit" 
+                                                class="btn bg-primary text-white w-full sm:w-40 flex items-center justify-center rounded-lg py-2"
+                                                :disabled="isUploading"
+                                                :class="{'opacity-75 cursor-not-allowed': isUploading}">
+                                            <span x-show="!isUploading">Upload</span>
+                                            <span x-show="isUploading" class="flex items-center gap-2">
+                                                <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Uploading...
+                                            </span>
+                                        </button>
                                     </div>
                                 </div>
+                            </form>
 
-                                <!-- Submit Button -->
-                                <div class="flex items-center gap-3 pt-2">
-                                    <button type="submit" class="btn bg-primary text-white w-40 flex items-center justify-center" 
-                                            :disabled="isUploading"
-                                            :class="{'opacity-75 cursor-not-allowed': isUploading}">
-                                        <span x-show="!isUploading">Upload</span>
-                                        <span x-show="isUploading" class="flex items-center gap-2">
-                                            <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            Uploading...
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                         </div>
                     </div>
                 </div>

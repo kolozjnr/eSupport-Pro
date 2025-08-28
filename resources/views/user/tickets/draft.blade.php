@@ -48,29 +48,26 @@
                                 
                             <form class="grid gap-4 mb-6" @submit.prevent="submitDraft">
                                 <!-- Ticket Information -->
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label for="draft-name" class="block text-sm font-medium mb-1">Name</label>
                                         <input type="text" id="draft-name" class="form-input w-full" 
-                                               x-model="formData.name" placeholder="name" required>
+                                            x-model="formData.name" placeholder="Name" required>
                                     </div>
-                                    {{-- <div>
-                                        <label for="ticket-description" class="block text-sm font-medium mb-1">Description</label>
-                                        <input type="text" id="ticket-description" class="form-input w-full" 
-                                               x-model="ticket.description" placeholder="Description" required>
-                                    </div> --}}
                                 </div>
                                 
                                 <!-- Phone Numbers Section -->
                                 <div class="mt-4">
                                     <label class="block text-sm font-medium mb-2">Phone Numbers</label>
                                     <template x-for="(phone, index) in formData.phone_numbers" :key="index">
-                                        <div class="grid grid-cols-4 gap-4 items-end mb-2">
-                                            <div class="col-span-2">
+                                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-4 items-end mb-2">
+                                            <!-- Phone Input -->
+                                            <div class="sm:col-span-3">
                                                 <input type="text" class="form-input w-full" 
-                                                       x-model="phone.number" 
-                                                       :placeholder="'Phone Number ' + (index + 1)" required>
+                                                    x-model="phone.number" 
+                                                    :placeholder="'Phone Number ' + (index + 1)" required>
                                             </div>
+                                            <!-- Remove Button -->
                                             <div>
                                                 <button type="button" class="btn bg-red-500 text-white w-full" 
                                                         @click="removePhoneNumber(index)" 
@@ -80,19 +77,22 @@
                                             </div>
                                         </div>
                                     </template>
-                                    <button type="button" class="btn bg-gray-200 text-gray-700 mt-2" 
+
+                                    <!-- Add Phone Button -->
+                                    <button type="button" class="btn bg-gray-200 text-gray-700 mt-2 w-full sm:w-auto" 
                                             @click="addPhoneNumber">
                                         + Add Phone Number
                                     </button>
                                 </div>
-                
+
                                 <!-- Submit Button with Loader -->
-                                <div class="mt-6 flex items-center gap-3">
-                                    <button type="submit" class="btn bg-primary text-white" :disabled="isLoading">
+                                <div class="mt-6 flex flex-col sm:flex-row items-center gap-3">
+                                    <button type="submit" class="btn bg-primary text-white w-full sm:w-auto" :disabled="isLoading">
                                         <span x-show="!isLoading">Create Draft</span>
                                         <span x-show="isLoading">Processing...</span>
                                     </button>
                                     
+                                    <!-- Loader -->
                                     <svg x-show="isLoading" class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -101,9 +101,10 @@
                                 
                                 <!-- Success/Error Message -->
                                 <div x-show="message" x-text="message" 
-                                     :class="{'text-green-600': isSuccess, 'text-red-600': !isSuccess}" 
-                                     class="mt-2 text-sm"></div>
+                                    :class="{'text-green-600': isSuccess, 'text-red-600': !isSuccess}" 
+                                    class="mt-2 text-sm"></div>
                             </form>
+
                             </div>
                         </div> <!-- end card -->
                     </div> <!-- end col -->
@@ -135,31 +136,47 @@
                             <div class="p-6">
                                 <p class="text-sm text-slate-700 dark:text-slate-400 mb-4">Here you can upload multiple contacts using the provided template above.</p>
 
-                                <form method="POST" action="{{ route('tickets.bulk-draft-upload') }}" 
-                                  enctype="multipart/form-data" 
-                                  x-data="{ isUploading: false }" 
-                                  @submit.prevent="isUploading = true; $el.submit()">
+                               <form method="POST" action="{{ route('tickets.bulk-draft-upload') }}" 
+                                enctype="multipart/form-data" 
+                                x-data="{ isUploading: false }" 
+                                @submit.prevent="isUploading = true; $el.submit()"
+                                class="w-full max-w-lg mx-auto p-4">
                                 @csrf
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- File input -->
                                     <div>
                                         <label for="csv-upload" class="block text-sm font-medium mb-1">CSV File</label>
                                         <input type="file" name="draft_file" id="csv-upload" 
-                                               class="form-input" accept=".csv" required>
+                                            class="form-input w-full border rounded-lg p-2 text-sm" 
+                                            accept=".csv" required>
                                         <p class="text-xs text-gray-500 mt-1">Max 5MB. CSV format only.</p>
                                     </div>
 
-                                    <div class="flex items-center gap-3">
-                                        <button type="submit" class="btn bg-primary text-white w-40" :disabled="isUploading">
+                                    <!-- Button -->
+                                    <div class="flex flex-col md:flex-row items-start md:items-center gap-3">
+                                        <button type="submit" 
+                                                class="btn bg-primary text-white w-full md:w-40 rounded-lg px-4 py-2 text-sm font-medium shadow-sm"
+                                                :disabled="isUploading">
                                             <span x-show="!isUploading">Upload</span>
                                             <span x-show="isUploading">Uploading...</span>
                                         </button>
-                                        <svg x-show="isUploading" class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        <svg x-show="isUploading" 
+                                            class="animate-spin h-5 w-5 text-primary" 
+                                            xmlns="http://www.w3.org/2000/svg" 
+                                            fill="none" 
+                                            viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" 
+                                                    stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" 
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 
+                                                    0 5.373 0 12h4zm2 5.291A7.962 
+                                                    7.962 0 014 12H0c0 3.042 1.135 
+                                                    5.824 3 7.938l3-2.647z"></path>
                                         </svg>
                                     </div>
                                 </div>
                             </form>
+
                                 {{-- <form method="POST" enctype="multipart/form-data">
                                     <div class="grid grid-cols-1 md:grid-cols-2  gap-6">
                                         <div>
