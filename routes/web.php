@@ -269,9 +269,13 @@ Route::middleware('auth')->group(function () {
         ->prefix('notifications')
         ->name('notifications.')
         ->group(function(){
-            Route::get('/notifications', 'index');
-            Route::get('/notifications/{id}', 'show');
-            Route::post('/notifications/read/{id}', 'viewNotification');
+            // Route::get('/notifications', 'index');
+            // Route::get('/notifications/{id}', 'show');
+            // Route::post('/notifications/read/{id}', 'viewNotification');
+
+            Route::get('/', 'index')->name('index');
+            Route::post('/mark-as-read/{notification}', 'markAsRead')->name('mark-as-read');
+            Route::post('/mark-all-read', 'markAllAsRead')->name('mark-all-read');
         });
     });
 });
