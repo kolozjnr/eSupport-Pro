@@ -84,7 +84,7 @@ class TicketsController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
+            'description' => 'required',
             'phone_numbers' => 'required|array|min:1',
             'phone_numbers.*.number' => 'required|string|max:20',
         ]);
@@ -572,7 +572,7 @@ public function updateSupportTicket(Request $request, $id)
     $validator = Validator::make($request->all(), [
        'service_type' => 'required',
         'name' => 'required|string|max:255',
-        'description' => 'required|string|max:500',
+        'description' => 'required|string',
         'phone_numbers' => 'required|array|min:1',
         'phone_numbers.*' => 'required|max:20',
         'file' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
