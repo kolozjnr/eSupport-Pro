@@ -9,7 +9,7 @@
     </button>
 
     <!-- Topbar Brand Logo -->
-    <a href="index.html" class="logo-box">
+    <a href="/dashboard" class="logo-box">
         <!-- Light Brand Logo -->
         <div class="logo-light">
             <img src="{{ asset('storage/'. $settings->light_logo) }}" class="logo-lg h-6" alt="Light logo">
