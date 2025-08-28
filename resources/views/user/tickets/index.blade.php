@@ -4,6 +4,9 @@
     <!-- Start Page Content here -->
     <!-- ============================================================== -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare./ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
     <div class="page-content">
         @include('../layouts.top-header')
      
@@ -815,6 +818,70 @@
             }
         }));
     });
+
+    // Utility: download blob
+// window.downloadFile = async function (filename, content, type) {
+//   const blob = new Blob([content], { type });
+//   const link = document.createElement("a");
+//   link.href = URL.createObjectURL(blob);
+//   link.download = filename;
+//   link.click();
+//   URL.revokeObjectURL(link.href);
+// }
+
+// // Export current page to CSV
+// window.exportGridToCSV = async function () {
+//     if (!grid || !grid.state) {
+//         console.error("Grid is not initialized yet");
+//         return;
+//     }
+
+//     const data = grid.state.data;
+//     const csvRows = [];
+
+//     // extract headers
+//     const headers = grid.config.columns.map(col => col.name);
+//     csvRows.push(headers.join(","));
+
+//     // extract data
+//     data.forEach(row => {
+//         csvRows.push(row.map(cell => `"${cell?.data ?? ''}"`).join(","));
+//     });
+
+//     // download file
+//     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
+//     const link = document.createElement("a");
+//     link.href = URL.createObjectURL(blob);
+//     link.download = "tickets.csv";
+//     link.click();
+// }
+
+
+// // Export current page to PDF (using jsPDF)
+// function exportGridToPDF(grid, filename = "tickets.pdf") {
+//     alert()
+//   const { jsPDF } = window.jspdf; // Make sure you loaded jspdf via CDN
+//   const doc = new jsPDF();
+
+//   const state = grid.config.store.state;
+//   const { data, header } = state;
+//   const { page, limit } = state.pagination;
+//   const start = (page - 1) * limit;
+//   const end = start + limit;
+//   const currentPageData = data.slice(start, end);
+
+//   const headers = header.map(h => h?.name || h);
+//   const rows = currentPageData.map(row => row._cells.map(c => c.data || ""));
+
+//   doc.autoTable({
+//     head: [headers],
+//     body: rows,
+//     styles: { fontSize: 8 },
+//   });
+
+//   doc.save(filename);
+// }
+
 
 
 

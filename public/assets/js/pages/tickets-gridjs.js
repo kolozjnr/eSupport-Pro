@@ -798,6 +798,8 @@ async function initializeCustomerOnbehalfTicketsTable() {
                      ticket.id, // Second column - hidden ID
                 ])
             }).render(tableContainer);
+
+            window.grid = grid;
             
             // Add event listener for checkboxes
             document.addEventListener('click', function(e) {
@@ -839,16 +841,13 @@ async function initializeCustomerOnbehalfTicketsTable() {
                 </button>
             `;
             tableContainer.prepend(exportButtons);
-
-           
-            
             // // Export functionality
-            document.querySelector('.export-csv').addEventListener('click', () => {
-                grid.plugins.export.csv();
+           document.querySelector('.export-csv').addEventListener('click', () => {
+            exportGridToCSV(grid);
             });
-            
+
             document.querySelector('.export-pdf').addEventListener('click', () => {
-                grid.plugins.export.pdf();
+            exportGridToPDF(grid);
             });
         }
     } catch (error) {
@@ -868,6 +867,72 @@ async function initializeCustomerOnbehalfTicketsTable() {
         if (loadingIndicator) loadingIndicator.classList.add('hidden');
     }
 }
+
+// Global cleaner
+window.cleanCellValue = function (value) {
+    if (!value) return ""; // blank if null/undefined/empty
+    if (typeof value === "object") return ""; // prevent [object Object]
+    return String(value);
+};
+
+// Helper to get today's date in YYYY-MM-DD
+window.getCurrentDateString = function() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+}
+
+
+// Export CSV
+window.exportGridToCSV = async function (grid) {
+    const data = await grid.config.data;
+    const headers = grid.config.columns.map(col => col.name).join(",");
+
+    const csv = data.map(row =>
+        row.map(cell => `"${window.cleanCellValue(cell)}"`).join(",")
+    );
+    const csvContent = [headers].concat(csv).join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `grid_export_${getCurrentDateString()}.csv`;
+    link.click();
+};
+
+// Export PDF
+window.exportGridToPDF = async function (grid) {
+    const data = await grid.config.data;
+    const headers = grid.config.columns.map(col => col.name);
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.autoTable({
+        head: [headers],
+        body: data.map(row => row.map(cell => window.cleanCellValue(cell)))
+    });
+    doc.save(`grid_export_${getCurrentDateString()}.pdf`);
+};
+
+// Export Excel
+window.exportGridToExcel = async function (grid) {
+    const data = await grid.config.data;
+    const headers = grid.config.columns.map(col => col.name);
+
+    const worksheet = XLSX.utils.aoa_to_sheet([
+        headers,
+        ...data.map(row => row.map(cell => window.cleanCellValue(cell)))
+    ]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Grid Data");
+    XLSX.writeFile(workbook, `grid_export_${getCurrentDateString()}.xlsx`);
+};
+
+
+
 
 //Get Ticket poll for Support Staffs
 async function initializeTicketsPollTable() {
@@ -1484,6 +1549,8 @@ async function initializeSupportTicketsTable() {
                     ''                       // [8] Actions (empty, handled by formatter)
                 ])
             }).render(tableContainer);
+
+            window.grid = grid;
             
             // Rest of your code (event listeners, export buttons, etc.)
             document.addEventListener('click', function(e) {
@@ -1523,13 +1590,11 @@ async function initializeSupportTicketsTable() {
             tableContainer.prepend(exportButtons);
             
             document.querySelector('.export-csv').addEventListener('click', () => {
-                console.log('grrrr', grid);
-
-                grid.plugins.export.csv();
+            exportGridToCSV(grid);
             });
-            
+
             document.querySelector('.export-pdf').addEventListener('click', () => {
-                grid.plugins.export.pdf();
+            exportGridToPDF(grid);
             });
         }
     } catch (error) {
@@ -1549,6 +1614,69 @@ async function initializeSupportTicketsTable() {
         if (loadingIndicator) loadingIndicator.classList.add('hidden');
     }
 }
+
+    // // Global cleaner
+window.cleanCellValue = function (value) {
+    if (!value) return ""; // blank if null/undefined/empty
+    if (typeof value === "object") return ""; // prevent [object Object]
+    return String(value);
+};
+
+// Helper to get today's date in YYYY-MM-DD
+window.getCurrentDateString = function() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+}
+
+
+// Export CSV
+window.exportGridToCSV = async function (grid) {
+    const data = await grid.config.data;
+    const headers = grid.config.columns.map(col => col.name).join(",");
+
+    const csv = data.map(row =>
+        row.map(cell => `"${window.cleanCellValue(cell)}"`).join(",")
+    );
+    const csvContent = [headers].concat(csv).join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `grid_export_${getCurrentDateString()}.csv`;
+    link.click();
+};
+
+// Export PDF
+window.exportGridToPDF = async function (grid) {
+    const data = await grid.config.data;
+    const headers = grid.config.columns.map(col => col.name);
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.autoTable({
+        head: [headers],
+        body: data.map(row => row.map(cell => window.cleanCellValue(cell)))
+    });
+    doc.save(`grid_export_${getCurrentDateString()}.pdf`);
+};
+
+// Export Excel
+window.exportGridToExcel = async function (grid) {
+    const data = await grid.config.data;
+    const headers = grid.config.columns.map(col => col.name);
+
+    const worksheet = XLSX.utils.aoa_to_sheet([
+        headers,
+        ...data.map(row => row.map(cell => window.cleanCellValue(cell)))
+    ]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Grid Data");
+    XLSX.writeFile(workbook, `grid_export_${getCurrentDateString()}.xlsx`);
+};
 
 async function initializeCustomerOnbehalfTicketsTable() {
     const tableContainer = document.getElementById("customer-tickets-onbehalf");
