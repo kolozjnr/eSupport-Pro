@@ -47,7 +47,7 @@ class TaskAssignedNotification extends Notification
             'ticket_ids' => $this->ticketIds,
             'assigned_at' => now(),
             'user_id' => $notifiable->id,
-            'url' => url('dashboard/tickets/view-single-ticket/' . $this->ticketIds),
+            'url' => url('dashboard/tickets'),
         ];
     }
 }
