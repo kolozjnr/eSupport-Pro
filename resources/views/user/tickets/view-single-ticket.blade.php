@@ -408,6 +408,11 @@
                         <span class="info-label">Priority</span>
                         <div class="info-value">High</div>
                     </div> --}}
+
+                    <div class="info-group">
+                        <span class="info-label text-xl text-slate-700 dark:text-slate-400">Subject</span>
+                        <div class="info-value text-lg text-slate-700 dark:text-slate-400">{{$ticket->name}}</div>
+                    </div>
                     
                     <div class="info-group">
                         <span class="info-label text-xl text-slate-700 dark:text-slate-400">Comment</span>
