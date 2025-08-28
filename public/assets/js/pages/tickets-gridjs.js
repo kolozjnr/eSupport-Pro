@@ -168,7 +168,7 @@ class GridDatatable {
           },
           {
             name: 'Actions',
-            width: '150px',
+            width: '180px',
             formatter: (cell, row) => {
               const ticketId = row.cells[1].data;
               const status = row.cells[5].data?.toLowerCase();
@@ -184,6 +184,10 @@ class GridDatatable {
                   <a href="/dashboard/tickets/${ticketId}/edit-ticket" class="text-warning me-2" title="Edit">
                     <i class="mgc_edit_line text-lg"></i>
                   </a>
+                  <a href="/dashboard/tickets/view-single-ticket/${ticketId}" class="text-primary me-2" title="View">
+                        <i class="mgc_eye_2_line text-xl"></i>
+                    </a>
+
                   <a href="javascript:void(0);" onclick="deleteTicket('${ticketId}')" class="text-danger me-2" title="Delete">
                     <i class="mgc_delete_line text-xl"></i>
                   </a>
@@ -1435,6 +1439,7 @@ async function initializeSupportTicketsTable() {
                                      <a href="/dashboard/chat/ticket/${ticketId}" class="text-primary me-2" title="Chat">
                                         <i class="mgc_chat_2_line text-xl"></i>
                                     </a>
+                                    
                             `;
                             
                             if (status === 'open' || status === 'processing' || status === 'assigned') {
