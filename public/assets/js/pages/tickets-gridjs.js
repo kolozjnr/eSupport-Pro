@@ -83,11 +83,19 @@ class GridDatatable {
         //     formatter: (cell) => gridjs.html(`<span>${cell || 'N/A'}</span>`),
         //     sort: true
         //   },
-          {
-            name: 'Description',
-            formatter: (cell) => gridjs.html(`<span>${cell || 'N/A'}</span>`),
-            sort: true
-          },
+            {
+                name: 'Description',
+                formatter: (cell) => {
+                    const maxLength = 35;
+                    const text = cell || 'N/A';
+                    const truncated = text.length > maxLength 
+                        ? text.substring(0, maxLength) + '...' 
+                        : text;
+                    return gridjs.html(`<span title="${text}">${truncated}</span>`);
+                },
+                sort: true,
+                width: 200
+            },
           {
             name: 'Phone Numbers',
             formatter: (cell) => {
@@ -297,10 +305,18 @@ async function initializeCustomerOnbehalfTicketsTable() {
                         sort: true,
                         width: '80px'
                     },
-                    {
+                      {
                         name: 'Description',
-                        formatter: (cell) => gridjs.html(`<span>${cell || 'N/A'}</span>`),
-                        sort: true
+                        formatter: (cell) => {
+                            const maxLength = 35;
+                            const text = cell || 'N/A';
+                            const truncated = text.length > maxLength 
+                                ? text.substring(0, maxLength) + '...' 
+                                : text;
+                            return gridjs.html(`<span title="${text}">${truncated}</span>`);
+                        },
+                        sort: true,
+                        width: '200px'
                     },
                     {
                         name: 'Status',
@@ -547,10 +563,17 @@ async function initializeCustomerOnbehalfTicketsTable() {
                         width: '80px'
                     },
                     {
-                        id: 'name',
                         name: 'Description',
-                        formatter: (cell) => gridjs.html(`<span>${cell || 'N/A'}</span>`),
-                        sort: true
+                        formatter: (cell) => {
+                            const maxLength = 35;
+                            const text = cell || 'N/A';
+                            const truncated = text.length > maxLength 
+                                ? text.substring(0, maxLength) + '...' 
+                                : text;
+                            return gridjs.html(`<span title="${text}">${truncated}</span>`);
+                        },
+                        sort: true,
+                        width: '200px'
                     },
                     {
                         id: 'customer_name',
@@ -892,10 +915,17 @@ async function initializeTicketsPollTable() {
                         width: '80px'
                     },
                     {
-                        id: 'name',
                         name: 'Description',
-                        formatter: (cell) => gridjs.html(`<span>${cell || 'N/A'}</span>`),
-                        sort: true
+                        formatter: (cell) => {
+                            const maxLength = 35;
+                            const text = cell || 'N/A';
+                            const truncated = text.length > maxLength 
+                                ? text.substring(0, maxLength) + '...' 
+                                : text;
+                            return gridjs.html(`<span title="${text}">${truncated}</span>`);
+                        },
+                        sort: true,
+                        width: '200px'
                     },
                     {
                         id: 'customer_name',
@@ -1280,8 +1310,16 @@ async function initializeSupportTicketsTable() {
                     },
                     {
                         name: 'Description',
-                        formatter: (cell) => gridjs.html(`<span>${cell || 'N/A'}</span>`),
-                        sort: true
+                        formatter: (cell) => {
+                            const maxLength = 35;
+                            const text = cell || 'N/A';
+                            const truncated = text.length > maxLength 
+                                ? text.substring(0, maxLength) + '...' 
+                                : text;
+                            return gridjs.html(`<span title="${text}">${truncated}</span>`);
+                        },
+                        sort: true,
+                        width: '200px'
                     },
                     {
                         name: 'Customer Name',
@@ -1555,8 +1593,16 @@ async function initializeCustomerOnbehalfTicketsTable() {
                     },
                     {
                         name: 'Description',
-                        formatter: (cell) => gridjs.html(`<span>${cell || 'N/A'}</span>`),
-                        sort: true
+                        formatter: (cell) => {
+                            const maxLength = 35;
+                            const text = cell || 'N/A';
+                            const truncated = text.length > maxLength 
+                                ? text.substring(0, maxLength) + '...' 
+                                : text;
+                            return gridjs.html(`<span title="${text}">${truncated}</span>`);
+                        },
+                        sort: true,
+                        width: '200px'
                     },
                     {
                         name: 'Status',
