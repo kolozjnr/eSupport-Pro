@@ -401,7 +401,7 @@
                     
                     <div class="info-group">
                         <span class="info-label text-xl text-slate-700 dark:text-slate-400">Support Agent</span>
-                        <div class="info-value text-lg text-slate-700 dark:text-slate-400">{{$ticket->support->user->fname .' ' . $ticket->support->user->lname ?? ''}}</div>
+                        <div class="info-value text-lg text-slate-700 dark:text-slate-400">{{$ticket->support?->user?->fname .' ' . $ticket->support?->user?->lname ?? ''}}</div>
                     </div>
 {{--                     
                     <div class="info-group">
