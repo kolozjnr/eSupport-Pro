@@ -224,13 +224,13 @@ class ChatController extends Controller
         $customerUserId = (int)$ticket->customer->user_id;
         $supportUserId = (int)$ticket->support->user_id;
         
-        \Log::debug('hasAccessToTicket check', [
-            'user_id' => $userId,
-            'customer_user_id' => $customerUserId,
-            'support_user_id' => $supportUserId,
-            'is_customer' => $customerUserId === $userId,
-            'is_support' => $supportUserId === $userId
-        ]);
+        // \Log::debug('hasAccessToTicket check', [
+        //     'user_id' => $userId,
+        //     'customer_user_id' => $customerUserId,
+        //     'support_user_id' => $supportUserId,
+        //     'is_customer' => $customerUserId === $userId,
+        //     'is_support' => $supportUserId === $userId
+        // ]);
         
         return $customerUserId === $userId || 
                $supportUserId === $userId;
@@ -480,10 +480,11 @@ class ChatController extends Controller
 
         // Broadcast message to others
         try {
-            broadcast(new MessageSent([
-                'message' => $formattedMessage,
-                'conversation_id' => $conversation->id
-            ]))->toOthers();
+            // broadcast(new MessageSent([
+            //     'message' => $formattedMessage,
+            //     'conversation_id' => $conversation->id
+            // ]))->toOthers();
+            broadcast(new MessageSent($message))->toOthers();
         } catch (\Exception $e) {
             \Log::error('Failed to broadcast message: ' . $e->getMessage());
         }

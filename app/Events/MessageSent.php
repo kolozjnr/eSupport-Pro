@@ -19,6 +19,11 @@ class MessageSent implements ShouldBroadcast
 
     public function __construct(Message $message)
     {
+        if (!$message instanceof Message) {
+        \Log::error('MessageSent event received invalid message type: ' . gettype($message));
+        throw new \InvalidArgumentException('MessageSent event requires a Message model instance');
+        }
+    
         $this->message = $message->load('user');
     }
 

@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\UnivController;
+use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\TaskController;
@@ -19,10 +21,15 @@ use App\Http\Controllers\User\AdministratorController;
 use App\Http\Controllers\User\MonnifyPaymentController;
 use App\Http\Controllers\User\BusinesDeveloperController;
 use App\Http\Controllers\User\SupportPerfomanceController;
+use Illuminate\Http\Request;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+// This should be in routes/web.php
+Broadcast::routes(['middleware' => ['auth:web']]);
+
+
 
 Route::get('/test-403', function () {
     abort(403, 'This is a test 403 error');

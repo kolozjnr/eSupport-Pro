@@ -21,12 +21,12 @@
 
                             <div class="flex items-center gap-2">
                                 <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-                                <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400">Customer</a>
+                                <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400">Ticket</a>
                             </div>
 
                             <div class="flex items-center gap-2">
                                 <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-                                <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Edit Customer</a>
+                                <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Chat</a>
                             </div>
                         </div>
                 </div>
@@ -67,15 +67,15 @@
                                             <div class="flex items-center space-x-2">
                                                 <div x-show="connectionStatus === 'connected'" class="flex items-center text-green-600" style="display: none;">
                                                     <i class="fas fa-circle text-xs"></i>
-                                                    <span class="ml-1 text-xs">Connected</span>
+                                                    {{-- <span class="ml-1 text-xs">Connected</span> --}}
                                                 </div>
                                                 <div x-show="connectionStatus === 'connecting'" class="flex items-center text-yellow-600" style="display: none;">
                                                     <i class="fas fa-circle text-xs animate-pulse"></i>
-                                                    <span class="ml-1 text-xs">Connecting...</span>
+                                                    {{-- <span class="ml-1 text-xs">Connecting...</span> --}}
                                                 </div>
                                                 <div x-show="connectionStatus === 'disconnected'" class="flex items-center text-red-600" style="display: none;">
                                                     <i class="fas fa-circle text-xs"></i>
-                                                    <span class="ml-1 text-xs">Offline Mode</span>
+                                                    {{-- <span class="ml-1 text-xs">Offline Mode</span> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -169,8 +169,9 @@
 
                                         <!-- Emoji Button -->
                                         <button type="button" @click="toggleEmojiPicker" 
-                                                class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg">
-                                            <i class="fas fa-smile"></i>
+                                                class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-800 dark:hover:bg-slate-700 rounded-lg">
+                                            <i class="mgc_emoji_line"></i>
+                                            
                                         </button>
 
                                         <!-- Send Button - Always visible but conditionally enabled -->
@@ -178,10 +179,10 @@
                                                 :disabled="(!newMessage.trim() && selectedFiles.length === 0) || isSending"
                                                 :class="{
                                                     'bg-blue-600 hover:bg-blue-700': (newMessage.trim() || selectedFiles.length > 0) && !isSending,
-                                                    'bg-gray-300 dark:bg-gray-600 cursor-not-allowed': (!newMessage.trim() && selectedFiles.length === 0) || isSending
+                                                    'bg-gray-800 dark:bg-gray-600 cursor-not-allowed': (!newMessage.trim() && selectedFiles.length === 0) || isSending
                                                 }"
-                                                class="p-2 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
-                                            <i x-show="!isSending" class="fas fa-paper-plane"></i>
+                                                class="p-1 text-primary hover:text-black rounded-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                                            <i x-show="!isSending" class="mgc_send_line text-lg"></i>
                                             <i x-show="isSending" class="fas fa-spinner animate-spin"></i>
                                         </button>
                                     </form>
@@ -206,6 +207,8 @@
                 </div>
             </div>
         </main>
+
+        <span onclick="testAuth()">uuuu</span>
     </div>
 
     @push('scripts')
@@ -216,6 +219,41 @@
     @endpush
 
  <script>
+    // Test the endpoint directly
+function testAuth() {
+    // Check if CSRF token exists
+const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+console.log('CSRF Token:', csrfToken);
+
+// Test auth endpoint
+fetch('/debug-broadcast', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+    },
+    credentials: 'same-origin', // Important for Laravel 12
+    body: JSON.stringify({
+        socket_id: 'test.123',
+        channel_name: 'private-conversation.103'
+    })
+})
+.then(response => {
+    console.log('Status:', response.status);
+    console.log('Content-Type:', response.headers.get('content-type'));
+    return response.text();
+})
+.then(data => {
+    console.log('Raw response:', data);
+    if (data.trim() === '') {
+        console.log('Empty response - check if BroadcastServiceProvider is loaded');
+    }
+});
+}
+
+
         // Global configuration - moved before Alpine initialization
         window.ChatConfig = {
             ticketId: {{ $ticket->id }},
@@ -245,9 +283,10 @@
                 pusher: null,
                 channel: null,
                 typingTimer: null,
-                connectionStatus: 'disconnected', // connected, connecting, disconnected
+                connectionStatus: 'disconnected',
                 errorMessage: '',
                 pollingInterval: null,
+                lastMessageId: 0,
                 
                 otherUser: {
                     id: window.ChatConfig?.otherUserId || null,
@@ -259,49 +298,40 @@
                 
                 // Initialize
                 init() {
-            console.log('Alpine.js initializing chat app...');
-            
-            // Debug ChatConfig
-            console.log('ChatConfig available:', window.ChatConfig);
-            console.log('Pusher key:', window.ChatConfig?.pusherKey);
-            console.log('Pusher cluster:', window.ChatConfig?.pusherCluster);
-            
-            if (!window.ChatConfig) {
-                console.error('Chat configuration is missing');
-                this.showError('Chat configuration is missing');
-                return;
-            }
+                    console.log('Alpine.js initializing chat app...');
+                    
+                    if (!window.ChatConfig) {
+                        console.error('Chat configuration is missing');
+                        this.showError('Chat configuration is missing');
+                        return;
+                    }
 
-            // Validate Pusher credentials
-            if (!window.ChatConfig.pusherKey || window.ChatConfig.pusherKey.trim() === '') {
-                console.error('Pusher key is missing or empty');
-                this.showError('Real-time connection not configured');
-                this.setupPolling(); // Use polling as fallback
-                return;
-            }
+                    // Set initial values
+                    this.ticketId = window.ChatConfig.ticketId;
+                    this.otherUserId = window.ChatConfig.otherUserId;
+                    this.currentUserId = window.ChatConfig.currentUserId;
+                    this.otherUser.id = this.otherUserId;
+                    this.otherUser.initials = this.getInitials(this.otherUser.name);
+                    
+                    console.log('Chat initialized with:', {
+                        ticketId: this.ticketId,
+                        otherUserId: this.otherUserId,
+                        currentUserId: this.currentUserId
+                    });
+                    
+                    // Start loading
+                    setTimeout(() => {
+                        this.loadOtherUserInfo();
+                        this.loadMessages();
+                        this.initializeRealtimeConnection();
+                    }, 10);
 
-            // Set initial values
-            this.ticketId = window.ChatConfig.ticketId;
-            this.otherUserId = window.ChatConfig.otherUserId;
-            this.currentUserId = window.ChatConfig.currentUserId;
-            this.otherUser.id = this.otherUserId;
-            this.otherUser.initials = this.getInitials(this.otherUser.name);
-            
-            // Initialize Echo if available
-            if (window.Echo) {
-                console.log('Echo is available, proceeding with real-time setup');
-            } else {
-                console.warn('Echo is not available, will use polling');
-            }
-            
-            // Start loading with delay
-            setTimeout(() => {
-                this.loadOtherUserInfo();
-                this.loadMessages();
-                this.initializeRealtimeConnection();
-            }, 100);
-        },
-
+                    // setInterval(() => {
+                    //     this.loadOtherUserInfo();
+                    //     this.loadMessages();
+                    //     this.initializeRealtimeConnection();
+                    // }, 10000)
+                },
 
                 // Error handling
                 showError(message) {
@@ -314,29 +344,29 @@
 
                 // Load other user info
                 async loadOtherUserInfo() {
-                    try {
-                        // Use the correct API endpoint
-                        const response = await this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/conversation`);
-                        if (response.ok) {
-                            const data = await response.json();
-                            console.log('Conversation API response:', data);
-                            
-                            if (data.other_user) {
-                                this.otherUser = {
-                                    ...this.otherUser,
-                                    ...data.other_user,
-                                    name: data.other_user.name || this.otherUser.name,
-                                    initials: data.other_user.initials || this.getInitials(data.other_user.name || this.otherUser.name)
-                                };
-                            }
-                        } else {
-                            console.error('Failed to load conversation:', response.status);
+                try {
+                    // Use the correct API endpoint
+                    const response = await this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/conversation`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Conversation API response:', data);
+                        
+                        if (data.other_user) {
+                            this.otherUser = {
+                                ...this.otherUser,
+                                ...data.other_user,
+                                name: data.other_user.name || this.otherUser.name,
+                                initials: data.other_user.initials || this.getInitials(data.other_user.name || this.otherUser.name)
+                            };
                         }
-                    } catch (error) {
-                        console.log('Could not load extended user info:', error.message);
-                        // This is not critical, we have basic info
+                    } else {
+                        console.error('Failed to load conversation:', response.status);
                     }
-                },
+                } catch (error) {
+                    console.log('Could not load extended user info:', error.message);
+                    // This is not critical, we have basic info
+                }
+            },
 
                 // Get initials from name
                 getInitials(name) {
@@ -348,78 +378,52 @@
                         .substring(0, 2);
                 },
 
-                // Initialize real-time connection with fallback
+               
                 initializeRealtimeConnection() {
-                    if (window.ChatConfig.pusherKey && window.ChatConfig.pusherKey.trim()) {
-                        this.initializePusher();
-                    } else {
-                        console.log('Pusher not configured, using polling fallback');
+                    console.log("Initializing Echo listener...");
+
+                    if (!window.Echo) {
+                        console.error("Echo is not initialized, falling back to polling...");
                         this.setupPolling();
+                        return;
                     }
+
+                //    const channelName = `private-conversation.${this.ticketId}`;
+                //     window.Echo.private(channelName)
+                //         .listen('.new-message', (e) => {
+                //             console.log("Echo received new message:", e.message);
+                //             this.handleNewMessage(e.message);
+                //         })
+
+                //         .listen("UserTyping", (e) => {
+                //             console.log("Echo received typing event:", e);
+                //             if (e.user_id !== this.currentUserId) {
+                //                 this.handleTypingIndicator(e);
+                //             }
+                //         });
+
+                const channelName = `conversation.${this.ticketId}`;
+                console.log('Subscribing to channel:', channelName);
+
+                window.Echo.private(channelName)
+                    .listen('.new-message', (e) => {
+                        console.log("Echo received new message:", e);
+                        this.handleNewMessage(e.message);
+                    })
+                    .listen('.user-typing', (e) => {
+                        console.log("Echo received typing event:", e);
+                    })
+                    .error((error) => {
+                        console.error('Echo error:', error);
+                    });
+
+                    console.log(`✅ Subscribed to Echo channel: ${channelName}`);
+                    this.connectionStatus = "connected";
+                    this.clearPolling();
                 },
 
-                // Pusher Setup
-                initializePusher() {
-            console.log('Initializing real-time connection...');
-            this.connectionStatus = 'connecting';
-            
-            try {
-                // Check if Echo is available and properly initialized
-                if (!window.Echo) {
-                    console.error('Laravel Echo is not initialized');
-                    this.setupPolling();
-                    return;
-                }
-
-                // Get the underlying Pusher connection for status monitoring
-                this.pusher = window.Echo.connector.pusher;
-                
-                // Connection event handlers
-                this.pusher.connection.bind('connected', () => {
-                    console.log('Pusher connected successfully');
-                    this.connectionStatus = 'connected';
-                    this.clearPolling();
-                });
-
-                this.pusher.connection.bind('disconnected', () => {
-                    console.log('Pusher disconnected');
-                    this.connectionStatus = 'disconnected';
-                    this.setupPolling();
-                });
-
-                this.pusher.connection.bind('error', (error) => {
-                    console.error('Pusher connection error:', error);
-                    this.connectionStatus = 'disconnected';
-                    this.setupPolling();
-                });
-
-                // Subscribe to the ticket channel using Echo
-                const channelName = `ticket.${this.ticketId}`;
-                console.log('Subscribing to channel via Echo:', channelName);
-
-                this.channel = window.Echo.private(channelName);
-
-                this.channel.listen('.new-message', (data) => {
-                    console.log('✅ Received new message:', data);
-                    this.handleNewMessage(data);
-                });
-
-                this.channel.listen('.UserTyping', (data) => {
-                    if (data.user_id !== this.currentUserId) {
-                        this.handleTypingIndicator(data);
-                    }
-                });
 
                 
-                console.log('Echo channel subscription completed');
-
-            } catch (error) {
-                console.error('Error initializing real-time connection:', error);
-                this.connectionStatus = 'disconnected';
-                this.setupPolling();
-            }
-        },
-
                 // Fallback polling mechanism
                 setupPolling() {
                     if (this.pollingInterval) return; // Already polling
@@ -439,55 +443,72 @@
 
                 // Load messages
                 async loadMessages() {
-                    this.isLoadingMessages = true;
-                    try {
-                        const response = await this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/messages`);
-                        if (response.ok) {
-                            this.messages = await response.json();
-                            console.log('Messages loaded:', this.messages.length);
-                            // Mark messages as read
-                            this.markAsRead();
+                this.isLoadingMessages = true;
+                try {
+                    const response = await this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/messages`);
+                    if (response.ok) {
+                        const messages = await response.json();
+                        // Ensure we always have an array
+                        this.messages = Array.isArray(messages) ? messages : [];
+                        
+                        if (this.messages.length > 0) {
+                            this.lastMessageId = Math.max(...this.messages.map(m => m.id));
                         } else {
-                            console.log('Message endpoint failed with status:', response.status);
-                            this.messages = [];
+                            this.lastMessageId = 0;
                         }
-                    } catch (error) {
-                        console.error('Error loading messages:', error);
-                        this.messages = [];
-                    } finally {
-                        this.isLoadingMessages = false;
-                        this.$nextTick(() => {
-                            this.scrollToBottom();
-                        });
+                        
+                        console.log('Messages loaded:', this.messages.length, 'Last message ID:', this.lastMessageId);
+                        // Mark messages as read
+                        this.markAsRead();
+                    } else {
+                        console.log('Message endpoint failed with status:', response.status);
+                        this.messages = []; // Ensure it's always an array
                     }
-                },
+                } catch (error) {
+                    console.error('Error loading messages:', error);
+                    this.messages = []; // Ensure it's always an array
+                } finally {
+                    this.isLoadingMessages = false;
+                    this.$nextTick(() => {
+                        this.scrollToBottom();
+                    });
+                }
+            },
 
                 // Load only new messages (for polling)
                 async loadNewMessages() {
-                    try {
-                        const lastMessageId = this.messages.length > 0 ? Math.max(...this.messages.map(m => m.id)) : 0;
-                        const response = await this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/messages?after=${lastMessageId}`);
+                try {
+                    const response = await this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/messages?after=${this.lastMessageId}`);
+                    
+                    if (response.ok) {
+                        const newMessages = await response.json();
                         
-                        if (response.ok) {
-                            const newMessages = await response.json();
-                            if (Array.isArray(newMessages) && newMessages.length > 0) {
-                                // Filter out messages we already have
-                                const filteredMessages = newMessages.filter(msg => 
-                                    !this.messages.find(existing => existing.id === msg.id)
-                                );
-                                
-                                if (filteredMessages.length > 0) {
-                                    this.messages = [...this.messages, ...filteredMessages];
-                                    this.$nextTick(() => {
-                                        this.scrollToBottom();
-                                    });
-                                }
+                        // Ensure we have an array
+                        if (Array.isArray(newMessages) && newMessages.length > 0) {
+                            // Ensure this.messages is an array
+                            if (!Array.isArray(this.messages)) {
+                                console.error('this.messages is not an array, resetting');
+                                this.messages = [];
+                            }
+                            
+                            // Filter out messages we already have
+                            const filteredMessages = newMessages.filter(msg => 
+                                !this.messages.some(existing => existing.id === msg.id)
+                            );
+                            
+                            if (filteredMessages.length > 0) {
+                                this.messages = [...this.messages, ...filteredMessages];
+                                this.lastMessageId = Math.max(this.lastMessageId, ...filteredMessages.map(m => m.id));
+                                this.$nextTick(() => {
+                                    this.scrollToBottom();
+                                });
                             }
                         }
-                    } catch (error) {
-                        console.error('Error loading new messages:', error);
                     }
-                },
+                } catch (error) {
+                    console.error('Error loading new messages:', error);
+                }
+            },
 
                 // Make API calls with proper error handling
                 async makeApiCall(endpoint, options = {}) {
@@ -497,7 +518,8 @@
                         headers: {
                             'Accept': 'application/json',
                             'X-CSRF-TOKEN': window.ChatConfig.csrfToken,
-                            'X-Requested-With': 'XMLHttpRequest'
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Authorization': `Bearer ${window.ChatConfig}`
                         }
                     };
 
@@ -524,57 +546,73 @@
                 },
 
                 // Send message
-                async sendMessage() {
-                    if ((!this.newMessage.trim() && this.selectedFiles.length === 0) || this.isSending) {
-                        return;
-                    }
+                 async sendMessage() {
+                if ((!this.newMessage.trim() && this.selectedFiles.length === 0) || this.isSending) {
+                    return;
+                }
 
-                    this.isSending = true;
-                    const messageContent = this.newMessage.trim();
-                    const files = [...this.selectedFiles];
+                this.isSending = true;
+                const messageContent = this.newMessage.trim();
+                const files = [...this.selectedFiles];
+                
+                // Store for potential re-use if send fails
+                const originalMessage = this.newMessage;
+                const originalFiles = [...this.selectedFiles];
+                
+                this.newMessage = '';
+                this.selectedFiles = [];
+
+                try {
+                    const formData = new FormData();
                     
-                    this.newMessage = '';
-                    this.selectedFiles = [];
-
-                    try {
-                        const formData = new FormData();
-                        
-                        if (messageContent) {
-                            formData.append('content', messageContent);
-                        }
-                        
-                        files.forEach((file, index) => {
-                            formData.append(`files[${index}]`, file);
-                        });
-
-                        // Use a simple fetch without the makeApiCall wrapper
-                        const response = await fetch(`/dashboard/chat/ticket/${this.ticketId}/message`, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': window.ChatConfig.csrfToken,
-                                'X-Requested-With': 'XMLHttpRequest'
-                            },
-                            body: formData
-                        });
-
-                        if (response.ok) {
-                            const result = await response.json();
-                            if (this.connectionStatus !== 'connected') {
-                                this.messages.push(result);
-                            }
-                            this.$nextTick(() => this.scrollToBottom());
-                        } else {
-                            throw new Error(`HTTP ${response.status}`);
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        this.newMessage = messageContent;
-                        this.selectedFiles = files;
-                        this.showError('Failed to send message');
-                    } finally {
-                        this.isSending = false;
+                    if (messageContent) {
+                        formData.append('content', messageContent);
                     }
-                },
+                    
+                    files.forEach((file, index) => {
+                        formData.append(`files[${index}]`, file);
+                    });
+
+                    const response = await fetch(`/dashboard/chat/ticket/${this.ticketId}/message`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': window.ChatConfig.csrfToken,
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Authorization': `Bearer ${window.ChatConfig}`
+                        },
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('Message sent successfully:', result);
+                        
+                        // Ensure this.messages is an array
+                        if (!Array.isArray(this.messages)) {
+                            console.error('this.messages is not an array, resetting');
+                            this.messages = [];
+                        }
+                        
+                        // Add to messages if not already added via real-time
+                        if (!this.messages.some(m => m.id === result.id)) {
+                            this.messages.push(result);
+                            this.lastMessageId = Math.max(this.lastMessageId, result.id);
+                        }
+                        
+                        this.$nextTick(() => this.scrollToBottom());
+                    } else {
+                        const errorText = await response.text();
+                        throw new Error(`HTTP ${response.status}: ${errorText}`);
+                    }
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    this.newMessage = originalMessage;
+                    this.selectedFiles = originalFiles;
+                    this.showError('Failed to send message: ' + error.message);
+                } finally {
+                    this.isSending = false;
+                }
+            },
 
                 // Mark messages as read
                 async markAsRead() {
@@ -589,20 +627,54 @@
 
                 // Handle new message from real-time events
                 handleNewMessage(data) {
-                    // Avoid duplicate messages
-                    const exists = this.messages.find(msg => msg.id === data.message.id);
-                    if (!exists) {
-                        this.messages.push(data.message);
-                        this.$nextTick(() => {
-                            this.scrollToBottom();
-                        });
-                        // Mark new message as read if chat is active
-                        this.markAsRead();
-                    }
-                },
+                console.log('Handling new message event:', data);
+                
+                // Ensure messages is always an array
+                if (!Array.isArray(this.messages)) {
+                    console.error('this.messages is not an array, resetting to empty array');
+                    this.messages = [];
+                }
+                
+                // Handle different event data structures
+                let message = data;
+                
+                // If data has a message property (common in Laravel events)
+                if (data.message) {
+                    message = data.message;
+                }
+                
+                // If data has a data property with message
+                if (data.data && data.data.message) {
+                    message = data.data.message;
+                }
+                
+                // Check if message has required properties
+                if (!message || typeof message !== 'object' || !message.id) {
+                    console.error('Invalid message format received:', data);
+                    return;
+                }
+                
+                // Avoid duplicate messages - use safe array method
+                const exists = Array.isArray(this.messages) && 
+                               this.messages.some(msg => msg.id === message.id);
+                
+                if (!exists) {
+                    console.log('Adding new message to chat:', message);
+                    this.messages.push(message);
+                    this.lastMessageId = Math.max(this.lastMessageId, message.id);
+                    this.$nextTick(() => {
+                        this.scrollToBottom();
+                    });
+                    // Mark new message as read if chat is active
+                    this.markAsRead();
+                } else {
+                    console.log('Message already exists in chat:', message.id);
+                }
+            },
 
                 // Handle typing indicator
                 handleTypingIndicator(data) {
+                    console.log('Typing indicator received:', data);
                     this.isTyping = true;
                     clearTimeout(this.typingTimer);
                     this.typingTimer = setTimeout(() => {
@@ -617,10 +689,22 @@
                         clearTimeout(this.typingTimer);
                         
                         this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/typing`, {
-                            method: 'POST'
+                            method: 'POST',
+                            body: JSON.stringify({ is_typing: true })
                         }).catch(error => {
                             console.log('Could not send typing indicator:', error);
                         });
+                        
+                        // Reset timer to stop typing indicator after 3 seconds
+                        this.typingTimer = setTimeout(() => {
+                            // Send stop typing indicator
+                            this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/typing`, {
+                                method: 'POST',
+                                body: JSON.stringify({ is_typing: false })
+                            }).catch(error => {
+                                console.log('Could not send stop typing indicator:', error);
+                            });
+                        }, 3000);
                     }
                 },
 
