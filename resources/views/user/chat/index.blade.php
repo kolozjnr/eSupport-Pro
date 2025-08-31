@@ -504,7 +504,7 @@
                 } catch (error) {
                     console.error('Error loading new messages:', error);
                 }
-            }
+            },
 
                 // Make API calls with proper error handling
                 async makeApiCall(endpoint, options = {}) {
