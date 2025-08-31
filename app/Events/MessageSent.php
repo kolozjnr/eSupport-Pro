@@ -46,7 +46,7 @@ class MessageSent implements ShouldBroadcast
                 'type' => $this->message->type,
                 'attachments' => $this->message->attachments,
                 'user_id' => $this->message->user_id,
-                'is_mine' => false,
+                //'is_mine' => false,
                 'formatted_time' => $this->message->created_at->format('H:i'),
                 'read_at' => $this->message->read_at,
                 'created_at' => $this->message->created_at,

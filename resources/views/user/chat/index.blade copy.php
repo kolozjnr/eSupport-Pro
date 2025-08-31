@@ -399,15 +399,10 @@
 
                 this.channel = window.Echo.private(channelName);
 
-                
                 this.channel.listen('.new-message', (data) => {
                     console.log('✅ Received new message:', data);
-                    const message = data.message;
-                    message.is_mine = message.user_id === this.currentUserId;
-                    
-                    console.log('Message processed:', message);
-                    console.log('Is mine?', message.is_mine, 'User ID:', message.user_id, 'Current User:', this.currentUserId);
-                    
+                    const message = e.message;
+                    message.is_mine = message.user_id === currentUserId;
                     this.handleNewMessage(data);
                 });
 
@@ -450,14 +445,7 @@
                     try {
                         const response = await this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/messages`);
                         if (response.ok) {
-                            const messages = await response.json();
-                            
-                            // Set is_mine for each message
-                            this.messages = messages.map(message => ({
-                                ...message,
-                                is_mine: message.user_id === this.currentUserId
-                            }));
-                            
+                            this.messages = await response.json();
                             console.log('Messages loaded:', this.messages.length);
                             // Mark messages as read
                             this.markAsRead();
@@ -478,33 +466,30 @@
 
                 // Load only new messages (for polling)
                 async loadNewMessages() {
-                try {
-                    const lastMessageId = this.messages.length > 0 ? Math.max(...this.messages.map(m => m.id)) : 0;
-                    const response = await this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/messages?after=${lastMessageId}`);
-                    
-                    if (response.ok) {
-                        const newMessages = await response.json();
-                        if (Array.isArray(newMessages) && newMessages.length > 0) {
-                            // Filter out messages we already have and set is_mine
-                            const filteredMessages = newMessages
-                                .filter(msg => !this.messages.find(existing => existing.id === msg.id))
-                                .map(message => ({
-                                    ...message,
-                                    is_mine: message.user_id === this.currentUserId
-                                }));
-                            
-                            if (filteredMessages.length > 0) {
-                                this.messages = [...this.messages, ...filteredMessages];
-                                this.$nextTick(() => {
-                                    this.scrollToBottom();
-                                });
+                    try {
+                        const lastMessageId = this.messages.length > 0 ? Math.max(...this.messages.map(m => m.id)) : 0;
+                        const response = await this.makeApiCall(`/dashboard/chat/ticket/${this.ticketId}/messages?after=${lastMessageId}`);
+                        
+                        if (response.ok) {
+                            const newMessages = await response.json();
+                            if (Array.isArray(newMessages) && newMessages.length > 0) {
+                                // Filter out messages we already have
+                                const filteredMessages = newMessages.filter(msg => 
+                                    !this.messages.find(existing => existing.id === msg.id)
+                                );
+                                
+                                if (filteredMessages.length > 0) {
+                                    this.messages = [...this.messages, ...filteredMessages];
+                                    this.$nextTick(() => {
+                                        this.scrollToBottom();
+                                    });
+                                }
                             }
                         }
+                    } catch (error) {
+                        console.error('Error loading new messages:', error);
                     }
-                } catch (error) {
-                    console.error('Error loading new messages:', error);
-                }
-            }
+                },
 
                 // Make API calls with proper error handling
                 async makeApiCall(endpoint, options = {}) {
@@ -606,11 +591,6 @@
 
                 // Handle new message from real-time events
                 handleNewMessage(data) {
-                    // Ensure is_mine is set if not already
-                    if (data.message.is_mine === undefined) {
-                        data.message.is_mine = data.message.user_id === this.currentUserId;
-                    }
-                    
                     // Avoid duplicate messages
                     const exists = this.messages.find(msg => msg.id === data.message.id);
                     if (!exists) {
