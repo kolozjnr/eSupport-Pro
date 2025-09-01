@@ -838,6 +838,9 @@ loadChartData();
                     document.getElementById('onboarded_customers').textContent = data.totalCustomers || 0;
                     document.getElementById('active_customers').textContent = data.activeCustomers || 0;
                     document.getElementById('inactive_customers').textContent = data.inactiveCustomers || 0;
+                    document.getElementById('total_customercurr_month').textContent = data.currentMonthTotal || 0;
+                    document.getElementById('active_customers_curr_month').textContent = data.currentMonthActive || 0;
+                    document.getElementById('inactive_customers_curr_month').textContent = data.currentMonthInactive || 0;
                 })
                 .catch(error => {
                     console.error('Error fetching business developer data:', error);

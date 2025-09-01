@@ -15,13 +15,38 @@ class BusinesDeveloperController extends Controller
     {
         $user = auth()->user();
         if(auth()->user()->hasRole('businessdeveloper')){
-            $totalCustomers = Customer::where('business_developer_id', $user->id)->count();
-            $activeCustomers = Customer::where('business_developer_id', $user->id)
-                ->where('is_subscribed', 1)->count();
-            $inactiveCustomers = Customer::where('business_developer_id', $user->id)
-                ->where('is_subscribed', 0)->count();
+                $bizdevId = $user->getBusinessDeveloperId();
+                //dd($bizdevId);
 
-            $chartData = Customer::where('business_developer_id', $user->id)
+            // Total counts
+            $totalCustomers   = Customer::where('business_developer_id', $bizdevId)->count();
+            $activeCustomers  = Customer::where('business_developer_id', $bizdevId)
+                                        ->where('is_subscribed', '1')
+                                        ->count();
+            $inactiveCustomers = Customer::where('business_developer_id', $bizdevId)
+                                        ->where('is_subscribed', '0')
+                                        ->count();
+
+            // Current month counts
+            $currentMonthTotal = Customer::where('business_developer_id', $bizdevId)
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count();
+
+            $currentMonthActive = Customer::where('business_developer_id', $bizdevId)
+                ->where('is_subscribed', '1')
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count();
+
+            $currentMonthInactive = Customer::where('business_developer_id', $bizdevId)
+                ->where('is_subscribed', '0')
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count();
+
+
+            $chartData = Customer::where('business_developer_id', $bizdevId)
                 ->where('is_subscribed', 1)
                 ->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as count')
                 ->where('created_at', '>=', now()->subMonths(11)->startOfMonth())
@@ -36,7 +61,7 @@ class BusinesDeveloperController extends Controller
                 $monthYear = $date->format('Y-m');
                 $monthName = $date->format('M Y');
                 
-                $count = Customer::where('business_developer_id', $user->id)
+                $count = Customer::where('business_developer_id', $bizdevId)
                     ->where('is_subscribed', 1)
                     ->whereYear('created_at', $date->year)
                     ->whereMonth('created_at', $date->month)
@@ -54,6 +79,9 @@ class BusinesDeveloperController extends Controller
                 'totalCustomers' => $totalCustomers,
                 'activeCustomers' => $activeCustomers,
                 'inactiveCustomers' => $inactiveCustomers,
+                'currentMonthTotal' => $currentMonthTotal,
+                'currentMonthActive' => $currentMonthActive,
+                'currentMonthInactive' => $currentMonthInactive,
                 'chartData' => $chartData,
                 'chartDataComplete' => $chartDataComplete // Complete 12 months with 0 counts included
             ]);

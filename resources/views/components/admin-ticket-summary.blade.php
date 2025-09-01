@@ -782,7 +782,7 @@
             <h4 class="header-title">Montly Summary</h4>
         </div>
         <div class="px-4 py-2 bg-warning/20 text-warning" role="alert">
-            <i class="mgc_folder_star_line me-1 text-lg align-baseline"></i> <b>38</b>1k Tickets
+            <i class="mgc_folder_star_line me-1 text-lg align-baseline" id=""></i> <b id="total_customercurr_month"></b> Customers
         </div>
 
         <div class="p-6 space-y-3">
@@ -793,8 +793,8 @@
                     </div>
                 </div>
                 <div class="flex-grow">
-                    <h5 class="font-semibold mb-1">All Payments</h5>
-                    <p class="text-gray-400">6 Person</p>
+                    <h5 class="font-semibold mb-1">Active Customers</h5>
+                    <p class="text-gray-400" id="active_customers_curr_month"> 0</p>
                 </div>
                 <div>
                     <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top">
@@ -813,8 +813,8 @@
                     </div>
                 </div>
                 <div class="flex-grow">
-                    <h5 class="fw-semibold my-0">In Progress</h5>
-                    <p>16 Tickets</p>
+                    <h5 class="fw-semibold my-0">Inactive</h5>
+                    <p id="inactive_customers_curr_month">0</p>
                 </div>
                 <div>
                     <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top">
@@ -826,7 +826,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded px-3 py-2">
+            {{-- <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded px-3 py-2">
                 <div class="flex-shrink-0 me-2">
                     <div class="w-12 h-12 flex justify-center items-center rounded-full text-danger bg-danger/25">
                         <i class="mgc_check_circle_line text-xl"></i>
@@ -844,8 +844,8 @@
                         Info <div class="bg-slate-700 w-2.5 h-2.5 rotate-45 -z-10 rounded-[1px]" data-fc-arrow></div>
                     </div>
                 </div>
-            </div>
-
+            </div> --}}
+{{-- 
             <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded px-3 py-2">
                 <div class="flex-shrink-0 me-2">
                     <div class="w-12 h-12 flex justify-center items-center rounded-full text-success bg-success/25">
@@ -864,7 +864,7 @@
                         Info <div class="bg-slate-700 w-2.5 h-2.5 rotate-45 -z-10 rounded-[1px]" data-fc-arrow></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 

@@ -154,4 +154,13 @@ public function isOnline()
         
         return null;
     }
+
+    public function getBusinessDeveloperId()
+    {
+        if ($this->businessDeveloper) {
+            return $this->businessDeveloper->id;
+        }
+        
+        return null;
+    }
 }
