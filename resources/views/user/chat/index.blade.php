@@ -260,6 +260,13 @@
                 // Initialize
                 init() {
             console.log('Alpine.js initializing chat app...');
+             // Debug the user IDs
+            console.log('User IDs:', {
+                ticketId: this.ticketId,
+                otherUserId: this.otherUserId,
+                currentUserId: this.currentUserId,
+                currentUserType: typeof this.currentUserId
+            });
             
             // Debug ChatConfig
             console.log('ChatConfig available:', window.ChatConfig);
@@ -455,10 +462,16 @@
                             // Set is_mine for each message
                             this.messages = messages.map(message => ({
                                 ...message,
-                                is_mine: message.user_id === this.currentUserId
+                                is_mine: Number(message.user_id) === Number(this.currentUserId)
+                                //is_mine: message.user_id === this.currentUserId
                             }));
                             
                             console.log('Messages loaded:', this.messages.length);
+                            console.log('Processed messages:', this.messages.slice(0, 3).map(m => ({
+                                id: m.id,
+                                user_id: m.user_id,
+                                is_mine: m.is_mine
+                            })));
                             // Mark messages as read
                             this.markAsRead();
                         } else {
