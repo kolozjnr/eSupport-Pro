@@ -62,7 +62,7 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="flex items-center space-x-2">
+                                        <div class="flex items-center space-x-2 hidden">
                                             <!-- Connection Status -->
                                             <div class="flex items-center space-x-2">
                                                 <div x-show="connectionStatus === 'connected'" class="flex items-center text-green-600" style="display: none;">
@@ -170,7 +170,7 @@
                                         <!-- Emoji Button -->
                                         <button type="button" @click="toggleEmojiPicker" 
                                                 class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg">
-                                            <i class="fas fa-smile"></i>
+                                            <i class="mgc_emoji_fill"></i>
                                         </button>
 
                                         <!-- Send Button - Always visible but conditionally enabled -->
@@ -180,8 +180,8 @@
                                                     'bg-blue-600 hover:bg-blue-700': (newMessage.trim() || selectedFiles.length > 0) && !isSending,
                                                     'bg-gray-300 dark:bg-gray-600 cursor-not-allowed': (!newMessage.trim() && selectedFiles.length === 0) || isSending
                                                 }"
-                                                class="p-2 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
-                                            <i x-show="!isSending" class="fas fa-paper-plane"></i>
+                                                class="p-2 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors mb-2">
+                                            <i x-show="!isSending" class="mgc_send_line"></i>
                                             <i x-show="isSending" class="fas fa-spinner animate-spin"></i>
                                         </button>
                                     </form>
