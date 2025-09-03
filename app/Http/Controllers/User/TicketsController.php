@@ -168,6 +168,7 @@ class TicketsController extends Controller
 
     public function getCustomerTickets()
     {
+        //dd(auth()->user()->getCustomerId());
         try {
             $query = Ticket::with('user', 'phoneNumbers', 'support.identity', 'support.user', 'attached')
                 ->where('user_id', auth()->id())
@@ -196,6 +197,7 @@ class TicketsController extends Controller
             }
             
             $tickets = $query->get();
+            
                 
             return response()->json($tickets);
         } catch (\Exception $e) {
@@ -849,6 +851,149 @@ public function updateSupportTicket(Request $request, $id)
     }
 
     public function bulkUpload(Request $request)
+    {
+        $userId = auth()->id();
+        $customerId = auth()->user()->getCustomerId();
+
+        //dd($request->all());
+        $rules = [
+            'tickets_file' => 'required|file|mimes:csv,txt|max:2048',
+        ];
+
+        if (!$request->has('customer_id')) {
+            $rules['service_type'] = 'required|string';
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $validated = $validator->validated();
+        $deduction = 1;
+
+        try {
+            $path = $request->file('tickets_file')->getRealPath();
+            $data = array_map('str_getcsv', file($path));
+            //dd($data);
+            
+            if (count($data) > 0 && strtolower($data[0][0]) === 'name') {
+                array_shift($data);
+            }
+
+            $ticketCount = count($data);
+            if ($ticketCount === 0) {
+                return back()->with('error', 'CSV file is empty.');
+            }
+            //dd($ticketCount);
+
+            DB::beginTransaction();
+
+            // If uploading on behalf of another customer
+            if ($request->has('customer_id')) {
+                $customerId = $request->customer_id;
+                $customer = Customer::findOrFail($customerId);
+                $userId = $customer->user->id;
+                $actingUserName = auth()->user()->fname;
+
+                foreach ($data as $row) {
+                    if (count($row) < 3) continue;
+
+                    $ticket = Ticket::create([
+                        'name' => $row[0],
+                        'description' => $row[1],
+                        'subject' => 'New Ticket',
+                        'status' => 'open',
+                        'user_id' => $userId,
+                        'customer_id' => $customerId,
+                        'accepted_status' => 0
+                    ]);
+
+                    $phoneNumbers = explode(',', $row[2]);
+                    foreach ($phoneNumbers as $number) {
+                        $ticket->phoneNumbers()->create([
+                            'number' => trim($number),
+                            'user_id' => $userId,
+                            'customer_id' => $customerId
+                        ]);
+                    }
+                }
+
+                // Notify customer that tickets were uploaded
+                $customer->user->notify(
+                    new TicketUploadedOnbehalfofCustomerNotification($actingUserName, $ticket->id)
+                );
+            } 
+            else {
+                // Uploading as self → check balance & deduct
+                $customer = auth()->user()->customer;
+                $serviceType = $request->service_type;
+
+                $serviceType = $request->service_type;
+                if ($serviceType === 'special') {
+                    if (empty($customer->special_points) || $customer->special_points < $deduction * $ticketCount) {
+                        return back()->with('error', 'Insufficient special points.');
+                    }
+
+                    $customer->decrement('special_points', $deduction * $ticketCount);
+
+                } else {
+                    $balanceField = match ($serviceType) {
+                        'call_service_points' => 'call_service_points',
+                        'general_support_points' => 'general_support_points',
+                        'virtual_assistance_points' => 'virtual_assistance_points',
+                        default => null
+                    };
+
+                    if (!$balanceField || $customer->$balanceField < ($deduction * $ticketCount)) {
+                        return back()->with('error', 'Insufficient service points.');
+                    }
+
+                    $customer->decrement($balanceField, $deduction * $ticketCount);
+                }
+
+
+                foreach ($data as $row) {
+                    if (count($row) < 3) continue;
+                    //dd($data);
+                    $ticket = Ticket::create([
+                        'name' => $row[0],
+                        'description' => $row[1],
+                        'subject' => 'New Ticket',
+                        'status' => 'open',
+                        'user_id' => $userId,
+                        'customer_id' => $customerId,
+                        'accepted_status' => 0
+                    ]);
+
+                    $phoneNumbers = explode(',', $row[2]);
+                    foreach ($phoneNumbers as $number) {
+                        $ticket->phoneNumbers()->create([
+                            'number' => trim($number),
+                            'user_id' => $userId,
+                            'customer_id' => $customerId
+                        ]);
+                    }
+                }
+            }
+            //dd('done');
+            DB::commit();
+
+            return back()->with('success', "$ticketCount tickets imported successfully!");
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Failed to import tickets: ' . $e->getMessage());
+        }
+    }
+
+
+    public function bulkUploadEX(Request $request)
     {
          $deduction = Cache::rememberForever('deduction', function(){
             return Setting::first();

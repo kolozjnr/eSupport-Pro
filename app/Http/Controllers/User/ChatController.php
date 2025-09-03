@@ -120,7 +120,7 @@ class ChatController extends Controller
         }
         
         $request->validate([
-            'content' => 'required|string|max:1000',
+            'content' => 'nullable|string|max:1000',
             'files.*' => 'file|max:10240|mimes:jpeg,png,gif,webp,pdf,doc,docx,txt'
         ]);
 
@@ -129,13 +129,14 @@ class ChatController extends Controller
         $attachments = [];
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-                $path = $file->store('chat-attachments', 'public');
+                $path = $file->store('chat-attachments', 'wasabi');
                 $attachments[] = [
                     'name' => $file->getClientOriginalName(),
                     'path' => $path,
                     'size' => $file->getSize(),
                     'type' => $file->getMimeType(),
-                    'url' => Storage::url($path)
+                    'url' => Storage::disk('wasabi')->url($path)
+                    //'url' => Storage::url($path)
                 ];
             }
         }

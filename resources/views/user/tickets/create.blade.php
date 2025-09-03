@@ -136,13 +136,13 @@
                                 Upload a CSV file with ticket data. Format: name,description,phone_numbers (comma-separated)
                             </p>
 
-                            <form method="POST" action="{{ route('tickets.download-template') }}" 
+                            <form method="POST" action="{{ route('tickets.bulk-upload') }}" 
                                 enctype="multipart/form-data" 
                                 x-data="{ isUploading: false }" 
                                 @submit.prevent="isUploading = true; $el.submit()">
                                 @csrf
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <!-- CSV Upload -->
                                     <div>
                                         <label for="csv-upload" class="block text-sm font-medium mb-1">CSV File</label>
@@ -152,7 +152,25 @@
                                         <p class="text-xs text-gray-500 mt-1">Max 5MB. CSV format only.</p>
                                     </div>
 
-                                    <!-- Upload Button -->
+                                    {{-- <div class="grid grid-cols-1 md:grid-cols-3 gap-4"> --}}
+                                    <div>
+                                        <label for="ticket-name2" class="block text-sm font-medium mb-1">Service <span class="text-red-600 text-xl font-semibold drop-shadow-sm">*</span>
+</label>
+                                        <select x-model="ticket.service_type"  name="service_type" class="search-select2 w-full" id="search-select2" required>
+                                            <option value="" selected disabled>Choose Service</option>
+                                            <option value="call_service_points">Call Service</option>
+                                            <option value="general_support_points">General Support</option>
+                                            <option value="virtual_assistance_points">Virtual Assistant</option>
+                                            <option value="special">Special</option>
+                                        </select>
+                                    </div>
+                                {{-- </div> --}}
+
+                                  
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                      <!-- Upload Button -->
                                     <div class="flex flex-col sm:flex-row items-center gap-3">
                                         <button type="submit" 
                                                 class="btn bg-primary text-white w-full sm:w-40 flex items-center justify-center py-2 rounded-md"

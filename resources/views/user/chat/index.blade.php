@@ -109,14 +109,64 @@
                                                 <p class="text-sm" x-text="message.content"></p>
                                                 
                                                 <!-- File attachments -->
-                                                <div x-show="message.attachments && message.attachments.length > 0" class="mt-2 space-y-1" style="display: none;">
+                                                {{-- <div x-show="message.attachments && message.attachments.length > 0" class="mt-2 space-y-1" style="display: non; cursor: pointer">
                                                     <template x-for="attachment in message.attachments" :key="attachment.id">
                                                         <div class="flex items-center space-x-2 text-xs opacity-80">
-                                                            <i class="fas fa-paperclip"></i>
+                                                            <i class="mgc_attachment_2_line pointer"></i>
                                                             <a :href="attachment.url" :download="attachment.filename" class="underline hover:no-underline" x-text="attachment.filename"></a>
                                                         </div>
                                                     </template>
+                                                </div> --}}
+                                                <div x-show="message.attachments && message.attachments.length > 0" class="mt-2 space-y-1">
+                                                    <template x-for="attachment in message.attachments" :key="attachment.id">
+                                                        <a :href="attachment.url" :download="attachment.filename" target="_blank"
+                                                        class="flex items-center space-x-2 text-xs opacity-80 underline hover:no-underline cursor-pointer">
+                                                            <i class="mgc_attachment_2_line"></i>
+                                                            <span x-text="attachment.filename"></span>
+                                                        </a>
+                                                    </template>
                                                 </div>
+
+                                                {{-- <div x-show="message.attachments && message.attachments.length > 0" class="mt-2 space-y-4">
+                                                    <template x-for="attachment in message.attachments" :key="attachment.id">
+                                                        <div class="flex flex-col items-start space-y-2">
+                                                            
+                                                            <template x-if="/\.(jpg|jpeg|png|gif|webp)$/i.test(attachment.filename)">
+                                                                <img :src="attachment.url" :alt="attachment.filename" class="max-w-xs rounded shadow">
+                                                            </template>
+
+                                                            <template x-if="/\.pdf$/i.test(attachment.filename)">
+                                                                <iframe :src="attachment.url" class="w-64 h-64 border rounded"></iframe>
+                                                            </template>
+
+                                                            <template x-if="/\.(mp4|webm|ogg)$/i.test(attachment.filename)">
+                                                                <video controls class="max-w-xs rounded shadow">
+                                                                    <source :src="attachment.url" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            </template>
+
+                                                            <template x-if="/\.(mp3|wav|ogg)$/i.test(attachment.filename)">
+                                                                <audio controls class="w-64">
+                                                                    <source :src="attachment.url" type="audio/mpeg">
+                                                                    Your browser does not support the audio element.
+                                                                </audio>
+                                                            </template>
+
+                                                            <template x-if="!/\.(jpg|jpeg|png|gif|webp|pdf|mp4|webm|ogg|mp3|wav)$/i.test(attachment.filename)">
+                                                                <span class="text-sm text-gray-600" x-text="attachment.filename"></span>
+                                                            </template>
+
+                                                            <a :href="attachment.url" :download="attachment.filename" 
+                                                            class="flex items-center space-x-1 text-blue-600 hover:underline text-sm">
+                                                                <i class="mgc_download_line"></i>
+                                                                <span>Download</span>
+                                                            </a>
+                                                        </div>
+                                                    </template>
+                                                </div> --}}
+
+
 
                                                 <div :class="message.is_mine ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'" 
                                                      class="text-xs mt-1 flex items-center justify-between">
@@ -150,7 +200,7 @@
                                         <!-- File Upload -->
                                         <button type="button" @click="$refs.fileInput.click()" 
                                                 class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg">
-                                            <i class="fas fa-paperclip"></i>
+                                            <i class="mgc_attachment_2_fill"></i>
                                         </button>
                                         <input type="file" x-ref="fileInput" @change="handleFileUpload" class="hidden" multiple accept="image/*,.pdf,.doc,.docx,.txt">
 
@@ -194,7 +244,7 @@
                                                 <span class="text-sm text-gray-700 dark:text-gray-300 max-w-32 truncate" x-text="file.name"></span>
                                                 <span class="text-xs text-gray-500" x-text="formatFileSize(file.size)"></span>
                                                 <button type="button" @click="removeFile(index)" class="text-red-500 hover:text-red-700 ml-auto">
-                                                    <i class="fas fa-times text-xs"></i>
+                                                    <i class="mgc_close_line text-xs"></i>
                                                 </button>
                                             </div>
                                         </template>
