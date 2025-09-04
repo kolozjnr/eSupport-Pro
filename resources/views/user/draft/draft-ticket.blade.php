@@ -135,9 +135,10 @@
                         service_type: draft?.service_type || '',
                         name: draft?.name || '',
                         description: draft?.description || '',
-                       phone_numbers: draft?.phone_numbers && draft.phone_numbers.length > 0 
-                        ? draft.phone_numbers.map(number => ({ number: number }))
+                       phone_numbers: draft?.phone_numbers && draft.phone_numbers.length > 0
+                        ? draft.phone_numbers.map(p => ({ number: p.number }))
                         : [{ number: '' }],
+
                         file: null
                     },
                     isLoading: false,

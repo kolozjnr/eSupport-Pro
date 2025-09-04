@@ -20,6 +20,8 @@ class DraftController extends Controller
         $draft->phone_numbers = $draft->phoneNumbers->map(function($phone) {
             return ['number' => $phone->number];
         })->toArray();
+
+        //dd($draft);
         
         return view('user.draft.draft-ticket', compact('draft'));
     }
