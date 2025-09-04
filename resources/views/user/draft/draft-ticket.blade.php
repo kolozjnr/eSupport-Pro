@@ -69,24 +69,24 @@
                                 <!-- Phone Numbers Section -->
                                 <div class="mt-4">
                                    <template x-for="(phone, index) in ticket.phone_numbers" :key="index">
-    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-4 items-end mb-2">
-        <div class="sm:col-span-3">
-            <input type="text" 
-                class="form-input w-full" 
-                x-model="phone.number" 
-                :name="'phone_numbers[' + index + '][number]'" 
-                :placeholder="'Phone Number ' + (index + 1)" 
-                required>
-        </div>
-        <div>
-            <button type="button" class="btn bg-red-500 text-white w-full" 
-                    @click="removePhoneNumber(index)" 
-                    x-show="ticket.phone_numbers.length > 1">
-                Remove
-            </button>
-        </div>
-    </div>
-</template> 
+                                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-4 items-end mb-2">
+                                        <div class="sm:col-span-3">
+                                            <input type="text" 
+                                                class="form-input w-full" 
+                                                x-model="phone.number" 
+                                                :name="'phone_numbers[' + index + '][number]'" 
+                                                :placeholder="'Phone Number ' + (index + 1)" 
+                                                required>
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn bg-red-500 text-white w-full" 
+                                                    @click="removePhoneNumber(index)" 
+                                                    x-show="ticket.phone_numbers.length > 1">
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template> 
 
                                 <button type="button" class="btn bg-gray-200 text-gray-700 mt-2 w-full sm:w-auto" 
                                         @click="addPhoneNumber">

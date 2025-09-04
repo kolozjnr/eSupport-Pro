@@ -63,13 +63,13 @@
                                         <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-4 items-end mb-2">
                                             <!-- Phone Input -->
                                             <div class="sm:col-span-3">
-                                                <input type="text" class="form-input w-full" 
+                                                <input type="text" class="form-input w-full md:w-1/2" 
                                                     x-model="phone.number" 
                                                     :placeholder="'Phone Number ' + (index + 1)" required>
                                             </div>
                                             <!-- Remove Button -->
                                             <div>
-                                                <button type="button" class="btn bg-red-500 text-white w-full" 
+                                                <button type="button" class="btn bg-red-500 text-white w-full sm:w-auto" 
                                                         @click="removePhoneNumber(index)" 
                                                         x-show="formData.phone_numbers.length > 1">
                                                     Remove
@@ -140,7 +140,7 @@
                                 enctype="multipart/form-data" 
                                 x-data="{ isUploading: false }" 
                                 @submit.prevent="isUploading = true; $el.submit()"
-                                class="w-full max-w-lg mx-auto p-4">
+                                class="w-full mx-auto p-4">
                                 @csrf
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <!-- File input -->
@@ -153,11 +153,14 @@
                                     </div>
 
                                     <!-- Button -->
-                                    <div class="flex flex-col md:flex-row items-start md:items-center gap-3">
+                                
+                                
+                                
+                                    <div class="mt-6 flex flex-col sm:flex-row items-center gap-3">
                                         <button type="submit" 
-                                                class="btn bg-primary text-white w-full md:w-40 rounded-lg px-4 py-2 text-sm font-medium shadow-sm"
+                                                class="btn bg-primary text-white w-full sm:w-auto"
                                                 :disabled="isUploading">
-                                            <span x-show="!isUploading">Upload</span>
+                                            <span x-show="!isUploading">Upload CSV</span>
                                             <span x-show="isUploading">Uploading...</span>
                                         </button>
                                         <svg x-show="isUploading" 
