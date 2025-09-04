@@ -968,7 +968,7 @@ public function updateSupportTicket(Request $request, $id)
                         'status' => 'open',
                         'user_id' => $userId,
                         'customer_id' => $customerId,
-                        'accepted_status' => 0
+                        'accepted_status' => 1
                     ]);
 
                     $phoneNumbers = explode(',', $row[2]);
@@ -1173,7 +1173,7 @@ public function updateSupportTicket(Request $request, $id)
 
             return response()->json([
                 'success' => true,
-                'message' => 'Ticket created successfully',
+                'message' => 'Draft created successfully',
                 'draft' => $draft
             ]);
 

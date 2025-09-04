@@ -112,13 +112,14 @@ Route::middleware('auth')->group(function () {
                 Route::put('/tickets/{ticket}', 'updateTicket')->name('user.tickets.update');
                 Route::get('/view-single-ticket/{ticket}', 'viewSingleTicket')->name('viewSingleTicket');
                 Route::delete('/{ticket}', 'destroy')->name('destroy');
-                Route::get('/draft', 'draft')->name('draft');
                 //Review
 
                 //support ticket
                 Route::get('/support-tickets', 'getSupportTicket')->name('support-tickets');
                 Route::post('/tickets/update-status/{id}', 'updateSupportTicket')->name('updateSupportTicket');
 
+                //Drafts
+                Route::get('/draft', 'draft')->name('draft');
                 Route::get('/template-draft', 'draftTemplate')->name('draft-template');
                 Route::get('/view-drafts', 'viewDrafts')->name('view-drafts');
                 Route::get('/data-drafts', 'getDraft')->name('data-drafts');
@@ -152,10 +153,10 @@ Route::middleware('auth')->group(function () {
             });
 
             Route::controller(DraftController::class)
-            ->prefix('support')
-            ->name('support.')
+            ->prefix('draft')
+            ->name('draft.')
             ->group(function () {
-                Route::get('/identity', 'index')->name('index');
+                Route::get('/drafts/{id}', 'draftTicket')->name('draft-ticket');
             });
             Route::controller(ReviewController::class)
             ->prefix('reviews')

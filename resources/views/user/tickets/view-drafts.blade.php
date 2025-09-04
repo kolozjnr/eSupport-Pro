@@ -137,7 +137,7 @@
    <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" defer></script>
      
          <!-- Gridjs Demo js -->
-         <script src="{{ asset('assets/js/pages/table-gridjs.js') }}" defer></script>
+         <script src="{{ asset('assets/js/pages/drafts-gridjs.js') }}" defer></script>
     @include('layouts.footer')
 
     <script>
