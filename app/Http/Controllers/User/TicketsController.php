@@ -1194,22 +1194,19 @@ public function updateSupportTicket(Request $request, $id)
             'Content-Disposition' => "attachment; filename=$filename",
         ];
 
-        $handle = fopen('php://output', 'w');
-        fputcsv($handle, ['name', 'phone_numbers']);
-        fputcsv($handle, ['Sample Draft', '1234567890,9876543210']);
-        fclose($handle);
+        return response()->streamDownload(function () {
+            $handle = fopen('php://output', 'w');
 
-        return response()->streamDownload(
-            function () {
-                $handle = fopen('php://output', 'w');
-                fputcsv($handle, ['name', 'phone_numbers']);
-                fputcsv($handle, ['Sample Ticket', '1234567890,9876543210']);
-                fclose($handle);
-            },
-            $filename,
-            $headers
-        );
+            // Add CSV header row
+            fputcsv($handle, ['name', 'phone_numbers']);
+
+            // Add sample row
+            fputcsv($handle, ['Sample Draft', '1234567890,9876543210']);
+
+            fclose($handle);
+        }, $filename, $headers);
     }
+
     public function bulkDraftUpload(Request $request)
     {
         //dd($request->all());

@@ -54,7 +54,7 @@
                                     <div>
                                         <label for="ticket-description" class="block text-sm font-medium mb-1">Description <span class="text-red-600 text-xl font-semibold drop-shadow-sm">*</span>
 </label>
-                                        <textarea x-model="ticket.description" class="form-input w-full" id="ticket-description" rows="2" placeholder="Description"></textarea>
+                                        <textarea x-model="ticket.description" class="form-input w-full" id="ticket-description" rows="1" placeholder="Description"></textarea>
                                     </div>
                                     <div>
                                         <label for="ticket-file" class="block text-sm font-medium mb-1">Attach File (Optional)</label>
