@@ -201,17 +201,21 @@
                             if (response.ok) {
                                 this.isSuccess = true;
                                 this.message = data.message || 'Ticket created successfully!';
+                                window.location
                                 
                                 // Optionally clear the form
-                                this.ticket = {
-                                    service_type: '',
-                                    name: '',
-                                    description: '',
-                                    phone_numbers: [{ number: '' }],
-                                    file: null
-                                };
+                                // this.ticket = {
+                                //     service_type: '',
+                                //     name: '',
+                                //     description: '',
+                                //     phone_numbers: [{ number: '' }],
+                                //     file: null
+                                // };
                                 
                                 // Redirect or perform other actions if needed
+                                 setTimeout(() => {
+                                    window.location.href = '{{ route("tickets.view-drafts") }}'; 
+                                }, 4000);
                             } else {
                                 throw new Error(data.message || 'Failed to create ticket');
                             }

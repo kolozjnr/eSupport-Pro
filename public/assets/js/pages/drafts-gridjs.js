@@ -91,14 +91,6 @@ class GridDatatable {
               // Base actions (edit, delete, view)
               let actionsHTML = `
                 <div class="flex items-center">
-                  <a href="/dashboard/tickets/${draftId}/edit-ticket" class="text-warning me-2" title="Edit">
-                    <i class="mgc_edit_line text-lg"></i>
-                  </a>
-                  <a href="/dashboard/tickets/view-single-ticket/${draftId}" class="text-primary me-2" title="View">
-                        <i class="mgc_eye_2_line text-xl"></i>
-                    </a>
-
-                    
                   <a href="javascript:void(0);" onclick="deleteTicket('${draftId}')" class="text-danger me-2" title="Delete">
                     <i class="mgc_delete_line text-xl"></i>
                   </a>
