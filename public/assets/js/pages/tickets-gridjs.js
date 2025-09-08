@@ -518,8 +518,8 @@ async function initializeCustomerOnbehalfTicketsTable() {
     }
 }
 
-  async function initializeQualityControlTicketsTable() {
-    const tableContainer = document.getElementById("quality-control-tickets");
+  async function initializeSupervisorTicketsTable() {
+    const tableContainer = document.getElementById("supervisor-tickets");
     const loadingIndicator = document.getElementById("loading-indicator");
     const bulkActionBtn = document.getElementById("bulk-action-btn");;
     
@@ -532,7 +532,7 @@ async function initializeCustomerOnbehalfTicketsTable() {
         if (bulkActionBtn) bulkActionBtn.classList.add('hidden');
         
         // Fetch tickets from your Laravel endpoint
-        const response = await fetch('/dashboard/tickets/quality-control-tickets', {
+        const response = await fetch('/dashboard/tickets/supervisor-tickets', {
             headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
@@ -544,7 +544,7 @@ async function initializeCustomerOnbehalfTicketsTable() {
         }
         
         const tickets = await response.json();
-        console.log('Quality Control Tickets data:', tickets);
+        console.log('Supervisorr Tickets data:', tickets);
         
         // Track selected ticket IDs
         // const selectedQualityControlTickets = new Set();
@@ -857,7 +857,7 @@ async function initializeCustomerOnbehalfTicketsTable() {
                 <div class="alert alert-danger p-4">
                     <h4 class="alert-heading">Failed to load tickets</h4>
                     <p>${error.message}</p>
-                    <button onclick="initializeQualityControlTicketsTable()" class="btn btn-sm btn-primary mt-2">
+                    <button onclick="initializeSupervisorTicketsTable()" class="btn btn-sm btn-primary mt-2">
                         Retry
                     </button>
                 </div>
@@ -961,7 +961,7 @@ async function initializeTicketsPollTable() {
         }
         
         const tickets = await response.json();
-        console.log('Quality Control Tickets data:', tickets);
+        console.log('poll Tickets data:', tickets);
         
         // Track selected ticket IDs
         // const selectedQualityControlTickets = new Set();
@@ -1319,7 +1319,7 @@ async function updateSelectedTickets() {
         }
         
         alert(`${selectedIds.length} tickets updated successfully!`);
-        initializeQualityControlTicketsTable(); // Refresh the table
+        initializeSupervisorTicketsTable(); // Refresh the table
         
     } catch (error) {
         console.error('Error updating tickets:', error);
@@ -1935,9 +1935,9 @@ async function initializeCustomerOnbehalfTicketsTable() {
 
 // Call this when the page loads  
   initializeCustomerTicketsTable();
-  initializeQualityControlTicketsTable();
-  initializeCustomerOnbehalfTicketsTable();
   initializeSupportTicketsTable();
+  initializeCustomerOnbehalfTicketsTable();
+  initializeSupervisorTicketsTable();
   initializeTicketsPollTable();
 
 // Delete ticket function

@@ -105,7 +105,7 @@ async function loadUserRole() {
             loadChartData();
         //});
     }
-    else if (role === 'qualitycontrol') {
+    else if (role === 'supervisor') {
         
         // Quality Control performance metrics
          var options = {
@@ -219,7 +219,7 @@ async function loadUserRole() {
 };
 
 var chart = new ApexCharts(
-    document.querySelector("#quality_control_pie_chart"),
+    document.querySelector("#supervisor_pie_chart"),
     options
 );
 

@@ -51,8 +51,8 @@
                             <div class="min-w-[800px] md:min-w-full">
                             @if(auth()->user()->hasRole('customer'))
                             <div id="customer-tickets-table"></div>
-                            @elseif(auth()->user()->hasRole('qualitycontrol'))
-                            <div id="quality-control-tickets"></div>
+                            @elseif(auth()->user()->hasRole('supervisor'))
+                            <div id="supervisor-tickets"></div>
                             @elseif(auth()->user()->hasRole('support'))
                             <div id="support-tickets-table"></div>
                             @endif
@@ -434,8 +434,8 @@
             alert('Tickets assigned successfully!');
             
             // Refresh the table
-            if (typeof initializeQualityControlTicketsTable === 'function') {
-                initializeQualityControlTicketsTable();
+            if (typeof initializeSupportTicketsTable === 'function') {
+                initializeSupportTicketsTable();
             }
 
             // Clear selections
@@ -466,8 +466,8 @@
 
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        if (typeof initializeQualityControlTicketsTable === 'function') {
-            initializeQualityControlTicketsTable();
+        if (typeof initializeSupportTicketsTable === 'function') {
+            initializeSupportTicketsTable();
         }
     });
 

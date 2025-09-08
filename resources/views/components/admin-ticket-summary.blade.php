@@ -460,13 +460,14 @@
 
 @elseif(auth()->user()->hasRole('supervisor'))
 
+
 <div class="col-span-1">
     <div class="card mb-6">
         <div class="px-6 py-5 flex justify-between items-center">
-            <h4 class="header-title">Montly Ticket Summary</h4>
+            <h4 class="header-title">Montly Summary</h4>
         </div>
         <div class="px-4 py-2 bg-warning/20 text-warning" role="alert">
-            <i class="mgc_folder_star_line me-1 text-lg align-baseline"></i> <b>38</b>1k Tickets
+            <i class="mgc_folder_star_line me-1 text-lg align-baseline"></i> <b id="total_tickets_this_month"></b> Tickets
         </div>
 
         <div class="p-6 space-y-3">
@@ -477,8 +478,8 @@
                     </div>
                 </div>
                 <div class="flex-grow">
-                    <h5 class="font-semibold mb-1">Active Staff</h5>
-                    <p class="text-gray-400">6 Person</p>
+                    <h5 class="font-semibold mb-1">Resolved</h5>
+                    <p class="text-gray-400" id="resolved_tickets_this_month"></p>
                 </div>
                 <div>
                     <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top">
@@ -497,8 +498,8 @@
                     </div>
                 </div>
                 <div class="flex-grow">
-                    <h5 class="fw-semibold my-0">In Progress</h5>
-                    <p>16 Tickets</p>
+                    <h5 class="fw-semibold my-0" id="">Open</h5>
+                    <p class="text-gray-400" id="open_tickets_this_month"></p>
                 </div>
                 <div>
                     <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top">
@@ -510,14 +511,14 @@
                 </div>
             </div>
 
-            <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded px-3 py-2">
+            {{-- <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded px-3 py-2">
                 <div class="flex-shrink-0 me-2">
                     <div class="w-12 h-12 flex justify-center items-center rounded-full text-danger bg-danger/25">
                         <i class="mgc_check_circle_line text-xl"></i>
                     </div>
                 </div>
                 <div class="flex-grow">
-                    <h5 class="fw-semibold my-0">Pending</h5>
+                    <h5 class="fw-semibold my-0">closed</h5>
                     <p>24</p>
                 </div>
                 <div>
@@ -528,16 +529,16 @@
                         Info <div class="bg-slate-700 w-2.5 h-2.5 rotate-45 -z-10 rounded-[1px]" data-fc-arrow></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded px-3 py-2">
+            {{-- <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded px-3 py-2">
                 <div class="flex-shrink-0 me-2">
                     <div class="w-12 h-12 flex justify-center items-center rounded-full text-success bg-success/25">
                         <i class="mgc_send_line text-xl"></i>
                     </div>
                 </div>
                 <div class="flex-grow">
-                    <h5 class="fw-semibold my-0">Completed</h5>
+                    <h5 class="fw-semibold my-0">Succesful Sales</h5>
                     <p>20</p>
                 </div>
                 <div>
@@ -548,11 +549,11 @@
                         Info <div class="bg-slate-700 w-2.5 h-2.5 rotate-45 -z-10 rounded-[1px]" data-fc-arrow></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
-    <div class="card p-6">
+    {{-- <div class="card p-6">
         <h4 class="text-gray-600 dark:text-gray-300 mb-2.5">On Time Completed Rate <span class="px-2 py-0.5 rounded bg-success/25 text-success ms-2"><i class="mgc_arrow_up_line text-sm align-baseline me-1"></i>59%</span></h4>
         <div class="flex justify-between items-center mb-2">
             <h5 class="text-base font-semibold">Completed Projects</h5>
@@ -561,9 +562,8 @@
         <div class="flex w-full h-1 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700 ">
             <div class="flex flex-col justify-center overflow-hidden bg-primary w-1/4" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-    </div>
+    </div> --}}
 </div>
-
 
 @elseif(auth()->user()->hasRole('account'))
 

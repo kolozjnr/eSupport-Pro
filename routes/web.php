@@ -104,9 +104,9 @@ Route::middleware('auth')->group(function () {
                 Route::get('/show', 'show')->name('show');
                 // Route::get('/{ticket}', 'show')->name('show');
                 Route::get('/customer-tickets', 'getCustomerTickets')->name('CustomerTickets');
-                Route::get('/quality-control-tickets', 'getQualityControlTickets')->name('QualityControlTickets');
+                Route::get('/supervisor-tickets', 'getSupervisorTickets')->name('getSupervisorTickets');
                 //Assign Ticket QA
-                Route::post('/bulk-assign-ticket', 'assignTicketByQualityControl')->name('bulk-assign-ticket');
+                Route::post('/bulk-assign-ticket', 'assignTicketBySupervisor')->name('bulk-assign-ticket');
                 
                 Route::get('/{ticket}/edit-ticket', 'editTicket')->name('edit-ticket');
                 Route::put('/tickets/{ticket}', 'updateTicket')->name('user.tickets.update');

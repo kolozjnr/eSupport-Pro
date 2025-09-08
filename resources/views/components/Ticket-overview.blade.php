@@ -1324,6 +1324,18 @@
     </div>
 </div> <!-- Grid End -->
 
+<div class="grid 2xl:grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+    <div class="2xl:col-span-2 md:col-span-2">
+        <div class="card">
+            <div class="p-6">
+                <div class="flex justify-between items-center">
+                    <h4 class="card-title">Recent Tickets</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- Grid End -- <!-- Grid End -->
+
 
 @else
     {{-- fallback content --}}

@@ -42,7 +42,10 @@
                 <form method="POST" action="{{ route('password.store') }}">
                     @csrf
                   <div class="-mx-4 flex flex-wrap">
-                    <div class="w-full px-4 sm:w-1/2">
+                      <!-- Required hidden inputs -->
+                      <input type="hidden" name="token" value="{{ request()->route('token') }}">
+                      <input type="hidden" name="email" value="{{ request()->email }}">
+                    {{-- <div class="w-full px-4 sm:w-1/2">
                       <div class="mb-10">
                         <label
                           for="email"
@@ -76,7 +79,7 @@
                         />
                         <x-input-error :messages="$errors->get('referral_code')" class="mt-2" />
                       </div>
-                    </div>
+                    </div> --}}
 
                     <div class="w-full px-4 sm:w-1/2">
                       <div class="mb-10">
@@ -92,7 +95,8 @@
                           placeholder="**********"
                           class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
                         />
-                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                        {{-- <x-input-error :messages="$errors->get('password')" class="mt-2" /> --}}
+                          <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-500" style="color: crimson;" />
                       </div>
                     </div>
                     <div class="w-full px-4 sm:w-1/2">
@@ -109,7 +113,7 @@
                           placeholder="**********"
                           class="w-full border-b bg-transparent py-5 text-base font-medium text-dark placeholder-dark-text outline-none focus:border-primary dark:border-[#2C3443] dark:text-white dark:focus:border-white"
                         />
-                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-red-500" style="color: crimson;"/>
                       </div>
                     </div>
 

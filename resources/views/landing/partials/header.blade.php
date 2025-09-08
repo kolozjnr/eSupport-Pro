@@ -149,7 +149,7 @@
           >
             <a
               href="/login"
-              class="w-full whitespace-nowrap rounded bg-primary py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
+              class="w-full whitespace-nowrap rounded bg-primary py-3 px-8 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
             >
               Sign In
             </a>

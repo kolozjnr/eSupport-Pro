@@ -21,12 +21,12 @@
 
                             <div class="flex items-center gap-2">
                                 <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-                                <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400">Customer</a>
+                                <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400">Chat</a>
                             </div>
 
                             <div class="flex items-center gap-2">
                                 <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-                                <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Edit Customer</a>
+                                <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Ticket Chat</a>
                             </div>
                         </div>
                 </div>
@@ -117,7 +117,7 @@
                                                         </div>
                                                     </template>
                                                 </div> --}}
-                                                <div x-show="message.attachments && message.attachments.length > 0" class="mt-2 space-y-1">
+                                                {{-- <div x-show="message.attachments && message.attachments.length > 0" class="mt-2 space-y-1">
                                                     <template x-for="attachment in message.attachments" :key="attachment.id">
                                                         <a :href="attachment.url" :download="attachment.filename" target="_blank"
                                                         class="flex items-center space-x-2 text-xs opacity-80 underline hover:no-underline cursor-pointer">
@@ -125,46 +125,76 @@
                                                             <span x-text="attachment.filename"></span>
                                                         </a>
                                                     </template>
-                                                </div>
+                                                </div> --}}
 
-                                                {{-- <div x-show="message.attachments && message.attachments.length > 0" class="mt-2 space-y-4">
-                                                    <template x-for="attachment in message.attachments" :key="attachment.id">
+                                                <div 
+                                                    x-data="{ showPreview: false, previewUrl: '' }" 
+                                                    x-show="message.attachments && message.attachments.length > 0" 
+                                                    class="mt-2 space-y-4"
+                                                >
+                                                    <template x-for="(attachment, index) in message.attachments" :key="index">
                                                         <div class="flex flex-col items-start space-y-2">
                                                             
-                                                            <template x-if="/\.(jpg|jpeg|png|gif|webp)$/i.test(attachment.filename)">
-                                                                <img :src="attachment.url" :alt="attachment.filename" class="max-w-xs rounded shadow">
+                                                            <!-- Images -->
+                                                            <template x-if="/\.(jpg|jpeg|png|gif|webp)$/i.test(attachment.name)">
+                                                                <img 
+                                                                    :src="attachment.url" 
+                                                                    :alt="attachment.name" 
+                                                                    class="max-w-xs rounded shadow cursor-pointer hover:opacity-80 transition"
+                                                                    @click="showPreview = true; previewUrl = attachment.url"
+                                                                >
                                                             </template>
 
-                                                            <template x-if="/\.pdf$/i.test(attachment.filename)">
+                                                            <!-- PDFs -->
+                                                            <template x-if="/\.pdf$/i.test(attachment.name)">
                                                                 <iframe :src="attachment.url" class="w-64 h-64 border rounded"></iframe>
                                                             </template>
 
-                                                            <template x-if="/\.(mp4|webm|ogg)$/i.test(attachment.filename)">
+                                                            <!-- Videos -->
+                                                            <template x-if="/\.(mp4|webm|ogg)$/i.test(attachment.name)">
                                                                 <video controls class="max-w-xs rounded shadow">
                                                                     <source :src="attachment.url" type="video/mp4">
                                                                     Your browser does not support the video tag.
                                                                 </video>
                                                             </template>
 
-                                                            <template x-if="/\.(mp3|wav|ogg)$/i.test(attachment.filename)">
+                                                            <!-- Audios -->
+                                                            <template x-if="/\.(mp3|wav|ogg)$/i.test(attachment.name)">
                                                                 <audio controls class="w-64">
                                                                     <source :src="attachment.url" type="audio/mpeg">
                                                                     Your browser does not support the audio element.
                                                                 </audio>
                                                             </template>
 
-                                                            <template x-if="!/\.(jpg|jpeg|png|gif|webp|pdf|mp4|webm|ogg|mp3|wav)$/i.test(attachment.filename)">
-                                                                <span class="text-sm text-gray-600" x-text="attachment.filename"></span>
+                                                            <!-- Other files -->
+                                                            <template x-if="!/\.(jpg|jpeg|png|gif|webp|pdf|mp4|webm|ogg|mp3|wav)$/i.test(attachment.name)">
+                                                                <span class="text-sm text-gray-600" x-text="attachment.name"></span>
                                                             </template>
 
-                                                            <a :href="attachment.url" :download="attachment.filename" 
+                                                            <!-- Download link -->
+                                                            <a :href="attachment.url" :download="attachment.name" 
                                                             class="flex items-center space-x-1 text-blue-600 hover:underline text-sm">
                                                                 <i class="mgc_download_line"></i>
                                                                 <span>Download</span>
                                                             </a>
                                                         </div>
                                                     </template>
-                                                </div> --}}
+
+                                                    <!-- Image Preview Modal -->
+                                                    <div 
+                                                        x-show="showPreview" 
+                                                        x-transition 
+                                                        class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+                                                    >
+                                                        <div class="relative">
+                                                            <button 
+                                                                @click="showPreview = false" 
+                                                                class="absolute top-2 right-2 text-white text-2xl font-bold"
+                                                            >&times;</button>
+                                                            <img :src="previewUrl" class="max-h-screen max-w-screen rounded shadow-lg">
+                                                        </div>
+                                                    </div>
+                                                </div>
 
 
 

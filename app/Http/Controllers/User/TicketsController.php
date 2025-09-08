@@ -337,7 +337,7 @@ class TicketsController extends Controller
     }
 
 
-    public function getQualityControlTickets()
+    public function getSupervisorTickets()
     {
         try {
             $tickets = Ticket::with('customer.user', 'phoneNumbers', 'review','support.user', 'support.identity', 'attached' )
@@ -354,76 +354,141 @@ class TicketsController extends Controller
         }
     }
 
-    public function assignTicketByQualityControl(Request $request)
-    {
-        $validate = Validator::make($request->all(), [
-            'ticket_ids' => 'required|array',
-            'ticket_ids.*' => 'required|exists:tickets,id',
-            'staff_id' => 'required|exists:supports,id',
-            'notes' => 'nullable|string',
+    public function assignTicketBySupervisor(Request $request)
+{
+    $validate = Validator::make($request->all(), [
+        'ticket_ids' => 'required|array',
+        'ticket_ids.*' => 'required|exists:tickets,id',
+        'staff_id' => 'required|exists:supports,id',
+        'notes' => 'nullable|string',
+    ]);
+
+    if ($validate->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => $validate->errors()->first()
+        ], 422);
+    }
+
+    try {
+        DB::beginTransaction();
+        
+        // Get a single random identity for ALL tickets (instead of querying for each ticket)
+        $identity = Identity::where('support_id', $request->staff_id)
+            ->whereNotNull('name')
+            ->inRandomOrder()
+            ->first();
+
+        // Prepare the base update data
+        $updateData = [
+            'status' => 'assigned',
+            'support_id' => $request->staff_id,
+            'notes' => $request->notes,
+            'assigned_at' => now()->addHour(),
+        ];
+
+        // Add identity_id if available
+        if ($identity) {
+            $updateData['identity_id'] = $identity->id;
+        }
+
+        // Bulk update all tickets at once (instead of individual updates)
+        Ticket::whereIn('id', $request->ticket_ids)->update($updateData);
+
+        // Get support with user relationship (eager loaded)
+        $support = Support::with('user')->find($request->staff_id);
+
+        if ($support && $support->user) {
+            $support->user->notify(new TaskAssignedNotification($request->ticket_ids));
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tickets successfully assigned.'
         ]);
 
-        if ($validate->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validate->errors()->first()
-            ], 422);
-        }
+    } catch (\Exception $e) {
+        DB::rollBack();
 
-        try {
-            DB::beginTransaction();
-            
-            foreach ($request->ticket_ids as $ticketId) {
-
-                $identity = Identity::where('support_id', $request->staff_id)
-                ->whereNotNull('name')
-                ->inRandomOrder()
-                ->first();
-
-                if (!$identity) {
-                    $ticket = Ticket::where('id', $ticketId)->update([
-                    'status' => 'assigned',
-                    'support_id' => $request->staff_id,
-                    'notes' => $request->notes,
-                    'assigned_at' => now()->addHour(),
-                    ]);
-                }
-                else {
-                    $ticket = Ticket::where('id', $ticketId)->update([
-                        'status' => 'assigned',
-                        'support_id' => $request->staff_id,
-                        'identity_id' => $identity->id,
-                        'notes' => $request->notes,
-                        'assigned_at' => now()->addHour(),
-                    ]);
-                }
-            
-            }
-
-            $support = Support::with('user')->findOrFail($request->staff_id);
-
-            //dd($support);
-
-            if ($support->user) {
-            $support->user->notify(new TaskAssignedNotification($request->ticket_ids));
-            }
-
-            DB::commit();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Tickets successfully assigned.'
-            ]);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Error: ' . $e->getMessage()
-            ], 500);
-        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Error: ' . $e->getMessage()
+        ], 500);
     }
+}
+
+    // public function assignTicketBySupervisor(Request $request)
+    // {
+    //     $validate = Validator::make($request->all(), [
+    //         'ticket_ids' => 'required|array',
+    //         'ticket_ids.*' => 'required|exists:tickets,id',
+    //         'staff_id' => 'required|exists:supports,id',
+    //         'notes' => 'nullable|string',
+    //     ]);
+
+    //     if ($validate->fails()) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => $validate->errors()->first()
+    //         ], 422);
+    //     }
+
+    //     try {
+    //         DB::beginTransaction();
+            
+    //         foreach ($request->ticket_ids as $ticketId) {
+
+    //             $identity = Identity::where('support_id', $request->staff_id)
+    //             ->whereNotNull('name')
+    //             ->inRandomOrder()
+    //             ->first();
+
+    //             if (!$identity) {
+    //                 $ticket = Ticket::where('id', $ticketId)->update([
+    //                 'status' => 'assigned',
+    //                 'support_id' => $request->staff_id,
+    //                 'notes' => $request->notes,
+    //                 'assigned_at' => now()->addHour(),
+    //                 ]);
+    //             }
+    //             else {
+    //                 $ticket = Ticket::where('id', $ticketId)->update([
+    //                     'status' => 'assigned',
+    //                     'support_id' => $request->staff_id,
+    //                     'identity_id' => $identity->id,
+    //                     'notes' => $request->notes,
+    //                     'assigned_at' => now()->addHour(),
+    //                 ]);
+    //             }
+            
+    //         }
+
+    //         $support = Support::with('user')->findOrFail($request->staff_id);
+
+    //         //dd($support);
+
+    //         if ($support->user) {
+    //         $support->user->notify(new TaskAssignedNotification($request->ticket_ids));
+    //         }
+
+    //         DB::commit();
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'Tickets successfully assigned.'
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Error: ' . $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
 
 public function viewSingleTicket($id)
 {
