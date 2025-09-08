@@ -68,12 +68,12 @@
                     Contact Us
                   </a>
                 </li>
-                {{-- <li class="submenu-item group relative">
+                <li class="submenu-item group relative block lg:hidden">
                   <a
                     href="javascript:void(0)"
                     class="submenu-taggler inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                   >
-                    Pages
+                    Access
 
                     <span class="pl-3">
                       <svg
@@ -91,7 +91,7 @@
                   <ul
                     class="submenu hidden space-y-5 pt-5 transition duration-300 lg:invisible lg:absolute lg:top-[120%] lg:block lg:w-[350px] lg:rounded lg:border lg:bg-white lg:px-8 lg:pb-5 lg:text-left lg:opacity-0 lg:group-hover:visible lg:group-hover:top-full lg:group-hover:opacity-100 dark:lg:border-transparent dark:lg:bg-[#2C3443]"
                   >
-                    <li>
+                    {{-- <li>
                       <a
                         href="blog-grids.html"
                         class="inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
@@ -114,10 +114,10 @@
                       >
                         404 Error
                       </a>
-                    </li>
+                    </li> --}}
                     <li>
                       <a
-                        href="signin.html"
+                        href="/login"
                         class="inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                       >
                         Sign In
@@ -125,14 +125,14 @@
                     </li>
                     <li>
                       <a
-                        href="signup.html"
+                        href="/register"
                         class="inline-flex items-center justify-center text-center font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                       >
                         Sign Up
                       </a>
                     </li>
                   </ul>
-                </li> --}}
+                </li>
                 {{-- <li>
                   <a
                     href="/#support"
@@ -149,7 +149,7 @@
           >
             <a
               href="/login"
-              class="w-full whitespace-nowrap rounded bg-primary py-3 px-8 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
+              class="w-full whitespace-nowrap rounded bg-primary py-3 px-6 text-center font-heading text-white hover:bg-opacity-90 lg:w-auto"
             >
               Sign In
             </a>
