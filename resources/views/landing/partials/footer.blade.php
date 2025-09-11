@@ -12,19 +12,19 @@
             <div class="mb-20 max-w-[330px]">
               <a href="index.html" class="mb-6 inline-block">
                 <img
-                  src="{{ asset('storage/'. $settings->dark_logo) }}"
+                  src="{{ asset('storage/'. $settings->light_logo) }}"
                   alt="logo"
                   class="hidden h-[50px] dark:block"
                 />
                 <img
-                  src="{{ asset('storage/'. $settings->light_logo) }}"
+                  src="{{ asset('storage/'. $settings->dark_logo) }}"
                   alt="logo"
                   class="h-[50px] dark:hidden"
                 />
               </a>
 
               <p class="mb-10 text-base text-dark-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Providing reliable, professional assistance to help clients resolve technical issues and streamline operations.
               </p>
               <div class="flex items-center space-x-5">
                 <a
@@ -110,21 +110,21 @@
               <ul class="space-y-4">
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="{{ route('home') }}"
                     class="font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                   >
                     Home
                   </a>
                 </li>
-                <li>
+                {{-- <li>
                   <a
                     href="javascript:void(0)"
                     class="font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                   >
                     Product
                   </a>
-                </li>
-                <li>
+                </li> --}}
+                {{-- <li>
                   <a
                     href="javascript:void(0)"
                     class="font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
@@ -136,10 +136,10 @@
                       Hiring
                     </span>
                   </a>
-                </li>
+                </li> --}}
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="/#pricing"
                     class="font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                   >
                     Pricing
@@ -160,18 +160,18 @@
               <ul class="space-y-4">
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="/#support"
                     class="font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                   >
-                    Company
+                    Contact Us
                   </a>
                 </li>
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="/login"
                     class="font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                   >
-                    Press media
+                    Login
                   </a>
                 </li>
                 {{-- <li>
@@ -184,10 +184,10 @@
                 </li> --}}
                 <li>
                   <a
-                    href="javascript:void(0)"
+                    href="/register"
                     class="font-heading text-base text-dark-text hover:text-primary dark:hover:text-white"
                   >
-                    Contact Us
+                    Register
                   </a>
                 </li>
               </ul>
@@ -213,7 +213,7 @@
                     href="tel:+(1) 123 456 7890"
                     class="font-heading text-base text-dark hover:text-primary dark:text-white dark:hover:text-primary"
                   >
-                    +(234) 706 731 9819
+                    +(234) 
                   </a>
                 </div>
                 <div>

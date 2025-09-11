@@ -144,7 +144,7 @@ class ChatController extends Controller
         $message = Message::create([
             'conversation_id' => $conversation->id,
             'user_id' => auth()->id(),
-            'content' => $request->content,
+            'content' => $request->content ?? 'attachement',
             'type' => !empty($attachments) ? 'file' : 'text',
             'attachments' => !empty($attachments) ? $attachments : null,
         ]);

@@ -22,7 +22,7 @@
               </span>
               <h1
                 class="wow 
-                fadeInUp mb-5 font-heading text-2xl font-semibold dark:text-white sm:text-4xl md:text-[50px] md:leading-[60px]"
+                fadeInUp mb-5 font-heading text-xl font-semibold dark:text-white sm:text-2xl md:text-[30px] md:leading-[30px]"
                 data-wow-delay=".3s"
               >
                 Customer Service / Support Solutions for Your
@@ -64,7 +64,7 @@
                   </span>
                 </a>
                 <a
-                  href="/#about"
+                  href="/register"
                   class="inline-flex items-center rounded py-[14px] px-8 font-heading text-base text-dark hover:text-primary dark:text-white dark:hover:text-primary"
                 >
                   <span class="pr-3">
@@ -90,10 +90,10 @@
               data-wow-delay=".3s"
             >
               <div class="absolute top-0 right-0 lg:w-11/12">
-                <img src="{{ asset('landing/images/hero/image-2.jpg')}}" alt="hero-image" />
+                <img src="{{ asset('landing/images/hero/hero-2.jpeg')}}" alt="hero-image" />
               </div>
               <div class="absolute left-0 bottom-0 z-10">
-                <img src="{{ asset('landing/images/hero/image-1.jpg')}}" alt="hero-image" />
+                <img src="{{ asset('landing/images/hero/hero-1.jpeg')}}" alt="hero-image" />
                 <div
                   class="absolute -top-6 -right-6 -z-10 h-full w-full border border-primary border-opacity-10 bg-primary bg-opacity-5 backdrop-blur-[6px] dark:border-white dark:border-opacity-10 dark:bg-white dark:bg-opacity-10"
                 ></div>
@@ -3544,7 +3544,7 @@
                   Looking for a collaboration? Get Started Today!
                 </h2>
                 <p class="text-base text-dark-text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  You can contact us if you are interested in working with us.
                 </p>
               </div>
             </div>
