@@ -43,91 +43,84 @@
                                     
                                 </div>
                             </div>
-                            <div x-data="assignCustomer()" class="p-6">
-                                <form method="POST" action="{{ route('invoices.post-manual-invoice') }}" x-on:submit="isSubmitting = true">
-                                         @csrf
-                                    <div class="">
-
-                                        <div class="grid grid-cols-3 gap-2 mb-6">
-                                           <div>
-                                             <label for="customer_id" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Customer</label>
-                                            <select id="search-select" x-model="formData.customer_id" name="customer_id" id="customer_id" class="search-select">
-                                                <option selected>Choose</option>
-                                                @foreach ($customers as $customer)
-                                                    <option value="{{ $customer->id }}">{{ $customer->user->fname }}</option>
-                                                @endforeach
-                                            </select>
-                                           </div>
-
-                                            <div>
-                                                <label for="amount" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Amount Paid</label>
-                                                <input type="number" class="form-input w-full" x-model="formData.amount" name="amount" id="amount" value="">
-                                            </div>
-                                            
-                                            <div>
-                                                <label for="frequency" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Amount Paid</label>
-                                                <select id="search-select2" x-model="formData.frequency" name="frequency" id="frequency" class="search-select">
-                                                <option selected>Choose</option>
-                                                <option value="monthly">Monthly</option>
-                                                <option value="yearly">Yearly</option>
-                                                
-                                            </select>
-                                            </div>
-                                        </div>
-
-                                        
-
-
-                                          <!-- Arrow Divider -->
-                                        {{-- <div class="flex flex-col items-center justify-center pt-6">
-                                            <span class="text-gray-500 dark:text-gray-400 font-semibold text-sm mb-1">Assign to</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                                            </svg>
-                                        </div> --}}
-                                        
-                                        <div class="">
-                                            <label for="business_developer_id" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Points</label>
-                                           <div class="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-3 gap-4 mb-6">
-                                        <div>
-                                            <label for="call_center" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Call Center Points</label>
-                                            <input type="number" class="form-input w-full" x-model="formData.call_center" name="call_center" id="call_center" value="">
-                                        </div>
-                                        <div>
-                                            <label for="virtual_support" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Virtual Support</label>
-                                            <input type="text" class="form-input w-full" x-model="formData.virtual_support" name="virtual_support" id="virtual_support" placeholder="">
-                                        </div>
-                                        <div>
-                                            <label for="general_support" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">General Support</label>
-                                            <input type="text" class="form-input w-full" x-model="formData.general_support" name="general_support" id="general_support" placeholder="">
-                                        </div>
-                                    </div>
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                    <div class="flex gap-4 mt-4">
-
-                                         <button type="submit" class="btn bg-primary text-white w-40" :disabled="isSubmitting">
-                                            <span x-show="!isSubmitting">Submit</span>
-                                            <span x-show="isSubmitting">Submitting...</span>
-                                        </button>
-                                        {{-- <button type="submit" class="btn bg-primary text-white">Submit</button> --}}
-                                    </div>
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
-                                </form>
-                            </div>
+                           
                         </div> <!-- end card -->
                     </div> <!-- end col -->
                 </div>
+                <div x-data="assignCustomer()" class="p-6">
+                    <form method="POST" action="{{ route('invoices.post-manual-invoice') }}" x-on:submit="isSubmitting = true">
+                        @csrf
+                        <div class="space-y-6">
+
+                            <!-- First row -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="customer_id" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Customer</label>
+                                    <select id="search-select" x-model="formData.customer_id" name="customer_id"
+                                        class="search-select w-full">
+                                        <option selected>Choose</option>
+                                        @foreach ($customers as $customer)
+                                            <option value="{{ $customer->id }}">{{ $customer->user->fname }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="amount" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Amount Paid</label>
+                                    <input type="number" class="form-input w-full" x-model="formData.amount" name="amount" id="amount">
+                                </div>
+
+                                <div>
+                                    <label for="frequency" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Frequency</label>
+                                    <select id="search-select2" x-model="formData.frequency" name="frequency"
+                                        class="search-select w-full">
+                                        <option selected>Choose</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="yearly">Yearly</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Points row -->
+                            <div>
+                                <label for="business_developer_id" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Points</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div>
+                                        <label for="call_center" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Call Center Points</label>
+                                        <input type="number" class="form-input w-full" x-model="formData.call_center" name="call_center" id="call_center">
+                                    </div>
+                                    <div>
+                                        <label for="virtual_support" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Virtual Support</label>
+                                        <input type="text" class="form-input w-full" x-model="formData.virtual_support" name="virtual_support" id="virtual_support">
+                                    </div>
+                                    <div>
+                                        <label for="general_support" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">General Support</label>
+                                        <input type="text" class="form-input w-full" x-model="formData.general_support" name="general_support" id="general_support">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                            <button type="submit" class="btn bg-primary text-white w-40 sm:w-40" :disabled="isSubmitting">
+                                <span x-show="!isSubmitting">Submit</span>
+                                <span x-show="isSubmitting">Submitting...</span>
+                            </button>
+                        </div>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger mt-4">
+                                <ul class="list-disc pl-5 text-sm text-red-600">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </form>
+                </div>
+
             </main>
 
         <script src="{{ asset('assets/libs/nice-select2/js/nice-select2.js') }}" defer></script>

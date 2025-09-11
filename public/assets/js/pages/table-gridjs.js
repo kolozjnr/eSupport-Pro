@@ -1449,7 +1449,7 @@ paymentHistory()
                     {
                         name: 'TRX Ref',
                         formatter: (cell) => gridjs.html(`<span class="fw-semibold">${cell}</span>`),
-                        width: '23%'
+                        width: '33%'
                     },
                     // {
                     //     name: 'Type',
@@ -1461,7 +1461,8 @@ paymentHistory()
                             // Assuming customer data is included in the relationship
                             const email = cell?.email || 'N/A';
                             return gridjs.html(`<a href="mailto:${email}">${email}</a>`);
-                        }
+                        },
+                        width: '25%'
                     },
                         {
                         name: 'Amount',

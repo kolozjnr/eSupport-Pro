@@ -128,7 +128,16 @@
                             <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
                             </div>
 
+                               <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <div class="min-w-[800px] md:min-w-full">
+                            @if(auth()->user()->hasRole('customer'))
                             <div id="paymentHistory"></div>
+                            @elseif(auth()->user()->hasRole('supervisor'))
+                            @elseif(auth()->user()->hasRole('support'))
+                           
+                            @endif
+                            </div>
+                        </div>
                         </div>
                     </div>
 
